@@ -1,0 +1,110 @@
+@import "../shared/colors";
+@import "../shared/mixin";
+
+
+$sidebar-width: 50px;
+$sidemenu-width: 150px;
+$sidebar-item-height: 50px;
+
+@mixin sidebar-item-defaults(){
+    display: block;
+    color:$side-icon-grey;
+    border-bottom: 1px solid $side-icon-grey;
+    text-align: center;
+    text-decoration: none;
+    line-height: $sidebar-item-height;
+    height: $sidebar-item-height;
+    display: inline-block;
+    width: 100%;
+
+}
+
+.sidebar-container{
+    bottom: 0;
+    top: 0;
+    margin-right: 100px;
+    height: 100%;
+    -webkit-transition: linear 0.2s;
+    transition: linear 0.2s;
+    overflow: hidden;
+    position: fixed;
+    width: $sidebar-width;
+    z-index: 100;
+
+
+    .sidemenu{
+        background-color: $side-menu-grey;
+        display: block;
+        height: 100%;   
+        float: right;
+        position: relative;
+        min-width: $sidemenu-width;
+        /*Exists off screen*/
+        position:absolute;
+        left: -100;
+
+
+
+        .sidemenu-items{
+            @include sidebar-item-defaults();
+            text-align: left;
+            padding-left: 30px;
+
+            &:hover{
+                background-color: $side-menu-grey - 10;
+            }
+        }
+
+        .sidebar-info{
+            padding: 0;
+            height: 140px;
+        }
+
+        .selected{
+            background-color: $side-menu-grey - 50;
+            color:black;
+
+            &:hover{
+                background-color: $side-menu-grey - 40;
+
+            }
+        }
+    }
+
+    .sidebar{
+        background-color: $nav-black;
+        box-shadow: -1px 0px 5px 2px #888888;
+        height: 100%;
+        float: right;
+        position: relative;
+        width: $sidebar-width;
+        display: block;
+
+        .sidebar-icons{
+            @include sidebar-item-defaults();
+
+            &:hover{
+                color:$side-icon-grey + 50;
+            }
+        }
+
+        .selected{
+            color: white;
+
+            &:hover{
+                color: white + 50;
+            }
+        }
+        .expand-icon{
+
+            padding-top: 45px;
+            padding-bottom: 45px;
+        }
+    }    
+
+}
+
+.content{
+    margin-left: $sidebar-width;
+    postion: relative;
+}

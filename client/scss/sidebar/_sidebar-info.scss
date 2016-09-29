@@ -1,0 +1,16 @@
+.sidebar-info-template{
+    height:100%;
+    display:inline-block;
+    position: relative;
+    h2{
+        margin: 0 90px;
+    }
+
+    img{
+        position: absolute;
+        top: 8px;
+        left: 55px;
+        width:35px;
+        height:auto;
+    }
+}

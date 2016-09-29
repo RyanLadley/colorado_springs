@@ -1,0 +1,9 @@
+@mixin background-vert-gradient($color-top, $color-bottom){
+
+	background: $color-top; 
+    background: -webkit-linear-gradient($color-top, $color-bottom); 
+    background: -o-linear-gradient($color-top, $color-bottom);
+    background: -moz-linear-gradient($color-top, $color-bottom); 
+    background: linear-gradient($color-top, $color-bottom);
+
+}

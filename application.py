@@ -1,0 +1,22 @@
+#! env/bin/python3.4
+from flask import Flask, send_file
+
+application = Flask(__name__)
+
+#-------------------------------------#
+#--------------Routes-----------------#
+#-------------------------------------#
+from client import client_side
+import client.routes
+
+application.register_blueprint(client_side)
+
+@application.route('/image/project/<path:resource_path>')
+def send_project_image(resource_path):
+    
+    if ".." not in resource_path: 
+        return send_file('api/DAL/images/projects/' +resource_path)
+    return False
+
+if __name__ == "__main__":
+    application.run(debug = True)
