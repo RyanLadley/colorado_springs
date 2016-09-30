@@ -1,6 +1,11 @@
-$content-link-width:250px;
-$content-link-height: 300px;
+$content-link-width:300px;
+$content-link-height: 250px;
 $content-link-title-height: 50px;
+
+#home-top-container{
+    width: 100%;
+    min-width: 1100px;
+}
 
 #home-image{
     float: left;
@@ -10,12 +15,41 @@ $content-link-title-height: 50px;
 
 }
 
+#home-list{
+    margin-top: 30px;
+    float: left;
+    margin-left: 40px;
+    padding-left: 10px;
+    height: 400px;
+    border-left: solid 1px grey;
+    display: inline-block;
+
+    ul{
+        list-style: none;
+        padding-left: 15px;
+    }
+
+    li{
+        margin-top: 5px;
+        font-size: 20px;
+    }
+}
+
+.link-container{
+    display: inline-block;
+    margin-top: 100px;
+    min-width: $content-link-width *4 + 50;
+    width: 100%;
+}
+
 .content-link{
     display: inline-block;
     //border: solid 1px;
     height: $content-link-height;    
     width: $content-link-width;
     overflow: hidden;
+    margin-bottom: 2%;
+    margin-left: 2%;
     position: relative;
     
     .image-container{
@@ -29,14 +63,17 @@ $content-link-title-height: 50px;
     .link-title{
 
         position: absolute;
-        top: $content-link-height/3;
+        top: $content-link-height * (3/5);
         width: 100%;
         height: $content-link-title-height;
-        background-color: $transparent-dull-red;
+        background-color: $dull-red;
+        transition: .75s;
 
         h3{
             color: white;
-            margin: 0;
+            font-size: 30px;
+            margin-top: 5px;
+            text-align: center;
         }
     }
 
@@ -44,29 +81,53 @@ $content-link-title-height: 50px;
         width: 100%;
         height: 200px;
         position: absolute;
-        top: 0;
-        left: $content-link-width;
+        top: -$content-link-height;
+        left: 0;
         transition: 0.75s;
         background-color: $transparent-white;
+        
+        p{
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+        }
     }
 
     &:hover{
          .link-discription{
-            left:0;
+            top:0;
             transition: 0.75s;
         }
 
         .image-container{
-            filter: blur(2px);
-            -webkit-filter: blur(2px);
-            -moz-filter: blur(2px);
-            -o-filter: blur(2px);
-            -ms-filter: blur(2px);
+            @include blur(5px);
+            transition: .75s;
+        }
+
+        .link-title{
+            top: $content-link-height - $content-link-title-height;
             transition: .75s;
         }
     }
 
-    .overview{
+    #overview{
         background-image: url("/res/images/overview.jpg")
     }
+
+    #data-entry{
+        background-image: url("/res/images/data_entry.jpg")
+    }
+
+    #credits{
+        background-image: url("/res/images/credits.jpg")
+    }
+
+    #adjustments{
+        background-image: url("/res/images/adjustments.jpg")
+    }
+
+    #reports{
+        background-image: url("/res/images/reports.jpg")
+    }
+
 } 

@@ -7,6 +7,11 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/home/home.index.html'
         }
     )
+    .when("/overview",
+        {
+            templateUrl: '/res/site/overview/overview.index.html'
+        }
+    )
     .otherwise("/",
     {
         redirectTo: "/"

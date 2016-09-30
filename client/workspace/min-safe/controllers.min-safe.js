@@ -41,20 +41,20 @@ app.controller('sidebarController', ['$scope', '$location', function($scope, $lo
         if(path === "/"){
             $scope.icons.home = true;
         }
-        else if(path === "/overview\*"  ){
-            $scope.icons.epic = true;
+        else if(/\/overview*/.test(path)){
+            $scope.icons.overview = true;
         }
-        else if(path ==="/entry\*"){
-            $scope.icons.sprint = true;
+        else if(/\/entry*/.test(path)){
+            $scope.icons.entry = true;
         }
-        else if(path === "/reports\*"){
-            $scope.icons.backlog = true;
+        else if(/\/reports*/.test(path)){
+            $scope.icons.reports = true;
         }
-        else if(path === "/credits\*"){
-            $scope.icons.archive = true;
+        else if(/\/credits*/.test(path)){
+            $scope.icons.credits = true;
         }
-        else if(path === "/adjustments\*"){
-            $scope.icons.archive = true;
+        else if(/\/adjustments*/.test(path)){
+            $scope.icons.adjustments = true;
         };
     });
 }]);

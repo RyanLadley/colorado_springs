@@ -3,7 +3,7 @@
     <div class = "sidemenu" >
         <sidebar-info class = "sidebar-info sidemenu-items">PlaceHolder</sidebar-info>
         <a href = "/" class = "sidemenu-items" ng-class = "{selected : icons.home}"> Home </a>
-        <a href = "/list/archive" class = "sidemenu-items" ng-class = "{selected : icons.overview}"> Overview </a>
+        <a href = "/overview" class = "sidemenu-items" ng-class = "{selected : icons.overview}"> Overview </a>
         <a href = "/list/epics" class = "sidemenu-items" ng-class = "{selected : icons.entry}"> Data Entry </a>
         <a href = "/list/sprint/current" class = "sidemenu-items" ng-class = "{selected : icons.credits}"> Credits </a>
         <a href = "/list/backlog" class = "sidemenu-items" ng-class = "{selected : icons.adjustments}"> Adjustments </a>
@@ -15,7 +15,7 @@
            ng-class = "expand ? 'fa-angle-left' : 'fa-angle-right'" ng-click = "toggleExpand()" aria-hidden="true"></i>
 
         <a  href = "/" ><i class="fa fa-home fa-lg sidebar-icons" ng-class = "{selected : icons.home}" aria-hidden="true"></i></a>
-        <a  href = "/list/epics" ><i class="fa fa-globe fa-lg sidebar-icons " ng-class = "{selected : icons.overview}" aria-hidden="true"></i></a>
+        <a  href = "/overview" ><i class="fa fa-globe fa-lg sidebar-icons " ng-class = "{selected : icons.overview}" aria-hidden="true"></i></a>
         <a  href = "/list/sprint/current" ><i class="fa  fa-keyboard-o fa-lg sidebar-icons " ng-class = "{selected : icons.entry}" aria-hidden="true"></i></a>
         <a  href = "/list/backlog" ><i class="fa fa-money fa-lg sidebar-icons " ng-class = "{selected : icons.credits}" aria-hidden="true"></i></a>
         <a  href = "/list/archive" ><i class="fa fa-pencil-square-o  fa-lg sidebar-icons " ng-class = "{selected : icons.adjustments}" aria-hidden="true"></i></a>
