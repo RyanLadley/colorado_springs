@@ -18,5 +18,6 @@ def res(resource_path):
 #Main Agility Page
 @client_side.route('/')
 @client_side.route('/overview')
+@client_side.route('/overview/account/<account_number>')
 def initial_page(*args, **kwargs):
     return send_file(client_url +'site/index.html')

@@ -1,0 +1,103 @@
+$overview-menu-width: 300px;
+
+.account-left{
+
+    margin-left: 25px;
+    width: $overview-menu-width;
+    float: left;
+}
+
+.account-summary{
+    width: $overview-menu-width;
+    background-color: $account-green;
+    display: inline-block;
+    box-shadow: 3px 3px 2px grey;
+    border-radius: 5px;
+    margin-bottom: 30px;
+
+    .section-title{
+        color:white;
+        margin: 5px 35px 0px 35px;
+        text-align: center;
+    }
+
+    .title{
+        text-align: center;
+        color: white;
+        margin: 10px 0 5px 0;
+    }
+
+    .summary-content{
+        background-color: $menu-black;
+        display: inline-block;
+        border-radius: 3px;
+        margin: 3px 3px;
+        width: $overview-menu-width - 6px;
+    }
+    .label, .value{
+        font-size: 15px;   
+        margin: 1px 0;
+    }
+
+    .label{
+        float: left;
+    }
+
+    .value{
+        float: right;
+        margin-left: 8px;
+    }
+
+    .content-values{
+        border-radius: 1px;
+        box-shadow: 2px 2px 4px grey inset;
+        background-color: white;
+        width: $overview-menu-width - 75px;
+        padding: 5px 2px;
+        margin: 5px auto 10px auto;
+    }
+    .label-value{
+        width: $overview-menu-width - 100px;
+        margin: 0px 10px;
+        display: inline-block;
+    }
+
+    .month-dropdown{
+        margin: 5px 35px 15px 35px;
+        width: $overview-menu-width - 75px;
+    }
+}
+
+.month-table-header{
+    margin-left: 50px;
+    display: inline-block;
+    padding: 4px;
+    background-color: $account-green;
+    box-shadow: 3px 3px 2px grey;
+    border-radius: 5px;
+    //float: left;
+
+    h2{
+        color: white;
+        text-align: center;
+        margin: 5px 35px 10px 35px;
+    }
+}
+
+#account-table{
+    border-left: 10px solid $menu-black;
+    border-right: 10px solid $menu-black;
+    border-bottom: 10px solid $menu-black;
+    border-top: 2px solid $menu-black;
+
+
+    th{
+        color:white;
+        background-color: $menu-black;
+    }
+
+    .total{
+        background-color: $menu-black;
+        color: white;
+    }
+}

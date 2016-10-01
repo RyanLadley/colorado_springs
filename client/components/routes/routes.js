@@ -9,7 +9,14 @@ app.config(['$routeProvider', '$locationProvider',
     )
     .when("/overview",
         {
+            controller: 'overviewController',
             templateUrl: '/res/site/overview/overview.index.html'
+        }
+    )
+    .when("/overview/account/1",
+        {
+            controller: 'accountController',
+            templateUrl: '/res/site/overview/account.index.html'
         }
     )
     .otherwise("/",

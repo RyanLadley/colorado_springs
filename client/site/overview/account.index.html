@@ -1,0 +1,138 @@
+<h1> Account 12345 </h1>
+
+<div class = "account-left">
+    <div class = "account-summary">
+        <h2 class = "title"> Account Summary </h2>
+        <div class = "summary-content">
+            <h3 class = "section-title"> Monthly Totals </h3>
+            <div class = "content-values">
+                
+                <div class = "label-value">
+                    <h4 class = "label">January</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">February</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">March</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">April</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">May</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">June</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">July</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">August</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">September</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">October</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">November</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+
+                <div class = "label-value">
+                    <h4 class = "label">December</h4>
+                    <p class = "value">$29,500.00</p>
+                </div>
+            </div>
+            <div class = "month-selection">
+                <h3 class = "section-title"> Month Selection </h3>
+                <select class = "month-dropdown">
+                    <option>January</option>
+                    <option>February</option>
+                    <option>March</option>
+                    <option>April</option>
+                    <option>May</option>
+                    <option>June</option>
+                    <option>July</option>
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                </select>
+
+            </div>
+        </div>
+    </div>
+
+    <div class = "account-summary">
+        <h2 class = "title"> Budget Summary </h2>
+        <div class = "summary-content">
+            <h3 class = "section-title"> Budget </h3>
+            <div class = "content-values">
+                <div class = "label-value">
+                    <h4 class = "label">Budget</h4>
+                    <p class = "value">$2,000,000.00</p>
+                </div>
+                <div class = "label-value">
+                    <h4 class = "label">Expensed</h4>
+                    <p class = "value">$1,500,000.00</p>
+                </div>
+                <div class = "label-value">
+                    <h4 class = "label">Remaining</h4>
+                    <p class = "value">$500,000.00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class = "month-table-header">
+    <h2>September Transactions</h2>
+    <table id = "account-table" class = "table alternate-table">
+        <tr>
+            <th>Vendor</th>
+            <th>Invoice Date</th>
+            <th>Date Paid</th>
+            <th>Invoice Number</th>
+            <th>Descrpition</th>
+            <th>Total Expense</th>
+        </tr>
+
+        <tr ng-repeat = "transaction in transactions">
+            <td>{{transaction.vendor}}</td>
+            <td>{{transaction.invoiceDate}}</td>
+            <td>{{transaction.datePaid}}</td>
+            <td class = "center">{{transaction.invoiceNum}}</td>
+            <td class = "description account-desription">{{transaction.description}}</td>
+            <td class = "currency">{{transaction.expensed | currency}}</td>
+        </tr>
+        <tr class = "total">
+            <td colspan="5">September Total</td>
+            <td> $2,836,981.36</td>
+        </tr>
+    </table>
+<div>
