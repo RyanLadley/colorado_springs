@@ -1,0 +1,50 @@
+.overview-table-header{
+    background-color: $dull-blue
+}
+
+
+#overview-table{
+    margin: 0px auto;
+    box-shadow: 2px 2px 2px grey;
+    th{
+        white-space: nowrap;
+    }
+    tr{
+        &:hover{
+            cursor: pointer;
+            background-color: #E8EAFF
+        }
+
+    }
+    td{
+        white-space: nowrap;
+    }
+
+    .account-row{
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .subaccount-row{
+        font-size: 15px;
+        background-color: $softest-grey;
+    }
+
+    .sub-row{
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .account{
+        min-width: 150px;
+        width: 150px;
+    }
+
+    .sub-account{
+        text-align: center;
+    }
+
+    .sub{
+        text-align: right;
+    }
+}

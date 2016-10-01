@@ -69,32 +69,10 @@ $overview-menu-width: 300px;
 }
 
 .month-table-header{
-    margin-left: 50px;
-    display: inline-block;
-    padding: 4px;
     background-color: $account-green;
-    box-shadow: 3px 3px 2px grey;
-    border-radius: 5px;
-    //float: left;
-
-    h2{
-        color: white;
-        text-align: center;
-        margin: 5px 35px 10px 35px;
-    }
 }
 
 #account-table{
-    border-left: 10px solid $menu-black;
-    border-right: 10px solid $menu-black;
-    border-bottom: 10px solid $menu-black;
-    border-top: 2px solid $menu-black;
-
-
-    th{
-        color:white;
-        background-color: $menu-black;
-    }
 
     .total{
         background-color: $menu-black;

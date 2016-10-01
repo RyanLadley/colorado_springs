@@ -1,8 +1,10 @@
 @import "shared/colors";
+@import "shared/mixin";
+@import "shared/table";
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-info";
 @import "home/home";
-@import "overview/table";
+@import "overview/overview";
 @import "overview/account";
 
 body{
