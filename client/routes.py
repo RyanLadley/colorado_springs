@@ -19,5 +19,9 @@ def res(resource_path):
 @client_side.route('/')
 @client_side.route('/overview')
 @client_side.route('/overview/account/<account_number>')
+@client_side.route('/entry')
+@client_side.route('/reports')
+@client_side.route('/reports/monthly-expense')
+@client_side.route('/reports/expense-breakdown')
 def initial_page(*args, **kwargs):
     return send_file(client_url +'site/index.html')

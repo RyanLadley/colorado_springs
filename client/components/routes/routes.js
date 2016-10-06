@@ -19,6 +19,30 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/overview/account.index.html'
         }
     )
+    .when("/entry",
+        {
+            controller: 'dataInputController',
+            templateUrl: '/res/site/data-entry/data-entry.index.html'
+        }
+    )
+    .when("/reports",
+        {
+            controller: 'reportsController',
+            templateUrl: '/res/site/reports/reports.index.html'
+        }
+    )
+    .when("/reports/monthly-expense",
+        {
+            controller: 'monthlyExpenseController',
+            templateUrl: '/res/site/reports/monthly-expense.index.html'
+        }
+    )
+    .when("/reports/expense-breakdown",
+        {
+            controller: 'expenseBreakdownController',
+            templateUrl: '/res/site/reports/expense-breakdown.index.html'
+        }
+    )
     .otherwise("/",
     {
         redirectTo: "/"

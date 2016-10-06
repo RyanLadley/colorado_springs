@@ -1,0 +1,23 @@
+.report-selection{
+	
+	margin: 10px 30px;
+
+}
+
+.report-button{
+
+	text-align: center;
+	text-decoration: none;
+	background-color: $light-blue;
+	color: white;
+	font-weight: bold;
+	font-size: 18px; 
+	border: none;
+
+	margin: 20px;
+	width: 225px;
+	height: 50px;
+	line-height: 50px;
+	float: left;
+	//@include text-outline(grey);
+}

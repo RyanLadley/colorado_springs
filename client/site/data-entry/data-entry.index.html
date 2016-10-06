@@ -1,0 +1,71 @@
+
+<div class = "entry-area">
+    <h2 class = title >PPRTA - IBT</h2>
+    <div class = "section-area">
+        <h3 class = "section-title"> Data Entry</h3>
+        <form class = "entry-form">
+            <div class = "input-row">
+                <div class = "label-input">
+                    <label>Account Code</label>
+                    <select>
+                        <option value="" disabled selected hidden>Select an Account</option>
+                        <option>5221000</option>
+                        <option>5222000</option>
+                        <option>5223000</option>
+                        <option>5224000</option>
+                        <option>5225000</option>
+                        <option>5226000</option>
+                    </select>
+                </div>
+
+                <div class = "label-input right-input">
+                    <label>Sub-Account Code</label>
+                    <select>
+                        <option value="" disabled selected hidden>Select a Sub-Account</option>
+                        <option>5221000-1</option>
+                        <option>5221000-2</option>
+                        <option>5221000-3</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class = "label-input input-row">
+                <label>Vendor</label>
+                <select>
+                    <option value="" disabled selected hidden>Select a Vendor</option>
+                    <option>Granger</option>
+                    <option>Mama Bear's Honey Supply</option>
+                    <option>Three Dog's Bark</option>
+                    <option>Lama's Light Barn</option>
+                    <option>Fans Fans Fans</option>
+                </select>
+            </div>
+
+            <div class = "label-input">
+                <label>Invoice Number</label>
+                <input type = "text" placeholder = "Invoice Number">
+            </div>
+
+            <div class = "label-input right-input date-input">
+                <label>Invoice Date</label>
+                <div>
+                    <button ng-click = "displayInvoiceDate = !displayInvoiceDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
+                    <input type="text" placeholder="DD/MM/YYYY" ng-model = "invoiceDate">
+                </div>
+                <date-picker class = "date-picker" ng-show = "displayInvoiceDate" ng-model = "invoiceDate"></date-picker>
+            </div>
+
+            <div class = "label-input input-row">
+                <label>Description</label>
+                <textarea placeholder="Enter Discription"></textarea>
+            </div>
+
+            <div class = "label-input">
+                <label>Total Expensed</label>
+                <input type="Number" value ="0.00" min="0" step="0.01">
+            </div>
+
+            <button>Submit</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+$entry-area-width: 600px;
+
+.entry-area{
+    width: $entry-area-width;
+    background-color: $dull-purple;
+    display: inline-block;
+    box-shadow: 3px 3px 2px grey;
+    border-radius: 5px;
+    margin: 50px 100px;
+
+    .section-title{
+        color:white;
+        margin: 5px 35px 0px 35px;
+        text-align: center;
+    }
+
+    .title{
+        text-align: center;
+        color: white;
+        margin: 10px 0 5px 0;
+    }
+
+    .section-area{
+    	display: inline-block;
+    	background-color: $nav-black;
+    	margin: 4px 4px 10px 4px;
+    	width: $entry-area-width - 8px;
+    }
+
+    .entry-form{
+        border-radius: 1px;
+        box-shadow: 2px 2px 4px grey inset;
+        background-color: white;
+        width: $entry-area-width - 75px;
+        padding: 5px 2px;
+        margin: 5px auto 20px auto;
+    }
+
+    .input-row{
+    	width: 100%;
+    }
+
+    .right-input{
+        float: right;
+    }
+
+    .date-input{
+        position: relative;
+        .date-picker{
+            position: absolute;
+            top: 40px;
+        }
+
+        button{
+            float: left;
+        }
+    }
+
+}
+
+.label-input{
+	display: inline-block;
+    margin: 10px 30px;
+
+	input, label, select, textarea{
+		display: block;
+	}
+
+    textarea{
+        width:88%;
+    }
+}

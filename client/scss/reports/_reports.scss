@@ -1,0 +1,105 @@
+$filter-area-width: 300px;
+
+.filter-area{
+    width: $filter-area-width;
+    background-color: $light-blue;
+    display: inline-block;
+    box-shadow: 3px 3px 2px grey;
+    border-radius: 5px;
+    margin: 0px 50px;
+    float: left;
+
+    .section-title{
+        color:white;
+        margin: 5px 35px 0px 35px;
+        text-align: center;
+    }
+
+    .title{
+        text-align: center;
+        color: white;
+        margin: 10px 0 5px 0;
+    }
+
+    .section-break{
+        text-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 5px;
+    }
+
+    .section-area{
+    	background-color: $nav-black;
+    	margin: 4px 4px 10px 4px;
+    	width: $filter-area-width - 8px;
+    }
+
+    .filter-section{
+        border-radius: 1px;
+        box-shadow: 2px 2px 4px grey inset;
+        background-color: white;
+        width: $filter-area-width - 75px;
+        margin: 5px auto 20px auto;
+        padding: 3px 0px 0px 3px
+    }
+
+    .toggle-area{
+        width: $filter-area-width - 75px;
+        margin: 10px 25px 25px 25px;
+        color: white;
+    }
+
+    .toggles{
+        width: $filter-area-width - 75px;
+        margin: 0 50px;
+    }
+
+    .filter-reset{
+        border: none;
+        background-color: #12B200;
+        width: 96%;
+        margin: 2% 2%;
+        color: white;
+        padding: 5px;
+        font-weight: bold;
+    
+    }
+    .selection-list{
+        text-align: center;
+    }
+
+    .selectable{
+        margin: 0;
+        padding:10px;
+        p{
+            margin: 0;
+        }
+        &:hover{
+            cursor: pointer
+        }
+    }
+
+    .selected{
+        background-color: #BAD1E2;
+    }
+}
+
+.right-area{
+    display: inline-block;
+    width: 70%;
+    margin: 0;
+
+}
+.report-area{
+    background-color: $light-blue;
+    width: 1300px;
+    margin-left: 25px;
+    margin-bottom: 25px;
+
+    table{
+        width: 99%;
+    }
+}
+
+.report-graph{
+    width: 100%;
+}

@@ -1,10 +1,11 @@
 .overview-table-header{
-    background-color: $dull-blue
+    width: 1300px;
+    background-color: $dull-blue;
+    float: left;
 }
 
 
 #overview-table{
-    margin: 0px auto;
     box-shadow: 2px 2px 2px grey;
     th{
         white-space: nowrap;
@@ -46,5 +47,24 @@
 
     .sub{
         text-align: right;
+    }
+}
+
+.refrence-area{
+    background-color: $dull-blue;
+    width: 250px;
+    margin: 0 75px;
+
+    .account-refrence{
+        margin: 5px 0;
+        display:block;
+        width: 100%;
+        cursor: pointer;
+        color: black;
+        text-decoration: none;
+
+        &:hover{
+            background-color: $softest-grey
+        }
     }
 }

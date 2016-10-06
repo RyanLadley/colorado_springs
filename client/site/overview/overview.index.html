@@ -46,3 +46,21 @@
         </tbody>
     </table>
 </div>
+
+<div class = "refrence-area area">
+    <h2 class = "title"> Quick Refrence </h2>
+    <div class = "section-area">
+        <h3 class = "section-title">Accounts</h3>
+        <div class ="section-inset">
+            <div ng-repeat = "account in accounts" >
+                <a class = "account-refrence" href = "/overview/account/1">{{account.accountNo}}</a>
+                <div ng-repeat = "subaccount in account" >
+                    <a class = "account-refrence" href = "/overview/account/1">{{subaccount.accountNo}}</a>
+                    <div ng-repeat = "sub in subaccount" >
+                        <a class = "account-refrence" href = "/overview/account/1">{{sub.accountNo}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

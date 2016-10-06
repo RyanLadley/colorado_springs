@@ -1,0 +1,39 @@
+.area{
+    display: inline-block;
+    box-shadow: 3px 3px 2px grey;
+    border-radius: 5px;
+    float: left;
+
+    .section-title{
+        color:white;
+        margin: 5px 35px 0px 35px;
+        text-align: center;
+    }
+
+    .title{
+        text-align: center;
+        color: white;
+        margin: 10px 0 5px 0;
+    }
+
+    .section-area{
+        display: inline-block;
+    	background-color: $nav-black;
+    	margin: 4px 0.5% 10px 0.5%;
+    	width: 99%;
+    }
+
+    .section-inset{
+        border-radius: 1px;
+        box-shadow: 2px 2px 4px grey inset;
+        background-color: white;
+        width: 95%;
+        margin: 5px auto 20px auto;
+        padding: 3px 0px 0px 3px;
+        text-align: center;
+    }
+
+    .graph-inset{
+
+    }
+}

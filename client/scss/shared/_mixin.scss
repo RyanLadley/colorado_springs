@@ -16,3 +16,7 @@
     -ms-filter: blur($pixels);
 
 }
+
+@mixin text-outline($color){
+    text-shadow: -1px -1px 0 $color, 1px -1px 0 $color, -1px 1px 0 #000, 1px 1px 0 $color;  
+}

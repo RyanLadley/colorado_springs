@@ -1,12 +1,19 @@
 @import "shared/colors";
 @import "shared/mixin";
 @import "shared/table";
+@import "shared/area";
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-info";
 @import "home/home";
 @import "overview/overview";
 @import "overview/account";
+@import "data-entry/data-entry";
+@import "reports/dashboard";
+@import "reports/reports";
 
 body{
     margin: 0px;
+    .content{
+    	min-width:1800px;
+    }
 }
