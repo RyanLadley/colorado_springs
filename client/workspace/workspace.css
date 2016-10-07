@@ -1,3 +1,10 @@
+.page-title {
+  margin: 25px 25px 25px 50px;
+  width: 400px;
+  border-bottom: solid 1px black; }
+  .page-title h1 {
+    margin-bottom: 0; }
+
 .table {
   width: 99%;
   border-collapse: collapse;
@@ -262,14 +269,14 @@
   #overview-table td {
     white-space: nowrap; }
   #overview-table .account-row {
-    font-size: 16px;
-    font-weight: bold; }
+    font-size: 17px; }
   #overview-table .subaccount-row {
     font-size: 15px;
     background-color: #F2F2F2; }
   #overview-table .sub-row {
     font-size: 14px;
-    font-style: italic; }
+    font-style: italic;
+    background-color: #FAFAFA; }
   #overview-table .account {
     min-width: 150px;
     width: 150px; }
@@ -293,7 +300,7 @@
       background-color: #F2F2F2; }
 
 .account-left {
-  margin-left: 25px;
+  margin-left: 50px;
   width: 300px;
   float: left; }
 
@@ -350,12 +357,12 @@
   color: white; }
 
 .entry-area {
-  width: 600px;
+  width: 870px;
   background-color: #673787;
   display: inline-block;
   box-shadow: 3px 3px 2px grey;
   border-radius: 5px;
-  margin: 50px 100px; }
+  margin: 0px 50px; }
   .entry-area .section-title {
     color: white;
     margin: 5px 35px 0px 35px;
@@ -368,25 +375,32 @@
     display: inline-block;
     background-color: #404040;
     margin: 4px 4px 10px 4px;
-    width: 592px; }
+    width: 862px; }
   .entry-area .entry-form {
     border-radius: 1px;
     box-shadow: 2px 2px 4px grey inset;
     background-color: white;
-    width: 525px;
+    width: 795px;
     padding: 5px 2px;
     margin: 5px auto 20px auto; }
   .entry-area .input-row {
     width: 100%; }
   .entry-area .right-input {
     float: right; }
+  .entry-area .invoice-textfield {
+    width: 400px; }
   .entry-area .date-input {
     position: relative; }
     .entry-area .date-input .date-picker {
       position: absolute;
       top: 40px; }
+    .entry-area .date-input input {
+      width: 235px; }
     .entry-area .date-input button {
       float: left; }
+  .entry-area .entry-submit {
+    margin: 25px 35px 0 0;
+    float: right; }
 
 .label-input {
   display: inline-block;
@@ -394,7 +408,9 @@
   .label-input input, .label-input label, .label-input select, .label-input textarea {
     display: block; }
   .label-input textarea {
-    width: 88%; }
+    width: 725px;
+    max-width: 725px;
+    height: 100px; }
 
 .report-selection {
   margin: 10px 30px; }
@@ -488,7 +504,8 @@
   width: 100%; }
 
 body {
-  margin: 0px; }
+  margin: 0px;
+  font-family: 'Source Sans Pro', sans-serif; }
   body .content {
     min-width: 1800px; }
 

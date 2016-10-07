@@ -1,4 +1,4 @@
-$entry-area-width: 600px;
+$entry-area-width: 870px;
 
 .entry-area{
     width: $entry-area-width;
@@ -6,7 +6,7 @@ $entry-area-width: 600px;
     display: inline-block;
     box-shadow: 3px 3px 2px grey;
     border-radius: 5px;
-    margin: 50px 100px;
+    margin: 0px 50px;
 
     .section-title{
         color:white;
@@ -44,6 +44,10 @@ $entry-area-width: 600px;
         float: right;
     }
 
+    .invoice-textfield{
+        width: 400px;
+    }
+
     .date-input{
         position: relative;
         .date-picker{
@@ -51,9 +55,18 @@ $entry-area-width: 600px;
             top: 40px;
         }
 
+        input{
+            width: 235px;
+        }
+
         button{
             float: left;
         }
+    }
+
+    .entry-submit{
+        margin: 25px 35px 0 0 ;
+        float:right;
     }
 
 }
@@ -67,6 +80,9 @@ $entry-area-width: 600px;
 	}
 
     textarea{
-        width:88%;
+        width: 725px;
+        max-width: 725px;
+
+        height: 100px;
     }
 }
