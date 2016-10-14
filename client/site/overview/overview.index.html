@@ -17,7 +17,7 @@
 
         <tbody  ng-repeat = "account in accounts">
             <tr ng-click = "account.showSubaccount = !account.showSubaccount" class = "account-row account-{{acount.accountNo}}">
-                <td class = "account"> <a href = "/overview/account/1">{{account.accountNo}}</a></td>
+                <td class = "account"> <a href = "/overview/account/1" >{{account.accountNo}}</a></td>
                 <td class = "description"> {{account.description}}</td>
                 <td class = "currency"> {{account.yearBudget | currency}}</td>
                 <td class = "currency"> {{account.miscTransfer | currency}}</td>
@@ -27,7 +27,7 @@
             </tr>
             <tr ng-repeat-start = "subaccount in account.subaccounts" class = "subaccount-row account-{{subacount.accountNo}}"
                 ng-show = "account.showSubaccount" ng-click = "subaccount.showSubaccount = !subaccount.showSubaccount">
-                <td class = "account sub-account"> {{subaccount.accountNo}}</td>
+                <td class = "account sub-account"> <a href = "/overview/account/1">{{subaccount.accountNo}}</a></td>
                 <td class = "description"> {{subaccount.description}}</td>
                 <td></td>
                 <td class = "currency"> {{subaccount.miscTransfer | currency}}</td>
@@ -37,7 +37,7 @@
             </tr>
             <tr ng-repeat-end ng-repeat = "sub in subaccount.sub" class = "sub-row account-{{sub.accountNo}}"
                 ng-show = "subaccount.showSubaccount && account.showSubaccount">
-                <td class = "account sub">{{sub.accountNo}}</td>
+                <td class = "account sub"><a href = "/overview/account/1">{{sub.accountNo}}</a></td>
                 <td class = "description"> {{sub.description}}</td>
                 <td> </td>
                 <td class = "currency"> {{sub.miscTransfer | currency}}</td>

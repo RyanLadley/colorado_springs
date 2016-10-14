@@ -97,6 +97,13 @@ $filter-area-width: 300px;
 
     table{
         width: 99%;
+
+        tr{
+            &:hover{
+                cursor: default;
+                background-color: #D7FFFF;
+            }
+        }
     }
 }
 

@@ -43,6 +43,12 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/reports/expense-breakdown.index.html'
         }
     )
+    .when("/reports/monthly-breakdown",
+        {
+            controller: 'monthlyBreakdownController',
+            templateUrl: '/res/site/reports/monthly-breakdown.index.html'
+        }
+    )
     .otherwise("/",
     {
         redirectTo: "/"

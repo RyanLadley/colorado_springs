@@ -79,4 +79,10 @@ $overview-menu-width: 300px;
         background-color: $menu-black;
         color: white;
     }
+    .row{
+        &:hover{
+            cursor: default;
+            background-color: #F2FFF0;
+        }
+    }
 }

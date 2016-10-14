@@ -1,6 +1,7 @@
 <div class = "page-title">
-    <h1>Monthly Expense</h1>
+    <h1>Monthly Breakdown</h1>
 </div>
+
 <div class ="filter-area">
     <h2 class = "title"> Filter </h2>
     <div class = "section-area">
@@ -33,9 +34,9 @@
 
 <div class = "right-area">
     <div class = "area report-area">
-        <h2 class = "title"> Monthly Expense Graph</h2>
+        <h2 class = "title"> Data Visual</h2>
         <div class = "section-area">
-            <h3 class = "section-title"> January - December</h3>
+            <h3 class = "section-title"> Total</h3>
             <div class = "section-inset graph-inset">
                 <nvd3 class = "report-graph" options="options" data="data"></nvd3>
             </div>
@@ -47,14 +48,11 @@
         <table class = "table alternate-table">
             <tr>
                 <th>Month</th>
-                <th>Budget</th>
-                <th>Actual</th>
+                <th ng-repeat = "month in months">{{month}}</th>
             </tr>
-            <tr ng-repeat = "info in data[0].values">
-                <td> {{ months(info.month); }}</td>
-                <td class = "currency"> {{info.amount | currency}}</td>
-                <td class = "currency"> {{data[1].values[$index].amount | currency}}</td>
-
+            <tr ng-repeat = "account in data">
+                <td> {{account.key}}</td>
+                <td class = "currency" ng-repeat = "expense in account.values"> {{expense.amount | currency}}</td>
             </tr>
         </table>
     </div>

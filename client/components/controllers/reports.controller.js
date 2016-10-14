@@ -6,9 +6,12 @@ app.controller('reportsController', function($scope, $location){
             link: "monthly-expense"
         },
         {
-        	name: "Expense Breakdown",
-        	link: "expense-breakdown"
+            name: "Expense Breakdown",
+            link: "expense-breakdown"
         },
-        {name: "Doughnut Graph"}
+        {
+            name: "Monthly Breakdown",
+            link: "monthly-breakdown"
+        },
     ]
 });

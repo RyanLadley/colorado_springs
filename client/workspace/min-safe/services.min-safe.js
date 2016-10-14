@@ -1,3 +1,11 @@
+app.service('monthsService', function(){
+
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+    this.getMonth = function(n){
+        return months[n]
+    }
+});
 app.service('postRequestService', ['$http', '$cookies', function($http, $cookies){
 
     //Http post request wrapper to send data to api.

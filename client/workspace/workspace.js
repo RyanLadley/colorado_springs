@@ -1,7 +1,15 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies', 'mp.datePicker', 'nvd3'], ['$locationProvider', function($locationProvider){
     $locationProvider.html5Mode(true);
 }]);
-;app.service('postRequestService', ['$http', '$cookies', function($http, $cookies){
+;app.service('monthsService', function(){
+
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+    this.getMonth = function(n){
+        return months[n]
+    }
+});
+app.service('postRequestService', ['$http', '$cookies', function($http, $cookies){
 
     //Http post request wrapper to send data to api.
     this.request = function(url, payload) {
@@ -92,6 +100,12 @@ var app = angular.module('app', ['ngRoute', 'ngCookies', 'mp.datePicker', 'nvd3'
         {
             controller: 'expenseBreakdownController',
             templateUrl: '/res/site/reports/expense-breakdown.index.html'
+        }
+    )
+    .when("/reports/monthly-breakdown",
+        {
+            controller: 'monthlyBreakdownController',
+            templateUrl: '/res/site/reports/monthly-breakdown.index.html'
         }
     )
     .otherwise("/",
@@ -267,7 +281,102 @@ app.controller('expenseBreakdownController', ['$scope', function($scope){
 
     }
 }]);
-app.controller('monthlyExpenseController', ['$scope', '$location', function($scope, $location){
+app.controller('monthlyBreakdownController', ['$scope', '$location', function($scope, $location){
+    $scope.options = {
+            chart: {
+            type: 'multiBarChart',
+            height: 450,
+            stacked: true,
+            margin : {
+                top: 20,
+                right: 20,
+                bottom: 60,
+                left: 65
+            },
+            x: function(d){ return d.month; },
+            y: function(d){ return d.amount; },
+            useInteractiveGuideline: true,
+            forceY: [0, 20000],
+
+            color: d3.scale.category10().range(),
+            duration: 300,
+
+            xAxis: {
+                axisLabel: 'Month',
+                showMaxMin: false,
+                tickFormat: function(d){
+                    return $scope.months[d];
+                },
+            },
+
+            yAxis: {
+                axisLabel: 'Amount',
+                axisLabelDistance: 20,
+                tickFormat: function(d){
+                    return "$" + d3.format(",.2f")(d);
+                },
+            },
+            tooltip: {
+                valueFormatter: function(d) {
+                    return "$"+d3.format(",.2f")(d);
+                }
+            }
+        }
+    };
+
+    $scope.months = ["Janary", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    $scope.data = [
+        {
+            key: "522000-1",
+            values: [{month: 0, amount: 3000},{month: 1, amount: 4356},{month: 2, amount: 1009},{month: 3, amount: 3000},{month: 4, amount: 4356},{month: 5, amount: 1009},
+                     {month: 6, amount: 3000},{month: 7, amount: 4346},{month: 8, amount: 1009},{month: 9, amount: 2000},{month: 10, amount: 4356},{month: 11, amount: 1009}]
+        },
+        {
+            key: "522000-2",
+            values: [{month: 0, amount: 2000},{month: 1, amount: 14656},{month: 2, amount: 21409},{month: 3, amount: 20000},{month: 4, amount: 10356},{month: 5, amount: 1009},
+                     {month: 6, amount: 12300},{month: 7, amount: 1106},{month: 8, amount: 279},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1009}]
+        },
+        {
+            key: "522000-3",
+            values: [{month: 0, amount: 300},{month: 1, amount: 956},{month: 2, amount: 2109},{month: 3, amount: 200},{month: 4, amount: 1056},{month: 5, amount: 1009},
+                     {month: 6, amount: 1900},{month: 7, amount: 1136},{month: 8, amount: 909},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1000}]
+        }
+    ];
+
+    $scope.overviewSelected = true;
+
+    $scope.viewFilters = [
+        {
+            account: 52100,
+            selected: false
+        },
+        {
+            account: 52200,
+            selected: false
+        },
+        {
+            account: 52300,
+            selected: false
+        },
+        {
+            account: 52400,
+            selected: false
+        },
+        {
+            account: 52500,
+            selected: false
+        },
+    ]
+    $scope.filterSelect = function(id){
+
+    }
+}]);
+app.controller('monthlyExpenseController', ['$scope', '$location', 'monthsService', function($scope, $location, monthsService){
+
+    $scope.months = function(n){
+        return monthsService.getMonth(n)
+    }
+
     $scope.options = {
             chart: {
             type: 'lineChart',
@@ -291,7 +400,7 @@ app.controller('monthlyExpenseController', ['$scope', '$location', function($sco
                 showMaxMin: false,
                 staggerLabels: true,
                 tickFormat: function(d){
-                    return month[d];
+                    return $scope.months(d);
                 },
             },
 
@@ -305,7 +414,6 @@ app.controller('monthlyExpenseController', ['$scope', '$location', function($sco
         }
     };
 
-    var month = ["Janary", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     $scope.data = [
         {
             key: "Budget",
@@ -466,6 +574,122 @@ app.controller('overviewController', ['$scope', '$location', function($scope, $l
                 }
 
             ]
+        },
+        {
+            accountNo: "5223000",
+            description: "In House Resurfacing",
+            yearBudget: 2160938.00,
+            miscTransfer: "",
+            totalBudget: 2160938.00,
+            expendToDate: 0.00,
+            remainingBalance: 2160938.00,
+            showSubaccount: false,
+
+            subaccounts: [
+                {
+                    accountNo: "5223000-1",
+                    description: "Maintainence Paving",
+                    yearBudget: "",
+                    miscTransfer: "",
+                    totalBudget: 0.00,
+                    expendToDate: 0.00,
+                    remainingBalance: 0.00,
+                    sub:[]
+                },
+                {
+                    accountNo: "5223000-2",
+                    description: "Structural Digout",
+                    yearBudget: "",
+                    miscTransfer: "",
+                    totalBudget: 0.00,
+                    expendToDate: 0.00,
+                    remainingBalance: 0.00,
+                    sub:[
+                        {
+                            accountNo: "5223000-2-1",
+                            description: "North District Digout",
+                            yearBudget: "",
+                            miscTransfer: "",
+                            totalBudget: 0.00,
+                            expendToDate: 0.00,
+                            remainingBalance: 0.00
+                        },
+                        {
+                            accountNo: "5223000-2-2",
+                            description: "South District Digout",
+                            yearBudget: "",
+                            miscTransfer: "",
+                            totalBudget: 0.00,
+                            expendToDate: 0.00,
+                            remainingBalance: 0.00
+                        },
+                        {
+                            accountNo: "5223000-2-3",
+                            description: "East District Digout",
+                            yearBudget: "",
+                            miscTransfer: "",
+                            totalBudget: 0.00,
+                            expendToDate: 0.00,
+                            remainingBalance: 0.00
+                        },
+                        {
+                            accountNo: "5223000-2-4",
+                            description: "West District Digout",
+                            yearBudget: "",
+                            miscTransfer: "",
+                            totalBudget: 0.00,
+                            expendToDate: 0.00,
+                            remainingBalance: 0.00
+                        },
+
+                    ]
+                }
+
+            ]
+        },
+        {
+            accountNo: "5224000",
+            description: "Pothole Patching Repair",
+            yearBudget: 2160938.00,
+            miscTransfer: "",
+            totalBudget: 2160938.00,
+            expendToDate: 0.00,
+            remainingBalance: 2160938.00,
+            showSubaccount: false,
+
+            subaccounts: [
+                {
+                    accountNo: "5224000-1",
+                    description: "Asphalt Materials",
+                    yearBudget: "",
+                    miscTransfer: "",
+                    totalBudget: 0.00,
+                    expendToDate: 0.00,
+                    remainingBalance: 0.00,
+                    sub:[]
+                },
+                {
+                    accountNo: "5224000-2",
+                    description: "Propane",
+                    yearBudget: "",
+                    miscTransfer: "",
+                    totalBudget: 0.00,
+                    expendToDate: 0.00,
+                    remainingBalance: 0.00,
+                    sub:[]
+                },
+                {
+                    accountNo: "5224000-3",
+                    description: "Shovels/Rake/Etc",
+                    yearBudget: "",
+                    miscTransfer: "",
+                    totalBudget: 0.00,
+                    expendToDate: 0.00,
+                    remainingBalance: 0.00,
+                    sub:[]
+                }
+
+            ]
         }
     ];
 
@@ -478,10 +702,13 @@ app.controller('reportsController', ['$scope', '$location', function($scope, $lo
             link: "monthly-expense"
         },
         {
-        	name: "Expense Breakdown",
-        	link: "expense-breakdown"
+            name: "Expense Breakdown",
+            link: "expense-breakdown"
         },
-        {name: "Doughnut Graph"}
+        {
+            name: "Monthly Breakdown",
+            link: "monthly-breakdown"
+        },
     ]
 }]);
 app.controller('sidebarController', ['$scope', '$location', function($scope, $location){

@@ -1,4 +1,9 @@
-app.controller('monthlyExpenseController', function($scope, $location){
+app.controller('monthlyExpenseController', function($scope, $location, monthsService){
+
+    $scope.months = function(n){
+        return monthsService.getMonth(n)
+    }
+
     $scope.options = {
             chart: {
             type: 'lineChart',
@@ -22,7 +27,7 @@ app.controller('monthlyExpenseController', function($scope, $location){
                 showMaxMin: false,
                 staggerLabels: true,
                 tickFormat: function(d){
-                    return month[d];
+                    return $scope.months(d);
                 },
             },
 
@@ -36,7 +41,6 @@ app.controller('monthlyExpenseController', function($scope, $location){
         }
     };
 
-    var month = ["Janary", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     $scope.data = [
         {
             key: "Budget",

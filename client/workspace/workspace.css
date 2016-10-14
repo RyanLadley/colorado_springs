@@ -268,6 +268,8 @@
     background-color: #E8EAFF; }
   #overview-table td {
     white-space: nowrap; }
+  #overview-table a {
+    color: #00188E; }
   #overview-table .account-row {
     font-size: 17px; }
   #overview-table .subaccount-row {
@@ -355,6 +357,9 @@
 #account-table .total {
   background-color: #4E4E4E;
   color: white; }
+#account-table .row:hover {
+  cursor: default;
+  background-color: #F2FFF0; }
 
 .entry-area {
   width: 870px;
@@ -499,6 +504,9 @@
   margin-bottom: 25px; }
   .report-area table {
     width: 99%; }
+    .report-area table tr:hover {
+      cursor: default;
+      background-color: #D7FFFF; }
 
 .report-graph {
   width: 100%; }
