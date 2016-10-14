@@ -1,5 +1,22 @@
 app.controller('overviewController', function($scope, $location){
   
+    $scope.expandAll = function(){
+        for(var i = 0; i < $scope.accounts.length; i++){
+            $scope.accounts[i].showSubaccount = true;
+            for(var j = 0; j < $scope.accounts[i].subaccounts.length; j++){
+                $scope.accounts[i].subaccounts[j].showSubaccount = true;
+            }
+        }
+    }
+
+    $scope.collapseAll = function(){
+        for(var i = 0; i < $scope.accounts.length; i++){
+            $scope.accounts[i].showSubaccount = false;
+            for(var j = 0; j < $scope.accounts[i].subaccounts.length; j++){
+                $scope.accounts[i].subaccounts[j].showSubaccount = false;
+            }
+        }
+    }
 
     $scope.accounts = [
         {
@@ -10,7 +27,6 @@ app.controller('overviewController', function($scope, $location){
             totalBudget: 2160938.00,
             expendToDate: 0.00,
             remainingBalance: 2160938.00,
-            showSubaccount: false,
 
             subaccounts: [
                 {
@@ -21,7 +37,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 },
                 {
                     accountNo: "5221000-2",
@@ -31,10 +47,10 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[
+                    subs:[
                         {
                             accountNo: "5221000-2-1",
-                            description: "North District Digout",
+                            description: "North Distrt Digout",
                             yearBudget: "",
                             miscTransfer: "",
                             totalBudget: 0.00,
@@ -43,7 +59,7 @@ app.controller('overviewController', function($scope, $location){
                         },
                         {
                             accountNo: "5221000-2-2",
-                            description: "South District Digout",
+                            description: "South Disrict Digout",
                             yearBudget: "",
                             miscTransfer: "",
                             totalBudget: 0.00,
@@ -67,7 +83,7 @@ app.controller('overviewController', function($scope, $location){
                             totalBudget: 0.00,
                             expendToDate: 0.00,
                             remainingBalance: 0.00
-                        },
+                        }
 
                     ]
                 }
@@ -82,7 +98,6 @@ app.controller('overviewController', function($scope, $location){
             totalBudget: 2160938.00,
             expendToDate: 0.00,
             remainingBalance: 2160938.00,
-            showSubaccount: false,
 
             subaccounts: [
                 {
@@ -93,7 +108,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 },
                 {
                     accountNo: "5222000-2",
@@ -103,7 +118,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 },
                 {
                     accountNo: "5222000-3",
@@ -113,7 +128,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 }
 
             ]
@@ -126,7 +141,6 @@ app.controller('overviewController', function($scope, $location){
             totalBudget: 2160938.00,
             expendToDate: 0.00,
             remainingBalance: 2160938.00,
-            showSubaccount: false,
 
             subaccounts: [
                 {
@@ -137,7 +151,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 },
                 {
                     accountNo: "5223000-2",
@@ -147,10 +161,10 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[
+                    subs:[
                         {
                             accountNo: "5223000-2-1",
-                            description: "North District Digout",
+                            description: "Norh District Digout",
                             yearBudget: "",
                             miscTransfer: "",
                             totalBudget: 0.00,
@@ -167,23 +181,14 @@ app.controller('overviewController', function($scope, $location){
                             remainingBalance: 0.00
                         },
                         {
-                            accountNo: "5223000-2-3",
-                            description: "East District Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        },
-                        {
                             accountNo: "5223000-2-4",
-                            description: "West District Digout",
+                            description: "Wes District Digout",
                             yearBudget: "",
                             miscTransfer: "",
                             totalBudget: 0.00,
                             expendToDate: 0.00,
                             remainingBalance: 0.00
-                        },
+                        }
 
                     ]
                 }
@@ -198,7 +203,6 @@ app.controller('overviewController', function($scope, $location){
             totalBudget: 2160938.00,
             expendToDate: 0.00,
             remainingBalance: 2160938.00,
-            showSubaccount: false,
 
             subaccounts: [
                 {
@@ -209,7 +213,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 },
                 {
                     accountNo: "5224000-2",
@@ -219,7 +223,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 },
                 {
                     accountNo: "5224000-3",
@@ -229,7 +233,7 @@ app.controller('overviewController', function($scope, $location){
                     totalBudget: 0.00,
                     expendToDate: 0.00,
                     remainingBalance: 0.00,
-                    sub:[]
+                    subs:[]
                 }
 
             ]

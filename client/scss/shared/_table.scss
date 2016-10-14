@@ -44,11 +44,30 @@
     display: inline-block;
     box-shadow: 3px 3px 2px grey;
     border-radius: 5px;
+    position: relative;
 
     h2{
         color: white;
         text-align: center;
         margin: 5px 35px 10px 35px;
+    }
+
+    .header-clickable{
+        display: inline-block;
+        color: white;
+        float: right;
+        width: auto;
+        padding: 5px;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        p, a, h3, i{
+            float: right;
+            margin: 5px;
+            cursor: pointer;
+        }
+
     }
 }
 

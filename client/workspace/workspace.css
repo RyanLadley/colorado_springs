@@ -38,11 +38,25 @@
   margin-left: 50px;
   display: inline-block;
   box-shadow: 3px 3px 2px grey;
-  border-radius: 5px; }
+  border-radius: 5px;
+  position: relative; }
   .table-header h2 {
     color: white;
     text-align: center;
     margin: 5px 35px 10px 35px; }
+  .table-header .header-clickable {
+    display: inline-block;
+    color: white;
+    float: right;
+    width: auto;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+    top: 0; }
+    .table-header .header-clickable p, .table-header .header-clickable a, .table-header .header-clickable h3, .table-header .header-clickable i {
+      float: right;
+      margin: 5px;
+      cursor: pointer; }
 
 .alternate-table tr:nth-child(even) {
   background-color: #F9F9F9; }

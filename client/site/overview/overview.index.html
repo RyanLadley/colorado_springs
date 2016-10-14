@@ -4,6 +4,11 @@
 
 <div class = "table-header overview-table-header">
     <h2>Accounts Overview</h2>
+    <div class = "header-clickable">
+        <i class="fa fa-compress" aria-hidden="true" ng-click = "collapseAll()"></i>
+        <i class="fa fa-expand" aria-hidden="true"  ng-click = "expandAll()"></i>
+
+    </div>
     <table id = "overview-table" class = "table">
         <tr>
             <th>Account</th>
@@ -35,7 +40,7 @@
                 <td class = "currency"> {{subaccount.expendToDate | currency}}</td>
                 <td class = "currency"> {{subaccount.remainingBalance | currency}}</td>
             </tr>
-            <tr ng-repeat-end ng-repeat = "sub in subaccount.sub" class = "sub-row account-{{sub.accountNo}}"
+            <tr  ng-repeat-end ng-repeat = "sub in subaccount.subs" class = "sub-row account-{{sub.accountNo}}"
                 ng-show = "subaccount.showSubaccount && account.showSubaccount">
                 <td class = "account sub"><a href = "/overview/account/1">{{sub.accountNo}}</a></td>
                 <td class = "description"> {{sub.description}}</td>
@@ -49,7 +54,7 @@
     </table>
 </div>
 
-<div class = "refrence-area area">
+<div class = "refrence-area area" >
     <h2 class = "title"> Quick Refrence </h2>
     <div class = "section-area">
         <h3 class = "section-title">Accounts</h3>
