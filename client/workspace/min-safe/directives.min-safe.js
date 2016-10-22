@@ -1,3 +1,10 @@
+app.directive('transactionAdjustment', function() {
+    return{
+        restrict: 'E',
+        controller: 'transactionAdjustmentController',
+        templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
+    };
+})
 app.directive('sidebarInfo', function() {
     return{
         restrict: 'E',
@@ -13,5 +20,16 @@ app.directive('sidebar', function() {
             card: '='
         },
        templateUrl: '/res/components/directives/sidebar/sidebar.template.html'
+    };
+})
+app.directive('transactionEntry', function() {
+    return{
+        restrict: 'E',
+        controller: 'transactionEntryController',
+        scope: {
+            transaction: '=',
+            submit: '='
+        },
+       templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'
     };
 })

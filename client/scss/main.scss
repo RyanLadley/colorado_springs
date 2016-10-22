@@ -3,12 +3,18 @@
 @import "shared/page";
 @import "shared/table";
 @import "shared/area";
+@import "shared/tabs";
+@import "shared/content-link";
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-info";
 @import "home/home";
+@import "vendors/vendors-select";
+@import "vendors/vendor-details";
 @import "overview/overview";
 @import "overview/account";
 @import "data-entry/data-entry";
+@import "adjustments/adjustments";
+@import "adjustments/transaction-adjustments";
 @import "reports/dashboard";
 @import "reports/reports";
 

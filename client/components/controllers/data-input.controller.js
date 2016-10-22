@@ -1,7 +1,10 @@
 app.controller('dataInputController', function($scope, $location){
   
 
-    //$scope.displayInvoiceCalender = false;
+    $scope.display = {
+    	transaction: true,
+    	vendor: false
+    };
 
 
 });

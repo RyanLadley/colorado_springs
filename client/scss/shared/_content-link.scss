@@ -1,0 +1,99 @@
+$content-link-width:300px;
+$content-link-height: 250px;
+$content-link-title-height: 50px;
+
+.content-link{
+    display: inline-block;
+    //border: solid 1px;
+    height: $content-link-height;    
+    width: $content-link-width;
+    overflow: hidden;
+    margin-bottom: 2%;
+    margin-left: 50px;
+    position: relative;
+    box-shadow: 2px 2px 5px $nav-black;
+    
+    .image-container{
+        height: 100%;
+        width:$content-link-width;
+        transition: 0.75s;
+        background-position: center;
+
+    }
+
+    .link-title{
+        position: absolute;
+        top: $content-link-height * (3/5);
+        width: 100%;
+        height: $content-link-title-height;
+        background-color: $dull-red;
+        transition: .75s;
+        box-shadow: 2px 2px 5px $nav-black;
+
+        h3{
+            color: white;
+            font-size: 30px;
+            margin-top: 5px;
+            text-align: center;
+        }
+    }
+
+    .vendor-title{
+        background-color: $dull-yellow;
+    }
+
+    .link-discription{
+        width: 100%;
+        height: 200px;
+        position: absolute;
+        top: -$content-link-height;
+        left: 0;
+        transition: 0.75s;
+        background-color: $transparent-white;
+        
+        p{
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+        }
+    }
+
+    &:hover{
+         .link-discription{
+            top:0;
+            transition: 0.75s;
+        }
+
+        .image-container{
+            @include blur(5px);
+            transition: .75s;
+        }
+
+        .link-title{
+            top: $content-link-height - $content-link-title-height;
+            transition: .75s;
+        }
+
+    }
+
+    #overview{
+        background-image: url("/res/images/overview.jpg")
+    }
+
+    #data-entry{
+        background-image: url("/res/images/data_entry.jpg")
+    }
+
+    #credits{
+        background-image: url("/res/images/vendor.jpg")
+    }
+
+    #adjustments{
+        background-image: url("/res/images/adjustments.jpg")
+    }
+
+    #reports{
+        background-image: url("/res/images/reports.jpg")
+    }
+
+} 

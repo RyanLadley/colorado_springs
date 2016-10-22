@@ -1,74 +1,52 @@
 $entry-area-width: 870px;
 
-.entry-area{
-    width: $entry-area-width;
-    background-color: $dull-purple;
-    display: inline-block;
-    box-shadow: 3px 3px 2px grey;
-    border-radius: 5px;
-    margin: 0px 50px;
+.entry-tabs{
 
-    .section-title{
-        color:white;
-        margin: 5px 35px 0px 35px;
-        text-align: center;
+    li{
+        background: lightgrey;
+        border: 1px solid lightgrey;
     }
-
-    .title{
-        text-align: center;
+    .selected{
         color: white;
-        margin: 10px 0 5px 0;
+        background: $dull-purple;
+        border: none;
+    }
+}
+
+.entry-area{
+    background-color: $dull-purple;
+}
+
+.invoice-textfield{
+    width: 400px;
+}
+
+.entry-submit{
+    margin: 25px 35px 0 0 ;
+    float:right;
+}
+
+.input-row{
+    width: 100%;
+}
+
+.date-input{
+    position: relative;
+    .date-picker{
+        position: absolute;
+        top: 40px;
     }
 
-    .section-area{
-    	display: inline-block;
-    	background-color: $nav-black;
-    	margin: 4px 4px 10px 4px;
-    	width: $entry-area-width - 8px;
+    .input-div{
+        width: 300px;   
+    }
+    input{
+        width: 120px;
     }
 
-    .entry-form{
-        border-radius: 1px;
-        box-shadow: 2px 2px 4px grey inset;
-        background-color: white;
-        width: $entry-area-width - 75px;
-        padding: 5px 2px;
-        margin: 5px auto 20px auto;
+    button{
+        float: left;
     }
-
-    .input-row{
-    	width: 100%;
-    }
-
-    .right-input{
-        float: right;
-    }
-
-    .invoice-textfield{
-        width: 400px;
-    }
-
-    .date-input{
-        position: relative;
-        .date-picker{
-            position: absolute;
-            top: 40px;
-        }
-
-        input{
-            width: 235px;
-        }
-
-        button{
-            float: left;
-        }
-    }
-
-    .entry-submit{
-        margin: 25px 35px 0 0 ;
-        float:right;
-    }
-
 }
 
 .label-input{
@@ -80,8 +58,8 @@ $entry-area-width: 870px;
 	}
 
     textarea{
-        width: 725px;
-        max-width: 725px;
+        width: 95%;
+        max-width: 95%;
 
         height: 100px;
     }

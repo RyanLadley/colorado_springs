@@ -1,0 +1,40 @@
+<div class = "page-title">
+    <h1> {{vendor.name}} </h1>
+</div>
+
+<div class = "table-header vendor-table-header">
+    <h2>{{vendor.name}} Transactions</h2>
+    <table id = "account-table" class = "table alternate-table">
+        <tr>
+            <th>Vendor</th>
+            <th>Invoice Date</th>
+            <th>Date Paid</th>
+            <th>Invoice Number</th>
+            <th>Descrpition</th>
+            <th>Total Expense</th>
+        </tr>
+
+        <tr ng-repeat = "transaction in transactions" class = "row">
+            <td>{{transaction.vendor}}</td>
+            <td>{{transaction.invoiceDate}}</td>
+            <td>{{transaction.datePaid}}</td>
+            <td class = "center">{{transaction.invoiceNum}}</td>
+            <td class = "description account-desription">{{transaction.description}}</td>
+            <td class = "currency">{{transaction.expensed | currency}}</td>
+        </tr>
+        <tr class = "total">
+            <td colspan="5">Total Expensed</td>
+            <td> $2,836,981.36</td>
+        </tr>
+    </table>
+</div>
+
+<div class = "vendor-area area" >
+    <!--<h2 class = "title"> {{vendor.name}} Details </h2>-->
+    <div class = "section-area">
+        <h3 class = "section-title">Details</h3>
+        <div class ="section-inset">
+            <p> {{vendor.phoneNumber}}</p>
+        </div>
+    </div>
+</div>

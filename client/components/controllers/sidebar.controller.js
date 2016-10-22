@@ -5,7 +5,7 @@ app.controller('sidebarController', function($scope, $location){
         overview: false,
         entry: false,
         reports: false,
-        credits: false,
+        vendors: false,
         adjustments: false
     }
 
@@ -50,8 +50,8 @@ app.controller('sidebarController', function($scope, $location){
         else if(/\/reports*/.test(path)){
             $scope.icons.reports = true;
         }
-        else if(/\/credits*/.test(path)){
-            $scope.icons.credits = true;
+        else if(/\/vendors*/.test(path)){
+            $scope.icons.vendors = true;
         }
         else if(/\/adjustments*/.test(path)){
             $scope.icons.adjustments = true;

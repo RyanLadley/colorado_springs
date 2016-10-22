@@ -77,10 +77,23 @@ app.controller('accountController', ['$scope', '$location', function($scope, $lo
     ];
 
 }]);
+app.controller('adjustmentsController', ['$scope', '$location', function($scope, $location){
+  
+
+    $scope.display = {
+    	transactions: true,
+    	pending: false,
+    	budget:false
+    };
+
+}]);
 app.controller('dataInputController', ['$scope', '$location', function($scope, $location){
   
 
-    //$scope.displayInvoiceCalender = false;
+    $scope.display = {
+    	transaction: true,
+    	vendor: false
+    };
 
 
 }]);
@@ -608,7 +621,7 @@ app.controller('sidebarController', ['$scope', '$location', function($scope, $lo
         overview: false,
         entry: false,
         reports: false,
-        credits: false,
+        vendors: false,
         adjustments: false
     }
 
@@ -653,11 +666,329 @@ app.controller('sidebarController', ['$scope', '$location', function($scope, $lo
         else if(/\/reports*/.test(path)){
             $scope.icons.reports = true;
         }
-        else if(/\/credits*/.test(path)){
-            $scope.icons.credits = true;
+        else if(/\/vendors*/.test(path)){
+            $scope.icons.vendors = true;
         }
         else if(/\/adjustments*/.test(path)){
             $scope.icons.adjustments = true;
         };
     });
+}]);
+app.controller('transactionAdjustmentController', ['$scope', '$location', function($scope, $location){
+	
+
+    $scope.transactionsDisplay = function(){
+    	$scope.expand = !$scope.expand;
+
+        if($scope.expand){
+            $scope.toPos = {
+                "left": "0"
+            };
+
+            $scope.fromPos = {
+            	"left": "-1700px" //should mack with $tab-width in shared/_tab.scss
+            }
+        }
+        else{
+			$scope.fromPos = {
+                "left": "0"
+            };
+
+            $scope.toPos = {
+            	"left": "1700px" //should mack with $tab-width in shared/_tab.scss
+            }
+        }
+    }
+
+    $scope.selectedIndex = -1;
+    $scope.setSelected = function(){
+	    $scope.selectedTransaction = {
+	    		vendor: $scope.transactions[$scope.selectedIndex].vendor,
+	            invoiceDate: $scope.transactions[$scope.selectedIndex].invoiceDate,
+	            datePaid: $scope.transactions[$scope.selectedIndex].datePaid,
+	            invoiceNum: $scope.transactions[$scope.selectedIndex].invoiceNum,
+	            description: $scope.transactions[$scope.selectedIndex].description,
+	            expensed: $scope.transactions[$scope.selectedIndex].expensed
+	    }
+	}
+
+    $scope.transactions = [
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C",
+            description: "This is a short description",
+            expensed: 100
+        },
+        {
+            vendor: "Bob's Products Express",
+            invoiceDate: "7/8/2017",
+            datePaid: "10/7/2017",
+            invoiceNum: "1212ASD12ASD478",
+            description: "Still a short one",
+            expensed: 9358
+        },
+        {
+            vendor: "Lola's Bananaza",
+            invoiceDate: "9/10/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C",
+            description: "",
+            expensed: 100
+        },
+        {
+            vendor: "Bob's Products Express",
+            invoiceDate: "7/8/2017",
+            datePaid: "10/7/2017",
+            invoiceNum: "1212ASD12ASD478",
+            description: "This on will be a medium one. Not to long, or short.",
+            expensed: 9358
+        },
+        {
+            vendor: "Lola's Bananaza",
+            invoiceDate: "9/10/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C",
+            description: "This is a short description",
+            expensed: 135.23
+        },
+        {
+            vendor: "Bob's Products Express",
+            invoiceDate: "7/8/2017",
+            datePaid: "10/7/2017",
+            invoiceNum: "1212ASD12ASD478",
+            description: "Still a short one",
+            expensed: 2329358.87
+        },
+        {
+            vendor: "Lola's Bananaza",
+            invoiceDate: "9/10/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you. Lool this is longer than the other two!! Wow, I wonder.",
+            expensed: 56983.32
+        }
+    ];
+}]);
+app.controller('transactionEntryController', ['$scope', '$location', function($scope, $location){
+  
+}]);
+app.controller('vendorDetailsController', ['$scope', '$location', function($scope, $location){
+  
+    $scope.vendor = {
+        name: "Grainger",
+        contractNo: "TS001",
+        pointOfContact: "Greg Roberts",
+        address: "123 North Something Drive, Colorado Springs, Colorado, 80918",
+        phoneNumber: "719-555-9876",
+        image: "grainger.png"
+    }
+
+    $scope.transactions = [
+        {
+            vendor: "Grainger",
+            invoiceDate: "7/8/2017",
+            datePaid: "10/7/2017",
+            invoiceNum: "1212ASD12ASD478",
+            description: "Still a short one",
+            expensed: 9358
+        },
+        {
+            vendor: "Grainger",
+            invoiceDate: "9/10/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C",
+            description: "",
+            expensed: 100
+        },
+        {
+            vendor: "Grainger",
+            invoiceDate: "7/8/2017",
+            datePaid: "10/7/2017",
+            invoiceNum: "1212ASD12ASD478",
+            description: "Still a short one",
+            expensed: 9358
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C",
+            description: "",
+            expensed: 100
+        },
+        {
+            vendor: "Grainger",
+            invoiceDate: "9/10/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
+        }
+    ]
+}]);
+app.controller('vendorsController', ['$scope', '$location', function($scope, $location){
+  
+    $scope.vendors = [
+    	{
+    		id: "1",
+    		name: "Grainger",
+    		description: "I need to figure out what to put here",
+    		image: "grainger.png"
+    	},
+    	{
+    		id: "2",
+    		name: "Concrete Co",
+    		description: "I need to figure out what to put here",
+    		image: "concrete-co.png"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	},
+    	{
+    		id: "3",
+    		name: "AAA Building Supply",
+    		description: "I need to figure out what to put here",
+    		image: "aaa-supply.jpg"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	},
+    	{
+    		id: "2",
+    		name: "Concrete Co",
+    		description: "I need to figure out what to put here",
+    		image: "concrete-co.png"
+    	},
+    	{
+    		id: "1",
+    		name: "Grainger",
+    		description: "I need to figure out what to put here",
+    		image: "grainger.png"
+    	},
+    	{
+    		id: "3",
+    		name: "AAA Building Supply",
+    		description: "I need to figure out what to put here",
+    		image: "aaa-supply.jpg"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	},
+    	{
+    		id: "1",
+    		name: "Grainger",
+    		description: "I need to figure out what to put here",
+    		image: "grainger.png"
+    	},
+    	{
+    		id: "2",
+    		name: "Concrete Co",
+    		description: "I need to figure out what to put here",
+    		image: "concrete-co.png"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	},
+    	{
+    		id: "1",
+    		name: "Grainger",
+    		description: "I need to figure out what to put here",
+    		image: "grainger.png"
+    	},
+    	{
+    		id: "3",
+    		name: "AAA Building Supply",
+    		description: "I need to figure out what to put here",
+    		image: "aaa-supply.jpg"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	},
+    	{
+    		id: "1",
+    		name: "Grainger",
+    		description: "I need to figure out what to put here",
+    		image: "grainger.png"
+    	},
+    	{
+    		id: "2",
+    		name: "Concrete Co",
+    		description: "I need to figure out what to put here",
+    		image: "concrete-co.png"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	},
+    	{
+    		id: "1",
+    		name: "Grainger",
+    		description: "I need to figure out what to put here",
+    		image: "grainger.png"
+    	},
+    	{
+    		id: "3",
+    		name: "AAA Building Supply",
+    		description: "I need to figure out what to put here",
+    		image: "aaa-supply.jpg"
+    	},
+    	{
+    		id: "4",
+    		name: "Your Logo",
+    		description: "I need to figure out what to put here",
+    		image: "your-logo.jpg"
+    	}
+
+
+    ];
+
 }]);

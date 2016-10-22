@@ -25,6 +25,24 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/data-entry/data-entry.index.html'
         }
     )
+    .when("/vendors",
+        {
+            controller: 'vendorsController',
+            templateUrl: '/res/site/vendors/vendors.index.html'
+        }
+    )
+    .when("/vendors/:vendorId",
+        {
+            controller: 'vendorDetailsController',
+            templateUrl: '/res/site/vendors/vendor-details.index.html'
+        }
+    )
+    .when("/adjustments",
+        {
+            controller: 'adjustmentsController',
+            templateUrl: '/res/site/adjustments/adjustments.index.html'
+        }
+    )
     .when("/reports",
         {
             controller: 'reportsController',

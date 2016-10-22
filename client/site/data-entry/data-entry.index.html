@@ -2,71 +2,21 @@
     <h1>Data Entry</h1>
 </div>
 
-<div class = "entry-area">
-    <h2 class = title >PPRTA - IBT</h2>
-    <div class = "section-area">
-        <h3 class = "section-title"> Data Entry</h3>
-        <form class = "entry-form">
-            <div class = "label-input">
-                <label>Account Code</label>
-                <select>
-                    <option value="" disabled selected hidden>Select an Account</option>
-                    <option>5221000</option>
-                    <option>5222000</option>
-                    <option>5223000</option>
-                    <option>5224000</option>
-                    <option>5225000</option>
-                    <option>5226000</option>
-                </select>
-            </div>
+<ul class = "tabs entry-tabs">
+    <li ng-click = "display.transaction = true; display.vendor = false;" ng-class = "{selected : display.transaction}">Transaction</li>
+    <li ng-click = "display.transaction = false; display.vendor = true;" ng-class = "{selected : display.vendor}">Vendor</li>
+</ul>
 
-            <div class = "label-input">
-                <label>Sub-Account Code</label>
-                <select>
-                    <option value="" disabled selected hidden>Select a Sub-Account</option>
-                    <option>5221000-1</option>
-                    <option>5221000-2</option>
-                    <option>5221000-3</option>
-                </select>
+<div class = "tabed-area entry-area">
+    <div class = "tabed-border">
+        <div class = "tabed-content entry-content">
+            <div class = "transactions" ng-show = "display.transaction">
+                <h2 class = "tab-title">New Transaction</h2>
+                <transaction-entry transaction = "selectedTransaction"></transaction-entry>
             </div>
-
-            <div class = "label-input">
-                <label>Vendor</label>
-                <select>
-                    <option value="" disabled selected hidden>Select a Vendor</option>
-                    <option>Granger</option>
-                    <option>Mama Bear's Honey Supply</option>
-                    <option>Three Dog's Bark</option>
-                    <option>Lama's Light Barn</option>
-                    <option>Fans Fans Fans</option>
-                </select>
+            <div class = "pending" ng-show = "display.vendor">
+                <h1>Vendor</h1>
             </div>
-
-            <div class = "label-input">
-                <label>Invoice Number</label>
-                <input type = "text" placeholder = "Invoice Number" class = "invoice-textfield">
-            </div>
-
-            <div class = "label-input date-input">
-                <label>Invoice Date</label>
-                <div>
-                    <button ng-click = "displayInvoiceDate = !displayInvoiceDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-                    <input type="text" placeholder="DD/MM/YYYY" ng-model = "invoiceDate">
-                </div>
-                <date-picker class = "date-picker" ng-show = "displayInvoiceDate" ng-model = "invoiceDate"></date-picker>
-            </div>
-
-            <div class = "label-input input-row">
-                <label>Description</label>
-                <textarea placeholder="Enter Discription"></textarea>
-            </div>
-
-            <div class = "label-input">
-                <label>Total Expensed</label>
-                <input type="Number" value ="0.00" min="0" step="0.01">
-            </div>
-
-            <button class = "entry-submit">Submit</button>
-        </form>
+        </div>
     </div>
-</div>
+</div> 

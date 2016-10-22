@@ -1,0 +1,25 @@
+<div class = "page-title">
+    <h1> Adjustments</h1>
+</div>
+
+<ul class = "tabs adjustment-tabs">
+    <li ng-click = "display.transactions = true; display.pending = false;  display.budget = false;" ng-class = "{selected : display.transactions}">Transactions</li>
+    <li ng-click = "display.transactions = false; display.pending = true;  display.budget = false;" ng-class = "{selected : display.pending}">Pending</li>
+    <li ng-click = "display.transactions = false; display.pending = false;  display.budget = true;" ng-class = "{selected : display.budget}">Budget</li>
+</ul>
+
+<div class = "tabed-area adjustment-area">
+    <div class = "tabed-border">
+        <div class = "tabed-content adjustment-content">
+            <div class = "transactions" ng-show = "display.transactions">
+                <transaction-adjustment></transaction-adjustment>
+            </div>
+            <div class = "pending" ng-show = "display.pending">
+                <h1>Pending</h1>
+            </div>
+            <div class = "budget" ng-show = "display.budget">
+                <h1>Budget</h1>
+            </div>
+        </div>
+    </div>
+</div> 

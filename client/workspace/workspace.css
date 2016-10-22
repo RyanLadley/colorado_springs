@@ -88,6 +88,119 @@
     padding: 3px 0px 0px 3px;
     text-align: center; }
 
+.tabs {
+  list-style: none;
+  padding: 5px 0px;
+  margin: 0 50px; }
+  .tabs .selected {
+    background: white;
+    position: relative;
+    top: 2px;
+    margin-top: 0;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-weight: bold;
+    box-shadow: 2px -2px 2px grey;
+    z-index: 9; }
+  .tabs li {
+    float: left;
+    padding: 5px 20px;
+    cursor: pointer;
+    margin-top: 5px; }
+
+.tabed-area {
+  margin-left: 50px;
+  display: inline-block;
+  width: 1700px;
+  height: 800px;
+  box-shadow: 2px -2px 2px grey; }
+
+.tabed-border {
+  display: inline-block;
+  background: #404040;
+  margin: 25px;
+  width: 1650px;
+  height: 750px; }
+
+.tabed-content {
+  margin: 30px 40px;
+  width: 1570px;
+  height: 680px;
+  background: white;
+  box-shadow: 2px -2px 2px grey inset;
+  padding: 10px; }
+
+.tab-title {
+  margin-left: 15px;
+  margin-right: 15px;
+  border-bottom: 1px solid black; }
+
+.content-link {
+  display: inline-block;
+  height: 250px;
+  width: 300px;
+  overflow: hidden;
+  margin-bottom: 2%;
+  margin-left: 50px;
+  position: relative;
+  box-shadow: 2px 2px 5px #404040; }
+  .content-link .image-container {
+    height: 100%;
+    width: 300px;
+    transition: 0.75s;
+    background-position: center; }
+  .content-link .link-title {
+    position: absolute;
+    top: 150px;
+    width: 100%;
+    height: 50px;
+    background-color: #D74646;
+    transition: .75s;
+    box-shadow: 2px 2px 5px #404040; }
+    .content-link .link-title h3 {
+      color: white;
+      font-size: 30px;
+      margin-top: 5px;
+      text-align: center; }
+  .content-link .vendor-title {
+    background-color: #B3B332; }
+  .content-link .link-discription {
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    top: -250px;
+    left: 0;
+    transition: 0.75s;
+    background-color: rgba(255, 255, 255, 0.6); }
+    .content-link .link-discription p {
+      color: black;
+      text-decoration: none;
+      padding: 10px; }
+  .content-link:hover .link-discription {
+    top: 0;
+    transition: 0.75s; }
+  .content-link:hover .image-container {
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    transition: .75s; }
+  .content-link:hover .link-title {
+    top: 200px;
+    transition: .75s; }
+  .content-link #overview {
+    background-image: url("/res/images/overview.jpg"); }
+  .content-link #data-entry {
+    background-image: url("/res/images/data_entry.jpg"); }
+  .content-link #credits {
+    background-image: url("/res/images/vendor.jpg"); }
+  .content-link #adjustments {
+    background-image: url("/res/images/adjustments.jpg"); }
+  .content-link #reports {
+    background-image: url("/res/images/reports.jpg"); }
+
 .sidebar-container {
   bottom: 0;
   top: 0;
@@ -207,66 +320,14 @@
   min-width: 1250px;
   width: 100%; }
 
-.content-link {
-  display: inline-block;
-  height: 250px;
-  width: 300px;
-  overflow: hidden;
-  margin-bottom: 2%;
-  margin-left: 2%;
-  position: relative; }
-  .content-link .image-container {
-    height: 100%;
-    width: 300px;
-    transition: 0.75s;
-    background-position: center; }
-  .content-link .link-title {
-    position: absolute;
-    top: 150px;
-    width: 100%;
-    height: 50px;
-    background-color: #D74646;
-    transition: .75s; }
-    .content-link .link-title h3 {
-      color: white;
-      font-size: 30px;
-      margin-top: 5px;
-      text-align: center; }
-  .content-link .link-discription {
-    width: 100%;
-    height: 200px;
-    position: absolute;
-    top: -250px;
-    left: 0;
-    transition: 0.75s;
-    background-color: rgba(255, 255, 255, 0.6); }
-    .content-link .link-discription p {
-      color: black;
-      text-decoration: none;
-      padding: 10px; }
-  .content-link:hover .link-discription {
-    top: 0;
-    transition: 0.75s; }
-  .content-link:hover .image-container {
-    filter: blur(5px);
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    transition: .75s; }
-  .content-link:hover .link-title {
-    top: 200px;
-    transition: .75s; }
-  .content-link #overview {
-    background-image: url("/res/images/overview.jpg"); }
-  .content-link #data-entry {
-    background-image: url("/res/images/data_entry.jpg"); }
-  .content-link #credits {
-    background-image: url("/res/images/credits.jpg"); }
-  .content-link #adjustments {
-    background-image: url("/res/images/adjustments.jpg"); }
-  .content-link #reports {
-    background-image: url("/res/images/reports.jpg"); }
+.vendor-select-container {
+  display: inline-block; }
+
+.vendor-table-header {
+  background-color: #B3B332; }
+
+.vendor-area {
+  background-color: #B3B332; }
 
 .overview-table-header {
   width: 1300px;
@@ -375,51 +436,38 @@
   cursor: default;
   background-color: #F2FFF0; }
 
+.entry-tabs li {
+  background: lightgrey;
+  border: 1px solid lightgrey; }
+.entry-tabs .selected {
+  color: white;
+  background: #673787;
+  border: none; }
+
 .entry-area {
-  width: 870px;
-  background-color: #673787;
-  display: inline-block;
-  box-shadow: 3px 3px 2px grey;
-  border-radius: 5px;
-  margin: 0px 50px; }
-  .entry-area .section-title {
-    color: white;
-    margin: 5px 35px 0px 35px;
-    text-align: center; }
-  .entry-area .title {
-    text-align: center;
-    color: white;
-    margin: 10px 0 5px 0; }
-  .entry-area .section-area {
-    display: inline-block;
-    background-color: #404040;
-    margin: 4px 4px 10px 4px;
-    width: 862px; }
-  .entry-area .entry-form {
-    border-radius: 1px;
-    box-shadow: 2px 2px 4px grey inset;
-    background-color: white;
-    width: 795px;
-    padding: 5px 2px;
-    margin: 5px auto 20px auto; }
-  .entry-area .input-row {
-    width: 100%; }
-  .entry-area .right-input {
-    float: right; }
-  .entry-area .invoice-textfield {
-    width: 400px; }
-  .entry-area .date-input {
-    position: relative; }
-    .entry-area .date-input .date-picker {
-      position: absolute;
-      top: 40px; }
-    .entry-area .date-input input {
-      width: 235px; }
-    .entry-area .date-input button {
-      float: left; }
-  .entry-area .entry-submit {
-    margin: 25px 35px 0 0;
-    float: right; }
+  background-color: #673787; }
+
+.invoice-textfield {
+  width: 400px; }
+
+.entry-submit {
+  margin: 25px 35px 0 0;
+  float: right; }
+
+.input-row {
+  width: 100%; }
+
+.date-input {
+  position: relative; }
+  .date-input .date-picker {
+    position: absolute;
+    top: 40px; }
+  .date-input .input-div {
+    width: 300px; }
+  .date-input input {
+    width: 120px; }
+  .date-input button {
+    float: left; }
 
 .label-input {
   display: inline-block;
@@ -427,9 +475,70 @@
   .label-input input, .label-input label, .label-input select, .label-input textarea {
     display: block; }
   .label-input textarea {
-    width: 725px;
-    max-width: 725px;
+    width: 95%;
+    max-width: 95%;
     height: 100px; }
+
+.adjustment-tabs li {
+  background: lightgrey;
+  border: 1px solid lightgrey; }
+.adjustment-tabs .selected {
+  color: white;
+  background: #E28A3E;
+  border: none; }
+
+.adjustment-area {
+  background-color: #E28A3E; }
+
+.adjustment-content {
+  position: relative;
+  overflow: hidden; }
+
+.adjustment-table-scroll {
+  display: inline-block;
+  width: 100%;
+  height: 500px;
+  overflow-y: auto; }
+
+.to-button {
+  float: right;
+  margin: 20px; }
+  .to-button i {
+    margin-left: 5px; }
+
+.from-button {
+  margin: 20px; }
+  .from-button i {
+    margin-right: 5px; }
+
+.transaction-adjustment-label {
+  margin: 5px 5px 5px 15px; }
+
+.transactions-from {
+  width: 97.5%;
+  max-width: 100%;
+  padding: 1px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.transactions-to {
+  width: 97.5%;
+  position: absolute;
+  padding: 1px 20px;
+  top: 0;
+  left: 1700px;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.selected-preview {
+  border: 2px solid black; }
+  .selected-preview tr {
+    background-color: #F5F5F5; }
 
 .report-selection {
   margin: 10px 30px; }

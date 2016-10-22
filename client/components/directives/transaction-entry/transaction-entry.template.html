@@ -1,0 +1,72 @@
+<form class = "entry-form">
+    <div class = "label-input">
+        <label>Account Code</label>
+        <select ng-model = "transaction.accountNo">
+            <option value="" disabled selected hidden>Select an Account</option>
+            <option>5221000</option>
+            <option>5222000</option>
+            <option>5223000</option>
+            <option>5224000</option>
+            <option>5225000</option>
+            <option>5226000</option>
+        </select>
+    </div>
+
+    <div class = "label-input">
+        <label>Sub-Account Code</label>
+        <select ng-model = "transaction.subaccountNo">
+            <option value="" disabled selected hidden>Select a Sub-Account</option>
+            <option>5221000-1</option>
+            <option>5221000-2</option>
+            <option>5221000-3</option>
+        </select>
+    </div>
+
+    <div class = "label-input">
+        <label>Vendor</label>
+        <select ng-model = "transaction.vendor">
+            <option value="" disabled selected hidden>Select a Vendor</option>
+            <option>Granger</option>
+            <option>Mama Bear's Honey Supply</option>
+            <option>Three Dog's Bark</option>
+            <option>Lama's Light Barn</option>
+            <option>Fans Fans Fans</option>
+        </select>
+    </div>
+
+    <div class = "label-input">
+        <label>Invoice Number</label>
+        <input type = "text" placeholder = "Invoice Number" class = "invoice-textfield" ng-model = "transaction.invoiceNum">
+    </div>
+
+    <div class = "label-input date-input">
+        <label>Date Paid</label>
+        <div class = "input-div">
+            <button ng-click = "displayPaidDate = !displayPaidDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
+            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.datePaid">
+        </div>
+        <date-picker class = "date-picker" ng-show = "displayPaidDate" ng-model = "transaction.datePaid"></date-picker>
+    </div>
+
+    <div class = "label-input date-input">
+        <label>Invoice Date</label>
+        <div class = "input-div"s>
+            <button ng-click = "displayInvoiceDate = !displayInvoiceDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
+            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.invoiceDate">
+        </div>
+        <date-picker class = "date-picker" ng-show = "displayInvoiceDate" ng-model = "transaction.invoiceDate"></date-picker>
+    </div>
+
+    <div class = "label-input">
+        <label>Total Expensed</label>
+        <input type="Number" value ="0.00" step="0.01" ng-model = "transaction.expensed">
+    </div>
+
+    <div class = "label-input input-row">
+        <label>Description</label>
+        <textarea placeholder="Enter Discription" ng-model = "transaction.description"></textarea>
+    </div>
+
+
+    <button class = "entry-submit">Submit</button>
+</form>
