@@ -1,0 +1,28 @@
+<div class = "page-title">
+    <h1>Administrator Page</h1>
+</div>
+
+<div class = "admin-area area" >
+    <h2 class = "title"> Users </h2>
+    <div class = "section-area">
+
+        <h3 class = "section-title">Permissions</h3>
+        <div class ="section-inset admin-details-inset">
+	        <table>
+	           	<tr>
+                    <th class = "user-column">User</th>
+    	            <th class = "permisions-headers">Admin</th>
+                    <th class = "permisions-headers">User</th>
+                    <th class = "permisions-headers">Craftsman</th>
+	       	    </tr>
+            	<tr ng-repeat = "user in users">
+    	           	<td class = "user-column" title = "{{user.login}} - {{user.email}}">{{user.name}}</td>
+    	            <td><input type="radio" name="{{user.id}}" ng-model = "user.permissions" value="0"> </td>
+                    <td><input type="radio" name="{{user.id}}" ng-model = "user.permissions" value="1"> </td>
+                    <td><input type="radio" name="{{user.id}}" ng-model = "user.permissions" value="2"> </td>
+            	</tr>
+            </table>
+        </div>
+        <button class = "admin-edit-button">Add New User</button>
+</div>
+

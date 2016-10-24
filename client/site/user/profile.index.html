@@ -1,0 +1,53 @@
+<div class = "page-title">
+    <h1>User Profile</h1>
+</div>
+
+<div class = "profile-area area" >
+    <h2 class = "title"> Profile Details </h2>
+    <div class = "section-area">
+
+        <h3 class = "section-title">Contact Information</h3>
+        <div class ="section-inset profile-details-inset">
+	        <div class = "label-value">
+	           	<h3 class = "label">Name</h3>
+	            <p class = "value"> {{user.name}}</p>
+	       	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Phone Number</h3>
+	            <p class = "value"> {{user.phoneNumber}}</p>
+        	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Email</h3>
+	            <p class = "value">{{user.email}}</p>
+        	</div>
+        </div>
+        <button class = "profile-edit-button">Edit Contact</button>
+    
+        <h3 class = "section-title">Login Credentials</h3>
+        <div class ="section-inset profile-details-inset">
+	        <div class = "label-value">
+	           	<h3 class = "label">Username</h3>
+	            <p class = "value"> {{user.login}}</p>
+	       	</div>
+        </div>
+        <button class = "profile-edit-button">Edit Credentials</button>
+    </div>
+</div>
+
+<div class = "profile-area area" >
+    <h2 class = "title"> Profile Settings </h2>
+    <div class = "section-area">
+
+        <h3 class = "section-title">Backup Emails</h3>
+        <div class ="section-inset profile-details-inset">
+	        <div class = "label-value">
+	           	<h3 class = "label">Send Email To</h3>
+	            <p class = "value"> {{user.email}}</p>
+	       	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Send Every</h3>
+	            <p class = "value">7 Days</p>
+        	</div>
+        </div>
+        <button class = "profile-edit-button">Edit Backup Email</button>
+</div>

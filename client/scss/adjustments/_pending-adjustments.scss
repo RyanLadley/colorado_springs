@@ -1,0 +1,21 @@
+.pending-select{
+    width: 97.5%;
+    max-width: 100%;
+    padding: 1px 20px;
+    position: absolute;
+    top: 0;
+    left:0;
+    -webkit-transition: 0.75s; /* Safari */
+    transition: 0.75s;
+}
+
+.pending-set{
+
+    width: 97.5%;
+    position: absolute;
+    padding: 1px 20px;
+    top: 0;
+    left: $tab-width; //defined in shared/tabs
+    -webkit-transition: 0.75s; /* Safari */
+    transition: 0.75s;
+}

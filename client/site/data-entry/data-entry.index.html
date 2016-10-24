@@ -12,10 +12,11 @@
         <div class = "tabed-content entry-content">
             <div class = "transactions" ng-show = "display.transaction">
                 <h2 class = "tab-title">New Transaction</h2>
-                <transaction-entry transaction = "selectedTransaction"></transaction-entry>
+                <transaction-entry transaction="transaction"></transaction-entry>
             </div>
             <div class = "pending" ng-show = "display.vendor">
-                <h1>Vendor</h1>
+                <h2 class = "tab-title">New Vendor</h2>
+                <vendor-entry vendor = "vendor"></vendor-entry>
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@ $content-link-title-height: 50px;
     .image-container{
         height: 100%;
         width:$content-link-width;
-        transition: 0.75s;
+        @include transition-time(0.75s);
         background-position: center;
 
     }
@@ -27,7 +27,7 @@ $content-link-title-height: 50px;
         width: 100%;
         height: $content-link-title-height;
         background-color: $dull-red;
-        transition: .75s;
+        @include transition-time(0.75s);
         box-shadow: 2px 2px 5px $nav-black;
 
         h3{
@@ -48,7 +48,7 @@ $content-link-title-height: 50px;
         position: absolute;
         top: -$content-link-height;
         left: 0;
-        transition: 0.75s;
+        @include transition-time(0.75s);
         background-color: $transparent-white;
         
         p{
@@ -61,12 +61,12 @@ $content-link-title-height: 50px;
     &:hover{
          .link-discription{
             top:0;
-            transition: 0.75s;
+            @include transition-time(0.75s);
         }
 
         .image-container{
             @include blur(5px);
-            transition: .75s;
+            @include transition-time(.75s);
         }
 
         .link-title{

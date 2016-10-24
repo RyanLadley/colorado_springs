@@ -15,7 +15,7 @@ $tab-width: 1700px;
         padding-left: 40px;
         padding-right: 40px;
         font-weight: bold;
-        box-shadow: 2px -2px 2px grey; 
+        box-shadow: 2px -2px 2px grey;
         z-index: 9;
     }
 
@@ -24,6 +24,7 @@ $tab-width: 1700px;
         padding: 5px 20px;
         cursor: pointer;
         margin-top: 5px;
+        border-right: 1px solid grey !important;
     }
 }
 

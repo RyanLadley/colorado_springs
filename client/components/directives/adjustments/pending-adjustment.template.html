@@ -1,0 +1,52 @@
+<div class = "pending-select" ng-style = "pendingSelectPos">
+    <h2 class = "tab-title">Pending Transactiions</h2>
+    <label class = "transaction-adjustment-label">Vendor</label>
+    <select>
+        <option value="" disabled selected hidden>Select an Vendor</option>
+        <option>Grainger</option>
+        <option>Lola's Flee Barn</option>
+        <option>The Rock</option>
+        <optiond>Bib Yellow</option>
+        <option>Thirty Birds Salt</option>
+        <option>Contruct Emprium</option>
+    </select>
+    
+    <div class = "adjustment-table-scroll" >
+        <table id = "adjustment-table" class = "table alternate-table">
+            <tr>
+                <th></th>
+                <th>Vendor</th>
+                <th>Invoice Date</th>
+                <th>Date Paid</th>
+                <th>Invoice Number</th>
+                <th>Descrpition</th>
+                <th>Total Expense</th>
+            </tr>
+            <tr ng-repeat = "transaction in pending" class = "row">
+                <td><input type="radio" name = "transaction" ng-model ="$parent.selectedPending" ng-value="{{$index}}"></td>
+                <td>{{transaction.vendor}}</td>
+                <td>{{transaction.invoiceDate}}</td>
+                <td>{{transaction.datePaid}}</td>
+                <td class = "center">{{transaction.invoiceNum}}</td>
+                <td class = "description account-desription">{{transaction.description}}</td>
+                <td class = "currency">{{transaction.expensed | currency}}</td>
+            </tr>
+        </table>
+    </div>
+    <button class="to-button transition-button" ng-click = "pendingDisplay();setSelected();" ng-disabled = "selectedPending < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+</div>
+
+<div class = "pending-set" ng-style = "pendingSetPos">
+    <table id = "adjustment-table" class = "selected-preview table alternate-table">
+        <tr>
+            <td>{{pending[selectedPending].vendor}}</td>
+            <td>{{pending[selectedPending].invoiceDate}}</td>
+            <td>{{pending[selectedPending].datePaid}}</td>
+            <td class = "center">{{pending[selectedPending].invoiceNum}}</td>
+            <td class = "description account-desription">{{pending[selectedPending].description}}</td>
+            <td class = "currency">{{pending[selectedPending].expensed | currency}}</td>
+        </tr>
+    </table>
+    <h2  class = "tab-title">Set Payment Date</h2>
+    <button class="from-button transition-button" ng-click = "pendingDisplay()"><i class="fa fa-chevron-left" aria-hidden="true"></i>From</button>
+</div>

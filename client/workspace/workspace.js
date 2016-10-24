@@ -126,6 +126,18 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
             templateUrl: '/res/site/reports/monthly-breakdown.index.html'
         }
     )
+    .when("/profile/:userId",
+        {
+            controller: 'profileController',
+            templateUrl: '/res/site/user/profile.index.html'
+        }
+    )
+    .when("/admin/:userId",
+        {
+            controller: 'adminController',
+            templateUrl: '/res/site/user/admin.index.html'
+        }
+    )
     .otherwise("/",
     {
         redirectTo: "/"
@@ -217,6 +229,30 @@ app.controller('adjustmentsController', ['$scope', '$location', function($scope,
     	pending: false,
     	budget:false
     };
+
+}]);
+app.controller('adminController', ['$scope', '$location', function($scope, $location){
+
+	$scope.users = [
+		{
+			name: "Chuck Chuckers",
+			login: "TheChuck",
+			email: "chuck@email.com",
+			permissions: "2"
+		},
+		{
+			name: "Lama Links",
+			login: "TheRealLama",
+			email: "Lama@email.com",
+			permissions: "1"
+		},
+		{
+			name: "Adminstrator Dan",
+			login: "TrueAdmin2000",
+			email: "admin@email.com",
+			permissions: "0"
+		}
+	]
 
 }]);
 app.controller('dataInputController', ['$scope', '$location', function($scope, $location){
@@ -729,6 +765,128 @@ app.controller('overviewController', ['$scope', '$location', function($scope, $l
     ];
 
 }]);
+app.controller('pendingAdjustmentController', ['$scope', '$location', function($scope, $location){
+	
+
+    $scope.pendingDisplay = function(){
+        $scope.pendingExpand = !$scope.pendingExpand;
+
+        if($scope.pendingExpand){
+            $scope.pendingSetPos = {
+                "left": "0"
+            };
+
+            $scope.pendingSelectPos= {
+                "left": "-1700px" //should mack with $tab-width in shared/_tab.scss
+            }
+        }
+        else{
+            $scope.pendingSelectPos = {
+                "left": "0"
+            };
+
+            $scope.pendingSetPos = {
+                "left": "1700px" //should mack with $tab-width in shared/_tab.scss
+            }
+        }
+    }
+
+    $scope.selectedPending = -1;
+    $scope.setSelected = function(){
+	    $scope.selectedTransaction = {
+	    		vendor: $scope.pending[$scope.selectedPending].vendor,
+	            invoiceDate: $scope.pending[$scope.selectedPending].invoiceDate,
+	            datePaid: $scope.prnding[$scope.selectedPending].datePaid,
+	            invoiceNum: $scope.pending[$scope.sselectedPending].invoiceNum,
+	            description: $scope.pending[$scope.selectedPending].description,
+	            expensed: $scope.pending[$scope.selectedIndex].expensed
+	    }
+	}
+
+    $scope.pending = [
+        {
+            vendor: "Why",
+            invoiceDate: "9/8/2017",
+            datePaid: "",
+            invoiceNum: "12A34B56C",
+            description: "This is a short description",
+            expensed: 100
+        },
+        {
+            vendor: "Bob's Products Express",
+            invoiceDate: "7/8/2017",
+            datePaid: "",
+            invoiceNum: "1212ASD12ASD478",
+            description: "Still a short one",
+            expensed: 9358
+        },
+        {
+            vendor: "Lola's Bananaza",
+            invoiceDate: "9/10/2017",
+            datePaid: "",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "",
+            invoiceNum: "12A34B56C",
+            description: "",
+            expensed: 100
+        },
+        {
+            vendor: "Bob's Products Express",
+            invoiceDate: "7/8/2017",
+            datePaid: "",
+            invoiceNum: "1212ASD12ASD478",
+            description: "This on will be a medium one. Not to long, or short.",
+            expensed: 9358
+        },
+        {
+            vendor: "Lola's Bananaza",
+            invoiceDate: "9/10/2017",
+            datePaid: "",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "",
+            invoiceNum: "12A34B56C",
+            description: "This is a short description",
+            expensed: 135.23
+        },
+        {
+            vendor: "Bob's Products Express",
+            invoiceDate: "7/8/2017",
+            datePaid: "",
+            invoiceNum: "1212ASD12ASD478",
+            description: "Still a short one",
+            expensed: 2329358.87
+        },
+        {
+            vendor: "Lola's Bananaza",
+            invoiceDate: "9/10/2017",
+            datePaid: "",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you. Lool this is longer than the other two!! Wow, I wonder.",
+            expensed: 56983.32
+        }
+    ];
+}]);
+app.controller('profileController', ['$scope', '$location', function($scope, $location){
+
+	$scope.user = {
+		name: "FirstName LastName",
+		phoneNumber: "719-555-9876",
+		email: "user@email.com",
+		login: "Username64"
+	}
+}]);
 app.controller('reportsController', ['$scope', '$location', function($scope, $location){
 
     $scope.reports = [
@@ -920,7 +1078,7 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', functi
     ];
 }]);
 app.controller('transactionEntryController', ['$scope', '$location', function($scope, $location){
-  
+	
 }]);
 app.controller('vendorDetailsController', ['$scope', '$location', function($scope, $location){
   
@@ -928,9 +1086,15 @@ app.controller('vendorDetailsController', ['$scope', '$location', function($scop
         name: "Grainger",
         contractNo: "TS001",
         pointOfContact: "Greg Roberts",
-        address: "123 North Something Drive, Colorado Springs, Colorado, 80918",
+        address: "123 North Something Drive\nColorado Springs, Colorado, 80918",
         phoneNumber: "719-555-9876",
-        image: "grainger.png"
+        email: "contact@grainger.com",
+        image: "grainger.png",
+        website: "www.grainger.com",
+
+        contractNumber: "TS0012",
+        contractStart: "10/14/2012",
+        contractEnd: "1/17/2017"
     }
 
     $scope.transactions = [
@@ -981,8 +1145,51 @@ app.controller('vendorDetailsController', ['$scope', '$location', function($scop
             invoiceNum: "12A34B56C43HD",
             description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
             expensed: 56983.32
+        },
+        {
+            vendor: "Grainger",
+            invoiceDate: "9/10/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C",
+            description: "",
+            expensed: 100
+        },
+        {
+            vendor: "Grainger",
+            invoiceDate: "7/8/2017",
+            datePaid: "10/7/2017",
+            invoiceNum: "1212ASD12ASD478",
+            description: "Still a short one",
+            expensed: 9358
+        },
+        {
+            vendor: "Granger",
+            invoiceDate: "9/8/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C",
+            description: "",
+            expensed: 100
+        },
+        {
+            vendor: "Grainger",
+            invoiceDate: "9/10/2017",
+            datePaid: "10/2/2017",
+            invoiceNum: "12A34B56C43HD",
+            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
+            expensed: 56983.32
         }
     ]
+}]);
+app.controller('vendorEntryController', ['$scope', '$location', function($scope, $location){
+  
 }]);
 app.controller('vendorsController', ['$scope', '$location', function($scope, $location){
   
@@ -1123,7 +1330,14 @@ app.controller('vendorsController', ['$scope', '$location', function($scope, $lo
 
     ];
 
-}]);;app.directive('transactionAdjustment', function() {
+}]);;app.directive('pendingAdjustment', function() {
+    return{
+        restrict: 'E',
+        controller: 'pendingAdjustmentController',
+        templateUrl: '/res/components/directives/adjustments/pending-adjustment.template.html'
+    };
+})
+app.directive('transactionAdjustment', function() {
     return{
         restrict: 'E',
         controller: 'transactionAdjustmentController',
@@ -1156,5 +1370,16 @@ app.directive('transactionEntry', function() {
             submit: '='
         },
        templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'
+    };
+})
+app.directive('vendorEntry', function() {
+    return{
+        restrict: 'E',
+        controller: 'vendorEntryController',
+        scope: {
+            vendor: '=',
+            submit: '='
+        },
+       templateUrl: '/res/components/directives/vendor-entry/vendor-entry.template.html'
     };
 })

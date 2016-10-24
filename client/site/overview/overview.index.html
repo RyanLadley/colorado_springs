@@ -60,11 +60,11 @@
         <h3 class = "section-title">Accounts</h3>
         <div class ="section-inset">
             <div ng-repeat = "account in accounts" >
-                <a class = "account-refrence" href = "/overview/account/1">{{account.accountNo}}</a>
+                <a class = "account-refrence" href = "/overview/account/1" title = "{{account.description}}">{{account.accountNo}}</a>
                 <div ng-repeat = "subaccount in account" >
-                    <a class = "account-refrence" href = "/overview/account/1">{{subaccount.accountNo}}</a>
+                    <a class = "account-refrence" href = "/overview/account/1" title = "{{subaccount.description}}">{{subaccount.accountNo}}</a>
                     <div ng-repeat = "sub in subaccount" >
-                        <a class = "account-refrence" href = "/overview/account/1">{{sub.accountNo}}</a>
+                        <a class = "account-refrence" href = "/overview/account/1" title = "{{sub.description}}">{{sub.accountNo}}</a>
                     </div>
                 </div>
             </div>

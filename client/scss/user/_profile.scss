@@ -1,0 +1,35 @@
+$profile-area-width: 400px;
+
+.profile-area{
+	background-color: #798979;
+	width:$profile-area-width;
+	margin-left: 50px;
+
+	.label{
+        float: left;
+        margin: 0;
+    }
+
+    .value{
+        float: right;
+        margin: 0 0 0 8px;
+    }
+
+	.label-value{
+        width: $profile-area-width - 50px;
+        margin: 0px 10px;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+}
+
+.profile-edit-button{
+	border: none;
+        background-color: #556AAE;
+        width: 96%;
+        margin: 2% 2%;
+        color: white;
+        padding: 5px;
+        font-weight: bold;
+    
+}

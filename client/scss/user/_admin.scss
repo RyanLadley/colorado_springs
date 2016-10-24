@@ -1,0 +1,27 @@
+$admin-area-width: 400px;
+
+.admin-area{
+	background-color: $dull-red;
+	width:$profile-area-width;
+	margin-left: 50px;
+
+    .user-column{
+        text-align: left;
+        width: 99%;
+    }
+
+    th{
+        margin-left: 20px; 
+    }
+
+}
+
+.admin-edit-button{
+	border: none;
+    background-color: #7B5E86;
+    width: 96%;
+    margin: 2% 2%;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+}

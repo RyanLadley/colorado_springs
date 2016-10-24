@@ -1,3 +1,10 @@
+app.directive('pendingAdjustment', function() {
+    return{
+        restrict: 'E',
+        controller: 'pendingAdjustmentController',
+        templateUrl: '/res/components/directives/adjustments/pending-adjustment.template.html'
+    };
+})
 app.directive('transactionAdjustment', function() {
     return{
         restrict: 'E',
@@ -31,5 +38,16 @@ app.directive('transactionEntry', function() {
             submit: '='
         },
        templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'
+    };
+})
+app.directive('vendorEntry', function() {
+    return{
+        restrict: 'E',
+        controller: 'vendorEntryController',
+        scope: {
+            vendor: '=',
+            submit: '='
+        },
+       templateUrl: '/res/components/directives/vendor-entry/vendor-entry.template.html'
     };
 })

@@ -19,8 +19,8 @@
     .section-area{
         display: inline-block;
     	background-color: $nav-black;
-    	margin: 4px 0.5% 10px 0.5%;
-    	width: 99%;
+    	margin: 4px 1% 10px 1%;
+    	width: 98%;
     }
 
     .section-inset{
@@ -28,12 +28,9 @@
         box-shadow: 2px 2px 4px grey inset;
         background-color: white;
         width: 95%;
-        margin: 5px auto 20px auto;
-        padding: 3px 0px 0px 3px;
+        margin: 5px auto 5px auto;
+        padding: 10px 1px 1px 3px;
         text-align: center;
     }
 
-    .graph-inset{
-
-    }
 }

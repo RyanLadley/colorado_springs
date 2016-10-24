@@ -28,6 +28,29 @@
     overflow-y: auto;
 }
 
+.transition-button{
+    background: #614B81;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 10px;
+    font-weight: bold;
+    font-size: 15px; 
+    min-width: 100px;
+    cursor: pointer;
+    @include transition-time(0.2s);
+
+    &:hover{
+        box-shadow: 2px 2px 10px grey;
+        @include transition-time(0.2s);
+    }
+
+    &:disabled{
+        opacity: 0.7;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+}
 
 .to-button{
     float: right;

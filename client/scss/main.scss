@@ -8,6 +8,8 @@
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-info";
 @import "home/home";
+@import "user/profile";
+@import "user/admin";
 @import "vendors/vendors-select";
 @import "vendors/vendor-details";
 @import "overview/overview";
@@ -15,6 +17,7 @@
 @import "data-entry/data-entry";
 @import "adjustments/adjustments";
 @import "adjustments/transaction-adjustments";
+@import "adjustments/pending-adjustments";
 @import "reports/dashboard";
 @import "reports/reports";
 

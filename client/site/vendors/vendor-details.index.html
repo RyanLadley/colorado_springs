@@ -4,7 +4,7 @@
 
 <div class = "table-header vendor-table-header">
     <h2>{{vendor.name}} Transactions</h2>
-    <table id = "account-table" class = "table alternate-table">
+    <table id = "vendor-table" class = "table alternate-table">
         <tr>
             <th>Vendor</th>
             <th>Invoice Date</th>
@@ -30,11 +30,55 @@
 </div>
 
 <div class = "vendor-area area" >
-    <!--<h2 class = "title"> {{vendor.name}} Details </h2>-->
+    <h2 class = "title"> {{vendor.name}} Details </h2>
     <div class = "section-area">
-        <h3 class = "section-title">Details</h3>
-        <div class ="section-inset">
-            <p> {{vendor.phoneNumber}}</p>
+
+
+        <h3 class = "section-title">Icon</h3>
+    	<div class ="section-inset vendor-details-inset">
+    		<img src = "/res/images/{{vendor.image}}" class = "vendor-image">
+    	</div>
+
+        <h3 class = "section-title">Contract</h3>
+        <div class ="section-inset vendor-details-inset">
+	        <div class = "label-value">
+	           	<h3 class = "label">Contract Number</h3>
+	            <p class = "value"> {{vendor.contractNumber}}</p>
+	       	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Start Date</h3>
+	            <p class = "value"> {{vendor.contractStart}}</p>
+        	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">End Date</h3>
+	            <p class = "value">{{vendor.contractEnd}}</p>
+        	</div>
         </div>
+
+        <h3 class = "section-title">Contact Information</h3>
+
+        <div class ="section-inset vendor-details-inset">
+	        <div class = "label-value">
+	           	<h3 class = "label">Point of Contact</h3>
+	            <p class = "value"> {{vendor.pointOfContact}}</p>
+	       	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Phone Number</h3>
+	            <p class = "value"> {{vendor.phoneNumber}}</p>
+        	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Address</h3>
+	            <pre><p class = "value">{{vendor.address}}</p></pre>
+        	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Email</h3>
+	            <p class = "value"> {{vendor.email}}</p>
+        	</div>
+        	<div class = "label-value">
+	           	<h3 class = "label">Website</h3>
+	            <p class = "value"> <a href="http://{{vendor.website}}">{{vendor.website}}</a></p>
+        	</div>
+        </div>
+    </div>
     </div>
 </div>

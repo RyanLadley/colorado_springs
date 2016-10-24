@@ -47,7 +47,7 @@
             </tr>
         </table>
     </div>
-    <button class="to-button" ng-click = "transactionsDisplay();setSelected();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    <button class="to-button transition-button" ng-click = "transactionsDisplay();setSelected();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
 <div class = "transactions-to" ng-style = "toPos">
@@ -63,5 +63,5 @@
     </table>
     <h2  class = "tab-title">To</h2>
     <transaction-entry transaction = "selectedTransaction"></transaction-entry>
-    <button class="from-button" ng-click = "transactionsDisplay()"><i class="fa fa-chevron-left" aria-hidden="true"></i>From</button>
+    <button class="from-button transition-button" ng-click = "transactionsDisplay()"><i class="fa fa-chevron-left" aria-hidden="true"></i>From</button>
 </div>

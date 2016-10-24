@@ -1,7 +1,54 @@
+$vendor-area-width: 450px;
+
+
+.vendor-area{
+	background-color: $dull-yellow;	
+	width:$vendor-area-width;
+	margin-left: 50px;
+
+	.vendor-image{
+		width: $vendor-area-width - 150px;
+		display: block;
+		margin: 20px auto;
+	}
+
+	.label{
+        float: left;
+    }
+
+    .value{
+        float: right;
+        margin-left: 8px;
+    }
+
+    .label-value{
+        width: $vendor-area-width - 50px;
+        margin: 0px 10px;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+}
+.vendor-details-inset{
+	padding: 10px;
+	p, h3{
+		text-align: right;
+		margin: 0;
+	}
+}
+
 .vendor-table-header{
 	background-color: $dull-yellow;
 }
 
-.vendor-area{
-	background-color: $dull-yellow;	
+#vendor-table{
+	.row{
+		&:hover{
+			background: #FFFDE8;
+		}
+	}
+
+	.total{
+		background-color: $menu-black;
+        color: white;
+	}
 }

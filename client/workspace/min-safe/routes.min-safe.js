@@ -67,6 +67,18 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/reports/monthly-breakdown.index.html'
         }
     )
+    .when("/profile/:userId",
+        {
+            controller: 'profileController',
+            templateUrl: '/res/site/user/profile.index.html'
+        }
+    )
+    .when("/admin/:userId",
+        {
+            controller: 'adminController',
+            templateUrl: '/res/site/user/admin.index.html'
+        }
+    )
     .otherwise("/",
     {
         redirectTo: "/"

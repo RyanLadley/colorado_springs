@@ -1,0 +1,69 @@
+<form>
+    <div class = "label-input">
+        <label>Name</label>
+        <input type="text" ng-mogel="vendor.name" placeholder="Vendor Name">
+    </div>
+    <div class = "label-input">
+        <label>Point of Contact</label>
+        <input type="text" ng-mogel= "vendor.poc" placeholder="Point of Contact">
+    </div>
+    <div class = "label-input">
+        <label>Phone Number</label>
+        <input type="tel" ng-mogel="vendor.phoneNumber" placeholder="Phone Number">
+    </div>
+    <div class = "label-input">
+        <label>Email</label>
+        <input type="email" ng-mogele="vendor.email" placeholder="Email">
+    </div>
+    <div class = "label-input">
+        <label>Website</label>
+        <input type="text" ng-mogel="vendor.website" placeholder="Website">
+    </div>
+
+    <div class = "label-input">
+        <label>Icon</label>
+        <button>Upload Image</button>
+    </div>
+
+    <div class = "address">
+        <div class = "label-input">
+            <label>Address</label>
+            <input type="text" ng-mogel="vendor.address" placeholder="Address">
+        </div>
+        <div class = "label-input">
+            <label>City</label>
+            <input type="text" ng-mogel= "vendor.city" placeholder="City">
+        </div>
+        <div class = "label-input">
+            <label>State</label>
+            <input type="text" ng-mogel="vendor.state" placeholder="State">
+        </div>
+        <div class = "label-input">
+            <label>Zip-Code</label>
+            <input type="text" ng-mogel="vendor.zip" placeholder="Zip Code">
+        </div>
+    </div>
+
+    <div class = "label-input">
+        <label>Contract Number</label>
+        <input type="text" ng-mogel="vendor.contractNumber" placeholder="Contract Number">
+    </div>
+    <div class = "label-input date-input">
+        <label>Contract Start Date</label>
+        <div class = "input-div"s>
+            <button ng-click = "displayStartDate = !displayStartDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
+            <input type="text" placeholder="DD/MM/YYYY" ng-model = "vendor.contractStart">
+        </div>
+        <date-picker class = "date-picker" ng-show = "displayStartDate" ng-model = "vendor.contractStart"></date-picker>
+    </div>
+    <div class = "label-input date-input">
+        <label>Contract End Date</label>
+        <div class = "input-div"s>
+            <button ng-click = "displayEndDate = !displayEndDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
+            <input type="text" placeholder="DD/MM/YYYY" ng-model = "vendor.contractEnd">
+        </div>
+        <date-picker class = "date-picker" ng-show = "displayEndDate" ng-model = "vendor.contractEnd"></date-picker>
+    </div>
+    <br>
+    <button type="submit" class = "entry-submit">Submit</button>
+</form>
