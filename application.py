@@ -9,6 +9,11 @@ application = Flask(__name__)
 from client import client_side
 import client.routes
 
+from api.core.workflow import workflow
+import api.core.workflow.account_workflow
+
+application.register_blueprint(workflow, url_prefix='/api')
+
 application.register_blueprint(client_side)
 
 @application.route('/image/project/<path:resource_path>')

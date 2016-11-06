@@ -19,38 +19,38 @@
             <th>Expedetures to Date</th>
             <th>Remaining Balance</th>
         </tr>
-
-        <tbody  ng-repeat = "account in accounts">
-            <tr ng-click = "account.showSubaccount = !account.showSubaccount" class = "account-row account-{{acount.accountNo}}">
-                <td class = "account"> <a href = "/overview/account/1" >{{account.accountNo}}</a></td>
-                <td class = "description"> {{account.description}}</td>
-                <td class = "currency"> {{account.yearBudget | currency}}</td>
-                <td class = "currency"> {{account.miscTransfer | currency}}</td>
-                <td class = "currency"> {{account.totalBudget | currency}}</td>
-                <td class = "currency"> {{account.expendToDate | currency}}</td>
-                <td class = "currency"> {{account.remainingBalance | currency}}</td>
-            </tr>
-            <tr ng-repeat-start = "subaccount in account.subaccounts" class = "subaccount-row account-{{subacount.accountNo}}"
-                ng-show = "account.showSubaccount" ng-click = "subaccount.showSubaccount = !subaccount.showSubaccount">
-                <td class = "account sub-account"> <a href = "/overview/account/1">{{subaccount.accountNo}}</a></td>
-                <td class = "description"> {{subaccount.description}}</td>
-                <td></td>
-                <td class = "currency"> {{subaccount.miscTransfer | currency}}</td>
-                <td class = "currency"> {{subaccount.totalBudget | currency}}</td>
-                <td class = "currency"> {{subaccount.expendToDate | currency}}</td>
-                <td class = "currency"> {{subaccount.remainingBalance | currency}}</td>
-            </tr>
-            <tr  ng-repeat-end ng-repeat = "sub in subaccount.subs" class = "sub-row account-{{sub.accountNo}}"
-                ng-show = "subaccount.showSubaccount && account.showSubaccount">
-                <td class = "account sub"><a href = "/overview/account/1">{{sub.accountNo}}</a></td>
-                <td class = "description"> {{sub.description}}</td>
-                <td> </td>
-                <td class = "currency"> {{sub.miscTransfer | currency}}</td>
-                <td class = "currency"> {{sub.totalBudget | currency}}</td>
-                <td class = "currency"> {{sub.expendToDate | currency}}</td>
-                <td class = "currency"> {{sub.remainingBalance | currency}}</td>
-            </tr>
-        </tbody>
+        <tr ng-repeat-start = "account in accounts"ng-click = "account.showSubaccount = !account.showSubaccount" class = "account-row account-{{acount.accountNo}}">
+            <td class = "account"> <a href = "/overview/account/1" >{{account.account_no}}</a></td>
+            <td class = "description"> {{account.description}}</td>
+            <td class = "currency"> {{account.annual_budget | currency}}</td>
+            <td class = "currency"> {{account.transfer | currency}}</td>
+            <td class = "currency"> {{account.total_budget | currency}}</td>
+            <td class = "currency"> {{account.expendetures | currency}}</td>
+            <td class = "currency"> {{account.remaining | currency}}</td>
+        </tr>
+        <tr ng-repeat-start = "sub_account in account.sub_accounts" class = "subaccount-row account-{{subacount.accountNo}}"
+            ng-show = "account.showSubaccount" ng-click = "sub_account.showSubaccount = !sub_account.showSubaccount">
+            <td class = "account sub-account"> <a href = "/overview/account/1" >{{sub_account.account_no}}-{{sub_account.sub_no}}</a></td>
+            <td class = "description"> {{sub_account.description}}</td>
+            <td class = "currency"> {{sub_account.annual_budget | currency}}</td>
+            <td class = "currency"> {{sub_account.transfer | currency}}</td>
+            <td class = "currency"> {{sub_account.total_budget | currency}}</td>
+            <td class = "currency"> {{sub_account.expendetures | currency}}</td>
+            <td class = "currency"> {{sub_account.remaining | currency}}</td>
+        </tr>
+        <tr ng-repeat-start = "shred_out in sub_account.sub_accounts" class = "sub-row account-{{sub.accountNo}}"
+            ng-show = "sub_account.showSubaccount && account.showSubaccount">
+            <td class = "account sub"> <a href = "/overview/account/1" >{{shred_out.account_no}}-{{sub_account.sub_no}}-{{shred_out.shred_no}}</a></td>
+            <td class = "description"> {{shred_out.description}}</td>
+            <td class = "currency"> {{shred_out.annual_budget | currency}}</td>
+            <td class = "currency"> {{shred_out.transfer | currency}}</td>
+            <td class = "currency"> {{shred_out.total_budget | currency}}</td>
+            <td class = "currency"> {{shred_out.expendetures | currency}}</td>
+            <td class = "currency"> {{shred_out.remaining | currency}}</td>
+        </tr>
+        <tr ng-repeat-end ng-hide="true"></tr> <!--Ends Shred Out Loop -->
+        <tr ng-repeat-end ng-hide="true"></tr> <!--Ends Sub Account Loop -->
+        <tr ng-repeat-end ng-hide="true"></tr> <!--Ends Account Loop -->
     </table>
 </div>
 
@@ -59,12 +59,12 @@
     <div class = "section-area">
         <h3 class = "section-title">Accounts</h3>
         <div class ="section-inset">
-            <div ng-repeat = "account in accounts" >
-                <a class = "account-refrence" href = "/overview/account/1" title = "{{account.description}}">{{account.accountNo}}</a>
-                <div ng-repeat = "subaccount in account" >
-                    <a class = "account-refrence" href = "/overview/account/1" title = "{{subaccount.description}}">{{subaccount.accountNo}}</a>
-                    <div ng-repeat = "sub in subaccount" >
-                        <a class = "account-refrence" href = "/overview/account/1" title = "{{sub.description}}">{{sub.accountNo}}</a>
+            <div ng-repeat = "account in accounts track by $index" >
+                <a class = "account-refrence" href = "/overview/account/1" title = "{{account.description}}">{{account.account_no}}</a>
+                <div ng-repeat = "sub_account in account.sub_accounts track by $index" >
+                    <a class = "account-refrence" href = "/overview/account/1" title = "{{subaccount.description}}">{{sub_account.account_no}}-{{sub_account.sub_no}}</a>
+                    <div ng-repeat = "shred_out in sub_account.sub_accounts  track by $index" >
+                        <a class = "account-refrence" href = "/overview/account/1" title = "{{sub.description}}">{{shred_out.account_no}}-{{sub_account.sub_no}}-{{shred_out.shred_no}} </a>
                     </div>
                 </div>
             </div>
