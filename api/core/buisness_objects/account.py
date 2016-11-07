@@ -6,7 +6,7 @@ class Account:
     def map_from_form(form):
         account = Account()
 
-        account.id = form.get('account_id')
+        account.account_id = form.get('account_id')
         account.account_no = form.get('account_no')
         account.sub_no = form.get('sub_no')
         account.shred_no = form.get('shred_no')

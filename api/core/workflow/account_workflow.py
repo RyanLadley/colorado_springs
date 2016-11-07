@@ -6,6 +6,7 @@ import api.DAL.data_context.accounts.accounts_select as accounts_select
 from api.core.buisness_objects.account import Account
 
 import api.core.response as response
+import api.core.utilities as utilities
 
 import json
 
@@ -14,19 +15,16 @@ def get_accounts_overview():
 
     accounts = accounts_select.accounts_overview()
 
-    serialized_accounts = serialize_array(accounts)
+    serialized_accounts = utilities.serialize_array(accounts)
 
-    print(serialized_accounts)
     return response.success(serialized_accounts)
 
 
-def serialize_array(array):
+@workflow.route('/accounts/numbers', methods = ['POST'])
+def get_account_numbers():
 
-    '''Serializes all objects within an array, and returns the value'''
-    #TODO Consider moving this to a diffrent file
+    accounts = accounts_select.account_numbers()
 
-    serialized_array = []
-    for item in array:
-        serialized_array.append(item.serialize())
+    serialized_accounts = utilities.serialize_array(accounts)
 
-    return serialized_array
+    return response.success(serialized_accounts)

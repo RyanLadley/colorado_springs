@@ -1,8 +1,8 @@
 {
-  "host": "REPLACE_ME",
-  "user": "REPLACE_ME",
-  "password": "REPLACE_ME",
-  "database": "REPLACE_ME",
+  "host": "localhost",
+  "user": "root",
+  "password": "popper3",
+  "database": "colorado_springs",
   "port" : "3360"
 }
 

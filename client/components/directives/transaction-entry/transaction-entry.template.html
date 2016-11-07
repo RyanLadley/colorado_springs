@@ -1,49 +1,52 @@
 <form class = "entry-form">
     <div class = "label-input">
         <label>Account Code</label>
-        <select ng-model = "transaction.accountNo">
+        <select ng-model = "selectedAccount" ng-change = "accountSelected(selectedAccount)"
+                ng-options = "account.account_no for account in accounts">
             <option value="" disabled selected hidden>Select an Account</option>
-            <option>5221000</option>
-            <option>5222000</option>
-            <option>5223000</option>
-            <option>5224000</option>
-            <option>5225000</option>
-            <option>5226000</option>
         </select>
     </div>
 
-    <div class = "label-input">
+    <div class = "label-input" ng-show = "subaccounts.length" >
         <label>Sub-Account Code</label>
-        <select ng-model = "transaction.subaccountNo">
+        <select ng-model = "selectedSubaccount" ng-change = "subAccountSelected(selectedSubaccount)" 
+                ng-options ="[subaccount.account_no, subaccount.sub_no].join('-') for subaccount in subaccounts" >
             <option value="" disabled selected hidden>Select a Sub-Account</option>
-            <option>5221000-1</option>
-            <option>5221000-2</option>
-            <option>5221000-3</option>
+        </select>
+    </div>
+
+    <div class = "label-input" ng-show = "shredouts.length" >
+        <label>Shred-Out-Account Code</label>
+        <select ng-model = "selectedShred" ng-change = "shredoutSelected(selectedShred)"
+                ng-options ="[shred.account_no, shred.sub_no, shred.shred_no].join('-') for shred in shredouts">
+            <option value="" disabled selected hidden>Select a Shred Out</option>
         </select>
     </div>
 
     <div class = "label-input">
         <label>Vendor</label>
-        <select ng-model = "transaction.vendor">
+        <select ng-model = "transaction.vendor_id" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors"  required>
             <option value="" disabled selected hidden>Select a Vendor</option>
-            <option>Granger</option>
-            <option>Mama Bear's Honey Supply</option>
-            <option>Three Dog's Bark</option>
-            <option>Lama's Light Barn</option>
-            <option>Fans Fans Fans</option>
         </select>
     </div>
 
     <div class = "label-input">
         <label>Invoice Number</label>
-        <input type = "text" placeholder = "Invoice Number" class = "invoice-textfield" ng-model = "transaction.invoiceNum">
+        <input type = "text" placeholder = "Invoice Number" class = "invoice-textfield" ng-model = "transaction.invoiceNo"  required>
+    </div>
+
+    <div class = "label-input">
+        <label>Transaction Type</label>
+        <select ng-model = "transaction.transactionTypeId" ng-options = "type.transaction_type_id as type.transaction_type for type in types"  required>
+            <option value="" disabled selected hidden>Select a Type</option>
+        </select>
     </div>
 
     <div class = "label-input date-input">
         <label>Date Paid</label>
         <div class = "input-div">
             <button ng-click = "displayPaidDate = !displayPaidDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.datePaid">
+            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.datePaid" disabled title = "Select Date From Calendar">
         </div>
         <date-picker class = "date-picker" ng-show = "displayPaidDate" ng-model = "transaction.datePaid"></date-picker>
     </div>
@@ -52,14 +55,14 @@
         <label>Invoice Date</label>
         <div class = "input-div"s>
             <button ng-click = "displayInvoiceDate = !displayInvoiceDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.invoiceDate">
+            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.invoiceDate" disabled title = "Select Date From Calendar" required>
         </div>
         <date-picker class = "date-picker" ng-show = "displayInvoiceDate" ng-model = "transaction.invoiceDate"></date-picker>
     </div>
 
     <div class = "label-input">
         <label>Total Expensed</label>
-        <input type="Number" value ="0.00" step="0.01" ng-model = "transaction.expensed">
+        <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transaction.expense" required>
     </div>
 
     <div class = "label-input input-row">
@@ -68,5 +71,5 @@
     </div>
 
 
-    <button class = "entry-submit">Submit</button>
+    <button class = "entry-submit" type = "submit" ng-click = "submitTransaction()">Submit</button>
 </form>

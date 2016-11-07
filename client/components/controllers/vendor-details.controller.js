@@ -1,19 +1,8 @@
-app.controller('vendorDetailsController', function($scope, $location){
+app.controller('vendorDetailsController', function($scope, $location, $routeParams, postRequestService){
   
-    $scope.vendor = {
-        name: "Grainger",
-        contractNo: "TS001",
-        pointOfContact: "Greg Roberts",
-        address: "123 North Something Drive\nColorado Springs, Colorado, 80918",
-        phoneNumber: "719-555-9876",
-        email: "contact@grainger.com",
-        image: "grainger.png",
-        website: "www.grainger.com",
-
-        contractNumber: "TS0012",
-        contractStart: "10/14/2012",
-        contractEnd: "1/17/2017"
-    }
+    postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
+        $scope.vendor = success.data.response;
+    })
 
     $scope.transactions = [
         {

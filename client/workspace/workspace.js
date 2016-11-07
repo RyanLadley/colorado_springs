@@ -545,230 +545,7 @@ app.controller('overviewController', ['$scope', '$location', 'postRequestService
 
     postRequestService.request('/api/accounts/overview').then(function(success){
         $scope.accounts = success.data.response;
-        console.log($scope.accounts)
     })
-    
-    /*$scope.accounts = [
-        {
-            accountNo: "5221000",
-            description: "In House Resurfacing",
-            yearBudget: 2160938.00,
-            miscTransfer: "",
-            totalBudget: 2160938.00,
-            expendToDate: 0.00,
-            remainingBalance: 2160938.00,
-
-            subaccounts: [
-                {
-                    accountNo: "5221000-1",
-                    description: "Maintainence Paving",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                },
-                {
-                    accountNo: "5221000-2",
-                    description: "Structural Digout",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[
-                        {
-                            accountNo: "5221000-2-1",
-                            description: "North Distrt Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        },
-                        {
-                            accountNo: "5221000-2-2",
-                            description: "South Disrict Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        },
-                        {
-                            accountNo: "5221000-2-3",
-                            description: "East District Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        },
-                        {
-                            accountNo: "5221000-2-4",
-                            description: "West District Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        }
-
-                    ]
-                }
-
-            ]
-        },
-        {
-            accountNo: "5222000",
-            description: "Pothole Patching Repair",
-            yearBudget: 2160938.00,
-            miscTransfer: "",
-            totalBudget: 2160938.00,
-            expendToDate: 0.00,
-            remainingBalance: 2160938.00,
-
-            subaccounts: [
-                {
-                    accountNo: "5222000-1",
-                    description: "Asphalt Materials",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                },
-                {
-                    accountNo: "5222000-2",
-                    description: "Propane",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                },
-                {
-                    accountNo: "5222000-3",
-                    description: "Shovels/Rake/Etc",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                }
-
-            ]
-        },
-        {
-            accountNo: "5223000",
-            description: "In House Resurfacing",
-            yearBudget: 2160938.00,
-            miscTransfer: "",
-            totalBudget: 2160938.00,
-            expendToDate: 0.00,
-            remainingBalance: 2160938.00,
-
-            subaccounts: [
-                {
-                    accountNo: "5223000-1",
-                    description: "Maintainence Paving",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                },
-                {
-                    accountNo: "5223000-2",
-                    description: "Structural Digout",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[
-                        {
-                            accountNo: "5223000-2-1",
-                            description: "Norh District Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        },
-                        {
-                            accountNo: "5223000-2-2",
-                            description: "South District Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        },
-                        {
-                            accountNo: "5223000-2-4",
-                            description: "Wes District Digout",
-                            yearBudget: "",
-                            miscTransfer: "",
-                            totalBudget: 0.00,
-                            expendToDate: 0.00,
-                            remainingBalance: 0.00
-                        }
-
-                    ]
-                }
-
-            ]
-        },
-        {
-            accountNo: "5224000",
-            description: "Pothole Patching Repair",
-            yearBudget: 2160938.00,
-            miscTransfer: "",
-            totalBudget: 2160938.00,
-            expendToDate: 0.00,
-            remainingBalance: 2160938.00,
-
-            subaccounts: [
-                {
-                    accountNo: "5224000-1",
-                    description: "Asphalt Materials",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                },
-                {
-                    accountNo: "5224000-2",
-                    description: "Propane",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                },
-                {
-                    accountNo: "5224000-3",
-                    description: "Shovels/Rake/Etc",
-                    yearBudget: "",
-                    miscTransfer: "",
-                    totalBudget: 0.00,
-                    expendToDate: 0.00,
-                    remainingBalance: 0.00,
-                    subs:[]
-                }
-
-            ]
-        }
-    ]; */
 
 }]);
 app.controller('pendingAdjustmentController', ['$scope', '$location', function($scope, $location){
@@ -1083,25 +860,64 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', functi
         }
     ];
 }]);
-app.controller('transactionEntryController', ['$scope', '$location', function($scope, $location){
+app.controller('transactionEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
-}]);
-app.controller('vendorDetailsController', ['$scope', '$location', function($scope, $location){
-  
-    $scope.vendor = {
-        name: "Grainger",
-        contractNo: "TS001",
-        pointOfContact: "Greg Roberts",
-        address: "123 North Something Drive\nColorado Springs, Colorado, 80918",
-        phoneNumber: "719-555-9876",
-        email: "contact@grainger.com",
-        image: "grainger.png",
-        website: "www.grainger.com",
+    postRequestService.request('/api/accounts/numbers').then(function(success){
+        $scope.accounts = success.data.response;
+        console.log($scope.accounts)
+    })
 
-        contractNumber: "TS0012",
-        contractStart: "10/14/2012",
-        contractEnd: "1/17/2017"
+    $scope.transaction = {}
+
+    $scope.accountSelected = function(account){
+        $scope.subaccounts = []
+        $scope.shredouts = []
+        $scope.transaction.accountId = null
+
+        if(account.sub_accounts.length > 0){
+            $scope.subaccounts = account.sub_accounts
+        } 
     }
+
+    $scope.subAccountSelected = function(subAccount){
+        $scope.shredouts = []
+        if(subAccount){ 
+            if(subAccount.sub_accounts.length > 0){
+                $scope.transaction.accountId = null
+                $scope.shredouts = subAccount.sub_accounts
+            }
+            else{
+                $scope.transaction.accountId = subAccount.account_id
+            }
+        }
+    }
+
+    $scope.shredoutSelected = function(shredout){
+        if(shredout){
+            $scope.transaction.accountId = shredout.account_id
+        }
+    }
+
+    postRequestService.request('/api/vendor/listing').then(function(success){
+        $scope.vendors = success.data.response;
+    })
+
+    postRequestService.request('/api/transaction/types').then(function(success){
+        $scope.types = success.data.response;
+    })
+
+    $scope.submitTransaction = function(){
+        postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
+            
+        })
+    }
+
+}]);
+app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
+  
+    postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
+        $scope.vendor = success.data.response;
+    })
 
     $scope.transactions = [
         {
@@ -1194,147 +1010,19 @@ app.controller('vendorDetailsController', ['$scope', '$location', function($scop
         }
     ]
 }]);
-app.controller('vendorEntryController', ['$scope', '$location', function($scope, $location){
-  
+app.controller('vendorEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+
+    $scope.submitVendor = function(){
+        postRequestService.request('/api/vendor/new', $scope.vendor).then(function(request){
+            //$location.url('/')   
+        });
+    }
 }]);
-app.controller('vendorsController', ['$scope', '$location', function($scope, $location){
+app.controller('vendorsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
   
-    $scope.vendors = [
-    	{
-    		id: "1",
-    		name: "Grainger",
-    		description: "I need to figure out what to put here",
-    		image: "grainger.png"
-    	},
-    	{
-    		id: "2",
-    		name: "Concrete Co",
-    		description: "I need to figure out what to put here",
-    		image: "concrete-co.png"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	},
-    	{
-    		id: "3",
-    		name: "AAA Building Supply",
-    		description: "I need to figure out what to put here",
-    		image: "aaa-supply.jpg"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	},
-    	{
-    		id: "2",
-    		name: "Concrete Co",
-    		description: "I need to figure out what to put here",
-    		image: "concrete-co.png"
-    	},
-    	{
-    		id: "1",
-    		name: "Grainger",
-    		description: "I need to figure out what to put here",
-    		image: "grainger.png"
-    	},
-    	{
-    		id: "3",
-    		name: "AAA Building Supply",
-    		description: "I need to figure out what to put here",
-    		image: "aaa-supply.jpg"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	},
-    	{
-    		id: "1",
-    		name: "Grainger",
-    		description: "I need to figure out what to put here",
-    		image: "grainger.png"
-    	},
-    	{
-    		id: "2",
-    		name: "Concrete Co",
-    		description: "I need to figure out what to put here",
-    		image: "concrete-co.png"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	},
-    	{
-    		id: "1",
-    		name: "Grainger",
-    		description: "I need to figure out what to put here",
-    		image: "grainger.png"
-    	},
-    	{
-    		id: "3",
-    		name: "AAA Building Supply",
-    		description: "I need to figure out what to put here",
-    		image: "aaa-supply.jpg"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	},
-    	{
-    		id: "1",
-    		name: "Grainger",
-    		description: "I need to figure out what to put here",
-    		image: "grainger.png"
-    	},
-    	{
-    		id: "2",
-    		name: "Concrete Co",
-    		description: "I need to figure out what to put here",
-    		image: "concrete-co.png"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	},
-    	{
-    		id: "1",
-    		name: "Grainger",
-    		description: "I need to figure out what to put here",
-    		image: "grainger.png"
-    	},
-    	{
-    		id: "3",
-    		name: "AAA Building Supply",
-    		description: "I need to figure out what to put here",
-    		image: "aaa-supply.jpg"
-    	},
-    	{
-    		id: "4",
-    		name: "Your Logo",
-    		description: "I need to figure out what to put here",
-    		image: "your-logo.jpg"
-    	}
-
-
-    ];
+    postRequestService.request('/api/vendor/listing').then(function(success){
+        $scope.vendors = success.data.response;
+    })
 
 }]);;app.directive('pendingAdjustment', function() {
     return{
@@ -1350,6 +1038,26 @@ app.directive('transactionAdjustment', function() {
         templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
     };
 })
+app.directive('imageUpload', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            image: '='
+        },
+
+        link: function (scope, element, attrs) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                scope.image = event.target.result;
+                scope.$apply();
+            }
+
+            element.on('change', function() {
+                reader.readAsDataURL(element[0].files[0]);
+            });
+        }
+    };
+});
 app.directive('sidebarInfo', function() {
     return{
         restrict: 'E',

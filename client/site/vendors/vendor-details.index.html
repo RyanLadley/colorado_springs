@@ -36,22 +36,22 @@
 
         <h3 class = "section-title">Icon</h3>
     	<div class ="section-inset vendor-details-inset">
-    		<img src = "/res/images/{{vendor.image}}" class = "vendor-image">
+    		<img src = "/image/vendors/{{vendor.image}}" class = "vendor-image">
     	</div>
 
         <h3 class = "section-title">Contract</h3>
         <div class ="section-inset vendor-details-inset">
 	        <div class = "label-value">
 	           	<h3 class = "label">Contract Number</h3>
-	            <p class = "value"> {{vendor.contractNumber}}</p>
+	            <p class = "value"> {{vendor.contract_no}}</p>
 	       	</div>
         	<div class = "label-value">
 	           	<h3 class = "label">Start Date</h3>
-	            <p class = "value"> {{vendor.contractStart}}</p>
+	            <p class = "value"> {{vendor.contract_start}}</p>
         	</div>
         	<div class = "label-value">
 	           	<h3 class = "label">End Date</h3>
-	            <p class = "value">{{vendor.contractEnd}}</p>
+	            <p class = "value">{{vendor.contract_end}}</p>
         	</div>
         </div>
 
@@ -60,15 +60,15 @@
         <div class ="section-inset vendor-details-inset">
 	        <div class = "label-value">
 	           	<h3 class = "label">Point of Contact</h3>
-	            <p class = "value"> {{vendor.pointOfContact}}</p>
+	            <p class = "value"> {{vendor.point_of_contact}}</p>
 	       	</div>
         	<div class = "label-value">
 	           	<h3 class = "label">Phone Number</h3>
-	            <p class = "value"> {{vendor.phoneNumber}}</p>
+	            <p class = "value"> {{vendor.phone_no}}</p>
         	</div>
         	<div class = "label-value">
 	           	<h3 class = "label">Address</h3>
-	            <pre><p class = "value">{{vendor.address}}</p></pre>
+	            <p class = "value">{{vendor.address}}<br>{{vendor.city}}, {{vendor.state}}, {{vendor.zip}}</p>
         	</div>
         	<div class = "label-value">
 	           	<h3 class = "label">Email</h3>
@@ -76,7 +76,7 @@
         	</div>
         	<div class = "label-value">
 	           	<h3 class = "label">Website</h3>
-	            <p class = "value"> <a href="http://{{vendor.website}}">{{vendor.website}}</a></p>
+	            <p class = "value"> <a href="http://{{vendor.website}}" target="_blank">{{vendor.website}}</a></p>
         	</div>
         </div>
     </div>

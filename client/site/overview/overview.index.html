@@ -62,9 +62,9 @@
             <div ng-repeat = "account in accounts track by $index" >
                 <a class = "account-refrence" href = "/overview/account/1" title = "{{account.description}}">{{account.account_no}}</a>
                 <div ng-repeat = "sub_account in account.sub_accounts track by $index" >
-                    <a class = "account-refrence" href = "/overview/account/1" title = "{{subaccount.description}}">{{sub_account.account_no}}-{{sub_account.sub_no}}</a>
+                    <a class = "account-refrence" href = "/overview/account/1" title = "{{sub_account.description}}">{{sub_account.account_no}}-{{sub_account.sub_no}}</a>
                     <div ng-repeat = "shred_out in sub_account.sub_accounts  track by $index" >
-                        <a class = "account-refrence" href = "/overview/account/1" title = "{{sub.description}}">{{shred_out.account_no}}-{{sub_account.sub_no}}-{{shred_out.shred_no}} </a>
+                        <a class = "account-refrence" href = "/overview/account/1" title = "{{shred_out.description}}">{{shred_out.account_no}}-{{sub_account.sub_no}}-{{shred_out.shred_no}} </a>
                     </div>
                 </div>
             </div>
