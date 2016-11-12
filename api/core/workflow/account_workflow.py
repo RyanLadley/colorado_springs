@@ -28,3 +28,10 @@ def get_account_numbers():
     serialized_accounts = utilities.serialize_array(accounts)
 
     return response.success(serialized_accounts)
+
+@workflow.route('/accounts/details/<account_id>', methods = ['POST'])
+def get_account_details(account_id):
+
+    account = accounts_select.account_details(account_id)
+
+    return response.success(account.serialize())

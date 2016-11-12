@@ -2,7 +2,7 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
 
     $scope.submitVendor = function(){
         postRequestService.request('/api/vendor/new', $scope.vendor).then(function(request){
-            //$location.url('/')   
+            $location.url('/')   
         });
     }
 });

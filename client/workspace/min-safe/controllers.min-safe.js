@@ -1,81 +1,48 @@
-app.controller('accountController', ['$scope', '$location', function($scope, $location){
+app.controller('accountController', ['$scope', '$location', '$routeParams', 'postRequestService', 'monthsService', function($scope, $location, $routeParams, postRequestService, monthsService){
   
+    postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
+        $scope.account = success.data.response;
+        $scope.accountName = generateAccountName();
+        console.log($scope.account)
+        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures)
 
-    $scope.transactions = [
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "This is a short description",
-            expensed: 100
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 9358
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "",
-            expensed: 100
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "This on will be a medium one. Not to long, or short.",
-            expensed: 9358
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "This is a short description",
-            expensed: 135.23
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 2329358.87
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you. Lool this is longer than the other two!! Wow, I wonder.",
-            expensed: 56983.32
+        $scope.selectedMonth = d.getMonth()
+        $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+        calculateTotal()
+
+    })
+
+    var generateAccountName = function(){
+        if($scope.account.shred_no != "None"){
+            return [$scope.account.account_no, $scope.account.sub_no, $scope.account.shred_no].join('-')
         }
-    ];
+        else if($scope.account.sub_no != "None"){
+            return [$scope.account.account_no, $scope.account.sub_no].join('-')
+        }
+        return $scope.account.account_no
+    }
 
+    var d = new Date()
+    $scope.months = monthsService.monthList();
+
+    $scope.$watch('selectedMonth', function(){
+        if ($scope.transactions){
+            console.log($scope.selectedMonth)
+            $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+            calculateTotal()
+        }
+    })
+
+    var calculateTotal = function(){
+   
+        total = 0
+
+        for (var i = 0; i < $scope.transactions.length; i++){
+            total += Number($scope.transactions[i].expense)
+        }
+
+        $scope.month_total = total
+    }
 }]);
 app.controller('adjustmentsController', ['$scope', '$location', function($scope, $location){
   
@@ -719,7 +686,6 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
 	
     postRequestService.request('/api/accounts/numbers').then(function(success){
         $scope.accounts = success.data.response;
-        console.log($scope.accounts)
     })
 
     $scope.transaction = {}
@@ -763,7 +729,7 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
 
     $scope.submitTransaction = function(){
         postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
-            
+           $location.url('/') 
         })
     }
 
@@ -869,7 +835,7 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
 
     $scope.submitVendor = function(){
         postRequestService.request('/api/vendor/new', $scope.vendor).then(function(request){
-            //$location.url('/')   
+            $location.url('/')   
         });
     }
 }]);

@@ -5,4 +5,8 @@ app.service('monthsService', function(){
     this.getMonth = function(n){
         return months[n]
     }
+
+    this.monthList = function(){
+        return months
+    }
 });

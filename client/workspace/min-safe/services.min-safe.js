@@ -5,6 +5,10 @@ app.service('monthsService', function(){
     this.getMonth = function(n){
         return months[n]
     }
+
+    this.monthList = function(){
+        return months
+    }
 });
 app.service('postRequestService', ['$http', '$cookies', function($http, $cookies){
 

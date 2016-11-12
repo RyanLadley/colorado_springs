@@ -2,7 +2,6 @@ app.controller('transactionEntryController', function($scope, $location, postReq
 	
     postRequestService.request('/api/accounts/numbers').then(function(success){
         $scope.accounts = success.data.response;
-        console.log($scope.accounts)
     })
 
     $scope.transaction = {}

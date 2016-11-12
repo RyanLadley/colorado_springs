@@ -4,6 +4,8 @@
   border-bottom: solid 1px black; }
   .page-title h1 {
     margin-bottom: 0; }
+  .page-title h2 {
+    margin: 0; }
 
 .table {
   width: 99%;

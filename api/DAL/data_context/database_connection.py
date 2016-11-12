@@ -24,6 +24,7 @@ class DatabaseConnection:
         connection_cursor = db.cursor(MySQLdb.cursors.DictCursor)
         try:
             query_result = self.function(cursor = connection_cursor, *args, **kwargs)
+            connection_cursor.close()
             db.commit();
 
         except MySQLdb.Error as exception:

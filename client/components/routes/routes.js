@@ -13,7 +13,7 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/overview/overview.index.html'
         }
     )
-    .when("/overview/account/1",
+    .when("/overview/account/:accountId",
         {
             controller: 'accountController',
             templateUrl: '/res/site/overview/account.index.html'
