@@ -10,6 +10,11 @@ def form_keys(form):
 
 def date_for_storage(date):
 
-    date_object = datetime.strptime(date, '%m/%d/%Y')
+    try:
+        date_object = datetime.strptime(date, '%m/%d/%Y')
 
-    return date_object.strftime('%Y-%m-%d')
+        return date_object.strftime('%Y-%m-%d')
+
+    except:
+
+        return date

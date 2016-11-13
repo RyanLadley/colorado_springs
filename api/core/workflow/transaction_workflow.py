@@ -5,8 +5,11 @@ import api.core.response as response
 import api.core.sanitize as sanitize
 import api.core.utilities as utilities
 
+import api.DAL.data_context.accounts.accounts_select as accounts_select
+
 import api.DAL.data_context.transactions.transaction_select as transaction_select
 import api.DAL.data_context.transactions.transaction_insert as transaction_insert
+import api.DAL.data_context.transactions.transaction_update as transaction_update
 
 
 from api.core.buisness_objects.transaction import Transaction
@@ -18,10 +21,33 @@ def new_transaction():
 
     transaction_form = json.loads(request.form['payload'])
     transaction_form = sanitize.form_keys(transaction_form)
-    print(transaction_form)
+
     transaction = Transaction.map_from_form(transaction_form)
 
     return transaction_insert.new_transaction(transaction)
+
+@workflow.route('/transaction/update', methods = ['POST'])
+def update_transaction():
+
+    transaction_form = json.loads(request.form['payload'])
+    transaction_form = sanitize.form_keys(transaction_form)
+
+    transaction = Transaction.map_from_form(transaction_form)
+
+    return transaction_update.update_transaction(transaction)
+
+
+@workflow.route('/transaction/account/<account_id>', methods = ['POST'])
+def get_account_transaction_by_month(account_id):
+
+    account = accounts_select.account_name(account_id)
+    
+    transactions = transaction_select.from_account_by_month(account)
+
+    account.attach_monthly_summary(transactions)
+
+    return response.success(account.serialize())
+
 
 @workflow.route('/transaction/types', methods = ['POST'])
 def get_transaction_types():

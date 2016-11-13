@@ -5,6 +5,7 @@ class Transaction:
     def map_from_form(form):
         transaction = Transaction()
 
+        transaction.transaction_id = form.get('transaction_id')
         transaction.account_id = form.get('account_id')
         transaction.vendor_id = form.get('vendor_id')
         transaction.vendor_name = form.get('vendor_name')

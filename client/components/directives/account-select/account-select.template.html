@@ -1,0 +1,23 @@
+<div class = "label-input">
+    <label>Account Code</label>
+    <select ng-model = "selectedAccount" ng-change = "asssignReturnId();displaySubaccounts(selectedAccount)"
+            ng-options = "account.account_no for account in accounts">
+        <option value="" disabled selected hidden>Select an Account</option>
+    </select>
+</div>
+
+<div class = "label-input" ng-show = "subaccounts.length" >
+    <label>Sub-Account Code</label>
+    <select ng-model = "selectedSubaccount" ng-change = "asssignReturnId();displayShredouts(selectedSubaccount)" 
+            ng-options ="[subaccount.account_no, subaccount.sub_no].join('-') for subaccount in subaccounts" >
+        <option value="" selected >No Sub-Account Selected</option>
+    </select>
+</div>
+
+<div class = "label-input" ng-show = "shredouts.length" >
+    <label>Shred-Out-Account Code</label>
+    <select ng-model = "selectedShred" ng-change = "asssignReturnId();"
+            ng-options ="[shred.account_no, shred.sub_no, shred.shred_no].join('-') for shred in shredouts">
+        <option value="" selected>No Shred-out Selected</option>
+    </select>
+</div>

@@ -32,9 +32,6 @@ CREATE TABLE `accounts` (
   `description` varchar(140) NOT NULL,
   `annual_budget` decimal(10,2) NOT NULL,
   `transfer` decimal(10,2) NOT NULL,
-  `total_budget` decimal(10,2) NOT NULL,
-  `expendetures` decimal(10,2) NOT NULL,
-  `remaining` decimal(10,2) NOT NULL,
   PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -45,7 +42,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,5221000,NULL,NULL,'In House Resurfacing',2160938.00,0.00,2160938.00,0.00,2160938.00),(2,5221000,1,NULL,'Maitenance Paving',0.00,0.00,0.00,0.00,0.00),(4,5221000,2,NULL,'Structural Digout',0.00,0.00,0.00,0.00,0.00),(5,5221000,2,1,'North District Digout',0.00,0.00,0.00,0.00,0.00),(6,5221000,2,2,'South District Digout',0.00,0.00,0.00,0.00,0.00),(7,5221000,2,3,'East District Digout',0.00,0.00,0.00,0.00,0.00),(8,5221000,2,4,'West District Digout',0.00,0.00,0.00,0.00,0.00),(9,5221000,3,NULL,'District Maintenance Paving',0.00,0.00,0.00,0.00,0.00),(10,5221000,3,1,'North Maintenence Paving',0.00,0.00,0.00,0.00,0.00),(11,5221000,3,2,'South Maintenance Paving',0.00,0.00,0.00,0.00,0.00),(12,5221000,3,3,'East Maintenance Paving',0.00,0.00,0.00,0.00,0.00),(13,5221000,3,4,'West Maintenance Paving',0.00,0.00,0.00,0.00,0.00),(14,5222000,NULL,NULL,'Pothole Patching Repair',0.00,0.00,0.00,0.00,0.00),(15,5222000,1,NULL,'Asphalt Repair',0.00,0.00,0.00,0.00,0.00),(16,5222000,2,NULL,'Propane',0.00,0.00,0.00,0.00,0.00),(17,5222000,3,NULL,'Shovels/Rakes/etc',0.00,0.00,0.00,0.00,0.00);
+INSERT INTO `accounts` VALUES (1,5221000,NULL,NULL,'In House Resurfacing',2160938.00,0.39),(2,5221000,1,NULL,'Maitenance Paving',0.00,0.00),(4,5221000,2,NULL,'Structural Digout',0.00,0.00),(5,5221000,2,1,'North District Digout',0.00,0.00),(6,5221000,2,2,'South District Digout',0.00,0.00),(7,5221000,2,3,'East District Digout',0.00,0.00),(8,5221000,2,4,'West District Digout',0.00,0.00),(9,5221000,3,NULL,'District Maintenance Paving',0.00,0.00),(10,5221000,3,1,'North Maintenence Paving',0.00,0.00),(11,5221000,3,2,'South Maintenance Paving',0.00,0.00),(12,5221000,3,3,'East Maintenance Paving',0.00,0.00),(13,5221000,3,4,'West Maintenance Paving',0.00,0.00),(14,5222000,NULL,NULL,'Pothole Patching Repair',0.00,0.00),(15,5222000,1,NULL,'Asphalt Repair',0.00,0.00),(16,5222000,2,NULL,'Propane',0.00,0.00),(17,5222000,3,NULL,'Shovels/Rakes/etc',0.00,0.00);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +100,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','Figure out why total expensed pops up with required text when Data button is pressed.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','I bought a thing','23',2);
+INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','Figure out why total expensed pops up with required text when Data button is pressed.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-11 19:07:38
+-- Dump completed on 2016-11-13 12:58:48

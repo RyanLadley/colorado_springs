@@ -3,6 +3,8 @@ from api.DAL.data_context.database_connection import DatabaseConnection
 from api.core.buisness_objects.account import Account
 from api.core.buisness_objects.transaction import Transaction
 
+import api.DAL.data_context.transactions.transaction_select as transaction_select
+
 import MySQLdb
 import json
 
@@ -17,9 +19,11 @@ def accounts_overview(cursor = None):
                         description, 
                         annual_budget, 
                         transfer, 
-                        total_budget, 
-                        expendetures, 
-                        remaining 
+                        (annual_budget + transfer) as total_budget, 
+                        (SELECT COALESCE(SUM(expense),0)
+                         FROM v_transactions
+                         WHERE account_no = accounts.account_no)  as expendetures, 
+                        CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining 
                 FROM accounts
                 WHERE sub_no IS NULL
                     AND shred_no IS NULL;""")
@@ -40,9 +44,12 @@ def accounts_overview(cursor = None):
                             description, 
                             annual_budget, 
                             transfer, 
-                            total_budget, 
-                            expendetures, 
-                            remaining 
+                            (annual_budget + transfer) as total_budget, 
+                            (SELECT COALESCE(SUM(expense),0)
+                             FROM v_transactions
+                             WHERE account_no = accounts.account_no
+                                   AND sub_no = accounts.sub_no)  as expendetures, 
+                            CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining 
                     FROM accounts
                     WHERE account_no = %(account_number)s
                         AND sub_no IS NOT NULL
@@ -65,9 +72,13 @@ def accounts_overview(cursor = None):
                                 description, 
                                 annual_budget, 
                                 transfer, 
-                                total_budget, 
-                                expendetures, 
-                                remaining 
+                                (annual_budget + transfer) as total_budget, 
+                                (SELECT COALESCE(SUM(expense),0)
+                                 FROM v_transactions
+                                 WHERE account_no = accounts.account_no
+                                   AND sub_no = accounts.sub_no
+                                   AND shred_no = accounts.shred_no)  as expendetures, 
+                                CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining 
                         FROM accounts
                         WHERE account_no = %(account_number)s
                             AND sub_no = %(sub_account_number)s
@@ -158,9 +169,19 @@ def account_details(account_id, cursor = None):
                         description, 
                         annual_budget, 
                         transfer, 
-                        total_budget, 
-                        expendetures, 
-                        remaining 
+                        (annual_budget + transfer) as total_budget, 
+                        (SELECT COALESCE(SUM(expense),0)
+                         FROM v_transactions
+                         WHERE account_no = accounts.account_no AND
+                            CASE WHEN accounts.sub_no IS NOT NULL
+                                 THEN sub_no = accounts.sub_no AND
+                                     CASE WHEN accounts.shred_no IS NOT NULL
+                                          THEN shred_no = accounts.shred_no
+                                          ELSE TRUE
+                                     END
+                                 ELSE True
+                            END)  as expendetures, 
+                        CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining
                 FROM accounts
                 WHERE account_id = %(account_id)s;""",
             {'account_id' : account_id})
@@ -168,21 +189,27 @@ def account_details(account_id, cursor = None):
     result = cursor.fetchone()
     account = Account.map_from_form(result)
     
-    monthly_summary = {}
+    
     #Execute sotred procedure to get all transactions assigned to this account and its sub/shred accounts
-    for month in range(1,13):
-        cursor.execute("""
-                    CALL get_account_transactions_by_month(%(account_no)s, %(sub_no)s,%(shred_no)s, %(month)s)""",
-                    {'account_no': account.account_no, 'sub_no': account.sub_no, 'shred_no': account.shred_no, 'month': month})
-
-        results = cursor.fetchall() or {}
-
-        transactions = []
-        for row in results:
-            transactions.append(Transaction.map_from_form(row))
-
-        monthly_summary[str(month-1)] = transactions
+    monthly_summary = transaction_select.from_account_by_month(account)
 
     account.attach_monthly_summary(monthly_summary)
 
+    return account
+
+@DatabaseConnection
+def account_name(account_id, cursor = None):
+
+    cursor.execute("""
+                SELECT  account_id, 
+                        account_no, 
+                        sub_no, 
+                        shred_no
+                FROM accounts
+                WHERE account_id = %(account_id)s;""",
+            {'account_id' : account_id})
+
+    result = cursor.fetchone()
+    account = Account.map_from_form(result)
+    
     return account

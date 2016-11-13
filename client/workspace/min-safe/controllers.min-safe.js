@@ -1,9 +1,95 @@
+app.controller('accountSelectController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
+    
+
+    postRequestService.request('/api/accounts/numbers').then(function(success){
+        $scope.accounts = success.data.response;
+    })
+
+
+    $scope.displaySubaccounts = function(account){
+        $scope.subaccounts = []
+        $scope.shredouts = []
+
+        if(account.sub_accounts.length > 0){
+            $scope.subaccounts = account.sub_accounts
+        } 
+    }
+
+    $scope.displayShredouts = function(subAccount){
+        $scope.shredouts = []
+        if(subAccount && subAccount.sub_accounts.length > 0){
+            $scope.shredouts = subAccount.sub_accounts
+        }
+    }
+
+    $scope.asssignReturnId = function(){
+        if($scope.selectedShred && $scope.selectedShred.account_id){
+            $scope.accountId = $scope.selectedShred.account_id
+        }
+        else if($scope.selectedSubaccount && $scope.selectedSubaccount.account_id > -1){
+            $scope.accountId = $scope.selectedSubaccount.account_id
+        }
+        else{
+           $scope.accountId = $scope.selectedAccount.account_id 
+        }
+    }
+
+    //If an accountId is provided, this block will find it and display the proper dropdowns
+    //for the user. 
+    //TODO: Make this less terrible. This is run everytime the accountID is changed to allow for 
+    //      for an accountId to be provided. Find a way to remove provided accountId with user selected.
+    //      The use of two variables might be useful for this.
+    $scope.refreshDisplay = function(){
+        if($scope.accounts && $scope.accountId){
+            var accountFound = false
+            for( var i = 0; i < $scope.accounts.length; i++ ){
+                if($scope.accounts[i].account_id == $scope.accountId){
+                    $scope.selectedAccount = $scope.accounts[i]
+                    $scope.displaySubaccounts($scope.accounts[i])
+                    accountFound = true
+                    break;
+                }
+                else{
+                    for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++){
+                       if($scope.accounts[i].sub_accounts[j].account_id == $scope.accountId){
+                            $scope.selectedAccount = $scope.accounts[i]
+                            $scope.displaySubaccounts($scope.accounts[i])
+                            $scope.selectedSubaccount = $scope.accounts[i].sub_accounts[j]
+                            $scope.displayShredouts($scope.accounts[i].sub_accounts[j])
+                            accountFound = true
+                            break;
+                        }
+                        else {
+                            for(var k = 0; k < $scope.accounts[i].sub_accounts[j].sub_accounts.length; k++ ){
+                                if($scope.accounts[i].sub_accounts[j].sub_accounts[k].account_id == $scope.accountId){
+                                    $scope.selectedAccount = $scope.accounts[i]
+                                    $scope.displaySubaccounts($scope.accounts[i])
+                                    $scope.selectedSubaccount = $scope.accounts[i].sub_accounts[j]
+                                    $scope.displayShredouts($scope.accounts[i].sub_accounts[j])
+                                    $scope.selectedShred = $scope.accounts[i].sub_accounts[j].sub_accounts[k]
+                                    accountFound = true
+                                    break;
+                                }
+                            }
+                            if(accountFound){
+                                break;
+                            }
+                        } 
+                    }
+                    if(accountFound){
+                        break;
+                    }
+                } 
+            }
+        }
+    }
+
+}])
 app.controller('accountController', ['$scope', '$location', '$routeParams', 'postRequestService', 'monthsService', function($scope, $location, $routeParams, postRequestService, monthsService){
   
     postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
         $scope.account = success.data.response;
         $scope.accountName = generateAccountName();
-        console.log($scope.account)
         $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures)
 
         $scope.selectedMonth = d.getMonth()
@@ -27,7 +113,6 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
 
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
-            console.log($scope.selectedMonth)
             $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
             calculateTotal()
         }
@@ -397,7 +482,9 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', function($
     }
 
     $scope.selectedPending = -1;
-    $scope.setSelected = function(){
+    $scope.setSelectedPendingTransaction = function(){
+        
+        console.log("pending")
 	    $scope.selectedTransaction = {
 	    		vendor: $scope.pending[$scope.selectedPending].vendor,
 	            invoiceDate: $scope.pending[$scope.selectedPending].invoiceDate,
@@ -569,8 +656,9 @@ app.controller('sidebarController', ['$scope', '$location', function($scope, $lo
         };
     });
 }]);
-app.controller('transactionAdjustmentController', ['$scope', '$location', function($scope, $location){
+app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
+    $scope.accountId = null;
 
     $scope.transactionsDisplay = function(){
     	$scope.expand = !$scope.expand;
@@ -581,7 +669,7 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', functi
             };
 
             $scope.fromPos = {
-            	"left": "-1700px" //should mack with $tab-width in shared/_tab.scss
+            	"left": "-1700px" //should match with $tab-width in shared/_tab.scss
             }
         }
         else{
@@ -590,134 +678,57 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', functi
             };
 
             $scope.toPos = {
-            	"left": "1700px" //should mack with $tab-width in shared/_tab.scss
+            	"left": "1700px" //should match with $tab-width in shared/_tab.scss
             }
         }
     }
 
+    //TODO figure out why transactionTypeId needs to be a number and vendorId does not
     $scope.selectedIndex = -1;
-    $scope.setSelected = function(){
+    $scope.setSelectedTransaction = function(){
 	    $scope.selectedTransaction = {
-	    		vendor: $scope.transactions[$scope.selectedIndex].vendor,
-	            invoiceDate: $scope.transactions[$scope.selectedIndex].invoiceDate,
-	            datePaid: $scope.transactions[$scope.selectedIndex].datePaid,
-	            invoiceNum: $scope.transactions[$scope.selectedIndex].invoiceNum,
-	            description: $scope.transactions[$scope.selectedIndex].description,
-	            expensed: $scope.transactions[$scope.selectedIndex].expensed
+                transactionId:$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_id,
+                accountId: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].account_id,
+	    		vendorId: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].vendor_id,
+	            invoiceDate: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_date,
+	            datePaid: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].date_paid,
+	            invoiceNo: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_no,
+                transactionTypeId: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_type_id), 
+	            description: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].description,
+	            expense: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].expense)
 	    }
+        console.log($scope.selectedTransaction)
 	}
 
-    $scope.transactions = [
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "This is a short description",
-            expensed: 100
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 9358
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "",
-            expensed: 100
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "This on will be a medium one. Not to long, or short.",
-            expensed: 9358
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "This is a short description",
-            expensed: 135.23
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 2329358.87
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you. Lool this is longer than the other two!! Wow, I wonder.",
-            expensed: 56983.32
+    postRequestService.request('/api/accounts/numbers').then(function(success){
+        $scope.accounts = success.data.response;
+    })
+
+    $scope.$watch('accountId', function(){
+        if($scope.accountId){
+            postRequestService.request('/api/transaction/account/' +$scope.accountId).then(function(success){
+                $scope.account = success.data.response;
+            }) 
+        } 
+    })
+
+    var d = new Date()
+    $scope.months = monthsService.monthList();
+    $scope.selectedMonth = d.getMonth()
+
+    $scope.$watch('selectedMonth', function(){
+        if ($scope.transactions){
+            $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
         }
-    ];
+    })
+
+   
 }]);
 app.controller('transactionEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
     postRequestService.request('/api/accounts/numbers').then(function(success){
         $scope.accounts = success.data.response;
     })
-
-    $scope.transaction = {}
-
-    $scope.accountSelected = function(account){
-        $scope.subaccounts = []
-        $scope.shredouts = []
-        $scope.transaction.accountId = null
-
-        if(account.sub_accounts.length > 0){
-            $scope.subaccounts = account.sub_accounts
-        } 
-    }
-
-    $scope.subAccountSelected = function(subAccount){
-        $scope.shredouts = []
-        if(subAccount){ 
-            if(subAccount.sub_accounts.length > 0){
-                $scope.transaction.accountId = null
-                $scope.shredouts = subAccount.sub_accounts
-            }
-            else{
-                $scope.transaction.accountId = subAccount.account_id
-            }
-        }
-    }
-
-    $scope.shredoutSelected = function(shredout){
-        if(shredout){
-            $scope.transaction.accountId = shredout.account_id
-        }
-    }
 
     postRequestService.request('/api/vendor/listing').then(function(success){
         $scope.vendors = success.data.response;
@@ -728,9 +739,18 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     })
 
     $scope.submitTransaction = function(){
-        postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
-           $location.url('/') 
-        })
+        //If the transaction has an Id, we know we are updateing an existing transaction.
+        //If it does not, we are creating a new transaction
+       if($scope.transaction.transactionId){
+            postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
+               $location.url('/') 
+            })
+        }
+        else{
+            postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
+               $location.url('/') 
+            })
+        }
     }
 
 }]);

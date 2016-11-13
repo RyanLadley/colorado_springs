@@ -1,30 +1,11 @@
 <div class = "transactions-from" ng-style = "fromPos">
     <h2 class = "tab-title">From</h2>
-    <label class = "transaction-adjustment-label">Account Code</label>
-    <select>
-        <option value="" disabled selected hidden>Select an Account</option>
-        <option>5221000</option>
-        <option>5222000</option>
-        <option>5223000</option>
-        <optiond>5224000</option>
-        <option>5225000</option>
-        <option>5226000</option>
-    </select>
-    <label class = "transaction-adjustment-label"> Month </label>
-    <select class = "month-dropdown">
-        <option>January</option>
-        <option>February</option>
-        <option>March</option>
-        <option>April</option>
-        <option>May</option>
-        <option>June</option>
-        <option>July</option>
-        <option>August</option>
-        <option>September</option>
-        <option>October</option>
-        <option>November</option>
-        <option>December</option>
-    </select>
+    <account-select account-id = "accountId"></account-select>
+    <div class = "label-input">
+        <label> Month </label>
+        <select ng-model = "selectedMonth" ng-options = "months.indexOf(month) as month for month in months"></select>
+    </div>
+
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">
             <tr>
@@ -36,29 +17,29 @@
                 <th>Descrpition</th>
                 <th>Total Expense</th>
             </tr>
-            <tr ng-repeat = "transaction in transactions" class = "row">
+            <tr ng-repeat = "transaction in account.monthly_summary[selectedMonth]" class = "row">
                 <td><input type="radio" name = "transaction" ng-model ="$parent.selectedIndex" ng-value="{{$index}}"></td>
-                <td>{{transaction.vendor}}</td>
-                <td>{{transaction.invoiceDate}}</td>
-                <td>{{transaction.datePaid}}</td>
-                <td class = "center">{{transaction.invoiceNum}}</td>
+                <td>{{transaction.vendor_name}}</td>
+                <td>{{transaction.invoice_date}}</td>
+                <td>{{transaction.date_paid}}</td>
+                <td class = "center">{{transaction.invoice_no}}</td>
                 <td class = "description account-desription">{{transaction.description}}</td>
-                <td class = "currency">{{transaction.expensed | currency}}</td>
+                <td class = "currency">{{transaction.expense | currency}}</td>
             </tr>
         </table>
     </div>
-    <button class="to-button transition-button" ng-click = "transactionsDisplay();setSelected();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    <button class="to-button transition-button" ng-click = "transactionsDisplay(); setSelectedTransaction(); renderAccountSelect();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
 <div class = "transactions-to" ng-style = "toPos">
     <table id = "adjustment-table" class = "selected-preview table alternate-table">
         <tr>
-            <td>{{transactions[selectedIndex].vendor}}</td>
-            <td>{{transactions[selectedIndex].invoiceDate}}</td>
-            <td>{{transactions[selectedIndex].datePaid}}</td>
-            <td class = "center">{{transactions[selectedIndex].invoiceNum}}</td>
-            <td class = "description account-desription">{{transactions[selectedIndex].description}}</td>
-            <td class = "currency">{{transactions[selectedIndex].expensed | currency}}</td>
+            <td>{{account.monthly_summary[selectedMonth][selectedIndex].vendor_name}}</td>
+            <td>{{account.monthly_summary[selectedMonth][selectedIndex].invoice_date}}</td>
+            <td>{{account.monthly_summary[selectedMonth][selectedIndex].date_paid}}</td>
+            <td class = "center">{{account.monthly_summary[selectedMonth][selectedIndex].invoice_no}}</td>
+            <td class = "description account-desription">{{account.monthly_summary[selectedMonth][selectedIndex].description}}</td>
+            <td class = "currency">{{account.monthly_summary[selectedMonth][selectedIndex].expense | currency}}</td>
         </tr>
     </table>
     <h2  class = "tab-title">To</h2>

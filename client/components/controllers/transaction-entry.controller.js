@@ -4,37 +4,6 @@ app.controller('transactionEntryController', function($scope, $location, postReq
         $scope.accounts = success.data.response;
     })
 
-    $scope.transaction = {}
-
-    $scope.accountSelected = function(account){
-        $scope.subaccounts = []
-        $scope.shredouts = []
-        $scope.transaction.accountId = null
-
-        if(account.sub_accounts.length > 0){
-            $scope.subaccounts = account.sub_accounts
-        } 
-    }
-
-    $scope.subAccountSelected = function(subAccount){
-        $scope.shredouts = []
-        if(subAccount){ 
-            if(subAccount.sub_accounts.length > 0){
-                $scope.transaction.accountId = null
-                $scope.shredouts = subAccount.sub_accounts
-            }
-            else{
-                $scope.transaction.accountId = subAccount.account_id
-            }
-        }
-    }
-
-    $scope.shredoutSelected = function(shredout){
-        if(shredout){
-            $scope.transaction.accountId = shredout.account_id
-        }
-    }
-
     postRequestService.request('/api/vendor/listing').then(function(success){
         $scope.vendors = success.data.response;
     })
@@ -44,9 +13,18 @@ app.controller('transactionEntryController', function($scope, $location, postReq
     })
 
     $scope.submitTransaction = function(){
-        postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
-           $location.url('/') 
-        })
+        //If the transaction has an Id, we know we are updateing an existing transaction.
+        //If it does not, we are creating a new transaction
+       if($scope.transaction.transactionId){
+            postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
+               $location.url('/') 
+            })
+        }
+        else{
+            postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
+               $location.url('/') 
+            })
+        }
     }
 
 });

@@ -25,7 +25,9 @@ app.controller('pendingAdjustmentController', function($scope, $location){
     }
 
     $scope.selectedPending = -1;
-    $scope.setSelected = function(){
+    $scope.setSelectedPendingTransaction = function(){
+        
+        console.log("pending")
 	    $scope.selectedTransaction = {
 	    		vendor: $scope.pending[$scope.selectedPending].vendor,
 	            invoiceDate: $scope.pending[$scope.selectedPending].invoiceDate,
