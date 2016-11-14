@@ -5,6 +5,8 @@ import api.core.sanitize as sanitize
 
 from api.core.buisness_objects.vendor import Vendor
 
+import api.DAL.data_context.transactions.transaction_select as transaction_select
+
 @DatabaseConnection
 def vendor_listing(cursor = None):
 
@@ -51,5 +53,7 @@ def vendor_details(vendor_id, cursor = None):
     result = cursor.fetchone()
 
     vendor= Vendor.map_from_form(result)
+
+    vendor.attatch_transactions(transaction_select.by_vendor(vendor.vendor_id))
 
     return vendor

@@ -32,7 +32,7 @@
     text-align: center; }
   .table .description {
     min-width: 350px;
-    max-width: 550px; }
+    max-width: 500px; }
   .table .currency {
     text-align: right; }
 
@@ -138,6 +138,12 @@
   margin-left: 15px;
   margin-right: 15px;
   border-bottom: 1px solid black; }
+
+.tab-sub-title {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid lightgrey; }
 
 .content-link {
   display: inline-block;
@@ -404,7 +410,8 @@
     margin: 0; }
 
 .vendor-table-header {
-  background-color: #B3B332; }
+  background-color: #B3B332;
+  width: 1200px; }
 
 #vendor-table .row:hover {
   background: #FFFDE8; }
@@ -546,7 +553,7 @@
     position: absolute;
     top: 40px; }
   .date-input .input-div {
-    width: 175px; }
+    width: 150px; }
   .date-input input {
     width: 120px; }
   .date-input button {
@@ -612,7 +619,7 @@
 .adjustment-table-scroll {
   display: inline-block;
   width: 100%;
-  height: 500px;
+  height: 475px;
   overflow-y: auto; }
 
 .transition-button {

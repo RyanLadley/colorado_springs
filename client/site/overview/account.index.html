@@ -10,65 +10,11 @@
             <h3 class = "section-title"> Monthly Totals </h3>
             <div class = "content-values">
                 
-                <div class = "label-value">
-                    <h4 class = "label">January</h4>
-                    <p class = "value">$29,500.00</p>
+                <div class = "label-value" ng-repeat = "month in months">
+                    <h4 class = "label">{{month}}</h4>
+                    <p class = "value">{{monthlyTotals[$index] | currency}}</p>
                 </div>
 
-                <div class = "label-value">
-                    <h4 class = "label">February</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">March</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">April</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">May</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">June</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">July</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">August</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">September</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">October</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">November</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
-
-                <div class = "label-value">
-                    <h4 class = "label">December</h4>
-                    <p class = "value">$29,500.00</p>
-                </div>
             </div>
             <div class = "month-selection">
                 <h3 class = "section-title"> Month Selection </h3>
@@ -104,6 +50,7 @@
     <h2>{{months[selectedMonth]}} Transactions</h2>
     <table id = "account-table" class = "table alternate-table">
         <tr>
+            <th> Account</th>
             <th>Vendor</th>
             <th>Invoice Date</th>
             <th>Date Paid</th>
@@ -113,6 +60,7 @@
         </tr>
 
         <tr ng-repeat = "transaction in transactions" class = "row">
+            <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
             <td>{{transaction.vendor_name}}</td>
             <td>{{transaction.invoice_date}}</td>
             <td>{{transaction.date_paid}}</td>
@@ -121,8 +69,8 @@
             <td class = "currency">{{transaction.expense | currency}}</td>
         </tr>
         <tr class = "total">
-            <td colspan="5">{{months[selectedMonth]}} Total</td>
-            <td> {{month_total | currency }}</td>
+            <td colspan="6">{{months[selectedMonth]}} Total</td>
+            <td> {{monthlyTotals[selectedMonth] | currency }}</td>
         </tr>
     </table>
 <div>

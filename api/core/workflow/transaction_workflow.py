@@ -26,6 +26,7 @@ def new_transaction():
 
     return transaction_insert.new_transaction(transaction)
 
+
 @workflow.route('/transaction/update', methods = ['POST'])
 def update_transaction():
 
@@ -35,6 +36,18 @@ def update_transaction():
     transaction = Transaction.map_from_form(transaction_form)
 
     return transaction_update.update_transaction(transaction)
+
+
+@workflow.route('/transaction/pending/update', methods = ['POST'])
+def update_pending_transaction():
+
+    transaction_form = json.loads(request.form['payload'])
+    transaction_form = sanitize.form_keys(transaction_form)
+
+    transaction = Transaction.map_from_form(transaction_form)
+
+    return transaction_update.update_pending_transaction(transaction)
+
 
 
 @workflow.route('/transaction/account/<account_id>', methods = ['POST'])
@@ -47,6 +60,13 @@ def get_account_transaction_by_month(account_id):
     account.attach_monthly_summary(transactions)
 
     return response.success(account.serialize())
+
+@workflow.route('/transaction/pending/vendor/<vendor_id>', methods = ['POST'])
+def get_pending_transaction_by_vendor(vendor_id):
+
+    transactions = transaction_select.pending_by_vendor(vendor_id)
+
+    return response.success(utilities.serialize_array(transactions))
 
 
 @workflow.route('/transaction/types', methods = ['POST'])

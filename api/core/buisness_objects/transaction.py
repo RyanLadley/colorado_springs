@@ -7,6 +7,9 @@ class Transaction:
 
         transaction.transaction_id = form.get('transaction_id')
         transaction.account_id = form.get('account_id')
+        transaction.account_no = form.get('account_no')
+        transaction.sub_no = form.get('sub_no')
+        transaction.shred_no = form.get('shred_no')
         transaction.vendor_id = form.get('vendor_id')
         transaction.vendor_name = form.get('vendor_name')
         transaction.invoice_date = form.get('invoice_date')

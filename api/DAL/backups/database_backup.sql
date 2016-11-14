@@ -18,6 +18,35 @@ USE `colorado_springs`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `account_transfers`
+--
+
+DROP TABLE IF EXISTS `account_transfers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_transfers` (
+  `transfer` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `from_account_id` int(10) unsigned NOT NULL,
+  `to_account_id` int(10) unsigned NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `description` varchar(360) NOT NULL,
+  `transfer_date` date NOT NULL,
+  PRIMARY KEY (`transfer`),
+  UNIQUE KEY `trasnfer_id_UNIQUE` (`transfer`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_transfers`
+--
+
+LOCK TABLES `account_transfers` WRITE;
+/*!40000 ALTER TABLE `account_transfers` DISABLE KEYS */;
+INSERT INTO `account_transfers` VALUES (2,2,15,53.60,'This is a test','2016-11-14');
+/*!40000 ALTER TABLE `account_transfers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `accounts`
 --
 
@@ -91,7 +120,7 @@ CREATE TABLE `transactions` (
   PRIMARY KEY (`transaction_id`),
   UNIQUE KEY `transaction_id_UNIQUE` (`transaction_id`),
   UNIQUE KEY `vendor_invoice_UNIQUE` (`invoice_no`,`vendor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +129,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','Figure out why total expensed pops up with required text when Data button is pressed.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2);
+INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','Figure out why total expensed pops up with required text when Data button is pressed.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -269,4 +298,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-13 12:58:48
+-- Dump completed on 2016-11-14 16:15:45

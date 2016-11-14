@@ -66,3 +66,65 @@ def from_account_by_month(account, cursor = None):
         transactions_by_month[str(month-1)] = transactions
 
     return transactions_by_month
+
+
+@DatabaseConnection
+def pending_by_vendor(vendor_id, cursor = None):
+
+    cursor.execute("""
+            SELECT  transaction_id,
+                    account_id,
+                    account_no,
+                    sub_no,
+                    shred_no,
+                    vendor_id,
+                    vendor_name,
+                    invoice_no,
+                    date_paid,
+                    invoice_date,
+                    description,
+                    expense,
+                    transaction_type_id,
+                    transaction_type
+            FROM v_transactions
+            WHERE vendor_id = %(vendor_id)s AND
+                  date_paid IS NULL;""",
+            {'vendor_id': vendor_id})
+
+    results = cursor.fetchall() or {}
+
+    transactions = []
+    for row in results:
+        transactions.append(Transaction.map_from_form(row))
+
+    return transactions
+
+@DatabaseConnection
+def by_vendor(vendor_id, cursor = None):
+
+    cursor.execute("""
+            SELECT  transaction_id,
+                    account_id,
+                    account_no,
+                    sub_no,
+                    shred_no,
+                    vendor_id,
+                    vendor_name,
+                    invoice_no,
+                    date_paid,
+                    invoice_date,
+                    description,
+                    expense,
+                    transaction_type_id,
+                    transaction_type
+            FROM v_transactions
+            WHERE vendor_id = %(vendor_id)s;""",
+            {'vendor_id': vendor_id})
+
+    results = cursor.fetchall() or {}
+
+    transactions = []
+    for row in results:
+        transactions.append(Transaction.map_from_form(row))
+
+    return transactions

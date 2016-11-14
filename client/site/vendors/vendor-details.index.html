@@ -6,6 +6,7 @@
     <h2>{{vendor.name}} Transactions</h2>
     <table id = "vendor-table" class = "table alternate-table">
         <tr>
+            <th>Account</th>
             <th>Vendor</th>
             <th>Invoice Date</th>
             <th>Date Paid</th>
@@ -14,17 +15,18 @@
             <th>Total Expense</th>
         </tr>
 
-        <tr ng-repeat = "transaction in transactions" class = "row">
-            <td>{{transaction.vendor}}</td>
-            <td>{{transaction.invoiceDate}}</td>
-            <td>{{transaction.datePaid}}</td>
-            <td class = "center">{{transaction.invoiceNum}}</td>
+        <tr ng-repeat = "transaction in vendor.transactions" class = "row">
+            <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
+            <td>{{transaction.vendor_name}}</td>
+            <td>{{transaction.invoice_date}}</td>
+            <td>{{transaction.date_paid}}</td>
+            <td class = "center">{{transaction.invoice_no}}</td>
             <td class = "description account-desription">{{transaction.description}}</td>
-            <td class = "currency">{{transaction.expensed | currency}}</td>
+            <td class = "currency">{{transaction.expense | currency}}</td>
         </tr>
         <tr class = "total">
-            <td colspan="5">Total Expensed</td>
-            <td> $2,836,981.36</td>
+            <td colspan="6">Total Expensed</td>
+            <td> {{total_expense | currency}}</td>
         </tr>
     </table>
 </div>

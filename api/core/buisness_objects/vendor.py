@@ -23,9 +23,27 @@ class Vendor:
 
         return vendor
 
+
+    def attatch_transactions(self, transactions):
+
+        self.transactions = transactions
+
+
     def serialize(self):
         serial = {key:str(value) for key,value in self.__dict__.items()}
 
         serial['image'] = self.image.serialize()
 
+        if 'transactions' in serial:
+            serial['transactions'] = self._serialize_transactions()
+
         return serial
+
+    def _serialize_transactions(self):
+        
+        serialized_transactions = []
+
+        for transaction in self.transactions:
+            serialized_transactions.append(transaction.serialize())
+
+        return serialized_transactions

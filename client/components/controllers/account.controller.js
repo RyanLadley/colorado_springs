@@ -7,7 +7,7 @@ app.controller('accountController', function($scope, $location, $routeParams, po
 
         $scope.selectedMonth = d.getMonth()
         $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-        calculateTotal()
+        calculateTotals()
 
     })
 
@@ -27,18 +27,20 @@ app.controller('accountController', function($scope, $location, $routeParams, po
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
             $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-            calculateTotal()
         }
     })
 
-    var calculateTotal = function(){
-   
-        total = 0
+    $scope.monthlyTotals = new Array(12)
+    var calculateTotals = function(){
 
-        for (var i = 0; i < $scope.transactions.length; i++){
-            total += Number($scope.transactions[i].expense)
+        //Hard coded 12 for the number of months
+        //TODO: Determine a way to make this dynamic (not hard coded)
+        for (var i = 0; i < 12; i++){
+            total = 0
+            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
+                total += Number($scope.account.monthly_summary[i][j].expense)
+            }
+            $scope.monthlyTotals[i] = total
         }
-
-        $scope.month_total = total
     }
 });

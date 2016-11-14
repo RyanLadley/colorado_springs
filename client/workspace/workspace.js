@@ -67,7 +67,6 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
     $routeProvider
     .when("/",
         {
-            controller: 'homeController',
             templateUrl: '/res/site/home/home.index.html'
         }
     )
@@ -250,7 +249,7 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
 
         $scope.selectedMonth = d.getMonth()
         $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-        calculateTotal()
+        calculateTotals()
 
     })
 
@@ -270,19 +269,21 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
             $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-            calculateTotal()
         }
     })
 
-    var calculateTotal = function(){
-   
-        total = 0
+    $scope.monthlyTotals = new Array(12)
+    var calculateTotals = function(){
 
-        for (var i = 0; i < $scope.transactions.length; i++){
-            total += Number($scope.transactions[i].expense)
+        //Hard coded 12 for the number of months
+        //TODO: Determine a way to make this dynamic (not hard coded)
+        for (var i = 0; i < 12; i++){
+            total = 0
+            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
+                total += Number($scope.account.monthly_summary[i][j].expense)
+            }
+            $scope.monthlyTotals[i] = total
         }
-
-        $scope.month_total = total
     }
 }]);
 app.controller('adjustmentsController', ['$scope', '$location', function($scope, $location){
@@ -318,6 +319,16 @@ app.controller('adminController', ['$scope', '$location', function($scope, $loca
 		}
 	]
 
+}]);
+app.controller('budgetAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+    
+    $scope.submitTransfer = function(){
+        if($scope.transferForm.$valid){
+            postRequestService.request('/api/accounts/transfer', $scope.transfer).then(function(success){
+               //$location.url('/') 
+            })
+        }
+    }
 }]);
 app.controller('dataInputController', ['$scope', '$location', function($scope, $location){
   
@@ -611,7 +622,7 @@ app.controller('overviewController', ['$scope', '$location', 'postRequestService
     })
 
 }]);
-app.controller('pendingAdjustmentController', ['$scope', '$location', function($scope, $location){
+app.controller('pendingAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
 
     $scope.pendingDisplay = function(){
@@ -637,94 +648,39 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', function($
         }
     }
 
+    postRequestService.request('/api/vendor/listing').then(function(success){
+        $scope.vendors = success.data.response;
+    })
+
+    $scope.$watch('vendorId', function(){
+        if($scope.vendorId){
+            postRequestService.request('/api/transaction/pending/vendor/' +$scope.vendorId).then(function(success){
+                $scope.pending = success.data.response;
+            }) 
+        } 
+    })
+
     $scope.selectedPending = -1;
     $scope.setSelectedPendingTransaction = function(){
-        
-        console.log("pending")
 	    $scope.selectedTransaction = {
-	    		vendor: $scope.pending[$scope.selectedPending].vendor,
-	            invoiceDate: $scope.pending[$scope.selectedPending].invoiceDate,
-	            datePaid: $scope.prnding[$scope.selectedPending].datePaid,
-	            invoiceNum: $scope.pending[$scope.sselectedPending].invoiceNum,
-	            description: $scope.pending[$scope.selectedPending].description,
-	            expensed: $scope.pending[$scope.selectedIndex].expensed
+                transactionId: $scope.pending[$scope.selectedPending].transaction_id,
+                accountId: $scope.pending[$scope.selectedPending].account_id,
+                vendorId: $scope.pending[$scope.selectedPending].vendor_id,
+                invoiceDate: $scope.pending[$scope.selectedPending].invoice_date,
+                invoiceNo: $scope.pending[$scope.selectedPending].invoice_no,
+                transactionTypeId: Number($scope.pending[$scope.selectedPending].transaction_type_id), 
+                description: $scope.pending[$scope.selectedPending].description,
+                expense: Number($scope.pending[$scope.selectedPending].expense)
 	    }
 	}
 
-    $scope.pending = [
-        {
-            vendor: "Why",
-            invoiceDate: "9/8/2017",
-            datePaid: "",
-            invoiceNum: "12A34B56C",
-            description: "This is a short description",
-            expensed: 100
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 9358
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "",
-            invoiceNum: "12A34B56C",
-            description: "",
-            expensed: 100
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "",
-            invoiceNum: "1212ASD12ASD478",
-            description: "This on will be a medium one. Not to long, or short.",
-            expensed: 9358
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "",
-            invoiceNum: "12A34B56C",
-            description: "This is a short description",
-            expensed: 135.23
-        },
-        {
-            vendor: "Bob's Products Express",
-            invoiceDate: "7/8/2017",
-            datePaid: "",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 2329358.87
-        },
-        {
-            vendor: "Lola's Bananaza",
-            invoiceDate: "9/10/2017",
-            datePaid: "",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you. Lool this is longer than the other two!! Wow, I wonder.",
-            expensed: 56983.32
+    $scope.submitPending = function(){
+        if($scope.pendingForm.$valid){
+            postRequestService.request('/api/transaction/pending/update', $scope.selectedTransaction).then(function(success){
+                $location.url('/') 
+            }) 
         }
-    ];
+    }
 }]);
 app.controller('profileController', ['$scope', '$location', function($scope, $location){
 
@@ -897,15 +853,17 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     $scope.submitTransaction = function(){
         //If the transaction has an Id, we know we are updateing an existing transaction.
         //If it does not, we are creating a new transaction
-       if($scope.transaction.transactionId){
-            postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
-               $location.url('/') 
-            })
-        }
-        else{
-            postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
-               $location.url('/') 
-            })
+        if($scope.entryForm.$valid){
+           if($scope.transaction.transactionId){
+                postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
+                   $location.url('/') 
+                })
+            }
+            else{
+                postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
+                   $location.url('/') 
+                })
+            }
         }
     }
 
@@ -914,98 +872,12 @@ app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams'
   
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
         $scope.vendor = success.data.response;
-    })
 
-    $scope.transactions = [
-        {
-            vendor: "Grainger",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 9358
-        },
-        {
-            vendor: "Grainger",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "",
-            expensed: 100
-        },
-        {
-            vendor: "Grainger",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 9358
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "",
-            expensed: 100
-        },
-        {
-            vendor: "Grainger",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Grainger",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "",
-            expensed: 100
-        },
-        {
-            vendor: "Grainger",
-            invoiceDate: "7/8/2017",
-            datePaid: "10/7/2017",
-            invoiceNum: "1212ASD12ASD478",
-            description: "Still a short one",
-            expensed: 9358
-        },
-        {
-            vendor: "Granger",
-            invoiceDate: "9/8/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C",
-            description: "",
-            expensed: 100
-        },
-        {
-            vendor: "Grainger",
-            invoiceDate: "9/10/2017",
-            datePaid: "10/2/2017",
-            invoiceNum: "12A34B56C43HD",
-            description: "This is alonger description. A lot of detail was need to descrbe this transaction, let me tell you",
-            expensed: 56983.32
+        $scope.total_expense = 0
+        for(var i = 0; i < $scope.vendor.transactions.length; i++){
+            $scope.total_expense += Number($scope.vendor.transactions[i].expense)
         }
-    ]
+    })
 }]);
 app.controller('vendorEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 
@@ -1021,7 +893,33 @@ app.controller('vendorsController', ['$scope', '$location', 'postRequestService'
         $scope.vendors = success.data.response;
     })
 
-}]);;app.directive('accountSelect', function() {
+}]);;app.directive('accountName', function() {
+    return{
+        restrict: 'E',
+        scope: {
+            accountId: '<',
+            accountNo: '<',
+            subNo: '<',
+            shredNo: '<'
+        },
+        template: "<a href = '/overview/account/{{accountId}}'>{{accountName}}</a>",
+        link:function($scope){
+            //Determin Account Name
+            $scope.name = ""
+            if($scope.shredNo != 'None'){
+                $scope.accountName = $scope.accountNo.toString() + "-" +$scope.subNo.toString() +"-" +$scope.shredNo.toString()
+            }
+            else if($scope.subNo != 'None'){
+                $scope.accountName = $scope.accountNo.toString() + "-" +$scope.subNo.toString()
+            }
+            else{
+                $scope.accountName = $scope.accountNo.toString()
+            }
+        }
+        
+    };
+})
+app.directive('accountSelect', function() {
     return{
         restrict: 'E',
         controller: 'accountSelectController',
@@ -1036,6 +934,13 @@ app.controller('vendorsController', ['$scope', '$location', 'postRequestService'
         }
     };
 })
+app.directive('budgetAdjustment', function() {
+    return{
+        restrict: 'E',
+        controller: 'budgetAdjustmentController',
+        templateUrl: '/res/components/directives/adjustments/budget-adjustment.template.html'
+    };
+})
 app.directive('pendingAdjustment', function() {
     return{
         restrict: 'E',
@@ -1048,6 +953,19 @@ app.directive('transactionAdjustment', function() {
         restrict: 'E',
         controller: 'transactionAdjustmentController',
         templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
+    };
+})
+app.directive('dateSelect', function() {
+    return{
+        restrict: 'E',
+        //controller: 'dateSelectController',
+        scope: {
+            date: '=',
+            required: '@?',
+            inputDisabled: '@?',
+            label: '@'
+        },
+        templateUrl: '/res/components/directives/date-select/date-select.template.html'
     };
 })
 app.directive('imageUpload', function () {
@@ -1073,7 +991,7 @@ app.directive('imageUpload', function () {
 app.directive('sidebarInfo', function() {
     return{
         restrict: 'E',
-        controller: 'sidebarInfoController',
+        //controller: 'sidebarInfoController',
        templateUrl: '/res/components/directives/sidebar/sidebar-info.template.html'
     };
 })

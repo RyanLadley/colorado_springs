@@ -10,6 +10,7 @@
         <table id = "adjustment-table" class = "table alternate-table">
             <tr>
                 <th></th>
+                <th>Account</th>
                 <th>Vendor</th>
                 <th>Invoice Date</th>
                 <th>Date Paid</th>
@@ -19,6 +20,9 @@
             </tr>
             <tr ng-repeat = "transaction in account.monthly_summary[selectedMonth]" class = "row">
                 <td><input type="radio" name = "transaction" ng-model ="$parent.selectedIndex" ng-value="{{$index}}"></td>
+                <td>
+                    <account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name>
+                </td>
                 <td>{{transaction.vendor_name}}</td>
                 <td>{{transaction.invoice_date}}</td>
                 <td>{{transaction.date_paid}}</td>
@@ -28,7 +32,7 @@
             </tr>
         </table>
     </div>
-    <button class="to-button transition-button" ng-click = "transactionsDisplay(); setSelectedTransaction(); renderAccountSelect();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    <button class="to-button transition-button" ng-click = "transactionsDisplay(); setSelectedTransaction();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
 <div class = "transactions-to" ng-style = "toPos">

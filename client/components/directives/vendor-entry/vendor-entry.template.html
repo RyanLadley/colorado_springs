@@ -48,22 +48,10 @@
         <label>Contract Number</label>
         <input type="text" ng-model="vendor.contractNo" placeholder="Contract Number">
     </div>
-    <div class = "label-input date-input">
-        <label>Contract Start Date</label>
-        <div class = "input-div"s>
-            <button ng-click = "displayStartDate = !displayStartDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-            <input type="text" placeholder="DD/MM/YYYY" ng-model = "vendor.contractStart" disabled title = "Select Date From Calendar">
-        </div>
-        <date-picker class = "date-picker" ng-show = "displayStartDate" ng-model = "vendor.contractStart"></date-picker>
-    </div>
-    <div class = "label-input date-input">
-        <label>Contract End Date</label>
-        <div class = "input-div">
-            <button ng-click = "displayEndDate = !displayEndDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-            <input type="text" placeholder="DD/MM/YYYY" ng-model = "vendor.contractEnd" disabled disabled title = "Select Date From Calendar">
-        </div>
-        <date-picker class = "date-picker" ng-show = "displayEndDate" ng-model = "vendor.contractEnd"></date-picker>
-    </div>
+
+    <date-select label ="Contract Start Date"  date = "vendor.contractStart" input-disabled = "true"></date-select>
+    <date-select label ="Contract End Date"  date = "vendor.contractEnd" input-disabled = "true"></date-select>
+    
     <br>
     <button type="submit" class = "entry-submit" ng-click = 'submitVendor()'>Submit</button>
 </form>

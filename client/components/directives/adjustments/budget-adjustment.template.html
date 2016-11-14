@@ -1,0 +1,19 @@
+<div class = "transactions-from" ng-style = "fromPos">
+    <form name = "transferForm">
+        <h2 class = "tab-title">Account Budget Transfer</h2>
+        <h3 class = "tab-sub-title">From Account</h3>
+        <account-select account-id = "transfer.fromAccountId"></account-select>
+         <h3 class = "tab-sub-title">To Account</h3>
+        <account-select account-id = "transfer.toAccountId"></account-select>
+        <br>
+        <div class = "label-input">
+            <label>Transfer Amount</label>
+            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transfer.amount" required>
+        </div>
+        <div class = "label-input input-row">
+            <label>Description</label>
+            <textarea placeholder="Enter Discription" ng-model = "transfer.description"></textarea>
+        </div>
+        <button class = "entry-submit" ng-click = "submitTransfer()">Submit</button>
+    </form>
+</div>

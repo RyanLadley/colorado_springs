@@ -1,5 +1,6 @@
-<form class = "entry-form">
+<form class = "entry-form" name = "entryForm">
     <account-select account-id = "transaction.accountId"></account-select>
+    <br>
 
     <div class = "label-input">
         <label>Vendor</label>
@@ -19,24 +20,10 @@
             <option value="" disabled selected hidden>Select a Type</option>
         </select>
     </div>
+    
+    <date-select label ="Invoice Date"  date = "transaction.invoiceDate" input-disabled = "true" required = "true"></date-select>
 
-    <div class = "label-input date-input">
-        <label>Date Paid</label>
-        <div class = "input-div">
-            <button ng-click = "displayPaidDate = !displayPaidDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.datePaid" disabled title = "Select Date From Calendar">
-        </div>
-        <date-picker class = "date-picker" ng-show = "displayPaidDate" ng-model = "transaction.datePaid"></date-picker>
-    </div>
-
-    <div class = "label-input date-input">
-        <label>Invoice Date</label>
-        <div class = "input-div"s>
-            <button ng-click = "displayInvoiceDate = !displayInvoiceDate"><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-            <input type="text" placeholder="DD/MM/YYYY" ng-model = "transaction.invoiceDate" disabled title = "Select Date From Calendar" required>
-        </div>
-        <date-picker class = "date-picker" ng-show = "displayInvoiceDate" ng-model = "transaction.invoiceDate"></date-picker>
-    </div>
+    <date-select label ="Date Paid (optional)"  date = "transaction.datePaid" input-disabled = "true" ></date-select>
 
     <div class = "label-input">
         <label>Total Expensed</label>
@@ -49,5 +36,5 @@
     </div>
 
 
-    <button class = "entry-submit" type = "submit" ng-click = "submitTransaction()">Submit</button>
+    <button class = "entry-submit" ng-click = "submitTransaction()">Submit</button>
 </form>

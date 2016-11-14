@@ -24,3 +24,16 @@ def update_transaction(transaction, cursor = None):
          'expense': transaction.expense, 'trans_type_id': transaction.transaction_type_id, 'trans_id': transaction.transaction_id})
 
     return response.success()
+
+
+@DatabaseConnection
+def update_pending_transaction(transaction, cursor = None):
+
+    cursor.execute('''
+        UPDATE transactions
+        SET date_paid = %(date_paid)s,
+            description = %(desc)s
+        WHERE transaction_id =  %(trans_id)s;''',
+        {'date_paid': sanitize.date_for_storage(transaction.date_paid), 'desc': transaction.description, 'trans_id': transaction.transaction_id})
+
+    return response.success()
