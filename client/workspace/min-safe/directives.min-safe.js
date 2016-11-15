@@ -7,7 +7,7 @@ app.directive('accountName', function() {
             subNo: '<',
             shredNo: '<'
         },
-        template: "<a href = '/overview/account/{{accountId}}'>{{accountName}}</a>",
+        template: "<a class = 'account-link' href = '/overview/account/{{accountId}}'>{{accountName}}</a>",
         link:function($scope){
             //Determin Account Name
             $scope.name = ""

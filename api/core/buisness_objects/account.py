@@ -1,4 +1,4 @@
-
+import decimal
 
 class Account:
 
@@ -13,9 +13,10 @@ class Account:
         account.description = form.get('description')
         account.annual_budget = form.get('annual_budget')
         account.transfer = form.get('transfer')
-        account.total_budget = form.get('total_budget')
+        account.total_budget = (account.annual_budget + account.transfer) if account.annual_budget is not None and account.transfer is not None else None
         account.expendetures = form.get('expendetures')
-        account.remaining = form.get('remaining')
+        account.remaining = (decimal.Decimal(account.total_budget) + decimal.Decimal(account.expendetures)) if (account.total_budget is not None and 
+                                                                                                            account.expendetures is not None) else None
 
         return account
 

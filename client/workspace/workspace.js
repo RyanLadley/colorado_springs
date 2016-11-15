@@ -153,7 +153,12 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
         iso = date.replace(/(.+) (.+)/, "$1T$2Z");
     return iso;
   };
-});;app.controller('accountSelectController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
+});
+app.filter('percentage', ['$filter', function ($filter) {
+  return function (input, decimals) {
+    return $filter('number')(input * 100, decimals) + '%';
+  };
+}]);;app.controller('accountSelectController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
     
 
     postRequestService.request('/api/accounts/numbers').then(function(success){
@@ -902,7 +907,7 @@ app.controller('vendorsController', ['$scope', '$location', 'postRequestService'
             subNo: '<',
             shredNo: '<'
         },
-        template: "<a href = '/overview/account/{{accountId}}'>{{accountName}}</a>",
+        template: "<a class = 'account-link' href = '/overview/account/{{accountId}}'>{{accountName}}</a>",
         link:function($scope){
             //Determin Account Name
             $scope.name = ""

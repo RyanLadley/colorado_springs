@@ -20,9 +20,6 @@
     td{
         white-space: nowrap;
     }
-    a{
-        color: #00188E;
-    }
 
     .account-row{
         font-size: 17px;
@@ -35,7 +32,6 @@
 
     .sub-row{
         font-size: 14px;
-        font-style: italic;
         background-color: #FAFAFA;
     }
 
@@ -70,4 +66,7 @@
             background-color: $softest-grey
         }
     }
+}
+.account-link{
+    color: #00188E;
 }

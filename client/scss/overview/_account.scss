@@ -1,4 +1,4 @@
-$overview-menu-width: 300px;
+$overview-menu-width: 325px;
 
 .account-left{
 
@@ -69,7 +69,7 @@ $overview-menu-width: 300px;
 }
 
 .month-table-header{
-    width: 1300px;
+    width: 1350px;
     background-color: $account-green;
 }
 
@@ -85,4 +85,18 @@ $overview-menu-width: 300px;
             background-color: #F2FFF0;
         }
     }
+}
+
+.monthly-summary-table{
+    h4,td{
+        margin: 0;
+    }
+
+    tr{
+        margin: 10px 0;
+    }
+    .currency{
+        text-align: right;
+    }
+    width: 99%;
 }

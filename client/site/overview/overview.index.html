@@ -20,7 +20,7 @@
             <th>Remaining Balance</th>
         </tr>
         <tr ng-repeat-start = "account in accounts" ng-click = "account.showSubaccount = !account.showSubaccount" class = "account-row account-{{acount.accountNo}}">
-            <td class = "account"> <a href = "/overview/account/{{account.account_id}}" >{{account.account_no}}</a></td>
+            <td class = "account"> <a class = "account-link" href = "/overview/account/{{account.account_id}}" >{{account.account_no}}</a></td>
             <td class = "description"> {{account.description}}</td>
             <td class = "currency"> {{account.annual_budget | currency}}</td>
             <td class = "currency"> {{account.transfer | currency}}</td>
@@ -30,7 +30,7 @@
         </tr>
         <tr ng-repeat-start = "sub_account in account.sub_accounts" class = "subaccount-row account-{{subacount.accountNo}}"
             ng-show = "account.showSubaccount" ng-click = "sub_account.showSubaccount = !sub_account.showSubaccount">
-            <td class = "account sub-account"> <a href = "/overview/account/{{sub_account.account_id}}" >{{sub_account.account_no}}-{{sub_account.sub_no}}</a></td>
+            <td class = "account sub-account"> <a  class = "account-link" href = "/overview/account/{{sub_account.account_id}}" >{{sub_account.account_no}}-{{sub_account.sub_no}}</a></td>
             <td class = "description"> {{sub_account.description}}</td>
             <td class = "currency"> {{sub_account.annual_budget | currency}}</td>
             <td class = "currency"> {{sub_account.transfer | currency}}</td>
@@ -40,7 +40,7 @@
         </tr>
         <tr ng-repeat-start = "shred_out in sub_account.sub_accounts" class = "sub-row account-{{sub.accountNo}}"
             ng-show = "sub_account.showSubaccount && account.showSubaccount">
-            <td class = "account sub"> <a href = "/overview/account/{{shred_out.account_id}}" >{{shred_out.account_no}}-{{sub_account.sub_no}}-{{shred_out.shred_no}}</a></td>
+            <td class = "account sub"> <a  class = "account-link" href = "/overview/account/{{shred_out.account_id}}" >{{shred_out.account_no}}-{{sub_account.sub_no}}-{{shred_out.shred_no}}</a></td>
             <td class = "description"> {{shred_out.description}}</td>
             <td class = "currency"> {{shred_out.annual_budget | currency}}</td>
             <td class = "currency"> {{shred_out.transfer | currency}}</td>

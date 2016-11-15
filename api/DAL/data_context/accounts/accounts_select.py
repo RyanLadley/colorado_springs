@@ -18,12 +18,18 @@ def accounts_overview(cursor = None):
                         shred_no, 
                         description, 
                         annual_budget, 
-                        transfer, 
-                        (annual_budget + transfer) as total_budget, 
-                        (SELECT COALESCE(SUM(expense),0)
-                         FROM v_transactions
-                         WHERE account_no = accounts.account_no)  as expendetures, 
-                        CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining 
+
+                        ((SELECT COALESCE(SUM(amount),0)
+                         FROM v_account_transfers
+                         WHERE to_account_no = accounts.account_no) 
+                        -
+                        (SELECT COALESCE(SUM(amount),0)
+                         FROM v_account_transfers
+                         WHERE from_account_no = accounts.account_no) ) AS transfer, 
+
+                        CAST((SELECT COALESCE(SUM(expense),0)
+                            FROM v_transactions
+                            WHERE account_no = accounts.account_no) AS Decimal(10,2))  AS expendetures
                 FROM accounts
                 WHERE sub_no IS NULL
                     AND shred_no IS NULL;""")
@@ -43,13 +49,22 @@ def accounts_overview(cursor = None):
                             shred_no, 
                             description, 
                             annual_budget, 
-                            transfer, 
-                            (annual_budget + transfer) as total_budget, 
-                            (SELECT COALESCE(SUM(expense),0)
-                             FROM v_transactions
-                             WHERE account_no = accounts.account_no
-                                   AND sub_no = accounts.sub_no)  as expendetures, 
-                            CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining 
+                            
+                            ((SELECT COALESCE(SUM(amount),0)
+                             FROM v_account_transfers
+                             WHERE to_account_no = accounts.account_no
+                                AND to_sub_no = accounts.sub_no) 
+                            -
+                            (SELECT COALESCE(SUM(amount),0)
+                             FROM v_account_transfers
+                             WHERE from_account_no = accounts.account_no
+                                AND from_sub_no = accounts.sub_no) ) AS transfer, 
+
+                            CAST((SELECT COALESCE(SUM(expense),0)
+                                FROM v_transactions
+                                WHERE account_no = accounts.account_no
+                                   AND sub_no = accounts.sub_no) AS Decimal(10,2)) as expendetures
+
                     FROM accounts
                     WHERE account_no = %(account_number)s
                         AND sub_no IS NOT NULL
@@ -71,19 +86,30 @@ def accounts_overview(cursor = None):
                                 shred_no, 
                                 description, 
                                 annual_budget, 
-                                transfer, 
-                                (annual_budget + transfer) as total_budget, 
-                                (SELECT COALESCE(SUM(expense),0)
-                                 FROM v_transactions
-                                 WHERE account_no = accounts.account_no
-                                   AND sub_no = accounts.sub_no
-                                   AND shred_no = accounts.shred_no)  as expendetures, 
-                                CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining 
-                        FROM accounts
-                        WHERE account_no = %(account_number)s
-                            AND sub_no = %(sub_account_number)s
-                            AND shred_no IS NOT NULL;""",
-                        {'account_number': account.account_no, 'sub_account_number': sub_account.sub_no})
+                                
+                                ((SELECT COALESCE(SUM(amount),0)
+                                 FROM v_account_transfers
+                                 WHERE to_account_no = accounts.account_no
+                                    AND to_sub_no = accounts.sub_no
+                                    AND to_shred_no = accounts.shred_no) 
+                                -
+                                (SELECT COALESCE(SUM(amount),0)
+                                 FROM v_account_transfers
+                                 WHERE from_account_no = accounts.account_no
+                                    AND from_sub_no = accounts.sub_no
+                                    AND from_shred_no = accounts.shred_no) ) AS transfer, 
+
+                                CAST((SELECT COALESCE(SUM(expense),0)
+                                    FROM v_transactions
+                                    WHERE account_no = accounts.account_no
+                                        AND sub_no = accounts.sub_no
+                                        AND shred_no = accounts.shred_no) AS Decimal(10,2)) as expendetures
+
+                            FROM accounts
+                            WHERE account_no = %(account_number)s
+                                AND sub_no = %(sub_account_number)s
+                                AND shred_no IS NOT NULL;""",
+                            {'account_number': account.account_no, 'sub_account_number': sub_account.sub_no})
 
             results = cursor.fetchall() or {}
 
@@ -166,10 +192,33 @@ def account_details(account_id, cursor = None):
                         account_no, 
                         sub_no, 
                         shred_no, 
-                        description, 
+                        description,
                         annual_budget, 
-                        transfer, 
-                        (annual_budget + transfer) as total_budget, 
+
+                        ((SELECT COALESCE(SUM(amount),0)
+                             FROM v_account_transfers
+                             WHERE to_account_no = accounts.account_no AND
+                                    CASE WHEN accounts.sub_no IS NOT NULL
+                                        THEN to_sub_no = accounts.sub_no AND
+                                            CASE WHEN accounts.shred_no IS NOT NULL
+                                                 THEN to_shred_no = accounts.shred_no
+                                                 ELSE TRUE
+                                            END
+                                         ELSE True
+                                    END)
+                            -
+                            (SELECT COALESCE(SUM(amount),0)
+                             FROM v_account_transfers
+                             WHERE from_account_no = accounts.account_no AND
+                                    CASE WHEN accounts.sub_no IS NOT NULL
+                                         THEN from_sub_no = accounts.sub_no AND
+                                            CASE WHEN accounts.shred_no IS NOT NULL
+                                                 THEN from_shred_no = accounts.shred_no
+                                                 ELSE TRUE
+                                            END
+                                         ELSE True
+                                    END)) AS transfer,
+
                         (SELECT COALESCE(SUM(expense),0)
                          FROM v_transactions
                          WHERE account_no = accounts.account_no AND
@@ -180,8 +229,7 @@ def account_details(account_id, cursor = None):
                                           ELSE TRUE
                                      END
                                  ELSE True
-                            END)  as expendetures, 
-                        CAST((Select total_budget) - (Select expendetures) as Decimal(10,2)) as remaining
+                            END)  as expendetures
                 FROM accounts
                 WHERE account_id = %(account_id)s;""",
             {'account_id' : account_id})
