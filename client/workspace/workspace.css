@@ -6,6 +6,39 @@
     margin-bottom: 0; }
   .page-title h2 {
     margin: 0; }
+  .page-title .main-title {
+    display: inline-block;
+    position: relative; }
+    .page-title .main-title h1 {
+      margin: 0; }
+    .page-title .main-title .info {
+      position: absolute;
+      left: 105%;
+      top: 5px; }
+
+.title-info {
+  display: inline-block;
+  position: relative; }
+  .title-info h1, .title-info h2, .title-info h3 {
+    margin: 0; }
+  .title-info .info {
+    position: absolute;
+    left: 108%;
+    top: 0px; }
+  .title-info i {
+    font-size: 75%; }
+
+.large-title-info {
+  display: inline-block;
+  position: relative; }
+  .large-title-info h1, .large-title-info h2, .large-title-info h3 {
+    margin: 0; }
+  .large-title-info .info {
+    position: absolute;
+    left: 104%;
+    top: 3px; }
+  .large-title-info i {
+    font-size: 95%; }
 
 .table {
   width: 99%;
@@ -135,15 +168,45 @@
   padding: 10px; }
 
 .tab-title {
-  margin-left: 15px;
-  margin-right: 15px;
-  border-bottom: 1px solid black; }
+  margin: 15px;
+  border-bottom: 1px solid black;
+  position: relative; }
 
 .tab-sub-title {
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 10px;
   border-bottom: 1px solid lightgrey; }
+
+.info {
+  position: relative;
+  display: inline-block;
+  color: #4E4E4E; }
+  .info .infotext {
+    display: block;
+    visibility: hidden;
+    width: 200px;
+    background-color: #404040;
+    color: white;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 3px;
+    padding: 5px 5px;
+    position: absolute;
+    z-index: 1;
+    top: -6px;
+    left: 140%; }
+  .info .infotext::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #404040 transparent transparent; }
+  .info:hover .infotext {
+    visibility: visible; }
 
 .content-link {
   display: inline-block;

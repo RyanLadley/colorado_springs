@@ -1,0 +1,36 @@
+.info {
+    position: relative;
+    display: inline-block;
+    color: $menu-black;
+
+    .infotext {
+        display: block;
+        visibility: hidden;
+        width: 200px;
+        background-color: $nav-black;
+        color: white;
+        text-align: center;
+        font-size: 13px; 
+        border-radius: 3px;
+        padding: 5px 5px;
+        position: absolute;
+        z-index: 1;
+        top: -6px;
+        left: 140%;
+    }
+
+    .infotext::after {
+        content: "";
+        position: absolute;
+        top: 40%;
+        right: 100%;
+        margin-top: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent $nav-black transparent transparent;
+    }
+
+    &:hover .infotext {
+        visibility: visible;
+    }
+}

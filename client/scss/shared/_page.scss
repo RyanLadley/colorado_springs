@@ -8,4 +8,48 @@
     h2{
         margin: 0;
     }
+    .main-title{
+        h1{
+            margin: 0;
+        }
+        display: inline-block;
+        position: relative;
+        .info{
+            position: absolute; 
+            left:105%;
+            top:5px;
+        }
+    }
+}
+
+.title-info{
+    h1,h2,h3{
+        margin: 0;
+    }
+    display: inline-block;
+    position: relative;
+    .info{
+        position: absolute; 
+        left:108%;
+        top:0px;
+    }
+    i{
+        font-size:75%;
+    }
+}
+
+.large-title-info{
+    h1,h2,h3{
+        margin: 0;
+    }
+    display: inline-block;
+    position: relative;
+    .info{
+        position: absolute; 
+        left:104%;
+        top:3px;
+    }
+    i{
+        font-size:95%;
+    }
 }
