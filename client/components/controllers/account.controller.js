@@ -7,6 +7,12 @@ app.controller('accountController', function($scope, $location, $routeParams, po
 
         $scope.selectedMonth = d.getMonth()
         $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+
+        //This was being fired more than once
+        //TODO: Figure out why, and find a more elegant solution to the problem
+        if($scope.months.length <13){
+            $scope.months.push("Pending")
+        }
         calculateTotals()
 
     })
@@ -30,17 +36,15 @@ app.controller('accountController', function($scope, $location, $routeParams, po
         }
     })
 
-    $scope.monthlyTotals = new Array(12)
+    $scope.monthlyTotals = []
     var calculateTotals = function(){
 
-        //Hard coded 12 for the number of months
-        //TODO: Determine a way to make this dynamic (not hard coded)
-        for (var i = 0; i < 12; i++){
+        for (var i = 0; i < $scope.months.length ; i++){
             total = 0
             for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
                 total += Number($scope.account.monthly_summary[i][j].expense)
             }
-            $scope.monthlyTotals[i] = total
+            $scope.monthlyTotals.push(total)
         }
     }
 });

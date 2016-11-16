@@ -64,7 +64,7 @@ app.directive('transactionAdjustment', function() {
 app.directive('dateSelect', function() {
     return{
         restrict: 'E',
-        //controller: 'dateSelectController',
+        controller: 'dateSelectController',
         scope: {
             date: '=',
             required: '@?',

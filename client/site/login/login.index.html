@@ -1,3 +1,7 @@
+<div class = "login-background">
+    <img src= "/res/images/login-back.jpg">/>
+</div>
+
 <div class = "login-page">
 
     <div class = "login-page-content">
@@ -5,8 +9,8 @@
 
         <div class = "login">
             <form name = "loginForm" ng-submit = "submit()">
-                <h2 class = "section-label"> Sign In</h2>
-                <p>{{failureMessage}}</p>
+                <h2 class = "login-title"> Sign In</h2>
+                <p class = "login-error">{{failureMessage}}</p>
                 <div class = "login-section">
                     <h3>Email</h3>
                     <input type="email" name = "loginEmail" ng-model = "login.email" placeholder="Email">

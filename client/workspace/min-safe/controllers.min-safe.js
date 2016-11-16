@@ -1,11 +1,5 @@
 app.controller('accountSelectController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
     
-
-    //postRequestService.request('/api/accounts/numbers').then(function(success){
-     //   $scope.accounts = success.data.response;
-    //})
-
-
     $scope.displaySubaccounts = function(account){
         $scope.subaccounts = []
         $scope.shredouts = []
@@ -94,6 +88,12 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
 
         $scope.selectedMonth = d.getMonth()
         $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+
+        //This was being fired more than once
+        //TODO: Figure out why, and find a more elegant solution to the problem
+        if($scope.months.length <13){
+            $scope.months.push("Pending")
+        }
         calculateTotals()
 
     })
@@ -117,17 +117,15 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
         }
     })
 
-    $scope.monthlyTotals = new Array(12)
+    $scope.monthlyTotals = []
     var calculateTotals = function(){
 
-        //Hard coded 12 for the number of months
-        //TODO: Determine a way to make this dynamic (not hard coded)
-        for (var i = 0; i < 12; i++){
+        for (var i = 0; i < $scope.months.length ; i++){
             total = 0
             for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
                 total += Number($scope.account.monthly_summary[i][j].expense)
             }
-            $scope.monthlyTotals[i] = total
+            $scope.monthlyTotals.push(total)
         }
     }
 }]);
@@ -170,10 +168,15 @@ app.controller('adminController', ['$scope', '$location', 'postRequestService', 
 	];
 
 	$scope.submitNewUser = function(){
-		if($scope.newUserForm.$valid){
-			postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
-                $location.url('/') 
-            })
+		if($scope.newUserForm.$valid ){
+            if($scope.newUser.password == $scope.confirmedPassword){
+    			postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
+                    $location.url('/') 
+                })
+            }
+            else{
+                $scope.newUserError = "Passwords do not match"
+            }
 		}
 		else{
 			$scope.newUserError = "Please fill out all fields"
@@ -199,7 +202,6 @@ app.controller('dataInputController', ['$scope', '$location', 'postRequestServic
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
-        console.log(success.data.response)
     })
 
     $scope.display = {
@@ -208,6 +210,12 @@ app.controller('dataInputController', ['$scope', '$location', 'postRequestServic
     };
 
 
+}]);
+app.controller('dateSelectController', ['$scope', '$cookies', '$location', 'postRequestService', function($scope, $cookies, $location, postRequestService){
+
+    $scope.$watch('date', function(){
+        $scope.displayCalendar = false;
+    })
 }]);
 app.controller('expenseBreakdownController', ['$scope', function($scope){
     $scope.options = {

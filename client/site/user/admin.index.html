@@ -43,10 +43,14 @@
                 </div>
                 <div class = "label-input">
                     <div class = "label-info">
-                        <label> Temporary Permissions</label>
+                        <label> Temporary Password</label>
                         <info-tip message = "User will be prompted for a new password on initial login."></info-tip>
                     </div>
                     <input type = "password" placeholder = "Password" ng-model = "newUser.password"  required>
+                </div>
+                <div class = "label-input">
+                    <label> Confirm Password</label> 
+                    <input type = "password" placeholder = "Password" ng-model = "confirmedPassword"  required>
                 </div>
                 <div class = "label-input">
                     <label>Permissions</label>

@@ -4,7 +4,6 @@ app.controller('dataInputController', function($scope, $location, postRequestSer
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
-        console.log(success.data.response)
     })
 
     $scope.display = {

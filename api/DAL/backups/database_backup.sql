@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `colorado_springs` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `colorado_springs`;
--- MySQL dump 10.13  Distrib 5.5.52, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
 --
 -- Host: 127.0.0.1    Database: colorado_springs
 -- ------------------------------------------------------
--- Server version	5.5.52-0ubuntu0.14.04.1
+-- Server version	5.5.49-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -61,7 +61,7 @@ CREATE TABLE `accounts` (
   `description` varchar(140) NOT NULL,
   `annual_budget` decimal(10,2) NOT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,5221000,NULL,NULL,'In House Resurfacing',2160938.00),(2,5221000,1,NULL,'Maitenance Paving',0.00),(4,5221000,2,NULL,'Structural Digout',0.00),(5,5221000,2,1,'North District Digout',0.00),(6,5221000,2,2,'South District Digout',0.00),(7,5221000,2,3,'East District Digout',0.00),(8,5221000,2,4,'West District Digout',0.00),(9,5221000,3,NULL,'District Maintenance Paving',0.00),(10,5221000,3,1,'North Maintenence Paving',0.00),(11,5221000,3,2,'South Maintenance Paving',0.00),(12,5221000,3,3,'East Maintenance Paving',0.00),(13,5221000,3,4,'West Maintenance Paving',0.00),(14,5222000,NULL,NULL,'Pothole Patching Repair',0.00),(15,5222000,1,NULL,'Asphalt Repair',0.00),(16,5222000,2,NULL,'Propane',0.00),(17,5222000,3,NULL,'Shovels/Rakes/etc',0.00);
+INSERT INTO `accounts` VALUES (1,5221000,NULL,NULL,'In House Resurfacing',2160938.00),(2,5221000,1,NULL,'Maitenance Paving',0.00),(4,5221000,2,NULL,'Structural Digout',0.00),(5,5221000,2,1,'North District Digout',0.00),(6,5221000,2,2,'South District Digout',0.00),(7,5221000,2,3,'East District Digout',0.00),(8,5221000,2,4,'West District Digout',0.00),(9,5221000,3,NULL,'District Maintenance Paving',0.00),(10,5221000,3,1,'North Maintenence Paving',0.00),(11,5221000,3,2,'South Maintenance Paving',0.00),(12,5221000,3,3,'East Maintenance Paving',0.00),(13,5221000,3,4,'West Maintenance Paving',0.00),(14,5222000,NULL,NULL,'Pothole Patching Repair',331447.80),(15,5222000,1,NULL,'Asphalt Repair',0.00),(16,5222000,2,NULL,'Propane',0.00),(17,5222000,3,NULL,'Shovels/Rakes/etc',0.00),(18,5223000,NULL,NULL,'In House Pipe',137447.80),(19,5223000,1,NULL,'Pipe Materials',0.00),(20,5223000,2,NULL,'Swas/Hand Tools/Etc',0.00),(21,5224000,NULL,NULL,'In House Concrete',3523678.92),(22,5224000,1,NULL,'Concrete Materials',0.00),(23,5224000,2,NULL,'Tool/Supplies',0.00),(24,5225000,NULL,NULL,'In House Project Support',158016.80),(25,5225000,1,NULL,'Maint Paving Manpower',0.00),(26,5225000,2,NULL,'Maint Paving Rental Equip',0.00),(27,5225000,3,NULL,'Maint District Manpower',0.00),(28,5225000,3,1,'North District Manpower',0.00),(29,5225000,3,2,'South District Manpower',0.00),(30,5225000,3,3,'East District Manpower',0.00),(31,5225000,3,4,'West District Manpower',0.00),(32,5225000,4,NULL,'Maint District Rental Equip',0.00),(33,5225000,4,1,'North District Rental Equip',0.00),(34,5225000,4,2,'South District Rental Equip',0.00),(35,5225000,4,3,'East District Rental Equip',0.00),(36,5225000,4,4,'West District Rental Equip',0.00),(37,5225000,5,NULL,'In House Pipe Manpower',0.00),(38,5225000,6,NULL,'In House Pipe Rental Equip',0.00),(39,5225000,7,NULL,'In House Concrete Manpower',0.00),(40,5225000,8,NULL,'In House Concrete Equip',0.00),(41,5225000,9,NULL,'Signs & Markings Manpower',0.00),(42,5225000,10,NULL,'Reserves',0.00),(43,5226000,NULL,NULL,'Signs & Markings',14135000.00),(44,5226000,1,NULL,'Crosswalks/School Legends',0.00),(45,5226000,2,NULL,'Long Line Contract',0.00);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +160,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (14,'user@email.com','User','McUserson','pbkdf2:sha1:1000$pUDdp4b7$0f61e5f0477095e0659d1553668ea3f8341e045b','EOY90MC9XRCQRG1XL5EF9G5172450U4V','2016-11-16 05:42:58',0);
+INSERT INTO `user` VALUES (14,'user@email.com','User','McUserson','pbkdf2:sha1:1000$pUDdp4b7$0f61e5f0477095e0659d1553668ea3f8341e045b','E3TBBQBWX7GFNZ797XR5P8J9GW1QRDW0','2016-11-16 19:26:27',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,4 +372,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-15 21:45:44
+-- Dump completed on 2016-11-16 11:43:48

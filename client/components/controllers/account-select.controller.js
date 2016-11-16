@@ -1,11 +1,5 @@
 app.controller('accountSelectController', function($scope, $location, postRequestService, monthsService){
     
-
-    //postRequestService.request('/api/accounts/numbers').then(function(success){
-     //   $scope.accounts = success.data.response;
-    //})
-
-
     $scope.displaySubaccounts = function(account){
         $scope.subaccounts = []
         $scope.shredouts = []

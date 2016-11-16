@@ -8,6 +8,16 @@
 
 }
 
+@mixin horizontal-mirrored-gradient($color-inner, $color-outer){
+  background: $color-inner; 
+  background: -webkit-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+  background: -o-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+  background: -moz-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+  background: linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+
+}
+
+
 @mixin blur($pixels){
 	filter: blur($pixels);
     -webkit-filter: blur($pixels);

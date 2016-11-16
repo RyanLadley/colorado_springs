@@ -383,6 +383,45 @@
     width: 35px;
     height: auto; }
 
+.login-background {
+  position: absolute;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; }
+
+.login-page {
+  background: rgba(255, 255, 255, 0.96);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.85));
+  background: -o-linear-gradient(left, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.85));
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.85));
+  background: linear-gradient(left, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.85));
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  height: 700px;
+  padding: 50px 150px;
+  margin-left: 50px;
+  margin-top: 5%; }
+
+.login-section h3 {
+  margin-bottom: 3px;
+  border-bottom: solid 1px grey;
+  margin: 5px 20px;
+  padding: 5px 0; }
+
+.login-button {
+  margin-top: 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 30px;
+  border: none;
+  background: #5365C1; }
+
+.login-error {
+  font-size: 14px; }
+
 #home-top-container {
   width: 100%;
   min-width: 1100px; }

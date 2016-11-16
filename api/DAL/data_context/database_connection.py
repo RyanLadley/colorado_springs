@@ -19,25 +19,29 @@ class DatabaseConnection:
 
     def __call__(self, *args, **kwargs):
 
+        #If a cursor is provided, there is no need to reestablish a connection
+        if(kwargs.get('cursor', True) == True):
+            db = self._connect()
+            connection_cursor = db.cursor(MySQLdb.cursors.DictCursor)
+            try:
+                query_result = self.function(cursor = connection_cursor, *args, **kwargs)
+                connection_cursor.close()
+                db.commit();
 
-        db = self._connect()
-        connection_cursor = db.cursor(MySQLdb.cursors.DictCursor)
-        try:
-            query_result = self.function(cursor = connection_cursor, *args, **kwargs)
-            connection_cursor.close()
-            db.commit();
+            except MySQLdb.Error as exception:
+                db.rollback()
 
-        except MySQLdb.Error as exception:
-            db.rollback()
+                message = exception.args[1]
+                print(message)
+                return response.error(message)
+               
+            finally: 
+                db.close()
 
-            message = exception.args[1]
-            print(message)
-            return response.error(message)
-           
-        finally: 
-            db.close()
+            return query_result
 
-        return query_result
+        else:
+            return self.function(*args, **kwargs)
     
 
 

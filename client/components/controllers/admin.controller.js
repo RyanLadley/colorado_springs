@@ -22,10 +22,15 @@ app.controller('adminController', function($scope, $location,postRequestService)
 	];
 
 	$scope.submitNewUser = function(){
-		if($scope.newUserForm.$valid){
-			postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
-                $location.url('/') 
-            })
+		if($scope.newUserForm.$valid ){
+            if($scope.newUser.password == $scope.confirmedPassword){
+    			postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
+                    $location.url('/') 
+                })
+            }
+            else{
+                $scope.newUserError = "Passwords do not match"
+            }
 		}
 		else{
 			$scope.newUserError = "Please fill out all fields"

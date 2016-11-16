@@ -26,7 +26,6 @@ def types(cursor = None):
 def from_account_by_month(account, cursor = None):
 
     transactions_by_month = {}
-    #Execute sotred procedure to get all transactions assigned to this account and its sub/shred accounts
 
     for month in range(1,13):
         cursor.execute("""
@@ -65,8 +64,49 @@ def from_account_by_month(account, cursor = None):
 
         transactions_by_month[str(month-1)] = transactions
 
+    transactions_by_month['12'] = pending_by_account(account, cursor = cursor) 
+
     return transactions_by_month
 
+
+@DatabaseConnection
+def pending_by_account(account, cursor = None):
+
+    cursor.execute("""
+            SELECT  transaction_id,
+                    account_id,
+                    account_no,
+                    sub_no,
+                    shred_no,
+                    vendor_id,
+                    vendor_name,
+                    invoice_no,
+                    date_paid,
+                    invoice_date,
+                    description,
+                    expense,
+                    transaction_type_id,
+                    transaction_type
+            FROM v_transactions
+            WHERE account_no = %(account_no)s
+                AND CASE WHEN %(sub_no)s IS NOT NULL
+                         THEN sub_no = %(sub_no)s AND
+                            CASE WHEN %(shred_no)s IS NOT NULL
+                                 THEN shred_no = %(shred_no)s
+                                 ELSE TRUE
+                            END
+                         ELSE True
+                    END
+                AND Month(date_paid) IS NULL;""",
+            {'account_no': account.account_no, 'sub_no': account.sub_no, 'shred_no': account.shred_no})
+
+    results = cursor.fetchall() or {}
+
+    transactions = []
+    for row in results:
+        transactions.append(Transaction.map_from_form(row))
+
+    return transactions
 
 @DatabaseConnection
 def pending_by_vendor(vendor_id, cursor = None):
