@@ -42,9 +42,6 @@ app.controller('transactionAdjustmentController', function($scope, $location, po
         console.log($scope.selectedTransaction)
 	}
 
-    postRequestService.request('/api/accounts/numbers').then(function(success){
-        $scope.accounts = success.data.response;
-    })
 
     $scope.$watch('accountId', function(){
         if($scope.accountId){

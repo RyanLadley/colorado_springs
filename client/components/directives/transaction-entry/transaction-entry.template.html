@@ -1,5 +1,5 @@
 <form class = "entry-form" name = "entryForm">
-    <account-select account-id = "transaction.accountId"></account-select>
+    <account-select account-id = "transaction.accountId" accounts = "accounts"></account-select>
     <br>
 
     <div class = "label-input">
@@ -16,14 +16,14 @@
 
     <div class = "label-input">
         <label>Transaction Type</label>
-        <select ng-model = "transaction.transactionTypeId" ng-options = "type.transaction_type_id as type.transaction_type for type in types"  required>
+        <select ng-model = "transaction.transactionTypeId" ng-options = "type.transaction_type_id as type.transaction_type for type in transactionTypes"  required>
             <option value="" disabled selected hidden>Select a Type</option>
         </select>
     </div>
     
     <date-select label ="Invoice Date"  date = "transaction.invoiceDate" input-disabled = "true" required = "true"></date-select>
 
-    <date-select label ="Date Paid (optional)"  date = "transaction.datePaid" input-disabled = "true" ></date-select>
+    <date-select label ="Date Paid (optional)"  date = "transaction.datePaid" input-disabled = "true" info = "Leaving this blank will create 'Pending' transaction. This is resolved in the adjustments creen'"></date-select>
 
     <div class = "label-input">
         <label>Total Expensed</label>

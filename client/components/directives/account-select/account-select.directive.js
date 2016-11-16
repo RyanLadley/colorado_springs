@@ -3,6 +3,7 @@ app.directive('accountSelect', function() {
         restrict: 'E',
         controller: 'accountSelectController',
         scope: {
+            accounts: '<?',
             accountId: '='
         },
         templateUrl: '/res/components/directives/account-select/account-select.template.html',

@@ -10,10 +10,12 @@ import api.DAL.data_context.vendor.vendor_select as vendor_select
 
 from api.core.buisness_objects.vendor import Vendor
 
+from api.core.admin.authorize import authorize
 
 import json
 
 @workflow.route('/vendor/new', methods = ['POST'])
+@authorize()
 def new_vendor():
 
     vendor_form = json.loads(request.form['payload'])
@@ -24,6 +26,7 @@ def new_vendor():
     return vendor_insert.new_vendor(vendor)
 
 @workflow.route('/vendor/listing', methods = ['POST'])
+@authorize()
 def vendor_listing():
 
     vendors = vendor_select.vendor_listing()
@@ -34,6 +37,7 @@ def vendor_listing():
     
 
 @workflow.route('/vendor/details/<vendor_id>', methods = ['POST'])
+@authorize()
 def vendor_details(vendor_id):
 
     vendor = vendor_select.vendor_details(vendor_id)

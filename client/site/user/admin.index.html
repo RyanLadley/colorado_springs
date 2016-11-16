@@ -23,6 +23,50 @@
             	</tr>
             </table>
         </div>
-        <button class = "admin-edit-button">Add New User</button>
+        <button class = "admin-edit-button">Update Permisions</button>
+
+        <h3 class = "section-title">New User</h3>
+        <div class ="section-inset admin-details-inset">
+            <form name = "newUserForm">
+                <p class = "error-message">{{newUserError}}</p>
+                <div class = "label-input">
+                    <label>First Name</label>
+                    <input type = "text" placeholder = "First Name" ng-model = "newUser.firstName"  required>
+                </div>
+                <div class = "label-input">
+                    <label>Last Name</label>
+                    <input type = "text" placeholder = "Last Name" ng-model = "newUser.lastName"  required>
+                </div>
+                <div class = "label-input">
+                    <label>Email</label>
+                    <input type = "email" placeholder = "Email" ng-model = "newUser.email"  required>
+                </div>
+                <div class = "label-input">
+                    <div class = "label-info">
+                        <label> Temporary Permissions</label>
+                        <info-tip message = "User will be prompted for a new password on initial login."></info-tip>
+                    </div>
+                    <input type = "password" placeholder = "Password" ng-model = "newUser.password"  required>
+                </div>
+                <div class = "label-input">
+                    <label>Permissions</label>
+                    <table>
+                        <tr>
+                            <td class = "new-headers">Admin</td>
+                            <td class = "new-headers">User</td>
+                            <td class = "new-headers">Craftsman</td>
+                        </tr>
+                        <tr>
+                            <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="0"> </td>
+                            <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="1"> </td>
+                            <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="2"> </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </div>
+        <button class = "admin-edit-button" ng-click = "submitNewUser()">Create User</button>
 </div>
+
+
 

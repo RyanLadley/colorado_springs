@@ -1,5 +1,8 @@
 <div class = "page-title">
-    <h1>Data Entry</h1>
+    <div class = "large-title-info">
+        <h1> Data Entry</h1>
+        <info-tip message = "Select a tab to add new information into the system."></info-tip>
+    </div>
 </div>
 
 <ul class = "tabs entry-tabs">
@@ -11,11 +14,21 @@
     <div class = "tabed-border">
         <div class = "tabed-content entry-content">
             <div class = "transactions" ng-show = "display.transaction">
-                <h2 class = "tab-title">New Transaction</h2>
-                <transaction-entry transaction="transaction"></transaction-entry>
+                <div class = "tab-title">
+                    <div class = "title-info">
+                        <h2>New Transactions</h2>
+                        <info-tip message = "Use this tab to create a new transaction. All fields but the 'Date Paid' are required for input."></info-tip>
+                    </div>
+                </div>
+                <transaction-entry transaction="transaction" account-options = "accounts"  vendor-options = "vendors" transaction-type-options = "transactionTypes"></transaction-entry>
             </div>
             <div class = "pending" ng-show = "display.vendor">
-                <h2 class = "tab-title">New Vendor</h2>
+                <div class = "tab-title">
+                    <div class = "title-info">
+                        <h2>New Vendor</h2>
+                        <info-tip message = "Use this tab to create a new vendor."></info-tip>
+                    </div>
+                </div>    
                 <vendor-entry vendor = "vendor"></vendor-entry>
             </div>
         </div>

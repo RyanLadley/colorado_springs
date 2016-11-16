@@ -29,6 +29,7 @@ app.directive('accountSelect', function() {
         restrict: 'E',
         controller: 'accountSelectController',
         scope: {
+            accounts: '<?',
             accountId: '='
         },
         templateUrl: '/res/components/directives/account-select/account-select.template.html',
@@ -68,7 +69,8 @@ app.directive('dateSelect', function() {
             date: '=',
             required: '@?',
             inputDisabled: '@?',
-            label: '@'
+            label: '@',
+            info: '@?'
         },
         templateUrl: '/res/components/directives/date-select/date-select.template.html'
     };
@@ -125,6 +127,9 @@ app.directive('transactionEntry', function() {
         controller: 'transactionEntryController',
         scope: {
             transaction: '=',
+            vendors: '<vendorOptions',
+            accounts: '<accountOptions',
+            transactionTypes: '<transactionTypeOptions', 
             submit: '='
         },
        templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'

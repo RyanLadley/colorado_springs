@@ -1,7 +1,31 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies', 'mp.datePicker', 'nvd3'], ['$locationProvider', function($locationProvider){
     $locationProvider.html5Mode(true);
 }]);
-;app.service('monthsService', function(){
+
+app.run(['$rootScope', '$location', '$cookies', function($rootScope, $location, $cookies){
+    //Check for token changes. 
+    //If the token is deleted, the user is signed out, move them to the login page
+    $rootScope.$watchCollection(function(){ return $cookies.getObject('token');}, function(token){
+        if(token == null){
+            $rootScope.isSignedIn = false;
+            if($location.path() !== "/login"){
+                alert("You have been logged out!")
+                $location.url("/login")
+            }
+        }
+        else{
+            $rootScope.isSignedIn = true;
+        }
+    });
+
+    //If the user is logged out, the only page they can view is the login page
+    //On route change, check to make sure the user is signed in
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+        if (!$rootScope.isSignedIn) {
+            $location.url("/login")
+        }
+    })
+}]);;app.service('monthsService', function(){
 
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -19,7 +43,7 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
     this.request = function(url, payload) {
         var form = new FormData()
         form.append("payload", JSON.stringify(payload))
-        //form.append("token", JSON.stringify($cookies.getObject('token')))
+        form.append("token", JSON.stringify($cookies.getObject('token')))
 
         return $http.post(url, form, {
             withCredentials : false,
@@ -34,7 +58,7 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
             if(success.data.status === "success"){
                 var now = new Date()
                 var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
-                //$cookies.putObject('token', success.data.token, {'expires': oneYear});
+                $cookies.putObject('token', success.data.token, {'expires': oneYear});
             }
             else{
                 //User tried to access a project they do not have permission to view
@@ -42,14 +66,13 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
                 if(success.data.response === "Project Access Denied"){
                     var now = new Date()
                     var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
-                    //$cookies.putObject('token', success.data.token, {'expires': oneYear});
-                    //$cookies.remove('project')
+                    $cookies.putObject('token', success.data.token, {'expires': oneYear});
                 }
                 //User token has expireed. Log them out
                 //They don't need to be burned... yet. 
                 else{
                     if(success.data.response === "Invalid User"){
-                        //$cookies.remove('token')
+                        $cookies.remove('token')
                     }
                 }
             }
@@ -58,7 +81,7 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
         //Error
         function(error){
             if(error.data.response === "Invalid User"){
-                //$cookies.remove('token')
+                $cookies.remove('token')
             }
         });
     };
@@ -67,7 +90,14 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
     $routeProvider
     .when("/",
         {
+            controller: 'homeController',
             templateUrl: '/res/site/home/home.index.html'
+        }
+    )
+    .when("/login",
+        {
+            controller: 'loginController',
+            templateUrl: '/res/site/login/login.index.html'
         }
     )
     .when("/overview",
@@ -136,7 +166,7 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
             templateUrl: '/res/site/user/profile.index.html'
         }
     )
-    .when("/admin/:userId",
+    .when("/administrator/:userId",
         {
             controller: 'adminController',
             templateUrl: '/res/site/user/admin.index.html'
@@ -161,9 +191,9 @@ app.filter('percentage', ['$filter', function ($filter) {
 }]);;app.controller('accountSelectController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
     
 
-    postRequestService.request('/api/accounts/numbers').then(function(success){
-        $scope.accounts = success.data.response;
-    })
+    //postRequestService.request('/api/accounts/numbers').then(function(success){
+     //   $scope.accounts = success.data.response;
+    //})
 
 
     $scope.displaySubaccounts = function(account){
@@ -291,8 +321,13 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
         }
     }
 }]);
-app.controller('adjustmentsController', ['$scope', '$location', function($scope, $location){
+app.controller('adjustmentsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
   
+  	postRequestService.request('/api/dropdown/all').then(function(success){
+        $scope.accounts = success.data.response.accounts
+        $scope.vendors = success.data.response.vendors
+        $scope.transactionTypes = success.data.response.transaction_types
+    })
 
     $scope.display = {
     	transactions: true,
@@ -301,7 +336,7 @@ app.controller('adjustmentsController', ['$scope', '$location', function($scope,
     };
 
 }]);
-app.controller('adminController', ['$scope', '$location', function($scope, $location){
+app.controller('adminController', ['$scope', '$location', 'postRequestService', function($scope, $location,postRequestService){
 
 	$scope.users = [
 		{
@@ -322,21 +357,40 @@ app.controller('adminController', ['$scope', '$location', function($scope, $loca
 			email: "admin@email.com",
 			permissions: "0"
 		}
-	]
+	];
+
+	$scope.submitNewUser = function(){
+		if($scope.newUserForm.$valid){
+			postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
+                $location.url('/') 
+            })
+		}
+		else{
+			$scope.newUserError = "Please fill out all fields"
+		}
+	}
 
 }]);
 app.controller('budgetAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+
+	//$scope.accounts = $scope.$parent.accounts
     
     $scope.submitTransfer = function(){
         if($scope.transferForm.$valid){
             postRequestService.request('/api/accounts/transfer', $scope.transfer).then(function(success){
-               //$location.url('/') 
+               $location.url('/') 
             })
         }
     }
 }]);
-app.controller('dataInputController', ['$scope', '$location', function($scope, $location){
+app.controller('dataInputController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
   
+  	postRequestService.request('/api/dropdown/all').then(function(success){
+        $scope.accounts = success.data.response.accounts
+        $scope.vendors = success.data.response.vendors
+        $scope.transactionTypes = success.data.response.transaction_types
+        console.log(success.data.response)
+    })
 
     $scope.display = {
     	transaction: true,
@@ -427,6 +481,45 @@ app.controller('expenseBreakdownController', ['$scope', function($scope){
     $scope.filterSelect = function(id){
 
     }
+}]);
+app.controller('homeController', ['$scope', '$cookies', '$location', 'postRequestService', function($scope, $cookies, $location, postRequestService){
+
+    $scope.logout = function(){
+        $cookies.remove('token')
+    }
+}]);
+app.controller('loginController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+    $scope.login = {}
+    $scope.submit = function(){
+        if(validEmail() && validPassword() ){
+            postRequestService.request("/api/admin/login", $scope.login).then(function(request){
+                if(request.data.status === "success"){
+                    $location.url("/")
+                }
+                else{
+                    $scope.failureMessage = request.data.response;
+                }
+            });
+        }
+    }
+
+
+    var validPassword = function(){
+        if(!$scope.login.password || $scope.login.password.length < 6){
+            $scope.failureMessage = "Password must be at least 6 characters";
+            return false;
+        }
+        return true;
+    }
+    
+    var validEmail = function(){
+        if(!$scope.login.email || !$scope.loginForm.loginEmail.$valid){
+            $scope.failureMessage = "The email address provided is invalid";
+            return false;
+        }
+        return true;
+    }
+
 }]);
 app.controller('monthlyBreakdownController', ['$scope', '$location', function($scope, $location){
     $scope.options = {
@@ -653,9 +746,7 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
         }
     }
 
-    postRequestService.request('/api/vendor/listing').then(function(success){
-        $scope.vendors = success.data.response;
-    })
+    
 
     $scope.$watch('vendorId', function(){
         if($scope.vendorId){
@@ -817,9 +908,6 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
         console.log($scope.selectedTransaction)
 	}
 
-    postRequestService.request('/api/accounts/numbers').then(function(success){
-        $scope.accounts = success.data.response;
-    })
 
     $scope.$watch('accountId', function(){
         if($scope.accountId){
@@ -843,17 +931,6 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
 }]);
 app.controller('transactionEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
-    postRequestService.request('/api/accounts/numbers').then(function(success){
-        $scope.accounts = success.data.response;
-    })
-
-    postRequestService.request('/api/vendor/listing').then(function(success){
-        $scope.vendors = success.data.response;
-    })
-
-    postRequestService.request('/api/transaction/types').then(function(success){
-        $scope.types = success.data.response;
-    })
 
     $scope.submitTransaction = function(){
         //If the transaction has an Id, we know we are updateing an existing transaction.
@@ -929,6 +1006,7 @@ app.directive('accountSelect', function() {
         restrict: 'E',
         controller: 'accountSelectController',
         scope: {
+            accounts: '<?',
             accountId: '='
         },
         templateUrl: '/res/components/directives/account-select/account-select.template.html',
@@ -968,7 +1046,8 @@ app.directive('dateSelect', function() {
             date: '=',
             required: '@?',
             inputDisabled: '@?',
-            label: '@'
+            label: '@',
+            info: '@?'
         },
         templateUrl: '/res/components/directives/date-select/date-select.template.html'
     };
@@ -1025,6 +1104,9 @@ app.directive('transactionEntry', function() {
         controller: 'transactionEntryController',
         scope: {
             transaction: '=',
+            vendors: '<vendorOptions',
+            accounts: '<accountOptions',
+            transactionTypes: '<transactionTypeOptions', 
             submit: '='
         },
        templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'

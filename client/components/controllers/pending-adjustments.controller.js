@@ -24,9 +24,7 @@ app.controller('pendingAdjustmentController', function($scope, $location, postRe
         }
     }
 
-    postRequestService.request('/api/vendor/listing').then(function(success){
-        $scope.vendors = success.data.response;
-    })
+    
 
     $scope.$watch('vendorId', function(){
         if($scope.vendorId){

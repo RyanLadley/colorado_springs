@@ -14,9 +14,12 @@ import api.DAL.data_context.transactions.transaction_update as transaction_updat
 
 from api.core.buisness_objects.transaction import Transaction
 
+from api.core.admin.authorize import authorize
+
 import json
 
 @workflow.route('/transaction/new', methods = ['POST'])
+@authorize()
 def new_transaction():
 
     transaction_form = json.loads(request.form['payload'])
@@ -28,6 +31,7 @@ def new_transaction():
 
 
 @workflow.route('/transaction/update', methods = ['POST'])
+@authorize()
 def update_transaction():
 
     transaction_form = json.loads(request.form['payload'])
@@ -39,6 +43,7 @@ def update_transaction():
 
 
 @workflow.route('/transaction/pending/update', methods = ['POST'])
+@authorize()
 def update_pending_transaction():
 
     transaction_form = json.loads(request.form['payload'])
@@ -51,6 +56,7 @@ def update_pending_transaction():
 
 
 @workflow.route('/transaction/account/<account_id>', methods = ['POST'])
+@authorize()
 def get_account_transaction_by_month(account_id):
 
     account = accounts_select.account_name(account_id)
@@ -62,14 +68,9 @@ def get_account_transaction_by_month(account_id):
     return response.success(account.serialize())
 
 @workflow.route('/transaction/pending/vendor/<vendor_id>', methods = ['POST'])
+@authorize()
 def get_pending_transaction_by_vendor(vendor_id):
 
     transactions = transaction_select.pending_by_vendor(vendor_id)
 
     return response.success(utilities.serialize_array(transactions))
-
-
-@workflow.route('/transaction/types', methods = ['POST'])
-def get_transaction_types():
-
-    return response.success(transaction_select.types())

@@ -4,7 +4,7 @@ app.service('postRequestService', function($http, $cookies){
     this.request = function(url, payload) {
         var form = new FormData()
         form.append("payload", JSON.stringify(payload))
-        //form.append("token", JSON.stringify($cookies.getObject('token')))
+        form.append("token", JSON.stringify($cookies.getObject('token')))
 
         return $http.post(url, form, {
             withCredentials : false,
@@ -19,7 +19,7 @@ app.service('postRequestService', function($http, $cookies){
             if(success.data.status === "success"){
                 var now = new Date()
                 var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
-                //$cookies.putObject('token', success.data.token, {'expires': oneYear});
+                $cookies.putObject('token', success.data.token, {'expires': oneYear});
             }
             else{
                 //User tried to access a project they do not have permission to view
@@ -27,14 +27,13 @@ app.service('postRequestService', function($http, $cookies){
                 if(success.data.response === "Project Access Denied"){
                     var now = new Date()
                     var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
-                    //$cookies.putObject('token', success.data.token, {'expires': oneYear});
-                    //$cookies.remove('project')
+                    $cookies.putObject('token', success.data.token, {'expires': oneYear});
                 }
                 //User token has expireed. Log them out
                 //They don't need to be burned... yet. 
                 else{
                     if(success.data.response === "Invalid User"){
-                        //$cookies.remove('token')
+                        $cookies.remove('token')
                     }
                 }
             }
@@ -43,7 +42,7 @@ app.service('postRequestService', function($http, $cookies){
         //Error
         function(error){
             if(error.data.response === "Invalid User"){
-                //$cookies.remove('token')
+                $cookies.remove('token')
             }
         });
     };

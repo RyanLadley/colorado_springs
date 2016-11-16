@@ -1,4 +1,4 @@
-app.controller('adminController', function($scope, $location){
+app.controller('adminController', function($scope, $location,postRequestService){
 
 	$scope.users = [
 		{
@@ -19,6 +19,17 @@ app.controller('adminController', function($scope, $location){
 			email: "admin@email.com",
 			permissions: "0"
 		}
-	]
+	];
+
+	$scope.submitNewUser = function(){
+		if($scope.newUserForm.$valid){
+			postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
+                $location.url('/') 
+            })
+		}
+		else{
+			$scope.newUserError = "Please fill out all fields"
+		}
+	}
 
 });

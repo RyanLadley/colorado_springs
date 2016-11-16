@@ -40,6 +40,23 @@
   .large-title-info i {
     font-size: 95%; }
 
+.label-info {
+  display: inline-block;
+  position: relative; }
+  .label-info label {
+    margin: 0; }
+  .label-info .info {
+    position: absolute;
+    left: 103%;
+    top: -4px; }
+  .label-info i {
+    font-size: 75%; }
+
+.error-message {
+  color: red;
+  margin-top: 0px;
+  margin-top: 0px; }
+
 .table {
   width: 99%;
   border-collapse: collapse;
@@ -389,7 +406,8 @@
     padding-left: 15px; }
     #home-list ul a {
       color: black;
-      text-decoration: none; }
+      text-decoration: none;
+      cursor: pointer; }
   #home-list li {
     margin-top: 5px;
     font-size: 20px; }
@@ -434,6 +452,10 @@
     width: 99%; }
   .admin-area th {
     margin-left: 20px; }
+  .admin-area .new-headers {
+    font-size: 14px; }
+  .admin-area input {
+    margin: 0 auto; }
 
 .admin-edit-button {
   border: none;

@@ -3,7 +3,14 @@ app.config(['$routeProvider', '$locationProvider',
     $routeProvider
     .when("/",
         {
+            controller: 'homeController',
             templateUrl: '/res/site/home/home.index.html'
+        }
+    )
+    .when("/login",
+        {
+            controller: 'loginController',
+            templateUrl: '/res/site/login/login.index.html'
         }
     )
     .when("/overview",
@@ -72,7 +79,7 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/user/profile.index.html'
         }
     )
-    .when("/admin/:userId",
+    .when("/administrator/:userId",
         {
             controller: 'adminController',
             templateUrl: '/res/site/user/admin.index.html'

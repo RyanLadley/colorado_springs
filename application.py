@@ -10,9 +10,11 @@ from client import client_side
 import client.routes
 
 from api.core.workflow import workflow
+import api.core.workflow.admin_workflow
 import api.core.workflow.account_workflow
-import api.core.workflow.vendor_workflow
 import api.core.workflow.transaction_workflow
+import api.core.workflow.vendor_workflow
+import api.core.workflow.dropdown_workflow
 
 application.register_blueprint(workflow, url_prefix='/api')
 

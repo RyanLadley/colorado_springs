@@ -2,10 +2,10 @@
     <div class = "tab-title">
         <div class = "title-info">
             <h2>From</h2>
-            <info-tip message = "Select a tab bellow to edit an existing entry."></info-tip>
+            <info-tip message = "Select an account from te drop down. Then choose a transaction and press 'To' to proceed"></info-tip>
         </div>
     </div>
-    <account-select account-id = "accountId"></account-select>
+    <account-select account-id = "accountId" accounts = "accounts"></account-select>
     <div class = "label-input">
         <label> Month </label>
         <select ng-model = "selectedMonth" ng-options = "months.indexOf(month) as month for month in months"></select>
@@ -51,7 +51,12 @@
             <td class = "currency">{{account.monthly_summary[selectedMonth][selectedIndex].expense | currency}}</td>
         </tr>
     </table>
-    <h2  class = "tab-title">To</h2>
-    <transaction-entry transaction = "selectedTransaction"></transaction-entry>
+    <div class = "tab-title">
+        <div class = "title-info">
+            <h2>To</h2>
+            <info-tip message = "The row above shows the existing entry. Use the inputs bellow to change this transaction and press submit to save."></info-tip>
+        </div>
+    </div>
+    <transaction-entry transaction = "selectedTransaction" account-options = "accounts"  vendor-options = "vendors" transaction-type-options = "transactionTypes"></transaction-entry>
     <button class="from-button transition-button" ng-click = "transactionsDisplay()"><i class="fa fa-chevron-left" aria-hidden="true"></i>From</button>
 </div>

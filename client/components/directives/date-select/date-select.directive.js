@@ -6,7 +6,8 @@ app.directive('dateSelect', function() {
             date: '=',
             required: '@?',
             inputDisabled: '@?',
-            label: '@'
+            label: '@',
+            info: '@?'
         },
         templateUrl: '/res/components/directives/date-select/date-select.template.html'
     };

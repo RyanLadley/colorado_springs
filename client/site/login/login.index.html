@@ -1,0 +1,26 @@
+<div class = "login-page">
+
+    <div class = "login-page-content">
+
+
+        <div class = "login">
+            <form name = "loginForm" ng-submit = "submit()">
+                <h2 class = "section-label"> Sign In</h2>
+                <p>{{failureMessage}}</p>
+                <div class = "login-section">
+                    <h3>Email</h3>
+                    <input type="email" name = "loginEmail" ng-model = "login.email" placeholder="Email">
+                </div>
+                <div class = "login-section">
+                    <h3>Password</h3>
+                    <input type="password" ng-model = "login.password" placeholder="Password">
+                </div>
+
+                <div class ="login-section">
+                    <button class = "login-button" type = "submit"> Log In </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -17,13 +17,14 @@ def res(resource_path):
 
 #Main Agility Page
 @client_side.route('/')
+@client_side.route('/login')
 @client_side.route('/overview')
 @client_side.route('/overview/account/<account_number>')
 @client_side.route('/entry')
 @client_side.route('/vendors')
 @client_side.route('/vendors/<vendor_id>')
 @client_side.route('/profile/<user_id>')
-@client_side.route('/admin/<user_id>')
+@client_side.route('/administrator/<user_id>')
 @client_side.route('/reports')
 @client_side.route('/adjustments')
 @client_side.route('/reports/monthly-expense')

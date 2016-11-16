@@ -1,10 +1,15 @@
-<div class = "transactions-from" ng-style = "fromPos">
+<div class = "transactions-from">
     <form name = "transferForm">
-        <h2 class = "tab-title">Account Budget Transfer</h2>
+        <div class = "tab-title">
+            <div class = "large-title-info">
+                <h1> Account Budget Transfer</h1>
+                <info-tip message = "Transfer money from one account to another. These will show up as 'Misc. Trans' on the overview screen." ></info-tip>
+            </div>
+        </div>
         <h3 class = "tab-sub-title">From Account</h3>
-        <account-select account-id = "transfer.fromAccountId"></account-select>
+        <account-select account-id = "transfer.fromAccountId" accounts = "accounts"></account-select>
          <h3 class = "tab-sub-title">To Account</h3>
-        <account-select account-id = "transfer.toAccountId"></account-select>
+        <account-select account-id = "transfer.toAccountId" accounts = "accounts"></account-select>
         <br>
         <div class = "label-input">
             <label>Transfer Amount</label>

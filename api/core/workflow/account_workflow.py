@@ -7,13 +7,17 @@ import api.DAL.data_context.accounts.accounts_insert as accounts_insert
 from api.core.buisness_objects.account import Account
 from api.core.buisness_objects.account_transfer import AccountTransfer
 
+from api.core.admin.authorize import authorize
+
 import api.core.response as response
 import api.core.sanitize as sanitize
 import api.core.utilities as utilities
 
 import json
 
+
 @workflow.route('/accounts/overview', methods = ['POST'])
+@authorize()
 def get_accounts_overview():
 
     accounts = accounts_select.accounts_overview()
@@ -24,6 +28,7 @@ def get_accounts_overview():
 
 
 @workflow.route('/accounts/numbers', methods = ['POST'])
+@authorize()
 def get_account_numbers():
 
     accounts = accounts_select.account_numbers()
@@ -34,6 +39,7 @@ def get_account_numbers():
 
 
 @workflow.route('/accounts/details/<account_id>', methods = ['POST'])
+@authorize()
 def get_account_details(account_id):
 
     account = accounts_select.account_details(account_id)
@@ -41,6 +47,7 @@ def get_account_details(account_id):
     return response.success(account.serialize())
 
 @workflow.route('/accounts/transfer', methods = ['POST'])
+@authorize()
 def transfer():
 
     transfer_form = json.loads(request.form['payload'])

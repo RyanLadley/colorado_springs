@@ -53,3 +53,25 @@
         font-size:95%;
     }
 }
+
+.label-info{
+    label{
+        margin: 0;
+    }
+    display: inline-block;
+    position: relative;
+    .info{
+        position: absolute; 
+        left:103%;
+        top:-4px;
+    }
+    i{
+        font-size:75%;
+    }
+}
+
+.error-message{
+    color: red;
+    margin-top: 0px;
+    margin-top: 0px; 
+}
