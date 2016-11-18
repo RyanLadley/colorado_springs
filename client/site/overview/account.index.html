@@ -53,7 +53,7 @@
 <div class = "table-header month-table-header">
     <h2>{{months[selectedMonth]}} Transactions</h2>
     <table id = "account-table" class = "table alternate-table">
-        <tr>
+        <tr ng-if = "transactions.length > 0">
             <th> Account</th>
             <th>Vendor</th>
             <th>Invoice Date</th>
@@ -63,7 +63,7 @@
             <th>Total Expense</th>
         </tr>
 
-        <tr ng-repeat = "transaction in transactions" class = "row">
+        <tr ng-repeat = "transaction in transactions" class = "row" ng-if = "transactions.length > 0">
             <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
             <td>{{transaction.vendor_name}}</td>
             <td>{{transaction.invoice_date}}</td>
@@ -72,9 +72,16 @@
             <td class = "description account-desription">{{transaction.description}}</td>
             <td class = "currency">{{transaction.expense | currency}}</td>
         </tr>
-        <tr class = "total">
+        <tr class = "total" ng-if = "transactions.length > 0">
             <td colspan="6">{{months[selectedMonth]}} Total</td>
             <td> {{monthlyTotals[selectedMonth] | currency }}</td>
+        </tr>
+
+        <tr ng-if = "!transactions.length > 0">
+            <th colspan="8"></th>
+        </tr>
+        <tr ng-if = "!transactions.length > 0">
+            <td colspan="8" class = "center">There are currently no transactions for {{months[selectedMonth]}}</td>
         </tr>
     </table>
 <div>

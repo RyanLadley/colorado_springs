@@ -200,3 +200,5 @@ def search_by_invoice(vendor_id, invoice_no, cursor = None):
         transactions.append(Transaction.map_from_form(row))
 
     return transactions
+
+

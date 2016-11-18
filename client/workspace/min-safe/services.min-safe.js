@@ -10,7 +10,7 @@ app.service('monthsService', function(){
         return months
     }
 });
-app.service('postRequestService', ['$http', '$cookies', function($http, $cookies){
+app.service('postRequestService', ['$http', '$cookies', '$location', function($http, $cookies, $location){
 
     //Http post request wrapper to send data to api.
     this.request = function(url, payload) {

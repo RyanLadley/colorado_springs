@@ -21,11 +21,6 @@ $entry-area-width: 870px;
     width: 400px;
 }
 
-.entry-submit{
-    margin: 25px 35px 0 0 ;
-    float:right;
-}
-
 .input-row{
     width: 100%;
 }
@@ -91,10 +86,19 @@ $entry-area-width: 870px;
     @include transition-time(0.2s);
     cursor: pointer;
     border-radius: 4px;
-
+    margin: 25px 35px 0 0 ;
+    float:right;
 
     &:hover{
         @include transition-time(0.2s);
         box-shadow: 2px 2px 10px grey;
     }
+
+    &:disabled{
+        opacity: 0.7;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+
 }

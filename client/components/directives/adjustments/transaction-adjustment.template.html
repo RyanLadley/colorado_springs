@@ -13,7 +13,7 @@
 
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">
-            <tr>
+            <tr ng-show = "account.monthly_summary[selectedMonth].length > 0">
                 <th></th>
                 <th>Account</th>
                 <th>Vendor</th>
@@ -23,7 +23,7 @@
                 <th>Descrpition</th>
                 <th>Total Expense</th>
             </tr>
-            <tr ng-repeat = "transaction in account.monthly_summary[selectedMonth]" class = "row">
+            <tr ng-repeat = "transaction in account.monthly_summary[selectedMonth]" class = "row" ng-show = "account.monthly_summary[selectedMonth].length > 0">
                 <td><input type="radio" name = "transaction" ng-model ="$parent.selectedIndex" ng-value="{{$index}}"></td>
                 <td>
                     <account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name>
@@ -34,6 +34,12 @@
                 <td class = "center">{{transaction.invoice_no}}</td>
                 <td class = "description account-desription">{{transaction.description}}</td>
                 <td class = "currency">{{transaction.expense | currency}}</td>
+            </tr>
+            <tr ng-if = "!account.monthly_summary[selectedMonth].length > 0">
+                <th colspan="8"></th>
+            </tr>
+            <tr ng-if = "!account.monthly_summary[selectedMonth].length > 0">
+                <td colspan="8" class = "center">There are no transactions to display.</td>
             </tr>
         </table>
     </div>

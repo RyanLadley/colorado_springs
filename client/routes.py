@@ -12,6 +12,12 @@ def res(resource_path):
         return send_file(client_url +resource_path)
     return False
 
+@client_side.route('/coversheet/single-invoice/<path:file_name>')
+def single_invoice_coversheet(file_name):
+    if ".." not in file_name: 
+        return send_file("api/exports/coversheets/single_invoice/" +file_name)
+    return False
+
 
 #Routes For Web Pages
 

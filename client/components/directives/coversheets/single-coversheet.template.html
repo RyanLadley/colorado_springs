@@ -1,7 +1,7 @@
 <div class = "tab-title">
     <div class = "large-title-info">
         <h1> Single Invoice Coversheet</h1>
-        <info-tip message = "This tabe creates a cover sheet for one invoice. Select a vendor and invoice, then presss create." ></info-tip>
+        <info-tip message = "Select a vendor and/or search for an invoice number in the fields below. Then select the transaction you would like on the cover sheet. Note: The transactions selected must have the same invoice number and vendor in order to create this cover sheet." ></info-tip>
     </div>
 </div>
 <form name = "searchForm">
@@ -14,34 +14,44 @@
 	<search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoiceNo"></search-field>
 </form>
 
-<table id = "account-table" class = "table alternate-table">
-    <tr  ng-if ="transactions">
-    	<th></th>
-        <th> Account</th>
-        <th>Vendor</th>
-        <th>Invoice Date</th>
-        <th>Date Paid</th>
-        <th>Invoice Number</th>
-        <th>Descrpition</th>
-        <th>Total Expense</th>
-    </tr>
+<div class ="coversheet-table">
+    <table class = "table alternate-table">
+        <thead>
+            <tr  ng-if ="transactions">
+            	<th></th>
+                <th> Account</th>
+                <th>Vendor</th>
+                <th>Invoice Date</th>
+                <th>Date Paid</th>
+                <th>Invoice Number</th>
+                <th>Descrpition</th>
+                <th>Total Expense</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat = "transaction in transactions" class = "row" ng-class = "{disabledrow : transaction.disabled}" >
+            	<td><input type = "checkbox" ng-model = "transaction.selected" ng-click = "disableRows(transaction)" ng-disabled = "transaction.disabled"></td>
+                <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
+                <td>{{transaction.vendor_name}}</td>
+                <td>{{transaction.invoice_date}}</td>
+                <td>{{transaction.date_paid}}</td>
+                <td class = "center">{{transaction.invoice_no}}</td>
+                <td class = "description account-desription">{{transaction.description}}</td>
+                <td class = "currency">{{transaction.expense | currency}}</td>
+            </tr>
+            <tr ng-if = "!transactions">
+                <th colspan="8"></th>
+            </tr>
+            <tr ng-if = "!transactions">
+                <td colspan="8" class = "center">No Invoices Found</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-    <tr ng-repeat = "transaction in transactions" class = "row" ng-class = "{disabledrow : transaction.disabled}" >
-    	<td><input type = "checkbox" ng-model = "transaction.selected" ng-click = "disableRows(transaction)" ng-disabled = "transaction.disabled"></td>
-        <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
-        <td>{{transaction.vendor_name}}</td>
-        <td>{{transaction.invoice_date}}</td>
-        <td>{{transaction.date_paid}}</td>
-        <td class = "center">{{transaction.invoice_no}}</td>
-        <td class = "description account-desription">{{transaction.description}}</td>
-        <td class = "currency">{{transaction.expense | currency}}</td>
-    </tr>
-    <tr ng-if = "!transactions">
-        <th colspan="8"></th>
-    </tr>
-    <tr ng-if = "!transactions">
-        <td colspan="8" class = "center">No Invoices Found</td>
-    </tr>
-</table>
+ <div class = "label-input input-row">
+    <label>Description</label>
+    <textarea placeholder="Enter Discription" ng-model = "invoice.description"></textarea>
+</div>
 
 <button class = "entry-submit" ng-click = "createSingleCoversheet()" ng-disabled = "disableCreate" >Create</button

@@ -692,10 +692,6 @@
 .invoice-textfield {
   width: 400px; }
 
-.entry-submit {
-  margin: 25px 35px 0 0;
-  float: right; }
-
 .input-row {
   width: 100%; }
 
@@ -747,11 +743,17 @@
   -webkit-transition-duration: 0.2s;
   transition-duration: 0.2s;
   cursor: pointer;
-  border-radius: 4px; }
+  border-radius: 4px;
+  margin: 25px 35px 0 0;
+  float: right; }
   .entry-submit:hover {
     -webkit-transition-duration: 0.2s;
     transition-duration: 0.2s;
     box-shadow: 2px 2px 10px grey; }
+  .entry-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    box-shadow: none; }
 
 .adjustment-tabs li {
   background: lightgrey;
@@ -866,6 +868,10 @@
 
 .coversheet-area {
   background-color: #AC4545; }
+
+.coversheet-table {
+  height: 300px;
+  overflow-y: autp; }
 
 .report-selection {
   margin: 10px 30px; }
