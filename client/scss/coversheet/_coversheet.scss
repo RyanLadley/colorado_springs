@@ -1,0 +1,16 @@
+.coversheet-tabs{
+
+    li{
+        background: lightgrey;
+        border: 1px solid lightgrey;
+    }
+    .selected{
+        color: white;
+        background: #AC4545;
+        border: none;
+    }
+}
+
+.coversheet-area{
+    background-color: #AC4545;
+}

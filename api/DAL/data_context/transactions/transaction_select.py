@@ -168,3 +168,35 @@ def by_vendor(vendor_id, cursor = None):
         transactions.append(Transaction.map_from_form(row))
 
     return transactions
+
+
+@DatabaseConnection
+def search_by_invoice(vendor_id, invoice_no, cursor = None):
+
+    cursor.execute("""
+            SELECT  transaction_id,
+                    account_id,
+                    account_no,
+                    sub_no,
+                    shred_no,
+                    vendor_id,
+                    vendor_name,
+                    invoice_no,
+                    date_paid,
+                    invoice_date,
+                    description,
+                    expense,
+                    transaction_type_id,
+                    transaction_type
+            FROM v_transactions
+            WHERE vendor_id LIKE %(vendor_id)s
+                AND invoice_no LIKE %(invoice_no)s;""",
+            {'vendor_id': vendor_id or '%', 'invoice_no': ("%" +(invoice_no or "") +"%")})
+
+    results = cursor.fetchall() or {}
+
+    transactions = []
+    for row in results:
+        transactions.append(Transaction.map_from_form(row))
+
+    return transactions

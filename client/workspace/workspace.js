@@ -135,6 +135,12 @@ app.service('postRequestService', ['$http', '$cookies', function($http, $cookies
             controller: 'adjustmentsController',
             templateUrl: '/res/site/adjustments/adjustments.index.html'
         }
+    )    
+    .when("/coversheet",
+        {
+            controller: 'coversheetController',
+            templateUrl: '/res/site/coversheet/coversheet.index.html'
+        }
     )
     .when("/reports",
         {
@@ -385,6 +391,19 @@ app.controller('budgetAdjustmentController', ['$scope', '$location', 'postReques
             })
         }
     }
+}]);
+app.controller('coversheetController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+  
+  	postRequestService.request('/api/dropdown/all').then(function(success){
+        $scope.accounts = success.data.response.accounts
+        $scope.vendors = success.data.response.vendors
+        $scope.transactionTypes = success.data.response.transaction_types
+    })
+
+    $scope.display = {
+    	single: true
+    }
+
 }]);
 app.controller('dataInputController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
   
@@ -872,6 +891,70 @@ app.controller('sidebarController', ['$scope', '$location', function($scope, $lo
         };
     });
 }]);
+app.controller('singleCoversheetController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+
+    $scope.search = {
+    	invoiceNo: null
+    }
+    $scope.searchInvoice = function(){
+        if($scope.search.vendorId || $scope.search.invoiceNo){
+            postRequestService.request('/api/transaction/invoice/search', $scope.search).then(function(success){
+               if(success.data.response.length){
+               		$scope.transactions = success.data.response
+               }
+               else{
+               		$scope.transactions = false
+               }
+            })
+        }
+    }
+
+    $scope.invoice ={
+    	invoiceNo: null,
+    	vendorName: null
+    }
+
+    //TODO: Coondence the functionality of this function
+    $scope.disableCreate = true
+    $scope.disableRows = function(transaction){
+
+    	//Transaction was checked
+    	if(transaction.selected){
+    		$scope.disableCreate = false;
+    		//Invoice Number Has not yet been set
+    		if(!$scope.invoice.invoiceNo){
+	    		$scope.invoice.invoiceNo = transaction.invoice_no
+	    		$scope.invoice.vendorName = transaction.vendor_name
+	    		for(var i = 0; i < $scope.transactions.length; i++){
+	    			//Disable rows that do not have matching invoice or vendor
+	    			if($scope.transactions[i].invoice_no != $scope.invoice.invoiceNo || $scope.transactions[i].vendor_name != $scope.invoice.vendorName){
+	    				$scope.transactions[i].disabled = true;
+	    			}
+	    		}
+    		}
+    	}
+    	else{
+    		//See if any other transaction is checked, if not, unlock all other transactions
+    		var isSelected = false;
+			for(var i = 0; i < $scope.transactions.length; i++){
+    			if($scope.transactions[i].selected){
+    				isSelected = true;
+    				break;
+    			}
+    		}
+    		if(!isSelected){
+    			//if is selected is false, enable all transactions
+    			$scope.disableCreate = true
+    			$scope.invoice.invoiceNo = null
+	    		$scope.invoice.vendorName = null
+    			for(var i = 0; i < $scope.transactions.length; i++){
+	    			//Disable rows that do not have matching invoice or vendor
+	    			$scope.transactions[i].disabled =false
+	    		}
+	    	}
+		}
+    }
+}]);
 app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
     $scope.accountId = null;
@@ -1046,6 +1129,13 @@ app.directive('transactionAdjustment', function() {
         templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
     };
 })
+app.directive('singleCoversheet', function() {
+    return{
+        restrict: 'E',
+        controller: 'singleCoversheetController',
+        templateUrl: '/res/components/directives/coversheets/single-coversheet.template.html'
+    };
+})
 app.directive('dateSelect', function() {
     return{
         restrict: 'E',
@@ -1088,6 +1178,17 @@ app.directive('infoTip', function() {
         },
         template: '<div class = "info"><i class = "fa fa-info-circle"></i><div class = "infotext">{{message}}</div></div>'
     };
+})
+app.directive('searchField', function() {
+    return{
+        restrict: 'E',
+        scope: {
+            label: '@',
+            model: "=?",
+            function: "=?"
+        },
+ 		templateUrl: '/res/components/directives/search-field/search-field.template.html'    
+	};
 })
 app.directive('sidebarInfo', function() {
     return{

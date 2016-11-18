@@ -74,3 +74,19 @@ def get_pending_transaction_by_vendor(vendor_id):
     transactions = transaction_select.pending_by_vendor(vendor_id)
 
     return response.success(utilities.serialize_array(transactions))
+
+
+@workflow.route('/transaction/invoice/search', methods = ['POST'])
+@authorize()
+def search_transaction_by_invoice():
+
+    search_criteria = json.loads(request.form['payload'])
+
+    vendor_id = search_criteria.get('vendorId')
+    invoice_no = search_criteria.get('invoiceNo')
+
+    print(vendor_id)
+
+    transactions = transaction_select.search_by_invoice(vendor_id, invoice_no)
+
+    return response.success(utilities.serialize_array(transactions))

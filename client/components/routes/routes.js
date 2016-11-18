@@ -48,6 +48,12 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'adjustmentsController',
             templateUrl: '/res/site/adjustments/adjustments.index.html'
         }
+    )    
+    .when("/coversheet",
+        {
+            controller: 'coversheetController',
+            templateUrl: '/res/site/coversheet/coversheet.index.html'
+        }
     )
     .when("/reports",
         {

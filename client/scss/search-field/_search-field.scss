@@ -1,0 +1,16 @@
+.search-field{
+	.input-div{
+		display: inline-block;
+		width: 275px;
+	}
+	input{
+		float: left;
+		margin-right: 5px;
+	}
+}
+
+.search-button{
+	background: grey;
+	border-color: grey;
+	color: white;
+}

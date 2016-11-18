@@ -1,0 +1,20 @@
+<div class = "page-title">
+    <div class = "large-title-info">
+        <h1> Create a Coversheet</h1>
+        <info-tip message = "This screen allows you to create an invoice coversheet. Select the tab for the style of cover sheet you desire."></info-tip>
+    </div>
+</div>
+
+<ul class = "tabs coversheet-tabs">
+    <li ng-click = "display.single = true;" ng-class = "{selected : display.single}">Single Invoice</li>
+</ul>
+
+<div class = "tabed-area coversheet-area">
+    <div class = "tabed-border">
+        <div class = "tabed-content coversheet-content">
+            <div class = "transactions" ng-show = "display.single">
+            	<single-coversheet></single-coversheet>
+            </div>
+        </div>
+    </div>
+</div> 

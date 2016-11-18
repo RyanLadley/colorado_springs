@@ -61,6 +61,13 @@ app.directive('transactionAdjustment', function() {
         templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
     };
 })
+app.directive('singleCoversheet', function() {
+    return{
+        restrict: 'E',
+        controller: 'singleCoversheetController',
+        templateUrl: '/res/components/directives/coversheets/single-coversheet.template.html'
+    };
+})
 app.directive('dateSelect', function() {
     return{
         restrict: 'E',
@@ -103,6 +110,17 @@ app.directive('infoTip', function() {
         },
         template: '<div class = "info"><i class = "fa fa-info-circle"></i><div class = "infotext">{{message}}</div></div>'
     };
+})
+app.directive('searchField', function() {
+    return{
+        restrict: 'E',
+        scope: {
+            label: '@',
+            model: "=?",
+            function: "=?"
+        },
+ 		templateUrl: '/res/components/directives/search-field/search-field.template.html'    
+	};
 })
 app.directive('sidebarInfo', function() {
     return{

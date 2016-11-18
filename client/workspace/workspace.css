@@ -113,6 +113,13 @@
 .alternate-table tr:nth-child(even) {
   background-color: #F9F9F9; }
 
+.disabledrow {
+  color: grey; }
+  .disabledrow a {
+    color: grey; }
+  .disabledrow td {
+    background-color: lightgrey; }
+
 .area {
   display: inline-block;
   box-shadow: 3px 3px 2px grey;
@@ -294,6 +301,18 @@
     background-image: url("/res/images/adjustments.jpg"); }
   .content-link #reports {
     background-image: url("/res/images/reports.jpg"); }
+
+.search-field .input-div {
+  display: inline-block;
+  width: 275px; }
+.search-field input {
+  float: left;
+  margin-right: 5px; }
+
+.search-button {
+  background: grey;
+  border-color: grey;
+  color: white; }
 
 .sidebar-container {
   bottom: 0;
@@ -686,7 +705,7 @@
     position: absolute;
     top: 40px; }
   .date-input .input-div {
-    width: 150px; }
+    width: 175px; }
   .date-input input {
     width: 120px; }
   .date-input button {
@@ -836,6 +855,17 @@
   -webkit-transition: 0.75s;
   /* Safari */
   transition: 0.75s; }
+
+.coversheet-tabs li {
+  background: lightgrey;
+  border: 1px solid lightgrey; }
+.coversheet-tabs .selected {
+  color: white;
+  background: #AC4545;
+  border: none; }
+
+.coversheet-area {
+  background-color: #AC4545; }
 
 .report-selection {
   margin: 10px 30px; }

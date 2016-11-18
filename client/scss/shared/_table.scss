@@ -78,4 +78,12 @@
     }
 }
 
-
+.disabledrow{
+    color: grey;
+    a{
+        color: grey;
+    }
+    td{
+        background-color: lightgrey;
+    }
+}

@@ -27,6 +27,7 @@ def res(resource_path):
 @client_side.route('/administrator/<user_id>')
 @client_side.route('/reports')
 @client_side.route('/adjustments')
+@client_side.route('/coversheet')
 @client_side.route('/reports/monthly-expense')
 @client_side.route('/reports/expense-breakdown')
 @client_side.route('/reports/monthly-breakdown')
