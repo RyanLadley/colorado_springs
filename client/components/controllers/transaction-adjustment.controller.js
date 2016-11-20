@@ -12,6 +12,18 @@ app.controller('transactionAdjustmentController', function($scope, $location, po
         $scope.page--
     }
 
+    $scope.navLocation = function(firstSectionPage, lastSectionPage){
+        if(lastSectionPage <  $scope.page){
+            return 'nav-left'
+        }
+        else if(firstSectionPage >  $scope.page){
+            return 'nav-right'
+        }
+        else{
+            return 'nav-display'
+        } 
+    }
+
     //TODO figure out why transactionTypeId needs to be a number and vendorId does not
     $scope.selectedIndex = -1;
     $scope.setSelectedTransaction = function(){

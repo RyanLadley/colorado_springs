@@ -235,60 +235,31 @@
   .info:hover .infotext {
     visibility: visible; }
 
-.hidable-area {
+.nav-area {
   position: relative;
-  overflow: hidden;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  transition: 0.75s; }
+  overflow: hidden; }
 
-.hidable-content {
+.nav-content {
   left: 0;
   width: 97.5%;
   top: 0;
   max-width: 100%;
   padding: 1px 20px;
   position: relative;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  transition: 0.75s; }
+  -webkit-transition-duration: 0.75s;
+  transition-duration: 0.75s; }
 
-.hidabledispalyed {
+.nav-display {
   left: 0;
-  width: 97.5%;
-  top: 0;
-  max-width: 100%;
-  padding: 1px 20px;
-  position: absolute;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  transition: 0.75s; }
+  position: absolute; }
 
-.hideright {
-  width: 97.5%;
-  top: 0;
-  max-width: 100%;
-  padding: 1px 20px;
+.nav-right {
   position: absolute;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  left: 1700px;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  transition: 0.75s; }
+  left: 1700px; }
 
-.hideleft {
-  width: 97.5%;
-  top: 0;
-  max-width: 100%;
-  padding: 1px 20px;
+.nav-left {
   position: relative;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  left: -1700px;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  transition: 0.75s; }
+  left: -1700px; }
 
 .transition-button {
   background: #614B81;
@@ -314,15 +285,13 @@
 .hidableelement {
   left: 0;
   position: relative;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  transition: 0.75s; }
+  -webkit-transition-duration: 0.75s;
+  transition-duration: 0.75s; }
 
 .hideelementleft {
   left: -1700px;
-  -webkit-transition: 0.75s;
-  /* Safari */
-  transition: 0.75s; }
+  -webkit-transition-duration: 0.75s;
+  transition-duration: 0.75s; }
 
 .content-link {
   display: inline-block;

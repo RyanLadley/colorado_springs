@@ -9,14 +9,31 @@ app.controller('transactionEntryController', function($scope, $location, postReq
     }
     $scope.incrementPage = function(){
         $scope.page++
-        $scope.greaterThanFirst = $scope.page > $scope.firstpage
-        $scope.lessThanFirst = $scope.page < $scope.firstpage
     }
     $scope.decrementPage = function(){
         $scope.page--
-        $scope.greaterThanFirst = $scope.page > $scope.firstpage
-        $scope.lessThanFirst = $scope.page < $scope.firstpage
-        
+    }
+
+    $scope.navLocation = function(sectionPage, allowDisplay){
+        if(sectionPage <  $scope.page){
+            return 'nav-left'
+        }
+        else if(sectionPage >  $scope.page){
+            //This allows this page to have a smooth flow in the "Adjustments" page
+            if(allowDisplay){ 
+                return 'nav-right'
+            }
+        }
+        else{
+            //If th page is an "adjustment" do not attach nav-display
+            //TODO: Think long and hard about if we need to if statements here 
+            if(!$scope.transaction){
+                return 'nav-display'
+            }
+            else if(!$scope.transaction.transactionId || allowDisplay){
+                return 'nav-display'
+            }
+        } 
     }
 
 

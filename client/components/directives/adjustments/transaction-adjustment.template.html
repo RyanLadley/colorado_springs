@@ -1,4 +1,4 @@
-<div ng-class = "{hideleft: (page != 1), hidabledispalyed: (page == 1)}">
+<div ng-class = "navLocation(1,1)" class ="nav-content">
     <div class = "tab-title">
         <div class = "title-info">
             <h2>From</h2>
@@ -46,7 +46,7 @@
     <button class="to-button transition-button" ng-click = "incrementPage() ; setSelectedTransaction();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
-<div ng-class = "{'hideright': page == 1, 'hidabledispalyed': page == 2 || page ==3}">
+<div ng-class = "navLocation(2,3)" class ="nav-content">
     <table id = "adjustment-table" class = "selected-preview table alternate-table hidableelement" ng-class = "{'hideelementleft': page == 3}">
         <tr>
             <td>{{account.monthly_summary[selectedMonth][selectedIndex].vendor_name}}</td>
