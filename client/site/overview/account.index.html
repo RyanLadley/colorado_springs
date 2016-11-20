@@ -7,11 +7,11 @@
 </div>
 
 <div class = "account-left">
-    <div class = "account-summary">
+    <div class = "area account-summary">
         <h2 class = "title"> Account Summary </h2>
         <div class = "summary-content">
             <h3 class = "section-title"> Monthly Totals </h3>
-            <div class = "content-values">
+            <div class = "section-inset content-values">
                 <table class = "monthly-summary-table">
                     <tr ng-repeat = "month in months">
                         <td><h4>{{month}}</h4></td>
@@ -28,11 +28,11 @@
         </div>
     </div>
 
-    <div class = "account-summary">
+    <div class = "area account-summary">
         <h2 class = "title"> Budget Summary </h2>
         <div class = "summary-content">
             <h3 class = "section-title"> Budget </h3>
-            <div class = "content-values">
+            <div class = "section-inset content-values">
                 <div class = "label-value">
                     <h4 class = "label">Budget</h4>
                     <p class = "value">{{account.total_budget | currency}}</p>

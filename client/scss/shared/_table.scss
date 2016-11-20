@@ -38,13 +38,18 @@
         text-align: right;
     }
 
+    .total{
+        background-color: $menu-black !important;
+        color: white;
+    }
+
 }
 
 .table-header{
     margin-left: 50px;
     display: inline-block;
     box-shadow: 3px 3px 2px grey;
-    border-radius: 5px;
+    border-radius: 3px;
     position: relative;
 
     h2{

@@ -28,6 +28,7 @@ $vendor-area-width: 450px;
         margin-bottom: 15px;
     }
 }
+
 .vendor-details-inset{
 	padding: 10px;
 	p, h3{
@@ -46,10 +47,5 @@ $vendor-area-width: 450px;
 		&:hover{
 			background: #FFFDE8;
 		}
-	}
-
-	.total{
-		background-color: $menu-black;
-        color: white;
 	}
 }

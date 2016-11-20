@@ -10,22 +10,7 @@ $overview-menu-width: 325px;
 .account-summary{
     width: $overview-menu-width;
     background-color: $account-green;
-    display: inline-block;
-    box-shadow: 3px 3px 2px grey;
-    border-radius: 5px;
     margin-bottom: 30px;
-
-    .section-title{
-        color:white;
-        margin: 5px 35px 0px 35px;
-        text-align: center;
-    }
-
-    .title{
-        text-align: center;
-        color: white;
-        margin: 10px 0 5px 0;
-    }
 
     .summary-content{
         background-color: $menu-black;
@@ -47,19 +32,18 @@ $overview-menu-width: 325px;
         float: right;
         margin-left: 8px;
     }
-
-    .content-values{
-        border-radius: 1px;
-        box-shadow: 2px 2px 4px grey inset;
-        background-color: white;
-        width: $overview-menu-width - 75px;
-        padding: 5px 2px;
-        margin: 5px auto 10px auto;
-    }
+    
     .label-value{
         width: $overview-menu-width - 100px;
         margin: 0px 10px;
         display: inline-block;
+    }
+
+    .content-values{
+        text-align: left;
+        width: $overview-menu-width - 75px;
+        padding: 5px 2px;
+        margin: 5px auto 10px auto;
     }
 
     .month-dropdown{
@@ -75,10 +59,6 @@ $overview-menu-width: 325px;
 
 #account-table{
 
-    .total{
-        background-color: $menu-black;
-        color: white;
-    }
     .row{
         &:hover{
             cursor: default;

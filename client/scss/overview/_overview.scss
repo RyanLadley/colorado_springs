@@ -1,12 +1,11 @@
 .overview-table-header{
     width: 1300px;
-    background-color: $dull-blue;
+    background-color: $rusty-blue;
     float: left;
 }
 
 
 #overview-table{
-    box-shadow: 2px 2px 2px grey;
     th{
         white-space: nowrap;
     }
@@ -50,7 +49,7 @@
 }
 
 .refrence-area{
-    background-color: $dull-blue;
+    background-color: $rusty-blue;
     width: 250px;
     margin: 0 75px;
 

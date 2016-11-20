@@ -75,6 +75,60 @@ INSERT INTO `accounts` VALUES (1,5221000,NULL,NULL,'In House Resurfacing',216093
 UNLOCK TABLES;
 
 --
+-- Table structure for table `city_account_assignments`
+--
+
+DROP TABLE IF EXISTS `city_account_assignments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `city_account_assignments` (
+  `city_account_assignment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `transaction_id` int(10) unsigned NOT NULL,
+  `city_account_id` int(10) unsigned NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`city_account_assignment_id`),
+  UNIQUE KEY `city_account_assignments_id_UNIQUE` (`city_account_assignment_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city_account_assignments`
+--
+
+LOCK TABLES `city_account_assignments` WRITE;
+/*!40000 ALTER TABLE `city_account_assignments` DISABLE KEYS */;
+INSERT INTO `city_account_assignments` VALUES (1,24,4,96.30),(2,28,3,97.20),(3,28,4,87.00),(4,28,13,787.00),(5,42,3,63.21),(37,43,7,3.10),(38,43,5,26.00),(39,43,15,11.10),(40,9,6,63.20);
+/*!40000 ALTER TABLE `city_account_assignments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city_accounts`
+--
+
+DROP TABLE IF EXISTS `city_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `city_accounts` (
+  `city_account_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `account_no` int(11) NOT NULL,
+  `title` varchar(45) NOT NULL,
+  `description` varchar(140) NOT NULL,
+  PRIMARY KEY (`city_account_id`),
+  UNIQUE KEY `city_account_id_UNIQUE` (`city_account_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city_accounts`
+--
+
+LOCK TABLES `city_accounts` WRITE;
+/*!40000 ALTER TABLE `city_accounts` DISABLE KEYS */;
+INSERT INTO `city_accounts` VALUES (1,52185,'Aggregate Material','Rip rap, Pioneer sand, river rock, etc.'),(2,51205,'Civilian Salaries','Salaries for FTE positions conducting Street Division field and office duties'),(3,51210,'Overtime','Overtime primarily performed by FTE\'s for various projects and maintenance activities'),(4,51220,'Seasonal Tempory Positions','Seasonal temporary  positions to support Street Division and Stormwater/Drainage  activities throughout the year'),(5,51250,'Special Assignment  Pay','Salaries for personnel for special assignments'),(6,51610,'PERA','Pension fund for FTE’s'),(7,51615,'Worker\'s  Comp.','Worker\'s Compensation  Costs'),(8,51620,'Equitable Life Insurance','Life insurance expenditure for FTE\'s'),(9,51640,'Dental Insurance','Dental insurance expenditure for FTE\'s'),(10,51690,'Medicare','Medicare costs for FTE’s'),(11,51695,'City EPO Medical Plan','Medical Plan costs for FTE\'s'),(12,52110,'Office Supplies','Folders, pens, binders, ink, pads, scissors, staples, adding machine tape, etc.'),(13,52111,'Paper Supplies','Copier  paper'),(14,52120,'Computer Software','Software for computers'),(15,52122,'Cell Phone Equipment','Chargers, cell phones, cases, etc'),(16,52125,'General Supplies','Bolts, screws, batteries, propane, coffee supplies, straps, paper towels, plates, cups, etc.'),(17,52127,'Construction  Supplies','Standard construction supplies to include gas used for marking machines, sockets, tape measure, pails, nuts, bolts, screws, nails, rope, ora'),(18,52131,'Concrete Supplies','Concrete, forms, blankets, structural angle iron, wood, diamond blades, saws, etc.'),(19,52135,'Postage','Postage stamps, postal service charges, Fed Ex, etc.'),(20,52140,'Wearing Apparel','Safety boots, vests, glasses, coveralls, gloves, etc.'),(21,52145,'Paint & Chemical','Spray paint, floor dry, big orange, glass cleaner'),(22,52150,'Seed & Fertilizer','Seed and fertilizer'),(23,52160,'Fuel','Fuel'),(24,52165,'Licenses & Tags','Licenses & Tags'),(25,52175,'Signs','Signs'),(26,52180,'Asphaltic Material','Used for smaller amounts of asphalt'),(27,52190,'Janitorial Supplies','Toilet paper, tissue, soap, lotion, etc.'),(28,52192,'Stormwater Permit','Strictly a SWENT cost'),(29,52210,'Maintenance Trees','Used by SWENT in the past and now drainage STR.  Trees or items to maintain'),(30,52220,'Maintenance  Office  Machines','Maintenance on copiers/printers,  fax machines, map plotter, etc.'),(31,52235,'Maintenance  Machines/App','Maintenance for equipment and field machinery (chain saws, chippers, other equipment)'),(32,52255,'Maintenance  Signs','Sign installation, repair and replacements to include sign blanks, poles, pole sleeves, tools,\nhardware and maintenance'),(33,52265,'Maintenance Building & Str','El Paso Facilities Repairs/Upkeep (Miller, Briargate, Wheeler, Outwest, Transit Yard, Fontanero), City Fire Dept. Hazmat Inspections of buil'),(34,52281,'Maintenance  Infrastructure','Drainage expenditures that are not mandated - Pond issues.   Emergency drainage issues'),(35,52405,'Advertising Services','In the past involved placement of help wanted ads in the Gazette'),(36,52410,'Building Security','ADT bills or other security contracts'),(37,52415,'Contracts & Special Projects','Expenses of “outsourced\" projects/contracts other than Snow Contract'),(38,52423,'Telecommunication Service','Bolts, screws, batteries, propane, coffee supplies, straps, paper towels,  plates, cups, etc.'),(39,52425,'Environmental  Services','Environmental costs ie; waste recycling-sand Trap Wastes by Resource Geoscience at Geiger, Outwest, Briargate, Fontanero and Wheeler, permit'),(40,52426,'Mun Fac Runoff','Drainage - invoicles permits and various municipal items'),(41,52431,'Consulting  Services','Road Weather Information System (RWIS), Design Survey and Grading plans, Anit-skid\ntesting, and multiple project tests and consulting servic'),(42,52435,'Garbage Removal','Monthly Waste Mgmt and other garbage service for Street Barn Locations - 6 in all'),(43,52437,'Debris Waste Service','Use ONLY for Waste Management Barter Program - FOR THIS PURPOSE ONLY!  Revenue for same expense comes back into the City General Fund via th'),(44,52445,'Janitorial Services','Monthly janitorial service for all facilities'),(45,52560,'Parking Services','Parking costs downtown for Streets personnel'),(46,52571,'Snow Removal','De-icer, apex, ice slicer, anti-skid material, temps peronnel working snow events, snow\nmeals, etc.'),(47,52575,'General Services','Answering service, pest control, dead animals dump fee, Sierra Spgs, radio communication, Acme Fire & Safety, hydrant permits (CSU), bird mi'),(48,52590,'Temperary Employment','Outsourced Expenses through temporary employment agencies for personnel in the field and office, ie: Remedy'),(49,52615,'Dues & Memership','APW (Amer. Public Workd Assoc) & CARMA (Colo. Assoc. of Stormwater & Roadway Maintenance), etc'),(50,52625,'In Town Meeting Expenses','Annual employee meeting for suervisors and management'),(51,52630,'Training','Confrences for roadway/snow removal/pubilc safety/personnel safety/enviromental issues, training'),(52,52645,'Subscriptions','Roadway/Construction Subscriptions for managers/supervisors.');
+/*!40000 ALTER TABLE `city_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `transaction_types`
 --
 
@@ -118,7 +172,7 @@ CREATE TABLE `transactions` (
   `transaction_type_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`transaction_id`),
   UNIQUE KEY `transaction_id_UNIQUE` (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +181,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',2);
+INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',0),(24,18,4,'2016-11-14','2016-11-20','JMU-POL-90','This is a test of account codes','96.3',1),(27,22,7,'2016-11-06','2016-11-27','SFSAFS','Testing Unassigned City Accounts.','63.21',1),(28,19,4,'2016-11-06','2016-11-26','ASFSAF','Testing Multiple Accounts','971.2',2),(42,44,4,'2016-11-14','2016-11-20','HNH-123-LO','Testing City Accounts... Again','63.21',1),(43,44,4,'2016-11-15','2016-11-16','13-PO-LO','This is testing city account adjustments','63.2',2);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,7 +213,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (14,'user@email.com','User','McUserson','pbkdf2:sha1:1000$pUDdp4b7$0f61e5f0477095e0659d1553668ea3f8341e045b','WVNRJRX2WIGLJFAOAM3ND7PZ9EI06TY6','2016-11-18 09:33:38',0),(15,'jladley@springsgov.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','KXDXWECUC8T7VM7MNXIPGPX74UVQ8O1C','2016-11-18 09:40:18',0);
+INSERT INTO `user` VALUES (14,'user@email.com','User','McUserson','pbkdf2:sha1:1000$pUDdp4b7$0f61e5f0477095e0659d1553668ea3f8341e045b','SIT3GWVNPI7SGGBYXD1GAV0A6DUPF02U','2016-11-20 03:37:02',0),(15,'jladley@springsgov.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','KXDXWECUC8T7VM7MNXIPGPX74UVQ8O1C','2016-11-18 09:40:18',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,6 +238,23 @@ SET character_set_client = utf8;
   `amount` tinyint NOT NULL,
   `description` tinyint NOT NULL,
   `transfer_date` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `v_city_account_assignments`
+--
+
+DROP TABLE IF EXISTS `v_city_account_assignments`;
+/*!50001 DROP VIEW IF EXISTS `v_city_account_assignments`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `v_city_account_assignments` (
+  `city_account_assignment_id` tinyint NOT NULL,
+  `transaction_id` tinyint NOT NULL,
+  `city_account_id` tinyint NOT NULL,
+  `city_account_no` tinyint NOT NULL,
+  `amount` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -341,6 +412,25 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_city_account_assignments`
+--
+
+/*!50001 DROP TABLE IF EXISTS `v_city_account_assignments`*/;
+/*!50001 DROP VIEW IF EXISTS `v_city_account_assignments`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_city_account_assignments` AS select `assignment`.`city_account_assignment_id` AS `city_account_assignment_id`,`assignment`.`transaction_id` AS `transaction_id`,`assignment`.`city_account_id` AS `city_account_id`,`city_accounts`.`account_no` AS `city_account_no`,`assignment`.`amount` AS `amount` from (`city_account_assignments` `assignment` join `city_accounts` on((`city_accounts`.`city_account_id` = `assignment`.`city_account_id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_invoice_accounts`
 --
 
@@ -406,4 +496,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-18  1:48:18
+-- Dump completed on 2016-11-19 22:57:45
