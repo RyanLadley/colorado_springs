@@ -84,7 +84,7 @@ app.controller('transactionEntryController', function($scope, $location, postReq
                 i--
             }
         }
-        if($scope.remaining > 0 && $scope.transaction.cityAccounts.length < 7){
+        if($scope.remaining > 0){
             $scope.transaction.cityAccounts.push({cityAccountId: "", amount: $scope.remaining})
             $scope.checkRemaining();
         }

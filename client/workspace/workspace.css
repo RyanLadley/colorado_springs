@@ -194,6 +194,10 @@
   box-shadow: 2px -2px 2px grey inset;
   padding: 10px; }
 
+.scrolable-tabed-content {
+  height: 695px;
+  overflow-y: auto; }
+
 .tab-title {
   margin: 15px;
   border-bottom: 1px solid black;

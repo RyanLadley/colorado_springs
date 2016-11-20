@@ -54,6 +54,11 @@ $tab-width: 1700px;
     padding: 10px;
 }
 
+.scrolable-tabed-content{
+    height: $tab-height - 105px;
+    overflow-y: auto;
+}
+
 .tab-title{
     margin:15px;
     border-bottom: 1px solid black;
