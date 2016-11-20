@@ -6,7 +6,6 @@ class InvoiceAccounts:
 
         accounts.account_id = form.get('account_id')
         accounts.account_no = form.get('account_no')
-        accounts.city_code = "abc-123-4567" # To be replaced when provided with real codes
         accounts.program = "Placeholder - In House"
         accounts.expense = float(form.get('expense') or 0)
 

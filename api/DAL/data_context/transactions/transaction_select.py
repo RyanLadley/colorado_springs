@@ -3,6 +3,8 @@ from api.DAL.data_context.database_connection import DatabaseConnection
 import api.core.response as response
 import api.core.sanitize as sanitize
 
+import api.DAL.data_context.city_accounts.city_accounts_select as city_accounts_select
+
 from api.core.buisness_objects.transaction import Transaction
 
 @DatabaseConnection
@@ -202,3 +204,37 @@ def search_by_invoice(vendor_id, invoice_no, cursor = None):
     return transactions
 
 
+@DatabaseConnection
+def transaction_by_muliple_ids(transaction_ids, cursor = None):
+
+    id_string = ", ".join(str(ident) for ident in transaction_ids)
+
+    cursor.execute("""
+            SELECT  transaction_id,
+                    account_id,
+                    account_no,
+                    sub_no,
+                    shred_no,
+                    vendor_id,
+                    vendor_name,
+                    invoice_no,
+                    date_paid,
+                    invoice_date,
+                    description,
+                    expense,
+                    transaction_type_id,
+                    transaction_type
+            FROM v_transactions
+            WHERE transaction_id IN (%(transaction_ids)s)""",
+            {'transaction_ids': id_string})
+
+    results = cursor.fetchall() or {}
+
+    transactions = []
+    for row in results:
+        transactions.append(Transaction.map_from_form(row))
+
+    for transaction in transactions:
+        transaction.attatch_city_account_assignments(city_accounts_select.city_account_assignments_for_transaction(transaction.transaction_id, cursor = cursor))
+
+    return transactions

@@ -36,7 +36,7 @@ def build_single_invoice(coversheet):
     underline_style.append(description_paragraph.add_run("\t" +coversheet.description +"\t"))
 
 
-    _add_account_table(document, coversheet.invoice_accounts)
+    _add_account_table(document, coversheet.transactions)
     _add_approvals(document)
     _add_notes(document)
 
@@ -55,7 +55,7 @@ def build_single_invoice(coversheet):
 
     return file_name
 
-def _add_account_table(document, accounts):
+def _add_account_table(document, transactions):
     
     table = document.add_table(rows = 1, cols = 4)
     table.style = None
@@ -71,14 +71,15 @@ def _add_account_table(document, accounts):
         cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     total = 0
-    for account in accounts:
-        row = table.add_row().cells
-        row[0].text = account.program
-        row[1].text = account.city_code
-        row[2].text = str(account.account_no)
-        row[3].text = utilities.currency(account.expense)
-        row[3].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        total += account.expense
+    for transaction in transactions:
+        for account in transaction.city_account_assignments:
+            row = table.add_row().cells
+            row[0].text = account.program or "None Provided"
+            row[1].text = str(account.city_account_no) +"-935-900007"
+            row[2].text = "30-30-" +str(transaction.account_no)
+            row[3].text = utilities.currency(account.amount)
+            row[3].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            total += account.amount
 
 
     total_row = table.add_row().cells

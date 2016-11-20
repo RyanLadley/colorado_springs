@@ -232,6 +232,95 @@
   .info:hover .infotext {
     visibility: visible; }
 
+.hidable-area {
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.hidable-content {
+  left: 0;
+  width: 97.5%;
+  top: 0;
+  max-width: 100%;
+  padding: 1px 20px;
+  position: relative;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.hidabledispalyed {
+  left: 0;
+  width: 97.5%;
+  top: 0;
+  max-width: 100%;
+  padding: 1px 20px;
+  position: absolute;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.hideright {
+  width: 97.5%;
+  top: 0;
+  max-width: 100%;
+  padding: 1px 20px;
+  position: absolute;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  left: 1700px;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.hideleft {
+  width: 97.5%;
+  top: 0;
+  max-width: 100%;
+  padding: 1px 20px;
+  position: relative;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  left: -1700px;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.transition-button {
+  background: #614B81;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 10px;
+  font-weight: bold;
+  font-size: 15px;
+  min-width: 100px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s; }
+  .transition-button:hover {
+    box-shadow: 2px 2px 10px grey;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s; }
+  .transition-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    box-shadow: none; }
+
+.hidableelement {
+  left: 0;
+  position: relative;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
+.hideelementleft {
+  left: -1700px;
+  -webkit-transition: 0.75s;
+  /* Safari */
+  transition: 0.75s; }
+
 .content-link {
   display: inline-block;
   height: 250px;
@@ -733,6 +822,39 @@
     max-width: 95%;
     height: 100px; }
 
+.label-display {
+  display: inline-block;
+  margin: 10px 30px; }
+  .label-display label {
+    display: block;
+    font-weight: bold; }
+  .label-display p {
+    margin: 0; }
+
+.add-button {
+  margin-top: 20px;
+  margin-left: 30px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 20px;
+  border: none;
+  background: #5365C1;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s; }
+  .add-button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    box-shadow: 2px 2px 10px grey; }
+  .add-button:disabled {
+    background: #777997;
+    cursor: not-allowed;
+    box-shadow: none; }
+
+.city-account-totals {
+  display: inline-block;
+  width: 100%; }
+
 .entry-submit {
   background-color: #549250;
   color: white;
@@ -775,27 +897,6 @@
   width: 100%;
   height: 475px;
   overflow-y: auto; }
-
-.transition-button {
-  background: #614B81;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 10px;
-  font-weight: bold;
-  font-size: 15px;
-  min-width: 100px;
-  cursor: pointer;
-  -webkit-transition-duration: 0.2s;
-  transition-duration: 0.2s; }
-  .transition-button:hover {
-    box-shadow: 2px 2px 10px grey;
-    -webkit-transition-duration: 0.2s;
-    transition-duration: 0.2s; }
-  .transition-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    box-shadow: none; }
 
 .to-button {
   float: right;

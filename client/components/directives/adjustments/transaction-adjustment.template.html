@@ -1,4 +1,4 @@
-<div class = "transactions-from" ng-style = "fromPos">
+<div ng-class = "{hideleft: (page != 1), hidabledispalyed: (page == 1)}">
     <div class = "tab-title">
         <div class = "title-info">
             <h2>From</h2>
@@ -43,11 +43,11 @@
             </tr>
         </table>
     </div>
-    <button class="to-button transition-button" ng-click = "transactionsDisplay(); setSelectedTransaction();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    <button class="to-button transition-button" ng-click = "incrementPage() ; setSelectedTransaction();" ng-disabled = "selectedIndex < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
-<div class = "transactions-to" ng-style = "toPos">
-    <table id = "adjustment-table" class = "selected-preview table alternate-table">
+<div ng-class = "{'hideright': page == 1, 'hidabledispalyed': page == 2 || page ==3}">
+    <table id = "adjustment-table" class = "selected-preview table alternate-table hidableelement" ng-class = "{'hideelementleft': page == 3}">
         <tr>
             <td>{{account.monthly_summary[selectedMonth][selectedIndex].vendor_name}}</td>
             <td>{{account.monthly_summary[selectedMonth][selectedIndex].invoice_date}}</td>
@@ -57,12 +57,6 @@
             <td class = "currency">{{account.monthly_summary[selectedMonth][selectedIndex].expense | currency}}</td>
         </tr>
     </table>
-    <div class = "tab-title">
-        <div class = "title-info">
-            <h2>To</h2>
-            <info-tip message = "The row above shows the existing entry. Use the inputs bellow to change this transaction and press submit to save."></info-tip>
-        </div>
-    </div>
-    <transaction-entry transaction = "selectedTransaction" account-options = "accounts"  vendor-options = "vendors" transaction-type-options = "transactionTypes"></transaction-entry>
-    <button class="from-button transition-button" ng-click = "transactionsDisplay()"><i class="fa fa-chevron-left" aria-hidden="true"></i>From</button>
+    <transaction-entry transaction = "selectedTransaction" account-options = "accounts"  vendor-options = "vendors" transaction-type-options = "transactionTypes"  city-account-options = "cityAccounts" firstpage = "2" page = "page"></transaction-entry>
+    <button class="from-button transition-button hidableelement" ng-click = "decrementPage()" ng-class = "{'hideelementleft': page == 3}"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back to Account Selection</button>
 </div>

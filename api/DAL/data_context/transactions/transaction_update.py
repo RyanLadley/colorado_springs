@@ -23,6 +23,46 @@ def update_transaction(transaction, cursor = None):
          'date_paid': sanitize.date_for_storage(transaction.date_paid), 'in_no': transaction.invoice_no, 'desc': transaction.description, 
          'expense': transaction.expense, 'trans_type_id': transaction.transaction_type_id, 'trans_id': transaction.transaction_id})
 
+    assignment_ids = []
+    for assignment in transaction.city_account_assignments:
+        if(assignment.city_account_assignment_id):
+            #Keep track of id's. This is used for deletion later
+            assignments.append(assignment.city_account_assignment_id)
+
+    id_string = ", ".join(str(ident) for ident in assignment_ids)
+    cursor.execute('''
+        DELETE FROM city_account_assignments
+        WHERE transaction_id = %(transaction_id)s
+        AND city_account_assignment_id NOT IN (%(known_ids)s) ;''',
+        {"transaction_id": transaction.transaction_id, 'known_ids': id_string})
+
+    #this loop is kept seperate from the above so we do not delete newly inserted records
+    #TODO: See if we can combine these loops with a LAST_INSERTED_ID call
+    for assignment in transaction.city_account_assignments:
+        if(assignment.city_account_assignment_id):
+            #Keep track of id's. This is used for deletion later
+            assignments.append(assignment.city_account_assignment_id)
+
+            #Update Records with the known id
+            cursor.execute('''
+                UPDATE city_account_assignments
+                SET city_account_id = %(city_account_id)s,
+                    amount = %(amount)s
+                WHERE city_account_assignment_id =  %(city_account_assignment_id)s;''',
+                {'city_account_assignment_id': assignment.city_account_assignment_id, 'city_account_id': assignment.city_account_id, 'amount': assignment.amount})
+            print("updated city")
+        else:
+            cursor.execute('''
+                INSERT city_account_assignments( 
+                       transaction_id,
+                       city_account_id,
+                       amount)
+                VALUES(
+                       %(transaction_id)s, 
+                       %(city_account_id)s, 
+                       %(amount)s);''',
+                {'transaction_id': transaction.transaction_id, 'city_account_id': assignment.city_account_id, 'amount': assignment.amount})
+
     return response.success()
 
 

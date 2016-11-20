@@ -135,6 +135,7 @@ app.controller('adjustmentsController', ['$scope', '$location', 'postRequestServ
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
+        $scope.cityAccounts = success.data.response.city_accounts
     })
 
     $scope.display = {
@@ -215,6 +216,7 @@ app.controller('dataInputController', ['$scope', '$location', 'postRequestServic
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
+        $scope.cityAccounts = success.data.response.city_accounts
     })
 
     $scope.display = {
@@ -722,6 +724,7 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
                 $scope.invoice.transactionIds.push($scope.transactions[i].transaction_id)
             }
 		}
+        console.log($scope.invoice)
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
             $window.open("/coversheet/single-invoice/" +success.data.response)
         })
@@ -733,7 +736,7 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
     	vendorId: null
     }
 
-    //TODO: Coondence the functionality of this function
+    //TODO: Condense the logic of this function
     $scope.disableCreate = true
     $scope.disableRows = function(transaction){
 
@@ -781,29 +784,16 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
 }]);
 app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
+
+    //TODO: The sliding is a hot mess held together by bubblegum and duct tape. Lets run a professional operation here and fix it. Eventually
     $scope.accountId = null;
 
-    $scope.transactionsDisplay = function(){
-    	$scope.expand = !$scope.expand;
-
-        if($scope.expand){
-            $scope.toPos = {
-                "left": "0"
-            };
-
-            $scope.fromPos = {
-            	"left": "-1700px" //should match with $tab-width in shared/_tab.scss
-            }
-        }
-        else{
-			$scope.fromPos = {
-                "left": "0"
-            };
-
-            $scope.toPos = {
-            	"left": "1700px" //should match with $tab-width in shared/_tab.scss
-            }
-        }
+    $scope.page = 1;
+    $scope.incrementPage = function(){
+        $scope.page++
+    }
+    $scope.decrementPage = function(){
+        $scope.page--
     }
 
     //TODO figure out why transactionTypeId needs to be a number and vendorId does not
@@ -820,7 +810,22 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
 	            description: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].description,
 	            expense: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].expense)
 	    }
-        console.log($scope.selectedTransaction)
+
+        postRequestService.request('/api/transaction/city-account-assignments/' +$scope.selectedTransaction.transactionId ).then(function(success){
+            var unsanitizedCityAccounts = success.data.response;
+            
+            if(unsanitizedCityAccounts.length > 0){
+                $scope.selectedTransaction.cityAccounts = []
+                //Ammount come in as strings, these need to be floats
+                for(var i = 0;  i < unsanitizedCityAccounts.length; i++){
+                    $scope.selectedTransaction.cityAccounts.push({
+                        cityAccountAssignmentId: unsanitizedCityAccounts.city_account_assignment_id,
+                        amount: parseFloat(unsanitizedCityAccounts[i].amount),
+                        cityAccountId: unsanitizedCityAccounts[i].city_account_id
+                    })
+                }
+            }
+        })
 	}
 
 
@@ -846,11 +851,30 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
 }]);
 app.controller('transactionEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
+    if ($scope.firstpage == undefined) {
+      $scope.firstpage = 1;
+
+    }
+    if($scope.page == undefined) {
+        $scope.page = $scope.firstpage;
+    }
+    $scope.incrementPage = function(){
+        $scope.page++
+        $scope.greaterThanFirst = $scope.page > $scope.firstpage
+        $scope.lessThanFirst = $scope.page < $scope.firstpage
+    }
+    $scope.decrementPage = function(){
+        $scope.page--
+        $scope.greaterThanFirst = $scope.page > $scope.firstpage
+        $scope.lessThanFirst = $scope.page < $scope.firstpage
+        
+    }
+
 
     $scope.submitTransaction = function(){
         //If the transaction has an Id, we know we are updateing an existing transaction.
         //If it does not, we are creating a new transaction
-        if($scope.entryForm.$valid){
+        if($scope.entryForm.$valid && $scope.remaining >= -0.005 /*rounding error allowance */){
            if($scope.transaction.transactionId){
                 postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
                    $location.url('/') 
@@ -858,9 +882,45 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
             }
             else{
                 postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
-                   $location.url('/') 
+                    $location.url('/') 
                 })
             }
+        }
+    }
+
+    $scope.setupCityAccounts = function(){
+
+        if(!$scope.transaction.cityAccounts || ($scope.startExpense && $scope.startExpense != $scope.transaction.expense)){
+            $scope.remaining = 0
+            $scope.startExpense = $scope.transaction.expense
+            $scope.transaction.cityAccounts = [{cityAccountId: "", amount: $scope.transaction.expense}]
+        }
+        else{
+            $scope.checkRemaining();
+        }
+    }
+
+    $scope.checkRemaining = function(){
+        var sum = 0
+
+        for(i = 0; i < $scope.transaction.cityAccounts.length; i++){
+            sum += $scope.transaction.cityAccounts[i].amount
+        }
+
+        $scope.remaining = $scope.transaction.expense - sum;
+    }
+
+    $scope.addAccount = function(){
+        //Remove Accounts With a value of 0 before adding new accounts
+        for(i = 0; i < $scope.transaction.cityAccounts.length; i++){
+            if($scope.transaction.cityAccounts[i].amount == 0 && $scope.transaction.cityAccounts[i].cityAccountId ===""){ 
+                $scope.transaction.cityAccounts.splice(i,1)
+                i--
+            }
+        }
+        if($scope.remaining > 0 && $scope.transaction.cityAccounts.length < 7){
+            $scope.transaction.cityAccounts.push({cityAccountId: "", amount: $scope.remaining})
+            $scope.checkRemaining();
         }
     }
 

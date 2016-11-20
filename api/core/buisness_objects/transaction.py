@@ -22,7 +22,25 @@ class Transaction:
 
         return transaction
 
+    def attatch_city_account_assignments(self, assignments):
+
+        self.city_account_assignments = assignments
+
+
     def serialize(self):
+
         serial = {key:str(value) for key,value in self.__dict__.items()}
 
+        if 'city_account_assignments' in serial:
+            serial['city_account_assignments'] = self._serialize_city_account_assignments()
+
         return serial
+
+    def _serialize_city_account_assignments(self):
+        
+        serialized_city_account_assignments = []
+
+        for assignment in self.city_account_assignments:
+            serialized_city_account_assignments.append(assignment.serialize())
+
+        return serialized_city_account_assignments

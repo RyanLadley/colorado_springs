@@ -31,4 +31,20 @@ def new_transaction(transaction, cursor = None):
          'date_paid': sanitize.date_for_storage(transaction.date_paid), 'in_no': transaction.invoice_no, 'desc': transaction.description, 
          'expense': transaction.expense, 'trans_type_id': transaction.transaction_type_id})
 
+    cursor.execute("""SELECT LAST_INSERT_ID();""")
+    transaction_id = cursor.fetchone()['LAST_INSERT_ID()']
+
+    assignments = []
+    for assignment in transaction.city_account_assignments:
+        assignments.append(tuple([transaction_id, int(assignment.city_account_id), assignment.amount]))
+
+    cursor.executemany('''
+        INSERT city_account_assignments( 
+                transaction_id,
+                city_account_id,
+                amount)
+            VALUES
+                (%s, %s, %s);''',
+         assignments)
+
     return response.success()

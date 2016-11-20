@@ -25,6 +25,7 @@ app.controller('singleCoversheetController', function($scope, $location, $window
                 $scope.invoice.transactionIds.push($scope.transactions[i].transaction_id)
             }
 		}
+        console.log($scope.invoice)
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
             $window.open("/coversheet/single-invoice/" +success.data.response)
         })
@@ -36,7 +37,7 @@ app.controller('singleCoversheetController', function($scope, $location, $window
     	vendorId: null
     }
 
-    //TODO: Coondence the functionality of this function
+    //TODO: Condense the logic of this function
     $scope.disableCreate = true
     $scope.disableRows = function(transaction){
 

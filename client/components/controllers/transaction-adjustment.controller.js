@@ -1,28 +1,15 @@
 app.controller('transactionAdjustmentController', function($scope, $location, postRequestService, monthsService){
 	
+
+    //TODO: The sliding is a hot mess held together by bubblegum and duct tape. Lets run a professional operation here and fix it. Eventually
     $scope.accountId = null;
 
-    $scope.transactionsDisplay = function(){
-    	$scope.expand = !$scope.expand;
-
-        if($scope.expand){
-            $scope.toPos = {
-                "left": "0"
-            };
-
-            $scope.fromPos = {
-            	"left": "-1700px" //should match with $tab-width in shared/_tab.scss
-            }
-        }
-        else{
-			$scope.fromPos = {
-                "left": "0"
-            };
-
-            $scope.toPos = {
-            	"left": "1700px" //should match with $tab-width in shared/_tab.scss
-            }
-        }
+    $scope.page = 1;
+    $scope.incrementPage = function(){
+        $scope.page++
+    }
+    $scope.decrementPage = function(){
+        $scope.page--
     }
 
     //TODO figure out why transactionTypeId needs to be a number and vendorId does not
@@ -39,7 +26,22 @@ app.controller('transactionAdjustmentController', function($scope, $location, po
 	            description: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].description,
 	            expense: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].expense)
 	    }
-        console.log($scope.selectedTransaction)
+
+        postRequestService.request('/api/transaction/city-account-assignments/' +$scope.selectedTransaction.transactionId ).then(function(success){
+            var unsanitizedCityAccounts = success.data.response;
+            
+            if(unsanitizedCityAccounts.length > 0){
+                $scope.selectedTransaction.cityAccounts = []
+                //Ammount come in as strings, these need to be floats
+                for(var i = 0;  i < unsanitizedCityAccounts.length; i++){
+                    $scope.selectedTransaction.cityAccounts.push({
+                        cityAccountAssignmentId: unsanitizedCityAccounts.city_account_assignment_id,
+                        amount: parseFloat(unsanitizedCityAccounts[i].amount),
+                        cityAccountId: unsanitizedCityAccounts[i].city_account_id
+                    })
+                }
+            }
+        })
 	}
 
 

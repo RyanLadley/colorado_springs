@@ -147,7 +147,10 @@ app.directive('transactionEntry', function() {
             transaction: '=',
             vendors: '<vendorOptions',
             accounts: '<accountOptions',
-            transactionTypes: '<transactionTypeOptions', 
+            transactionTypes: '<transactionTypeOptions',
+            cityAccounts: '<cityAccountOptions',
+            firstpage: '<?',
+            page: '=?',
             submit: '='
         },
        templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'
