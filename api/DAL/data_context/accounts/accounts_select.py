@@ -1,6 +1,7 @@
 from api.DAL.data_context.database_connection import DatabaseConnection
 
 from api.core.buisness_objects.account import Account
+from api.core.buisness_objects.account_transfer import AccountTransfer
 from api.core.buisness_objects.transaction import Transaction
 
 import api.DAL.data_context.transactions.transaction_select as transaction_select
@@ -261,3 +262,49 @@ def account_name(account_id, cursor = None):
     account = Account.map_from_form(result)
     
     return account
+
+@DatabaseConnection
+def transfers(account, cursor = None):
+
+    cursor.execute("""
+                SELECT  from_account_id,
+                        from_account_no,
+                        from_sub_no,
+                        from_shred_no,
+                        to_account_id,
+                        to_account_no,
+                        to_sub_no,
+                        to_shred_no,
+                        description,
+                        amount,
+                        transfer_date
+
+                FROM v_account_transfers                        
+                WHERE   (from_account_no = %(account_no)s AND
+                            CASE WHEN %(sub_no)s IS NOT NULL
+                                 THEN from_sub_no = %(sub_no)s AND
+                                     CASE WHEN %(shred_no)s IS NOT NULL
+                                          THEN from_shred_no = %(shred_no)s
+                                          ELSE TRUE
+                                     END
+                                 ELSE True
+                            END)
+                    XOR
+                        (to_account_no = %(account_no)s AND
+                            CASE WHEN %(sub_no)s IS NOT NULL
+                                 THEN to_sub_no = %(sub_no)s AND
+                                     CASE WHEN %(shred_no)s IS NOT NULL
+                                          THEN to_shred_no = %(shred_no)s
+                                          ELSE TRUE
+                                     END
+                                 ELSE True
+                            END);""",
+            {'account_no': account.account_no, 'sub_no': account.sub_no, 'shred_no': account.shred_no})
+
+    results = cursor.fetchall() or {}
+
+    transfers = []
+    for row in results:
+        transfers.append(AccountTransfer.map_from_form(row))
+    
+    return transfers

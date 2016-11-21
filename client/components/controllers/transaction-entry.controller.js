@@ -73,7 +73,7 @@ app.controller('transactionEntryController', function($scope, $location, postReq
             sum += $scope.transaction.cityAccounts[i].amount
         }
 
-        $scope.remaining = $scope.transaction.expense - sum;
+        $scope.remaining = Number(($scope.transaction.expense - sum).toFixed(2));
     }
 
     $scope.addAccount = function(){

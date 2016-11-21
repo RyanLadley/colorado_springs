@@ -17,6 +17,27 @@ app.controller('accountController', function($scope, $location, $routeParams, po
 
     })
 
+    $scope.displayTransfers=false;
+    $scope.buttonMessage = "View Transfers";
+    $scope.getTransfers = function(){
+        if(!$scope.transfers){
+            postRequestService.request('/api/accounts/transfers/' +$routeParams.accountId).then(function(success){
+                $scope.transfers = success.data.response;
+
+            
+            
+            })
+        }
+         $scope.displayTransfers = !$scope.displayTransfers
+
+         if($scope.displayTransfers){
+            $scope.buttonMessage = "View Transactions"
+         }
+         else{
+            $scope.buttonMessage = "View Transfers"
+         }
+    }
+
     var generateAccountName = function(){
         if($scope.account.shred_no != "None"){
             return [$scope.account.account_no, $scope.account.sub_no, $scope.account.shred_no].join('-')
@@ -46,5 +67,10 @@ app.controller('accountController', function($scope, $location, $routeParams, po
             }
             $scope.monthlyTotals.push(total)
         }
+    }
+
+    $scope.displayTransatcionDetails = function(transactionId){
+        $scope.dialogTransaction = transactionId;
+        $scope.toggleTransactionDialog = true;
     }
 });

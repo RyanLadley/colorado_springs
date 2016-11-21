@@ -294,6 +294,27 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
 
     })
 
+    $scope.displayTransfers=false;
+    $scope.buttonMessage = "View Transfers";
+    $scope.getTransfers = function(){
+        if(!$scope.transfers){
+            postRequestService.request('/api/accounts/transfers/' +$routeParams.accountId).then(function(success){
+                $scope.transfers = success.data.response;
+
+            
+            
+            })
+        }
+         $scope.displayTransfers = !$scope.displayTransfers
+
+         if($scope.displayTransfers){
+            $scope.buttonMessage = "View Transactions"
+         }
+         else{
+            $scope.buttonMessage = "View Transfers"
+         }
+    }
+
     var generateAccountName = function(){
         if($scope.account.shred_no != "None"){
             return [$scope.account.account_no, $scope.account.sub_no, $scope.account.shred_no].join('-')
@@ -323,6 +344,11 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
             }
             $scope.monthlyTotals.push(total)
         }
+    }
+
+    $scope.displayTransatcionDetails = function(transactionId){
+        $scope.dialogTransaction = transactionId;
+        $scope.toggleTransactionDialog = true;
     }
 }]);
 app.controller('adjustmentsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
@@ -1132,7 +1158,7 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
             sum += $scope.transaction.cityAccounts[i].amount
         }
 
-        $scope.remaining = $scope.transaction.expense - sum;
+        $scope.remaining = Number(($scope.transaction.expense - sum).toFixed(2));
     }
 
     $scope.addAccount = function(){

@@ -28,6 +28,28 @@ class Account:
 
         self.monthly_summary = summary
 
+    def attach_transfers(self, transfers):
+
+         #This changes the amount fields to relect how it effects the account.
+         #If its from this account (or a sub account) its changed to a negative
+        if self.shred_no:
+            for transfer in transfers:
+                if transfer.from_account_no == self.account_no and transfer.from_sub_no == self.sub_no and transfer.from_shred_no == self.shred_no:
+                    transfer.amount *= -1
+
+        elif self.sub_no:
+            for transfer in transfers:
+                if transfer.from_account_no == self.account_no and transfer.from_sub_no == self.sub_no:
+                    transfer.amount *= -1
+
+        else:
+            for transfer in transfers:
+                    if transfer.from_account_no == self.account_no:
+                        transfer.amount *= -1
+
+        self.transfers = transfers
+
+
     def serialize(self):
         serial = {key:str(value) for key,value in self.__dict__.items()}
 

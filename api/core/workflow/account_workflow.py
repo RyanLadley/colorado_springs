@@ -56,3 +56,17 @@ def transfer():
     transfer = AccountTransfer.map_from_form(transfer_form)
 
     return accounts_insert.transfer(transfer)
+
+
+@workflow.route('/accounts/transfers/<account_id>', methods = ['POST'])
+@authorize()
+def get_transfers(account_id):
+
+    account = accounts_select.account_name(account_id)
+    transfers = accounts_select.transfers(account)
+
+    account.attach_transfers(transfers) #This changes the amount coumns to relect how it effects the account
+
+    serialized_transfers = utilities.serialize_array(account.transfers)
+
+    return response.success(serialized_transfers)

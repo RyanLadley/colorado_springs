@@ -46,11 +46,12 @@
                     <p class = "value">{{account.remaining | currency}}</p>
                 </div>
             </div>
+            <button class="budget-button" ng-click = "getTransfers()">{{buttonMessage}}</button>
         </div>
     </div>
 </div>
 
-<div class = "table-header month-table-header">
+<div class = "table-header month-table-header" ng-if = "!displayTransfers">
     <h2>{{months[selectedMonth]}} Transactions</h2>
     <table id = "account-table" class = "table alternate-table">
         <tr ng-if = "transactions.length > 0">
@@ -63,7 +64,7 @@
             <th>Total Expense</th>
         </tr>
 
-        <tr ng-repeat = "transaction in transactions" class = "row" ng-if = "transactions.length > 0">
+        <tr ng-repeat = "transaction in transactions" class = "row clickable" ng-if = "transactions.length > 0" ng-click ="displayTranasctionDetails(transaction.transaction_id)">
             <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
             <td>{{transaction.vendor_name}}</td>
             <td>{{transaction.invoice_date}}</td>
@@ -82,6 +83,38 @@
         </tr>
         <tr ng-if = "!transactions.length > 0">
             <td colspan="8" class = "center">There are currently no transactions for {{months[selectedMonth]}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class = "table-header month-table-header" ng-if = "displayTransfers">
+    <h2>Account Transfers</h2>
+    <table id = "account-table" class = "table alternate-table">
+        <tr ng-if = "transfers.length > 0">
+            <th>From Account</th>
+            <th>To Account</th>
+            <th>Date of Transfer</th>
+            <th>Description</th>
+            <th>Amount</th>
+        </tr>
+
+        <tr ng-repeat = "transfer in transfers" class = "row" ng-if = "transfers.length > 0">
+            <td><account-name  account-id = "transfer.from_account_id" account-no = "transfer.from_account_no" sub-no = "transfer.from_sub_no" shred-no = "transfer.from_shred_no"></account-name></td>
+            <td><account-name  account-id = "transfer.to_account_id" account-no = "transfer.to_account_no" sub-no = "transfer.to_sub_no" shred-no = "transfer.to_shred_no"></account-name></td>
+            <td>{{transfer.transfer_date}}</td>
+            <td class = "description account-desription">{{transfer.description}}</td>
+            <td class = "currency">{{transfer.amount | currency}}</td>
+        </tr>
+        <tr class = "total" ng-if = "transfers.length > 0">
+            <td colspan="4">Total</td>
+            <td> {{account.transfer | currency }}</td>
+        </tr>
+
+        <tr ng-if = "!transfers.length > 0">
+            <th colspan="5"></th>
+        </tr>
+        <tr ng-if = "!transfers.length > 0">
+            <td colspan="5" class = "center">There are currently no transfers for this account.</td>
         </tr>
     </table>
 <div>

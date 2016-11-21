@@ -57,6 +57,9 @@
   margin-top: 0px;
   margin-top: 0px; }
 
+.clickable {
+  cursor: pointer; }
+
 .table {
   width: 99%;
   border-collapse: collapse;
@@ -668,6 +671,15 @@
 
 .account-link {
   color: #00188E; }
+
+.budget-button {
+  border: none;
+  background-color: #5365C1;
+  width: 96%;
+  margin: 2% 2%;
+  color: white;
+  padding: 5px;
+  font-weight: bold; }
 
 .account-left {
   margin-left: 50px;
