@@ -347,6 +347,25 @@ app.controller('homeController', ['$scope', '$cookies', '$location', 'postReques
     $scope.logout = function(){
         $cookies.remove('token')
     }
+
+    $scope.getGreeting = function(){
+        var date = new Date()
+        hour = date.getHours()
+
+        if(hour < 12){
+            return "Morning"
+        }
+        else if(hour < 5){
+            return "Afternoon"
+        }
+        else{
+            return "Evening"
+        }
+    }
+
+    postRequestService.request('/api/user/basics').then(function(success){
+        $scope.user = success.data.response
+    })
 }]);
 app.controller('loginController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
     $scope.login = {}
@@ -751,12 +770,12 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
                 $scope.invoice.transactionIds.push($scope.transactions[i].transaction_id)
             }
 		}
-        console.log($scope.invoice)
+
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
             $window.open("/coversheet/single-invoice/" +success.data.response)
         })
 
-}
+    }
 
     $scope.invoice ={
     	invoiceNo: null,
@@ -981,7 +1000,7 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     }
 
 }]);
-app.controller('transactionDialogController', ['$scope', 'postRequestService', function($scope, postRequestService){
+app.controller('transactionDialogController', ['$scope', '$window', 'postRequestService', function($scope, $window, postRequestService){
 
     $scope.exit = function(){
         $scope.display = false
@@ -993,6 +1012,20 @@ app.controller('transactionDialogController', ['$scope', 'postRequestService', f
             })
         }
     })
+
+    $scope.createSingleCoversheet = function(){
+        $scope.invoice = {
+            invoiceNo: $scope.transaction.invoice_no,
+            vendorId: $scope.transaction.vendor_id,
+            transactionIds: [$scope.transaction.transaction_id]
+        }
+
+        postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
+            console.log(success.data.response)
+            $window.open("/coversheet/single-invoice/" +success.data.response)
+        })
+
+    }
     
 }]);
 app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){

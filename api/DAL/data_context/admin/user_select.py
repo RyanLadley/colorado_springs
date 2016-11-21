@@ -40,7 +40,7 @@ def user(token, cursor = None):
     
     user = User.map_from_form(row)
 
-    return stored_credentials
+    return user
 
 
 @DatabaseConnection

@@ -1,11 +1,15 @@
 import re
 from datetime import datetime
 
+import json
+
+camel_patern = re.compile(r'([A-Z])')
+
 def form_keys(form):
 
     #convert keys from camel case to snake case
-    for key, value in form.items():
-        form[re.sub('([A-Z]+)', r'_\1', key).lower()] = form.pop(key)
+    for key, value in form.items(): 
+        form[camel_to_snake(key)] = form.pop(key)
         #Test for arrays
         if isinstance(value, list):
             for f in value:
@@ -25,3 +29,7 @@ def date_for_storage(date):
     except:
 
         return date
+
+
+def camel_to_snake(name):
+    return camel_patern.sub(lambda x: '_' + x.group(1).lower(), name)

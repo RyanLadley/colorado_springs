@@ -25,12 +25,12 @@ app.controller('singleCoversheetController', function($scope, $location, $window
                 $scope.invoice.transactionIds.push($scope.transactions[i].transaction_id)
             }
 		}
-        console.log($scope.invoice)
+
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
             $window.open("/coversheet/single-invoice/" +success.data.response)
         })
 
-}
+    }
 
     $scope.invoice ={
     	invoiceNo: null,

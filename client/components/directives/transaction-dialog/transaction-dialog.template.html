@@ -2,9 +2,11 @@
 
     <div class = "dialog-content">
         <div class = "dialog-exit" ng-click = "exit()">X</div>
-        <h2>Transaction Details</h2>
+        <div class = "dialog-title">
+            <h1> Transaction Details</h1>
+        </div>
 
-
+        <h3 class = "dialog-section-header">Basic Information</h3>
         <div class = "label-display">
             <label>Account</label>
             <p><account-name account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no" 
@@ -18,16 +20,18 @@
             <label>Vendor</label>
             <p>{{transaction.vendor_name}}</p>
         </div>
-        
-        <div class = "label-display">
-            <label>Description</label>
-            <p>{{transaction.description}}</p>
-        </div>
-        <br>
 
         <div class = "label-display">
             <label>Transaction Type</label>
             <p>{{transaction.transaction_type}}</p>
+        </div>
+        <div class = "label-display">
+            <label>Invoice Date</label>
+            <p>{{transaction.invoice_date}}</p>
+        </div>
+        <div class = "label-display">
+            <label>Date Paid</label>
+            <p>{{transaction.date_paid}}</p>
         </div>
         <div class = "label-display">
             <label>Total Expense</label>
@@ -36,13 +40,18 @@
 
         <br>
         <div class = "label-display">
-            <label>City Account Codes</label>
+            <label>Description</label>
+            <p>{{transaction.description}}</p>
         </div>
-        <table class = "monthly-summary-table" ng-if = "transaction.city_account_assignments.length > 0">
+        <br>
+
+ 
+        <h3 class = "dialog-section-header">City Account Codes</h3>
+        <table class = "dialog-table" ng-if = "transaction.city_account_assignments.length > 0">
             <tr>
                 <th>Project or Program</th>
                 <th>City Account Code</th>
-                <th>Amount</th>
+                <th class = "currency">Amount</th>
             </tr>
             <tr ng-repeat = "assignment in transaction.city_account_assignments">
                 <td> Unknown </td>
@@ -50,10 +59,10 @@
                 <td class = "currency">{{assignment.amount | currency}}</td>
             </tr>
         </table>
-        <p ng-if = "!transaction.city_account_assignments.length > 0">No city account codes have been assigned to this transaction.</p>
+        <p class = "dialog-text" ng-if = "!transaction.city_account_assignments.length > 0">No city account codes have been assigned to this transaction.</p>
 
 
-        <button>Print Cover Sheet</button>
+        <button class ="dialog-print" ng-click = "createSingleCoversheet()">Print Cover Sheet</button>
 
     </div>
 

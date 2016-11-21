@@ -11,6 +11,7 @@ from api.core.admin.token import Token
 from api.core.admin.validate import InvalidCredential
 import api.core.admin.validate as validate
 
+from api.core.admin.authorize import authorize
 import api.core.response as response
 import api.core.sanitize as sanitize
 
@@ -68,3 +69,15 @@ def login():
     user_update.token(token)
     
     return response.add_token(token = token)
+
+
+@workflow.route('/user/basics', methods = ['POST'])
+@authorize()
+def get_user():
+    token_form = json.loads(request.form['token'])
+    token_form = sanitize.form_keys(token_form)
+
+    token = Token.map_from_form(token_form)
+    user = user_select.user(token)
+
+    return response.success(user.serialize())

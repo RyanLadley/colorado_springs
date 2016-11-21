@@ -48,7 +48,6 @@ def update_transaction():
     transaction_form = json.loads(request.form['payload'])
     transaction_form = sanitize.form_keys(transaction_form)
 
-    print(transaction_form)
     transaction = Transaction.map_from_form(transaction_form)
 
     assignments = []
@@ -125,7 +124,7 @@ def search_transaction_by_invoice():
 @authorize()
 def get_city_account_assignments_for_transaction(transaction_id):
 
-    assignments = city_accounts_select.city_account_assignments_for_transaction(transaction_id)
+    assignments = city_accounts_select.assignments_for_transaction(transaction_id)
     serialized_assignments =  utilities.serialize_array(assignments)
 
     return response.success(serialized_assignments)

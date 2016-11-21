@@ -9,16 +9,91 @@
 }
 
 .dialog-content{
+    border-radius: 2px;
     background-color: white;
     display: block;
-    width: 500px;
+    width: 600px;
     position: relative;
     margin: 50px auto;
+    border: solid 1px $menu-black;
 
-    .dialog-exit{
-        position: absolute;
-        display: inline-block;
-        top: -5px;
-        right: 0px;
+}
+
+.dialog-exit{
+    position: absolute;
+    display: inline-block;
+    top: -10px;
+    right: -5px;
+    cursor: pointer;
+    height:25px;
+    width: 25px;
+    color: white;
+    text-align: center;
+    background: $dull-blue;
+    border: solid 1px $nav-black;
+    border-radius: 25px;
+
+    &:hover{
+        @include transition-time(0.5s);
+        background-color: $rusty-blue;
+    }
+}
+
+.dialog-title{
+    background: $account-green;
+    color: white;
+    padding: 10px 30px;
+    box-shadow: 1px 2px 1px grey;
+
+    h1{
+        margin: 0;
+    }
+}
+
+.dialog-section-header{
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 5px;
+    border-bottom: solid 1px lightgrey;
+}
+
+.dialog-table{
+    padding: 5px 30px;
+    width: 100%;
+
+    .currency{
+        text-align: right;
+    }
+
+    th{
+        text-align: left;
+    }
+}
+
+.dialog-text{
+    text-align: center;
+}
+
+.dialog-print{
+    display: block;
+    position: relative;
+    margin: 30px auto 20px auto;
+    color: white;
+    font-weight: bold;
+    font-size:16px; 
+    padding: 8px 20px;
+    border: none;
+    background: $dull-blue;
+    @include transition-time(0.2s);
+
+    &:hover{
+        @include transition-time(0.2s);
+        box-shadow: 2px 2px 10px grey;
+    }
+
+    &:disabled{
+        background: #777997;
+        cursor: not-allowed;
+        box-shadow: none;
     }
 }

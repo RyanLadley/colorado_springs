@@ -10,7 +10,6 @@ class Image:
         image = Image()
 
         image.parse_data_uri(form.get('image'))
-        print(image.type)
 
         image.folder = form.get('image_folder') #from database or DAL function
         image.file_name = form.get('image_file_name') #from database or DAL function
@@ -49,7 +48,6 @@ class Image:
         """Saves the image to the file system by appending the internal relative url
         to the parent url provided"""
         try:
-            print(self.url())
             file_url = parent_url + self.url()
 
             with open((file_url), "wb") as file:

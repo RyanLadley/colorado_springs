@@ -6,11 +6,11 @@ class User:
 
         user = User()
 
-        user.id = form.get('user_id') or 0
+        user.id = form.get('id') or 0
 
         user.email = form.get('email')
-        user.first_name = form.get('user_first_name')
-        user.last_name = form.get('user_last_name')
+        user.first_name = form.get('first_name')
+        user.last_name = form.get('last_name')
 
         return user
 

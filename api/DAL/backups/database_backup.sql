@@ -33,7 +33,7 @@ CREATE TABLE `account_transfers` (
   `transfer_date` date NOT NULL,
   PRIMARY KEY (`transfer_id`),
   UNIQUE KEY `trasnfer_id_UNIQUE` (`transfer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `account_transfers` (
 
 LOCK TABLES `account_transfers` WRITE;
 /*!40000 ALTER TABLE `account_transfers` DISABLE KEYS */;
-INSERT INTO `account_transfers` VALUES (2,2,15,53.60,'This is a test','2016-11-14'),(3,1,14,23.00,'Another test','2016-11-14');
+INSERT INTO `account_transfers` VALUES (2,2,15,53.60,'This is a test','2016-11-14'),(3,1,14,23.00,'Another test','2016-11-14'),(4,23,44,300.20,'This is a regression test.','2016-11-20');
 /*!40000 ALTER TABLE `account_transfers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +70,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,5221000,NULL,NULL,'In House Resurfacing',2160938.00),(2,5221000,1,NULL,'Maitenance Paving',0.00),(4,5221000,2,NULL,'Structural Digout',0.00),(5,5221000,2,1,'North District Digout',0.00),(6,5221000,2,2,'South District Digout',0.00),(7,5221000,2,3,'East District Digout',0.00),(8,5221000,2,4,'West District Digout',0.00),(9,5221000,3,NULL,'District Maintenance Paving',0.00),(10,5221000,3,1,'North Maintenence Paving',0.00),(11,5221000,3,2,'South Maintenance Paving',0.00),(12,5221000,3,3,'East Maintenance Paving',0.00),(13,5221000,3,4,'West Maintenance Paving',0.00),(14,5222000,NULL,NULL,'Pothole Patching Repair',331447.80),(15,5222000,1,NULL,'Asphalt Repair',0.00),(16,5222000,2,NULL,'Propane',0.00),(17,5222000,3,NULL,'Shovels/Rakes/etc',0.00),(18,5223000,NULL,NULL,'In House Pipe',137447.80),(19,5223000,1,NULL,'Pipe Materials',0.00),(20,5223000,2,NULL,'Swas/Hand Tools/Etc',0.00),(21,5224000,NULL,NULL,'In House Concrete',3523678.92),(22,5224000,1,NULL,'Concrete Materials',0.00),(23,5224000,2,NULL,'Tool/Supplies',0.00),(24,5225000,NULL,NULL,'In House Project Support',158016.80),(25,5225000,1,NULL,'Maint Paving Manpower',0.00),(26,5225000,2,NULL,'Maint Paving Rental Equip',0.00),(27,5225000,3,NULL,'Maint District Manpower',0.00),(28,5225000,3,1,'North District Manpower',0.00),(29,5225000,3,2,'South District Manpower',0.00),(30,5225000,3,3,'East District Manpower',0.00),(31,5225000,3,4,'West District Manpower',0.00),(32,5225000,4,NULL,'Maint District Rental Equip',0.00),(33,5225000,4,1,'North District Rental Equip',0.00),(34,5225000,4,2,'South District Rental Equip',0.00),(35,5225000,4,3,'East District Rental Equip',0.00),(36,5225000,4,4,'West District Rental Equip',0.00),(37,5225000,5,NULL,'In House Pipe Manpower',0.00),(38,5225000,6,NULL,'In House Pipe Rental Equip',0.00),(39,5225000,7,NULL,'In House Concrete Manpower',0.00),(40,5225000,8,NULL,'In House Concrete Equip',0.00),(41,5225000,9,NULL,'Signs & Markings Manpower',0.00),(42,5225000,10,NULL,'Reserves',0.00),(43,5226000,NULL,NULL,'Signs & Markings',14135000.00),(44,5226000,1,NULL,'Crosswalks/School Legends',0.00),(45,5226000,2,NULL,'Long Line Contract',0.00);
+INSERT INTO `accounts` VALUES (1,5221000,NULL,NULL,'In House Resurfacing',2160938.00),(2,5221000,1,NULL,'Maitenance Paving',2000.00),(4,5221000,2,NULL,'Structural Digout',20000.00),(5,5221000,2,1,'North District Digout',3000.00),(6,5221000,2,2,'South District Digout',520.00),(7,5221000,2,3,'East District Digout',8963.00),(8,5221000,2,4,'West District Digout',876.00),(9,5221000,3,NULL,'District Maintenance Paving',100.00),(10,5221000,3,1,'North Maintenence Paving',8635.00),(11,5221000,3,2,'South Maintenance Paving',7548.00),(12,5221000,3,3,'East Maintenance Paving',9863.00),(13,5221000,3,4,'West Maintenance Paving',10025.00),(14,5222000,NULL,NULL,'Pothole Patching Repair',331447.80),(15,5222000,1,NULL,'Asphalt Repair',7888.00),(16,5222000,2,NULL,'Propane',896.25),(17,5222000,3,NULL,'Shovels/Rakes/etc',7865.50),(18,5223000,NULL,NULL,'In House Pipe',137447.80),(19,5223000,1,NULL,'Pipe Materials',896.54),(20,5223000,2,NULL,'Saws/Hand Tools/Etc',788.36),(21,5224000,NULL,NULL,'In House Concrete',3523678.92),(22,5224000,1,NULL,'Concrete Materials',5496.54),(23,5224000,2,NULL,'Tool/Supplies',7778.57),(24,5225000,NULL,NULL,'In House Project Support',158016.80),(25,5225000,1,NULL,'Maint Paving Manpower',7835.00),(26,5225000,2,NULL,'Maint Paving Rental Equip',785.00),(27,5225000,3,NULL,'Maint District Manpower',4563.50),(28,5225000,3,1,'North District Manpower',785.00),(29,5225000,3,2,'South District Manpower',7854.00),(30,5225000,3,3,'East District Manpower',455.00),(31,5225000,3,4,'West District Manpower',456.00),(32,5225000,4,NULL,'Maint District Rental Equip',7854.00),(33,5225000,4,1,'North District Rental Equip',456.00),(34,5225000,4,2,'South District Rental Equip',7863.00),(35,5225000,4,3,'East District Rental Equip',4596.00),(36,5225000,4,4,'West District Rental Equip',8754.00),(37,5225000,5,NULL,'In House Pipe Manpower',86.57),(38,5225000,6,NULL,'In House Pipe Rental Equip',9875.00),(39,5225000,7,NULL,'In House Concrete Manpower',1265.00),(40,5225000,8,NULL,'In House Concrete Equip',7868.00),(41,5225000,9,NULL,'Signs & Markings Manpower',782.00),(42,5225000,10,NULL,'Reserves',785.00),(43,5226000,NULL,NULL,'Signs & Markings',14135000.00),(44,5226000,1,NULL,'Crosswalks/School Legends',785.00),(45,5226000,2,NULL,'Long Line Contract',7863.00);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,7 +88,7 @@ CREATE TABLE `city_account_assignments` (
   `amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`city_account_assignment_id`),
   UNIQUE KEY `city_account_assignments_id_UNIQUE` (`city_account_assignment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +97,7 @@ CREATE TABLE `city_account_assignments` (
 
 LOCK TABLES `city_account_assignments` WRITE;
 /*!40000 ALTER TABLE `city_account_assignments` DISABLE KEYS */;
-INSERT INTO `city_account_assignments` VALUES (1,24,4,96.30),(2,28,3,97.20),(3,28,4,87.00),(4,28,13,787.00),(5,42,3,63.21),(37,43,7,3.10),(38,43,5,26.00),(39,43,15,11.10),(40,9,6,63.20);
+INSERT INTO `city_account_assignments` VALUES (1,24,4,96.30),(2,28,3,97.20),(3,28,4,87.00),(4,28,13,787.00),(5,42,3,63.21),(40,9,6,63.20),(56,2,9,50.52),(57,2,11,90.00),(60,27,3,63.21),(81,43,7,3.10),(82,43,5,26.00),(83,43,15,11.10),(84,47,9,5.00),(85,47,13,51.25),(86,46,2,6.20),(87,46,3,57.00);
 /*!40000 ALTER TABLE `city_account_assignments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +172,7 @@ CREATE TABLE `transactions` (
   `transaction_type_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`transaction_id`),
   UNIQUE KEY `transaction_id_UNIQUE` (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',0),(24,18,4,'2016-11-14','2016-11-20','JMU-POL-90','This is a test of account codes','96.3',1),(27,22,7,'2016-11-06','2016-11-27','SFSAFS','Testing Unassigned City Accounts.','63.21',1),(28,19,4,'2016-11-06','2016-11-26','ASFSAF','Testing Multiple Accounts','971.2',2),(42,44,4,'2016-11-14','2016-11-20','HNH-123-LO','Testing City Accounts... Again','63.21',1),(43,44,4,'2016-11-15','2016-11-16','13-PO-LO','This is testing city account adjustments','63.2',2);
+INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',0),(24,18,4,'2016-11-14','2016-11-20','JMU-POL-90','This is a test of account codes','96.3',1),(27,22,7,'2016-11-06','2016-11-27','SFSAFS','Testing Unassigned City Accounts.','63.21',1),(28,19,4,'2016-11-06','2016-11-26','ASFSAF','Testing Multiple Accounts','971.2',2),(42,44,4,'2016-11-14','2016-11-20','HNH-123-LO','Testing City Accounts... Again','63.21',1),(43,44,4,'2016-11-08','2016-11-16','13-PO-LO','This is testing city account adjustments','63.2',2),(44,23,7,'2016-11-16','2016-11-05','63-854','What a beautiful transaction.','90.09',0),(45,18,4,'2016-11-08','2016-11-24','324','Testing new conversions','63.25',0),(46,20,4,'2016-11-08','2016-11-29','LOK-98','This is a test. I bet this gets deleted','63.2',3),(47,20,6,'2016-11-14','2016-12-07','VNSH-876-SA','When in doubt, make an account... transaction','63',1);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +213,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (14,'user@email.com','User','McUserson','pbkdf2:sha1:1000$pUDdp4b7$0f61e5f0477095e0659d1553668ea3f8341e045b','SIT3GWVNPI7SGGBYXD1GAV0A6DUPF02U','2016-11-20 03:37:02',0),(15,'jladley@springsgov.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','KXDXWECUC8T7VM7MNXIPGPX74UVQ8O1C','2016-11-18 09:40:18',0);
+INSERT INTO `user` VALUES (14,'user@email.com','User','McUserson','pbkdf2:sha1:1000$pUDdp4b7$0f61e5f0477095e0659d1553668ea3f8341e045b','7U8L2WKY6PMQ62DC8Y3YYXGB4VIUHL5I','2016-11-21 09:43:10',0),(15,'jladley@springsgov.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','BM46AIPTJJK53IDIUSXGKLHNSQH2NK7L','2016-11-21 09:50:42',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,4 +496,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-19 22:57:45
+-- Dump completed on 2016-11-21  1:51:23

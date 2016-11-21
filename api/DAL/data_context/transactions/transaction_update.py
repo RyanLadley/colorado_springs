@@ -50,7 +50,7 @@ def update_transaction(transaction, cursor = None):
                     amount = %(amount)s
                 WHERE city_account_assignment_id =  %(city_account_assignment_id)s;''',
                 {'city_account_assignment_id': assignment.city_account_assignment_id, 'city_account_id': assignment.city_account_id, 'amount': assignment.amount})
-            print("updated city")
+          
         else:
             cursor.execute('''
                 INSERT city_account_assignments( 

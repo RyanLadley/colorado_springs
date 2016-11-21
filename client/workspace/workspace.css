@@ -164,16 +164,77 @@
   background-color: rgba(46, 46, 46, 0.6); }
 
 .dialog-content {
+  border-radius: 2px;
   background-color: white;
   display: block;
-  width: 500px;
+  width: 600px;
   position: relative;
-  margin: 50px auto; }
-  .dialog-content .dialog-exit {
-    position: absolute;
-    display: inline-block;
-    top: -5px;
-    right: 0px; }
+  margin: 50px auto;
+  border: solid 1px #4E4E4E; }
+
+.dialog-exit {
+  position: absolute;
+  display: inline-block;
+  top: -10px;
+  right: -5px;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  color: white;
+  text-align: center;
+  background: #5365C1;
+  border: solid 1px #404040;
+  border-radius: 25px; }
+  .dialog-exit:hover {
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    background-color: #4E539F; }
+
+.dialog-title {
+  background: #37692B;
+  color: white;
+  padding: 10px 30px;
+  box-shadow: 1px 2px 1px grey; }
+  .dialog-title h1 {
+    margin: 0; }
+
+.dialog-section-header {
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-bottom: 5px;
+  border-bottom: solid 1px lightgrey; }
+
+.dialog-table {
+  padding: 5px 30px;
+  width: 100%; }
+  .dialog-table .currency {
+    text-align: right; }
+  .dialog-table th {
+    text-align: left; }
+
+.dialog-text {
+  text-align: center; }
+
+.dialog-print {
+  display: block;
+  position: relative;
+  margin: 30px auto 20px auto;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 20px;
+  border: none;
+  background: #5365C1;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s; }
+  .dialog-print:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    box-shadow: 2px 2px 10px grey; }
+  .dialog-print:disabled {
+    background: #777997;
+    cursor: not-allowed;
+    box-shadow: none; }
 
 .tabs {
   list-style: none;

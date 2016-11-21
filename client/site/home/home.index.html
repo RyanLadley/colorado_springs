@@ -1,7 +1,7 @@
 <div id = home-top-container>
 	<img id = "home-image" src = "/res/images/colorado_springs.png">
 	<div id = "home-list">
-		<h1 id = "greeting"> Good Morning, User!</h1>
+		<h1 id = "greeting"> Good {{getGreeting()}}, {{user.first_name}}!</h1>
 		<ul>
 			<li><a href = "/administrator/1">Administartor</a></li>
 			<li><a href = "/profile/1">User Profile</a></li>
