@@ -59,6 +59,8 @@
 
 .clickable {
   cursor: pointer; }
+  .clickable td {
+    cursor: pointer; }
 
 .table {
   width: 99%;
@@ -152,6 +154,26 @@
     margin: 5px auto 5px auto;
     padding: 10px 1px 1px 3px;
     text-align: center; }
+
+.dialog-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(46, 46, 46, 0.6); }
+
+.dialog-content {
+  background-color: white;
+  display: block;
+  width: 500px;
+  position: relative;
+  margin: 50px auto; }
+  .dialog-content .dialog-exit {
+    position: absolute;
+    display: inline-block;
+    top: -5px;
+    right: 0px; }
 
 .tabs {
   list-style: none;
@@ -672,15 +694,6 @@
 .account-link {
   color: #00188E; }
 
-.budget-button {
-  border: none;
-  background-color: #5365C1;
-  width: 96%;
-  margin: 2% 2%;
-  color: white;
-  padding: 5px;
-  font-weight: bold; }
-
 .account-left {
   margin-left: 50px;
   width: 325px;
@@ -733,6 +746,16 @@
     margin: 10px 0; }
   .monthly-summary-table .currency {
     text-align: right; }
+
+.budget-button {
+  border: none;
+  background-color: #5365C1;
+  width: 96%;
+  margin: 2% 2%;
+  color: white;
+  padding: 5px;
+  font-weight: bold;
+  cursor: pointer; }
 
 .entry-tabs li {
   background: lightgrey;

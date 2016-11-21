@@ -64,14 +64,14 @@
             <th>Total Expense</th>
         </tr>
 
-        <tr ng-repeat = "transaction in transactions" class = "row clickable" ng-if = "transactions.length > 0" ng-click ="displayTranasctionDetails(transaction.transaction_id)">
+        <tr ng-repeat = "transaction in transactions" class = "row clickable" ng-if = "transactions.length > 0">
             <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
-            <td>{{transaction.vendor_name}}</td>
-            <td>{{transaction.invoice_date}}</td>
-            <td>{{transaction.date_paid}}</td>
-            <td class = "center">{{transaction.invoice_no}}</td>
-            <td class = "description account-desription">{{transaction.description}}</td>
-            <td class = "currency">{{transaction.expense | currency}}</td>
+            <td ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.vendor_name}}</td>
+            <td ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.invoice_date}}</td>
+            <td ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.date_paid}}</td>
+            <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "center">{{transaction.invoice_no}}</td>
+            <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "description account-desription">{{transaction.description}}</td>
+            <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "currency">{{transaction.expense | currency}}</td>
         </tr>
         <tr class = "total" ng-if = "transactions.length > 0">
             <td colspan="6">{{months[selectedMonth]}} Total</td>
@@ -117,4 +117,6 @@
             <td colspan="5" class = "center">There are currently no transfers for this account.</td>
         </tr>
     </table>
-<div>
+</div>
+
+<transaction-dialog display = "toggleTransactionDialog" transaction = "dialogTransaction"></transaction-dialog>

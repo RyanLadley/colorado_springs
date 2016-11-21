@@ -88,6 +88,16 @@ def get_account_transaction_by_month(account_id):
 
     return response.success(account.serialize())
 
+
+@workflow.route('/transaction/details/<transaction_id>', methods = ['POST'])
+@authorize()
+def get_transaction_details(transaction_id):
+    
+    transaction = transaction_select.details(transaction_id)
+
+    return response.success(transaction.serialize())
+
+
 @workflow.route('/transaction/pending/vendor/<vendor_id>', methods = ['POST'])
 @authorize()
 def get_pending_transaction_by_vendor(vendor_id):
@@ -105,8 +115,6 @@ def search_transaction_by_invoice():
 
     vendor_id = search_criteria.get('vendorId')
     invoice_no = search_criteria.get('invoiceNo')
-
-    print(vendor_id)
 
     transactions = transaction_select.search_by_invoice(vendor_id, invoice_no)
 

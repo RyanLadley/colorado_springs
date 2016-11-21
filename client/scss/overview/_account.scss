@@ -80,3 +80,13 @@ $overview-menu-width: 325px;
     }
     width: 99%;
 }
+.budget-button{
+    border: none;
+    background-color: $dull-blue;
+    width: 96%;
+    margin: 2% 2%;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}

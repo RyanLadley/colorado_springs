@@ -3,5 +3,6 @@
   "user": "REPLACE_ME",
   "password": "REPLACE_ME",
   "database": "REPLACE_ME",
-  "port" : "3306"
+  "port" : "3360"
 }
+

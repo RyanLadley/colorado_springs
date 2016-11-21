@@ -69,7 +69,8 @@ app.controller('accountController', function($scope, $location, $routeParams, po
         }
     }
 
-    $scope.displayTransatcionDetails = function(transactionId){
+    $scope.toggleTransactionDialog = false;
+    $scope.displayTransactionDetails = function(transactionId){
         $scope.dialogTransaction = transactionId;
         $scope.toggleTransactionDialog = true;
     }

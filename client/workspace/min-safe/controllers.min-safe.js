@@ -150,7 +150,8 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
         }
     }
 
-    $scope.displayTransatcionDetails = function(transactionId){
+    $scope.toggleTransactionDialog = false;
+    $scope.displayTransactionDetails = function(transactionId){
         $scope.dialogTransaction = transactionId;
         $scope.toggleTransactionDialog = true;
     }
@@ -979,6 +980,20 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
         }
     }
 
+}]);
+app.controller('transactionDialogController', ['$scope', 'postRequestService', function($scope, postRequestService){
+
+    $scope.exit = function(){
+        $scope.display = false
+    }
+    $scope.$watch('display', function(){
+        if($scope.display){
+            postRequestService.request('/api/transaction/details/' +$scope.transactionId).then(function(success){
+                $scope.transaction = success.data.response
+            })
+        }
+    })
+    
 }]);
 app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
   

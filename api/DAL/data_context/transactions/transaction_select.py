@@ -110,6 +110,7 @@ def pending_by_account(account, cursor = None):
 
     return transactions
 
+
 @DatabaseConnection
 def pending_by_vendor(vendor_id, cursor = None):
 
@@ -141,6 +142,7 @@ def pending_by_vendor(vendor_id, cursor = None):
 
     return transactions
 
+
 @DatabaseConnection
 def by_vendor(vendor_id, cursor = None):
 
@@ -170,6 +172,38 @@ def by_vendor(vendor_id, cursor = None):
         transactions.append(Transaction.map_from_form(row))
 
     return transactions
+
+
+@DatabaseConnection
+def details(transaction_id, cursor = None):
+
+    cursor.execute("""
+            SELECT  transaction_id,
+                    account_id,
+                    account_no,
+                    sub_no,
+                    shred_no,
+                    vendor_id,
+                    vendor_name,
+                    invoice_no,
+                    date_paid,
+                    invoice_date,
+                    description,
+                    expense,
+                    transaction_type_id,
+                    transaction_type
+            FROM v_transactions
+            WHERE transaction_id = %(transaction_id)s;""",
+            {'transaction_id': transaction_id})
+
+    result = cursor.fetchone()
+    transaction = Transaction.map_from_form(result)
+
+    assignments = city_accounts_select.assignments_for_transaction(transaction_id, cursor = cursor)
+
+    transaction.attatch_city_account_assignments(assignments)
+
+    return transaction
 
 
 @DatabaseConnection
@@ -235,6 +269,6 @@ def transaction_by_muliple_ids(transaction_ids, cursor = None):
         transactions.append(Transaction.map_from_form(row))
 
     for transaction in transactions:
-        transaction.attatch_city_account_assignments(city_accounts_select.city_account_assignments_for_transaction(transaction.transaction_id, cursor = cursor))
+        transaction.attatch_city_account_assignments(city_accounts_select.assignments_for_transaction(transaction.transaction_id, cursor = cursor))
 
     return transactions

@@ -346,7 +346,8 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
         }
     }
 
-    $scope.displayTransatcionDetails = function(transactionId){
+    $scope.toggleTransactionDialog = false;
+    $scope.displayTransactionDetails = function(transactionId){
         $scope.dialogTransaction = transactionId;
         $scope.toggleTransactionDialog = true;
     }
@@ -1176,6 +1177,20 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     }
 
 }]);
+app.controller('transactionDialogController', ['$scope', 'postRequestService', function($scope, postRequestService){
+
+    $scope.exit = function(){
+        $scope.display = false
+    }
+    $scope.$watch('display', function(){
+        if($scope.display){
+            postRequestService.request('/api/transaction/details/' +$scope.transactionId).then(function(success){
+                $scope.transaction = success.data.response
+            })
+        }
+    })
+    
+}]);
 app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
   
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
@@ -1340,6 +1355,17 @@ app.directive('sidebar', function() {
             card: '='
         },
        templateUrl: '/res/components/directives/sidebar/sidebar.template.html'
+    };
+})
+app.directive('transactionDialog', function() {
+    return{
+        restrict: 'E',
+        controller: 'transactionDialogController',
+        scope: {
+            transactionId: '=transaction',
+            display: '='
+        },
+        templateUrl: '/res/components/directives/transaction-dialog/transaction-dialog.template.html'
     };
 })
 app.directive('transactionEntry', function() {

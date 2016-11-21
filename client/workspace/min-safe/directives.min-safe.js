@@ -139,6 +139,17 @@ app.directive('sidebar', function() {
        templateUrl: '/res/components/directives/sidebar/sidebar.template.html'
     };
 })
+app.directive('transactionDialog', function() {
+    return{
+        restrict: 'E',
+        controller: 'transactionDialogController',
+        scope: {
+            transactionId: '=transaction',
+            display: '='
+        },
+        templateUrl: '/res/components/directives/transaction-dialog/transaction-dialog.template.html'
+    };
+})
 app.directive('transactionEntry', function() {
     return{
         restrict: 'E',

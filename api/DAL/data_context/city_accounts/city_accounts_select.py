@@ -25,7 +25,7 @@ def city_account_listing(cursor = None):
     return accounts
 
 @DatabaseConnection
-def city_account_assignments_for_transaction(transaction_id, cursor = None):
+def assignments_for_transaction(transaction_id, cursor = None):
 
     cursor.execute("""
                 SELECT  city_account_assignment_id, 
