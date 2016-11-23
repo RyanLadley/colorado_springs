@@ -15,7 +15,6 @@ import api.core.utilities as utilities
 import json
 
 
-
 @workflow.route('/dropdown/accounts', methods = ['POST'])
 @authorize()
 def accounts_dropdown(api_response = True):
@@ -55,6 +54,17 @@ def city_accounts_dropdown(api_response = True):
     return response.success(serialized_city_accounts) if api_response else serialized_city_accounts
 
 
+@workflow.route('/dropdown/vendors', methods = ['POST'])
+@authorize()
+def pprta_projects_dropdown(api_response = True):
+
+    pprta_projects = accounts_select.pprta_project_listing()
+
+    serialized_pprta_project = utilities.serialize_array(pprta_projects)
+
+    return response.success(serialized_pprta_project) if api_response else serialized_pprta_project
+
+
 @workflow.route('/dropdown/all', methods = ['POST'])
 @authorize()
 def all_dropdowns():
@@ -65,5 +75,6 @@ def all_dropdowns():
     dropdowns['transaction_types'] = transaction_types_dropdown(api_response = False)
     dropdowns['accounts'] = accounts_dropdown(api_response = False)
     dropdowns['city_accounts'] = city_accounts_dropdown(api_response = False)
+    dropdowns['pprta_projects'] = pprta_projects_dropdown(api_response = False) 
 
     return response.success(dropdowns)

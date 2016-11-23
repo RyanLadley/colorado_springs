@@ -61,6 +61,17 @@ app.directive('transactionAdjustment', function() {
         templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
     };
 })
+app.directive('projectCoversheet', function() {
+    return{
+        restrict: 'E',
+        controller: 'projectCoversheetController',
+        scope: {
+            pprtaProjects: "<",
+            vendors: "<"
+        },
+        templateUrl: '/res/components/directives/coversheets/project-coversheet.template.html'
+    };
+})
 app.directive('singleCoversheet', function() {
     return{
         restrict: 'E',
@@ -82,17 +93,17 @@ app.directive('dateSelect', function() {
         templateUrl: '/res/components/directives/date-select/date-select.template.html'
     };
 })
-app.directive('imageUpload', function () {
+app.directive('fileUpload', function () {
     return {
         restrict: 'A',
         scope: {
-            image: '='
+            file: '='
         },
 
         link: function (scope, element, attrs) {
             var reader = new FileReader();
             reader.onload = function (event) {
-                scope.image = event.target.result;
+                scope.file = event.target.result;
                 scope.$apply();
             }
 

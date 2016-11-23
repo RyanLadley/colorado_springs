@@ -11,7 +11,7 @@ app.controller('homeController', function($scope, $cookies, $location, postReque
         if(hour < 12){
             return "Morning"
         }
-        else if(hour < 5){
+        else if(hour < 17){
             return "Afternoon"
         }
         else{

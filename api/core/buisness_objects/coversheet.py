@@ -1,10 +1,10 @@
 class Coversheet:
 
-    def __init__(self, invoice_no, vendor, description, transactions):
-        self.invoice_no = invoice_no
+    def __init__(self, vendor, description, transactions, invoice_no = None):
         self.vendor = vendor
         self.description = description
         self.transactions = transactions
+        self.invoice_no = invoice_no
 
     def serialize(self):
 

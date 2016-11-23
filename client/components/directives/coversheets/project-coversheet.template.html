@@ -1,0 +1,129 @@
+<div ng-class = "navLocation(1)" class ="nav-content">
+    <div class = "tab-title">
+        <div class = "large-title-info">
+            <h1> Project Coversheet</h1>
+            <info-tip message = "Select a vendor, pprta project, and/or input an invoice search. Then select the invoices you would like included on the cover sheet. The vendor and pprta project must the same accross the selected invoices." ></info-tip>
+        </div>
+    </div>
+    <form name = "searchForm">
+        <div class = "label-input">
+            <label>Vendor</label>
+            <select ng-model = "search.vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors">
+                <option value="" disabled selected hidden>Select a Vendor</option>
+            </select>
+        </div>
+        <div class = "label-input">
+            <label>PPRTA Project</label>
+            <select ng-model = "search.pprtaAccountCodeId" ng-options = "project.pprta_account_code_id as project.project_description for project in pprtaProjects">
+                <option value="" disabled selected hidden>Select a Project</option>
+            </select>
+        </div>
+        <search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoiceNo"></search-field>
+    </form>
+
+    <div class ="coversheet-table">
+        <table class = "table alternate-table">
+            <thead>
+                <tr  ng-if ="transactions">
+                    <th></th>
+                    <th> Account</th>
+                    <th>Vendor</th>
+                    <th>Invoice Date</th>
+                    <th>Date Paid</th>
+                    <th>Invoice Number</th>
+                    <th>Descrpition</th>
+                    <th>Total Expense</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat = "transaction in transactions" class = "row" ng-class = "{disabledrow : transaction.disabled}" >
+                    <td><input type = "checkbox" ng-model = "transaction.selected" ng-click = "evaluateRows(transaction)" ng-disabled = "transaction.disabled"></td>
+                    <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
+                    <td>{{transaction.vendor_name}}</td>
+                    <td>{{transaction.invoice_date}}</td>
+                    <td>{{transaction.date_paid}}</td>
+                    <td class = "center">{{transaction.invoice_no}}</td>
+                    <td class = "description account-desription">{{transaction.description}}</td>
+                    <td class = "currency">{{transaction.expense | currency}}</td>
+                </tr>
+                <tr ng-if = "!transactions || transactions.length <= 0 ">
+                    <th colspan="8"></th>
+                </tr>
+                <tr ng-if = "!transactions || transactions.length <= 0">
+                    <td colspan="8" class = "center">No Transactions Found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class = "tab-sub-title">Selected Accounts</h3>
+
+    <div class ="coversheet-selection-table">
+        <table class = "table alternate-table">
+            <tr>
+                <th colspan="8"></th>
+            </tr>
+            <tbody>
+                <tr ng-repeat = "transaction in coversheet.transactions" class = "row">
+                    <td><button ng-click = "transaction.selected = false; evaluateRows(transaction)" >Remove</button></td>
+                    <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
+                    <td>{{transaction.vendor_name}}</td>
+                    <td>{{transaction.invoice_date}}</td>
+                    <td>{{transaction.date_paid}}</td>
+                    <td class = "center">{{transaction.invoice_no}}</td>
+                    <td class = "description account-desription">{{transaction.description}}</td>
+                    <td class = "currency">{{transaction.expense | currency}}</td>
+                </tr>
+                <tr ng-if = "coversheet.transactions.length <= 0">
+                    <td colspan="8" class = "center">No Transactions Selected</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button class="to-button transition-button" ng-click = "incrementPage()" ng-disabled = "coversheet.transactions.length <= 0">Confirm Selections<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+</div>
+
+<div  ng-class = "navLocation(2)" class ="nav-content">
+    <div class = "tab-title">
+        <div class = "large-title-info">
+            <h1> Confirm Selection</h1>
+            <info-tip message = "Confirm your selection and add a description to the coversheet. Press 'Create' to produce the coversheet." ></info-tip>
+        </div>
+    </div>
+
+
+    <h3 class = "tab-sub-title">Selected Accounts</h3>
+
+    <div class ="coversheet-table">
+        <table class = "table alternate-table">
+            <tr>
+                <th colspan="8"></th>
+            </tr>
+            <tbody>
+                <tr ng-repeat = "transaction in coversheet.transactions" class = "row">
+                    <td><button ng-click = "transaction.selected = false; evaluateRows(transaction)" >Remove</button></td>
+                    <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
+                    <td>{{transaction.vendor_name}}</td>
+                    <td>{{transaction.invoice_date}}</td>
+                    <td>{{transaction.date_paid}}</td>
+                    <td class = "center">{{transaction.invoice_no}}</td>
+                    <td class = "description account-desription">{{transaction.description}}</td>
+                    <td class = "currency">{{transaction.expense | currency}}</td>
+                </tr>
+                <tr ng-if = "coversheet.transactions.length <= 0">
+                    <td colspan="8" class = "center">No Transactions Selected</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class = "label-input input-row">
+        <label>Description</label>
+        <textarea placeholder="Enter Discription" ng-model = "coversheet.description"></textarea>
+    </div>
+
+    <button class="from-button transition-button" ng-click = "decrementPage();" formnovalidate><i class="fa fa-chevron-left" aria-hidden="true"></i>Back To Transaction Selection</button>
+
+    <button class = "entry-submit" ng-click = "createProjectCoversheet()" ng-disabled = "disableCreate" >Create</button>
+
+</div>

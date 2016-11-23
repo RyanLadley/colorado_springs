@@ -230,10 +230,12 @@ app.controller('coversheetController', ['$scope', '$location', 'postRequestServi
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
+        $scope.pprtaProjects = success.data.response.pprta_projects
     })
 
     $scope.display = {
-    	single: true
+    	single: true,
+        project: false
     }
 
 }]);
@@ -355,7 +357,7 @@ app.controller('homeController', ['$scope', '$cookies', '$location', 'postReques
         if(hour < 12){
             return "Morning"
         }
-        else if(hour < 5){
+        else if(hour < 17){
             return "Afternoon"
         }
         else{
@@ -666,6 +668,121 @@ app.controller('profileController', ['$scope', '$location', function($scope, $lo
 		login: "Username64"
 	}
 }]);
+app.controller('projectCoversheetController', ['$scope', '$location', '$window', 'postRequestService', function($scope, $location, $window, postRequestService){
+
+    $scope.page = 1;
+
+    $scope.incrementPage = function(){
+        $scope.page++
+    }
+    $scope.decrementPage = function(){
+        $scope.page--
+    }
+
+    $scope.navLocation = function(sectionPage){
+        if(sectionPage <  $scope.page){
+            return 'nav-left'
+        }
+        else if(sectionPage >  $scope.page){
+            return 'nav-right'
+        }
+        else{
+            return 'nav-display'
+        } 
+    }
+    
+    $scope.coversheet ={
+        pprtaAccountCodeId: null,
+        vendorId: null,
+        transactions: []
+    }
+
+    $scope.searchInvoice = function(){
+        if($scope.search.vendorId || $scope.search.invoiceNo || $scope.search.pprtaAccountCodeId){
+            postRequestService.request('/api/transaction/invoice/search', $scope.search).then(function(success){
+                $scope.transactions = success.data.response
+                if($scope.coversheet.pprtaAccountCodeId){
+                    disableRows()
+                    checkSelected()
+                }
+            })
+        }
+    }
+
+    $scope.createProjectCoversheet = function(){
+
+        postRequestService.request('/api/coversheet/project', $scope.coversheet).then(function(success){
+            $window.open("/coversheet/project/" +success.data.response)
+        })
+
+    }
+
+    $scope.disableCreate = true
+    $scope.evaluateRows = function(transaction){
+
+        //Transaction was checked
+        if(transaction.selected){
+            $scope.disableCreate = false;
+            $scope.coversheet.transactions.push(transaction)
+            //PPRTA Id Has not yet been set
+            if(!$scope.coversheet.pprtaAccountCodeId){
+                $scope.coversheet.pprtaAccountCodeId = transaction.pprta_account_code_id
+                $scope.coversheet.vendorId = transaction.vendor_id
+                disableRows()
+            }
+        }
+        else{
+            deselectRow()
+            //See if any other transaction is checked, if not, unlock all other transactions
+            if($scope.coversheet.transactions.length <= 0){
+                //no transactions in coversheer, enable all transacitons
+                resetSelection()
+                for(var i = 0; i < $scope.transactions.length; i++){
+                    //Disable rows that do not have matching invoice or vendor
+                    $scope.transactions[i].disabled =false
+                }
+            }
+        }
+    }
+
+    var disableRows = function(){
+        for(var i = 0; i < $scope.transactions.length; i++){
+            //Disable rows that do not have matching invoice or vendor
+            if($scope.transactions[i].pprta_account_code_id != $scope.coversheet.pprtaAccountCodeId || $scope.transactions[i].vendor_id != $scope.coversheet.vendorId){
+                $scope.transactions[i].disabled = true;
+            }
+        }
+    }
+
+    var checkSelected = function(){
+        for(var i = 0; i < $scope.transactions.length; i++){
+            for(var j = 0; j < $scope.coversheet.transactions.length; j++){
+                if($scope.transactions[i].transaction_id == $scope.coversheet.transactions[j].transaction_id){
+                    $scope.transactions[i].selected = true
+                    break;
+                }
+            }
+        }
+    }
+
+    var deselectRow = function(){
+        for(var i = 0; i < $scope.transactions.length; i++){
+            for(var j = 0; j < $scope.coversheet.transactions.length; j++){
+                if($scope.transactions[i].transaction_id == $scope.coversheet.transactions[j].transaction_id){
+                    $scope.coversheet.transactions.splice(j,1)
+                    i = $scope.transactions.length
+                    break;
+                }
+            }
+        }
+    }
+
+    var resetSelection = function(){
+        $scope.coversheet.pprtaAccountCodeId = null
+        $scope.coversheet.vendorId = null
+        $scope.disableCreate = true
+    }
+}]);
 app.controller('reportsController', ['$scope', '$location', function($scope, $location){
 
     $scope.reports = [
@@ -772,7 +889,7 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
 		}
 
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
-            $window.open("/coversheet/single-invoice/" +success.data.response)
+            $window.open("/coversheet/project/" +success.data.response)
         })
 
     }
@@ -826,7 +943,6 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
         $scope.invoice.vendorId = null
         $scope.disableCreate = true
     }
-    var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var t=e.document,n=function(){return e.URL||e.webkitURL||e},r=t.createElementNS("http://www.w3.org/1999/xhtml","a"),o="download"in r,a=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},i=/constructor/i.test(e.HTMLElement)||e.safari,f=/CriOS\/[\d]+/.test(navigator.userAgent),u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},s="application/octet-stream",d=1e3*40,c=function(e){var t=function(){if(typeof e==="string"){n().revokeObjectURL(e)}else{e.remove()}};setTimeout(t,d)},l=function(e,t,n){t=[].concat(t);var r=t.length;while(r--){var o=e["on"+t[r]];if(typeof o==="function"){try{o.call(e,n||e)}catch(a){u(a)}}}},p=function(e){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)){return new Blob([String.fromCharCode(65279),e],{type:e.type})}return e},v=function(t,u,d){if(!d){t=p(t)}var v=this,w=t.type,m=w===s,y,h=function(){l(v,"writestart progress write writeend".split(" "))},S=function(){if((f||m&&i)&&e.FileReader){var r=new FileReader;r.onloadend=function(){var t=f?r.result:r.result.replace(/^data:[^;]*;/,"data:attachment/file;");var n=e.open(t,"_blank");if(!n)e.location.href=t;t=undefined;v.readyState=v.DONE;h()};r.readAsDataURL(t);v.readyState=v.INIT;return}if(!y){y=n().createObjectURL(t)}if(m){e.location.href=y}else{var o=e.open(y,"_blank");if(!o){e.location.href=y}}v.readyState=v.DONE;h();c(y)};v.readyState=v.INIT;if(o){y=n().createObjectURL(t);setTimeout(function(){r.href=y;r.download=u;a(r);h();c(y);v.readyState=v.DONE});return}S()},w=v.prototype,m=function(e,t,n){return new v(e,t||e.name||"download",n)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(e,t,n){t=t||e.name||"download";if(!n){e=p(e)}return navigator.msSaveOrOpenBlob(e,t)}}w.abort=function(){};w.readyState=w.INIT=0;w.WRITING=1;w.DONE=2;w.error=w.onwritestart=w.onprogress=w.onwrite=w.onabort=w.onerror=w.onwriteend=null;return m}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if(typeof define!=="undefined"&&define!==null&&define.amd!==null){define("FileSaver.js",function(){return saveAs})}
 }]);
 app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
@@ -906,6 +1022,34 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
     })
 
    
+}]);
+app.controller('transactionDialogController', ['$scope', '$window', 'postRequestService', function($scope, $window, postRequestService){
+
+    $scope.exit = function(){
+        $scope.display = false
+    }
+    $scope.$watch('display', function(){
+        if($scope.display){
+            postRequestService.request('/api/transaction/details/' +$scope.transactionId).then(function(success){
+                $scope.transaction = success.data.response
+            })
+        }
+    })
+
+    $scope.createSingleCoversheet = function(){
+        $scope.invoice = {
+            invoiceNo: $scope.transaction.invoice_no,
+            vendorId: $scope.transaction.vendor_id,
+            description: $scope.transaction.description,
+            transactionIds: [$scope.transaction.transaction_id]
+        }
+
+        postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
+            $window.open("/coversheet/single-invoice/" +success.data.response)
+        })
+
+    }
+    
 }]);
 app.controller('transactionEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
@@ -1000,34 +1144,6 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     }
 
 }]);
-app.controller('transactionDialogController', ['$scope', '$window', 'postRequestService', function($scope, $window, postRequestService){
-
-    $scope.exit = function(){
-        $scope.display = false
-    }
-    $scope.$watch('display', function(){
-        if($scope.display){
-            postRequestService.request('/api/transaction/details/' +$scope.transactionId).then(function(success){
-                $scope.transaction = success.data.response
-            })
-        }
-    })
-
-    $scope.createSingleCoversheet = function(){
-        $scope.invoice = {
-            invoiceNo: $scope.transaction.invoice_no,
-            vendorId: $scope.transaction.vendor_id,
-            transactionIds: [$scope.transaction.transaction_id]
-        }
-
-        postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
-            console.log(success.data.response)
-            $window.open("/coversheet/single-invoice/" +success.data.response)
-        })
-
-    }
-    
-}]);
 app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
   
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
@@ -1038,6 +1154,12 @@ app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams'
             $scope.total_expense += Number($scope.vendor.transactions[i].expense)
         }
     })
+
+    $scope.toggleTransactionDialog = false;
+    $scope.displayTransactionDetails = function(transactionId){
+        $scope.dialogTransaction = transactionId;
+        $scope.toggleTransactionDialog = true;
+    }
 }]);
 app.controller('vendorEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 

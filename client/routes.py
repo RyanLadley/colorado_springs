@@ -18,6 +18,11 @@ def single_invoice_coversheet(file_name):
         return send_file("api/exports/coversheets/single_invoice/" +file_name)
     return False
 
+@client_side.route('/coversheet/project/<path:file_name>')
+def project_coversheet(file_name):
+    if ".." not in file_name: 
+        return send_file("api/exports/coversheets/project/" +file_name)
+    return False
 
 #Routes For Web Pages
 

@@ -15,7 +15,6 @@ import api.core.utilities as utilities
 
 import json
 
-
 @workflow.route('/accounts/overview', methods = ['POST'])
 @authorize()
 def get_accounts_overview():

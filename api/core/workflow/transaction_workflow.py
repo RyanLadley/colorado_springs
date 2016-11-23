@@ -93,6 +93,7 @@ def get_account_transaction_by_month(account_id):
 def get_transaction_details(transaction_id):
     
     transaction = transaction_select.details(transaction_id)
+    transaction.attatch_pprta_codes(accounts_select.pprta_codes(transaction.account_id))
 
     return response.success(transaction.serialize())
 
@@ -114,8 +115,9 @@ def search_transaction_by_invoice():
 
     vendor_id = search_criteria.get('vendorId')
     invoice_no = search_criteria.get('invoiceNo')
+    pprta_account_code_id = search_criteria.get('pprtaAccountCodeId')
 
-    transactions = transaction_select.search_by_invoice(vendor_id, invoice_no)
+    transactions = transaction_select.search_by_invoice(vendor_id, invoice_no, pprta_account_code_id)
 
     return response.success(utilities.serialize_array(transactions))
 

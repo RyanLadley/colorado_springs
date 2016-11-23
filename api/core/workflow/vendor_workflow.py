@@ -24,6 +24,7 @@ def new_vendor():
     vendor = Vendor.map_from_form(vendor_form)
 
     return vendor_insert.new_vendor(vendor)
+    
 
 @workflow.route('/vendor/listing', methods = ['POST'])
 @authorize()

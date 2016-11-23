@@ -8,4 +8,10 @@ app.controller('vendorDetailsController', function($scope, $location, $routePara
             $scope.total_expense += Number($scope.vendor.transactions[i].expense)
         }
     })
+
+    $scope.toggleTransactionDialog = false;
+    $scope.displayTransactionDetails = function(transactionId){
+        $scope.dialogTransaction = transactionId;
+        $scope.toggleTransactionDialog = true;
+    }
 });

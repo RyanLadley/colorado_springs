@@ -1023,7 +1023,11 @@
 
 .coversheet-table {
   height: 300px;
-  overflow-y: autp; }
+  overflow-y: auto; }
+
+.coversheet-selection-table {
+  height: 115px;
+  overflow-y: auto; }
 
 .report-selection {
   margin: 10px 30px; }

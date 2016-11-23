@@ -1,4 +1,5 @@
 from api.DAL.data_context.database_connection import DatabaseConnection
+import sys
 
 import api.core.response as response
 import api.core.sanitize as sanitize
@@ -207,10 +208,11 @@ def details(transaction_id, cursor = None):
 
 
 @DatabaseConnection
-def search_by_invoice(vendor_id, invoice_no, cursor = None):
+def search_by_invoice(vendor_id, invoice_no, pprta_account_code_id, cursor = None):
 
     cursor.execute("""
             SELECT  transaction_id,
+                    pprta_account_code_id,
                     account_id,
                     account_no,
                     sub_no,
@@ -226,8 +228,10 @@ def search_by_invoice(vendor_id, invoice_no, cursor = None):
                     transaction_type
             FROM v_transactions
             WHERE vendor_id LIKE %(vendor_id)s
-                AND invoice_no LIKE %(invoice_no)s;""",
-            {'vendor_id': vendor_id or '%', 'invoice_no': ("%" +(invoice_no or "") +"%")})
+                AND invoice_no LIKE %(invoice_no)s
+                AND pprta_account_code_id LIKE %(pprta_id)s;""",
+            {'vendor_id': vendor_id or '%', 'pprta_id' : pprta_account_code_id or '%',
+             'invoice_no': "%{}%".format(invoice_no or "")})
 
     results = cursor.fetchall() or {}
 

@@ -6,14 +6,18 @@
 </div>
 
 <ul class = "tabs coversheet-tabs">
-    <li ng-click = "display.single = true;" ng-class = "{selected : display.single}">Single Invoice</li>
+    <li ng-click = "display.single = true; display.project = false" ng-class = "{selected : display.single}">Single Invoice</li>
+    <li ng-click = "display.single = false; display.project = true" ng-class = "{selected : display.project}">Project</li>
 </ul>
 
 <div class = "tabed-area coversheet-area">
     <div class = "tabed-border">
-        <div class = "tabed-content coversheet-content">
+        <div class = "tabed-content coversheet-content  nav-area">
             <div class = "transactions" ng-show = "display.single">
             	<single-coversheet></single-coversheet>
+            </div>
+            <div class = "transactions" ng-show = "display.project">
+                <project-coversheet pprta-projects = "pprtaProjects" vendors = "vendors"></project-coversheet>
             </div>
         </div>
     </div>

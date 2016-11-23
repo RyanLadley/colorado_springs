@@ -1,14 +1,14 @@
-app.directive('imageUpload', function () {
+app.directive('fileUpload', function () {
     return {
         restrict: 'A',
         scope: {
-            image: '='
+            file: '='
         },
 
         link: function (scope, element, attrs) {
             var reader = new FileReader();
             reader.onload = function (event) {
-                scope.image = event.target.result;
+                scope.file = event.target.result;
                 scope.$apply();
             }
 

@@ -15,11 +15,11 @@ app.controller('transactionDialogController', function($scope, $window, postRequ
         $scope.invoice = {
             invoiceNo: $scope.transaction.invoice_no,
             vendorId: $scope.transaction.vendor_id,
+            description: $scope.transaction.description,
             transactionIds: [$scope.transaction.transaction_id]
         }
 
         postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
-            console.log(success.data.response)
             $window.open("/coversheet/single-invoice/" +success.data.response)
         })
 

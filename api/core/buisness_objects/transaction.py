@@ -6,6 +6,7 @@ class Transaction:
         transaction = Transaction()
 
         transaction.transaction_id = form.get('transaction_id')
+        transaction.pprta_account_code_id = form.get('pprta_account_code_id')
         transaction.account_id = form.get('account_id')
         transaction.account_no = form.get('account_no')
         transaction.sub_no = form.get('sub_no')
@@ -16,7 +17,7 @@ class Transaction:
         transaction.date_paid = form.get('date_paid')
         transaction.invoice_no = form.get('invoice_no')
         transaction.description = form.get('description')
-        transaction.expense = form.get('expense')
+        transaction.expense = float(form.get('expense'))
         transaction.transaction_type_id = form.get('transaction_type_id')
         transaction.transaction_type = form.get('transaction_type')
 
@@ -27,12 +28,20 @@ class Transaction:
         self.city_account_assignments = assignments
 
 
+    def attatch_pprta_codes(self, pprta_codes):
+
+        self.pprta_codes = pprta_codes
+
+
     def serialize(self):
 
         serial = {key:str(value) for key,value in self.__dict__.items()}
 
         if 'city_account_assignments' in serial:
             serial['city_account_assignments'] = self._serialize_city_account_assignments()
+
+        if 'pprta_codes' in serial:
+            serial['pprta_codes'] = self.pprta_codes.serialize()
 
         return serial
 

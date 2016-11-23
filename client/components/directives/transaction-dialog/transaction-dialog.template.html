@@ -45,7 +45,6 @@
         </div>
         <br>
 
- 
         <h3 class = "dialog-section-header">City Account Codes</h3>
         <table class = "dialog-table" ng-if = "transaction.city_account_assignments.length > 0">
             <tr>
@@ -54,8 +53,8 @@
                 <th class = "currency">Amount</th>
             </tr>
             <tr ng-repeat = "assignment in transaction.city_account_assignments">
-                <td> Unknown </td>
-                <td>{{assignment.city_account_no}}-935-9000</td>
+                <td> {{transaction.pprta_codes.project_description}} </td>
+                <td>{{assignment.city_account_no}}-{{transaction.pprta_codes.fund_no}}-{{transaction.pprta_codes.dept_no}}-{{transaction.pprta_codes.project_no}}</td>
                 <td class = "currency">{{assignment.amount | currency}}</td>
             </tr>
         </table>
