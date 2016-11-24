@@ -22,6 +22,7 @@ $entry-area-width: 870px;
 }
 
 .input-row{
+    display: inline-block;
     width: 100%;
 }
 
@@ -61,7 +62,7 @@ $entry-area-width: 870px;
 }
 
 .label-input{
-	display: inline-block;
+    float: left;
     margin: 10px 30px;
 
 	input, label, select, textarea{
@@ -143,4 +144,15 @@ $entry-area-width: 870px;
     }
 
 
+}
+
+.dollar-input{
+    display: inline;
+    i, input{
+        float: left;
+    }
+    i{
+        padding: 4px 3px;
+        font-size: 75%; 
+    }
 }

@@ -61,6 +61,13 @@ app.directive('transactionAdjustment', function() {
         templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
     };
 })
+app.directive('vendorAdjustment', function() {
+    return{
+        restrict: 'E',
+        controller: 'vendorAdjustmentController',
+        templateUrl: '/res/components/directives/adjustments/vendor-adjustment.template.html'
+    };
+})
 app.directive('projectCoversheet', function() {
     return{
         restrict: 'E',

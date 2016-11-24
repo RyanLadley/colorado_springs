@@ -1340,6 +1340,39 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     }
 
 }]);
+app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'monthsService', function($scope, postRequestService, monthsService){
+    
+
+    //TODO: The sliding is a hot mess held together by bubblegum and duct tape. Lets run a professional operation here and fix it. Eventually
+    $scope.searchId = null;
+
+
+    $scope.$watch('searchId', function(){
+        if($scope.searchId){
+            postRequestService.request('/api/vendor/details/' +$scope.searchId).then(function(success){
+                var tempVendor = success.data.response;
+
+                $scope.vendor ={
+                    vendorId: tempVendor.vendor_id,
+                    name: tempVendor.name,
+                    contractNo: tempVendor.contract_no,
+                    contractStart: tempVendor.contract_start,
+                    contractEnd: tempVendor.contract_end,
+                    pointOfContact: tempVendor.point_of_contact,
+                    phoneNo: tempVendor.phone_no,
+                    address: tempVendor.address,
+                    city: tempVendor.city,
+                    state: tempVendor.state,
+                    zip: tempVendor.zip,
+                    email: tempVendor.email,
+                    website: tempVendor.website
+                }
+            }) 
+        } 
+    })
+
+   
+}]);
 app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
   
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
@@ -1360,9 +1393,18 @@ app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams'
 app.controller('vendorEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 
     $scope.submitVendor = function(){
-        postRequestService.request('/api/vendor/new', $scope.vendor).then(function(request){
-            $location.url('/')   
-        });
+        if($scope.vendorEntryForm.$valid){
+           if($scope.vendor.vendorId){
+                postRequestService.request('/api/vendor/update', $scope.vendor).then(function(request){
+                    $location.url('/')   
+                });
+            }
+            else{
+                postRequestService.request('/api/vendor/new', $scope.vendor).then(function(request){
+                    $location.url('/')   
+                });
+            }
+        }
     }
 }]);
 app.controller('vendorsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
@@ -1432,6 +1474,13 @@ app.directive('transactionAdjustment', function() {
         restrict: 'E',
         controller: 'transactionAdjustmentController',
         templateUrl: '/res/components/directives/adjustments/transaction-adjustment.template.html'
+    };
+})
+app.directive('vendorAdjustment', function() {
+    return{
+        restrict: 'E',
+        controller: 'vendorAdjustmentController',
+        templateUrl: '/res/components/directives/adjustments/vendor-adjustment.template.html'
     };
 })
 app.directive('projectCoversheet', function() {

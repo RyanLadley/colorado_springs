@@ -6,9 +6,10 @@
 </div>
 
 <ul class = "tabs adjustment-tabs">
-    <li ng-click = "display.transactions = true; display.pending = false;  display.budget = false;" ng-class = "{selected : display.transactions}">Transactions</li>
-    <li ng-click = "display.transactions = false; display.pending = true;  display.budget = false;" ng-class = "{selected : display.pending}">Pending</li>
-    <li ng-click = "display.transactions = false; display.pending = false;  display.budget = true;" ng-class = "{selected : display.budget}">Budget</li>
+    <li ng-click = "display.transactions = true; display.pending = false; display.vendor = false; display.budget = false;" ng-class = "{selected : display.transactions}">Transactions</li>
+    <li ng-click = "display.transactions = false; display.pending = true;  display.vendor = false; display.budget = false;" ng-class = "{selected : display.pending}">Pending</li>
+    <li ng-click = "display.transactions = false; display.pending = false;  display.vendor = true; display.budget = false;" ng-class = "{selected : display.vendor}">Vendor</li>
+    <li ng-click = "display.transactions = false; display.pending = false;  display.vendor = false; display.budget = true;" ng-class = "{selected : display.budget}">Budget</li>
 </ul>
 
 <div class = "tabed-area adjustment-area">
@@ -19,6 +20,9 @@
             </div>
             <div class = "pending" ng-show = "display.pending">
                 <pending-adjustment></pending-adjustment>
+            </div>
+            <div class = "vendor" ng-show = "display.vendor">
+                <vendor-adjustment></vendor-adjustment>
             </div>
             <div class = "budget" ng-show = "display.budget">
                 <budget-adjustment></budget-adjustment>

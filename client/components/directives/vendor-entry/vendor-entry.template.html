@@ -1,33 +1,37 @@
-<form>
+<form name = "vendorEntryForm">
     <div class = "label-input">
-        <label>Name</label>
-        <input type="text" ng-model="vendor.name" placeholder="Vendor Name">
+        <label>Vendor Name</label>
+        <input type="text" ng-model="vendor.name" placeholder="Vendor Name" required>
     </div>
-    <div class = "label-input">
-        <label>Point of Contact</label>
-        <input type="text" ng-model= "vendor.pointOfContact" placeholder="Point of Contact">
-    </div>
-    <div class = "label-input">
-        <label>Phone Number</label>
-        <input type="tel" ng-model="vendor.phoneNo" placeholder="Phone Number">
-    </div>
-    <div class = "label-input">
-        <label>Email</label>
-        <input type="email" ng-model="vendor.email" placeholder="Email">
-    </div>
-    <div class = "label-input">
-        <label>Website</label>
-        <input type="text" ng-model="vendor.website" placeholder="Website">
-    </div>
-
     <div class = "label-input">
         <label>Icon</label>
         <input type = "file" file-upload file = "vendor.image" accept="image/*">
     </div>
-
-    <div class = "address">
+    
+    <div class = "input-row">
+        <h3 class = "tab-sub-title">Contact Information</h3>
         <div class = "label-input">
-            <label>Address</label>
+            <label>Point of Contact</label>
+            <input type="text" ng-model= "vendor.pointOfContact" placeholder="Point of Contact">
+        </div>
+        <div class = "label-input">
+            <label>Phone Number</label>
+            <input type="tel" ng-model="vendor.phoneNo" placeholder="Phone Number">
+        </div>
+        <div class = "label-input">
+            <label>Email</label>
+            <input type="email" ng-model="vendor.email" placeholder="Email">
+        </div>
+        <div class = "label-input">
+            <label>Website</label>
+            <input type="text" ng-model="vendor.website" placeholder="Website">
+        </div>
+    </div>
+
+    <div class = "address input-row">
+        <h3 class = "tab-sub-title">Address</h3>
+        <div class = "label-input">
+            <label>Street</label>
             <input type="text" ng-model="vendor.address" placeholder="Address">
         </div>
         <div class = "label-input">
@@ -44,14 +48,17 @@
         </div>
     </div>
 
-    <div class = "label-input">
-        <label>Contract Number</label>
-        <input type="text" ng-model="vendor.contractNo" placeholder="Contract Number">
+
+    <div class = "input-row">
+        <h3 class = "tab-sub-title">Contract Information</h3>
+        <div class = "label-input">
+            <label>Contract Number</label>
+            <input type="text" ng-model="vendor.contractNo" placeholder="Contract Number" required>
+        </div>
+
+        <date-select label ="Contract Start Date"  date = "vendor.contractStart" input-disabled = "true"></date-select>
+        <date-select label ="Contract End Date"  date = "vendor.contractEnd" input-disabled = "true"></date-select>
     </div>
 
-    <date-select label ="Contract Start Date"  date = "vendor.contractStart" input-disabled = "true"></date-select>
-    <date-select label ="Contract End Date"  date = "vendor.contractEnd" input-disabled = "true"></date-select>
-    
-    <br>
-    <button type="submit" class = "entry-submit" ng-click = 'submitVendor()'>Submit</button>
+    <button type="submit" class = "entry-submit" ng-click = 'submitVendor()' ng-disabled = "vendorEntryForm.$invalid" >Submit</button>
 </form>

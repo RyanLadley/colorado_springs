@@ -13,6 +13,7 @@ def vendor_listing(cursor = None):
     cursor.execute("""
                 SELECT  vendor_id, 
                         name, 
+                        contract_no,
                         image_folder, 
                         image_file_name, 
                         image_file_type

@@ -5,7 +5,7 @@
             <info-tip message = "Select a vendor, pprta project, and/or input an invoice search. Then select the invoices you would like included on the cover sheet. The vendor and pprta project must the same accross the selected invoices." ></info-tip>
         </div>
     </div>
-    <form name = "searchForm">
+    <form class = "input-row" name = "searchForm">
         <div class = "label-input">
             <label>Vendor</label>
             <select ng-model = "search.vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors">

@@ -4,7 +4,7 @@
         <info-tip message = "Select a vendor and/or search for an invoice number in the fields below. Then select the transaction you would like on the cover sheet. Note: The transactions selected must have the same invoice number and vendor in order to create this cover sheet." ></info-tip>
     </div>
 </div>
-<form name = "searchForm">
+<form  class = "input-row"  name = "searchForm">
 	<div class = "label-input">
 	    <label>Vendor</label>
 	    <select ng-model = "search.vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors">

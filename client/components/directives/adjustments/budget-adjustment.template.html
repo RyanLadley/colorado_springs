@@ -7,13 +7,19 @@
             </div>
         </div>
         <h3 class = "tab-sub-title">From Account</h3>
-        <account-select account-id = "transfer.fromAccountId" accounts = "accounts"></account-select>
+        <div class = "input-row">
+            <account-select account-id = "transfer.fromAccountId" accounts = "accounts"></account-select>
+        </div>
          <h3 class = "tab-sub-title">To Account</h3>
-        <account-select account-id = "transfer.toAccountId" accounts = "accounts"></account-select>
-        <br>
+        <div class = "input-row">
+            <account-select account-id = "transfer.toAccountId" accounts = "accounts"></account-select>
+        </div>
         <div class = "label-input">
             <label>Transfer Amount</label>
-            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transfer.amount" required>
+            <div class = "dollar-input">
+                <i class="fa fa-usd" aria-hidden="true"></i>
+                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transfer.amount" required>
+            </div>
         </div>
         <div class = "label-input input-row">
             <label>Description</label>
