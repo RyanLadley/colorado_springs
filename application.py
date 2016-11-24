@@ -16,6 +16,7 @@ import api.core.workflow.transaction_workflow
 import api.core.workflow.vendor_workflow
 import api.core.workflow.dropdown_workflow
 import api.core.workflow.coversheet_workflow
+import api.core.workflow.backup_workflow
 
 application.register_blueprint(workflow, url_prefix='/api')
 

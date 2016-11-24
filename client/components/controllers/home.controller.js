@@ -1,7 +1,14 @@
-app.controller('homeController', function($scope, $cookies, $location, postRequestService){
+app.controller('homeController', function($scope, $cookies, $location, $window, postRequestService){
 
     $scope.logout = function(){
         $cookies.remove('token')
+    }
+
+    $scope.createBackup = function(){
+        postRequestService.request('/api/backup/accounts').then(function(success){
+            $window.open("/backups/" +success.data.response)
+
+        })
     }
 
     $scope.getGreeting = function(){

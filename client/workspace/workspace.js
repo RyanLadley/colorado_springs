@@ -300,9 +300,6 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
         if(!$scope.transfers){
             postRequestService.request('/api/accounts/transfers/' +$routeParams.accountId).then(function(success){
                 $scope.transfers = success.data.response;
-
-            
-            
             })
         }
          $scope.displayTransfers = !$scope.displayTransfers
@@ -540,10 +537,17 @@ app.controller('expenseBreakdownController', ['$scope', function($scope){
 
     }
 }]);
-app.controller('homeController', ['$scope', '$cookies', '$location', 'postRequestService', function($scope, $cookies, $location, postRequestService){
+app.controller('homeController', ['$scope', '$cookies', '$location', '$window', 'postRequestService', function($scope, $cookies, $location, $window, postRequestService){
 
     $scope.logout = function(){
         $cookies.remove('token')
+    }
+
+    $scope.createBackup = function(){
+        postRequestService.request('/api/backup/accounts').then(function(success){
+            $window.open("/backups/" +success.data.response)
+
+        })
     }
 
     $scope.getGreeting = function(){

@@ -33,7 +33,7 @@ def create_single_coversheet():
 
     transactions = transaction_select.transaction_by_muliple_ids(coversheet_form['transaction_ids'])
 
-    #TODO:Figure our module errot so this can be place in the above slection
+    #TODO:Figure our module error so this can be place in the above slection
     for transaction in transactions:
         transaction.attatch_pprta_codes(accounts_select.pprta_codes(transaction.account_id))
     

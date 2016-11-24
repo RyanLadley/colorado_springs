@@ -57,6 +57,7 @@ def build_single_invoice(coversheet):
 
     return file_name
 
+
 def build_project_sheet(coversheet):
 
     document = Document()

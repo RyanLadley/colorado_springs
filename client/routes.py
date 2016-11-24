@@ -24,6 +24,12 @@ def project_coversheet(file_name):
         return send_file("api/exports/coversheets/project/" +file_name)
     return False
 
+@client_side.route('/backups/<path:file_name>')
+def account_backups(file_name):
+    if ".." not in file_name: 
+        return send_file("api/exports/backups/" +file_name)
+    return False
+
 #Routes For Web Pages
 
 #Main Agility Page

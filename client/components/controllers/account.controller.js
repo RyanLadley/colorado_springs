@@ -23,9 +23,6 @@ app.controller('accountController', function($scope, $location, $routeParams, po
         if(!$scope.transfers){
             postRequestService.request('/api/accounts/transfers/' +$routeParams.accountId).then(function(success){
                 $scope.transfers = success.data.response;
-
-            
-            
             })
         }
          $scope.displayTransfers = !$scope.displayTransfers
