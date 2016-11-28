@@ -5,7 +5,7 @@ app.controller('transactionDialogController', function($scope, $window, postRequ
     }
     $scope.$watch('display', function(){
         if($scope.display){
-            postRequestService.request('/api/transaction/details/' +$scope.transactionId).then(function(success){
+            postRequestService.request('/api/transaction/details/' +$scope.transaction_id).then(function(success){
                 $scope.transaction = success.data.response
             })
         }
@@ -13,10 +13,10 @@ app.controller('transactionDialogController', function($scope, $window, postRequ
 
     $scope.createSingleCoversheet = function(){
         $scope.invoice = {
-            invoiceNo: $scope.transaction.invoice_no,
-            vendorId: $scope.transaction.vendor_id,
+            invoice_no: $scope.transaction.invoice_no,
+            vendor_id: $scope.transaction.vendor_id,
             description: $scope.transaction.description,
-            transactionIds: [$scope.transaction.transaction_id]
+            transaction_ids: [$scope.transaction.transaction_id]
         }
 
         postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){

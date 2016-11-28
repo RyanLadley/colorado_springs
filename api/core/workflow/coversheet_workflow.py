@@ -29,7 +29,6 @@ import json
 def create_single_coversheet():
 
     coversheet_form = json.loads(request.form['payload'])
-    coversheet_form = sanitize.form_keys(coversheet_form)
 
     transactions = transaction_select.transaction_by_muliple_ids(coversheet_form['transaction_ids'])
 
@@ -50,7 +49,6 @@ def create_single_coversheet():
 def create_project_coversheet():
 
     coversheet_form = json.loads(request.form['payload'])
-    coversheet_form = sanitize.form_keys(coversheet_form)
 
     transactions = []
     for transaction in coversheet_form['transactions']:

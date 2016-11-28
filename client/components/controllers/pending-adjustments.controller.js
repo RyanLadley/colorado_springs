@@ -37,12 +37,12 @@ app.controller('pendingAdjustmentController', function($scope, $location, postRe
     $scope.selectedPending = -1;
     $scope.setSelectedPendingTransaction = function(){
 	    $scope.selectedTransaction = {
-                transactionId: $scope.pending[$scope.selectedPending].transaction_id,
-                accountId: $scope.pending[$scope.selectedPending].account_id,
-                vendorId: $scope.pending[$scope.selectedPending].vendor_id,
-                invoiceDate: $scope.pending[$scope.selectedPending].invoice_date,
-                invoiceNo: $scope.pending[$scope.selectedPending].invoice_no,
-                transactionTypeId: Number($scope.pending[$scope.selectedPending].transaction_type_id), 
+                transaction_id: $scope.pending[$scope.selectedPending].transaction_id,
+                account_id: $scope.pending[$scope.selectedPending].account_id,
+                vendor_id: $scope.pending[$scope.selectedPending].vendor_id,
+                invoice_date: $scope.pending[$scope.selectedPending].invoice_date,
+                invoice_no: $scope.pending[$scope.selectedPending].invoice_no,
+                transaction_type_id: Number($scope.pending[$scope.selectedPending].transaction_type_id), 
                 description: $scope.pending[$scope.selectedPending].description,
                 expense: Number($scope.pending[$scope.selectedPending].expense)
 	    }

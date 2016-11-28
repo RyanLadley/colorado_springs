@@ -1,10 +1,10 @@
 app.controller('singleCoversheetController', function($scope, $location, $window, postRequestService){
 
     $scope.search = {
-    	invoiceNo: null
+    	invoice_no: null
     }
     $scope.searchInvoice = function(){
-        if($scope.search.vendorId || $scope.search.invoiceNo){
+        if($scope.search.vendor_id || $scope.search.invoice_no){
             resetSelection()
             postRequestService.request('/api/transaction/invoice/search', $scope.search).then(function(success){
                if(success.data.response.length){
@@ -18,24 +18,23 @@ app.controller('singleCoversheetController', function($scope, $location, $window
     }
 
     $scope.createSingleCoversheet = function(){
-        $scope.invoice.transactionIds = []
+        $scope.invoice.transaction_ids = []
     	for(var i = 0; i < $scope.transactions.length; i++){
 			//Add selected transactionsId's to the invoice to be sent to the backend
             if($scope.transactions[i].selected){
-                $scope.invoice.transactionIds.push($scope.transactions[i].transaction_id)
+                $scope.invoice.transaction_ids.push($scope.transactions[i].transaction_id)
             }
 		}
 
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
-            console.log("fired")
             $window.open("/coversheet/single-invoice/" +success.data.response)
         })
 
     }
 
     $scope.invoice ={
-    	invoiceNo: null,
-    	vendorId: null
+    	invoice_no: null,
+    	vendor_id: null
     }
 
     //TODO: Condense the logic of this function
@@ -46,12 +45,12 @@ app.controller('singleCoversheetController', function($scope, $location, $window
     	if(transaction.selected){
     		$scope.disableCreate = false;
     		//Invoice Number Has not yet been set
-    		if(!$scope.invoice.invoiceNo){
-	    		$scope.invoice.invoiceNo = transaction.invoice_no
-	    		$scope.invoice.vendorId = transaction.vendor_id
+    		if(!$scope.invoice.invoice_no){
+	    		$scope.invoice.invoice_no = transaction.invoice_no
+	    		$scope.invoice.vendor_id = transaction.vendor_id
 	    		for(var i = 0; i < $scope.transactions.length; i++){
 	    			//Disable rows that do not have matching invoice or vendor
-	    			if($scope.transactions[i].invoice_no != $scope.invoice.invoiceNo || $scope.transactions[i].vendor_id != $scope.invoice.vendorId){
+	    			if($scope.transactions[i].invoice_no != $scope.invoice.invoice_no || $scope.transactions[i].vendor_id != $scope.invoice.vendor_id){
 	    				$scope.transactions[i].disabled = true;
 	    			}
 	    		}
@@ -78,8 +77,8 @@ app.controller('singleCoversheetController', function($scope, $location, $window
     }
 
     var resetSelection = function(){
-        $scope.invoice.invoiceNo = null
-        $scope.invoice.vendorId = null
+        $scope.invoice.invoice_no = null
+        $scope.invoice.vendor_id = null
         $scope.disableCreate = true
     }
 });

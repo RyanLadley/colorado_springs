@@ -20,7 +20,6 @@ import json
 def new_vendor():
 
     vendor_form = json.loads(request.form['payload'])
-    vendor_form = sanitize.form_keys(vendor_form)
 
     vendor = Vendor.map_from_form(vendor_form)
 
@@ -32,7 +31,6 @@ def new_vendor():
 def update_vendor():
 
     vendor_form = json.loads(request.form['payload'])
-    vendor_form = sanitize.form_keys(vendor_form)
 
     vendor = Vendor.map_from_form(vendor_form)
 
