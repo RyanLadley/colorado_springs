@@ -1089,7 +1089,8 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
 		}
 
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
-            $window.open("/coversheet/project/" +success.data.response)
+            console.log("fired")
+            $window.open("/coversheet/single-invoice/" +success.data.response)
         })
 
     }
