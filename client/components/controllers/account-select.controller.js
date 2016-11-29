@@ -1,4 +1,4 @@
-app.controller('accountSelectController', function($scope, $location, postRequestService, monthsService){
+app.controller('accountSelectController', function($scope, $location, monthsService){
     
     $scope.displaySubaccounts = function(account){
         $scope.subaccounts = []

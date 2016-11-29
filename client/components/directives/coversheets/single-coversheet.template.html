@@ -7,11 +7,11 @@
 <form  class = "input-row"  name = "searchForm">
 	<div class = "label-input">
 	    <label>Vendor</label>
-	    <select ng-model = "search.vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors">
+	    <select ng-model = "search.vendor_id" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors">
 	        <option value="" disabled selected hidden>Select a Vendor</option>
 	    </select>
 	</div>
-	<search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoiceNo"></search-field>
+	<search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoice_no"></search-field>
 </form>
 
 <div class ="coversheet-table">

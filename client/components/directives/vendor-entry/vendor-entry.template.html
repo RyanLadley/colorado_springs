@@ -12,11 +12,11 @@
         <h3 class = "tab-sub-title">Contact Information</h3>
         <div class = "label-input">
             <label>Point of Contact</label>
-            <input type="text" ng-model= "vendor.pointOfContact" placeholder="Point of Contact">
+            <input type="text" ng-model= "vendor.point_of_contact" placeholder="Point of Contact">
         </div>
         <div class = "label-input">
             <label>Phone Number</label>
-            <input type="tel" ng-model="vendor.phoneNo" placeholder="Phone Number">
+            <input type="tel" ng-model="vendor.phone_no" placeholder="Phone Number">
         </div>
         <div class = "label-input">
             <label>Email</label>
@@ -53,11 +53,11 @@
         <h3 class = "tab-sub-title">Contract Information</h3>
         <div class = "label-input">
             <label>Contract Number</label>
-            <input type="text" ng-model="vendor.contractNo" placeholder="Contract Number" required>
+            <input type="text" ng-model="vendor.contract_no" placeholder="Contract Number" required>
         </div>
 
-        <date-select label ="Contract Start Date"  date = "vendor.contractStart" input-disabled = "true"></date-select>
-        <date-select label ="Contract End Date"  date = "vendor.contractEnd" input-disabled = "true"></date-select>
+        <date-select label ="Contract Start Date"  date = "vendor.contract_start" input-disabled = "true"></date-select>
+        <date-select label ="Contract End Date"  date = "vendor.contract_end" input-disabled = "true"></date-select>
     </div>
 
     <button type="submit" class = "entry-submit" ng-click = 'submitVendor()' ng-disabled = "vendorEntryForm.$invalid" >Submit</button>

@@ -194,7 +194,7 @@ app.filter('percentage', ['$filter', function ($filter) {
   return function (input, decimals) {
     return $filter('number')(input * 100, decimals) + '%';
   };
-}]);;app.controller('accountSelectController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
+}]);;app.controller('accountSelectController', ['$scope', '$location', 'monthsService', function($scope, $location, monthsService){
     
     $scope.displaySubaccounts = function(account){
         $scope.subaccounts = []
@@ -840,12 +840,12 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
     $scope.selectedPending = -1;
     $scope.setSelectedPendingTransaction = function(){
 	    $scope.selectedTransaction = {
-                transactionId: $scope.pending[$scope.selectedPending].transaction_id,
-                accountId: $scope.pending[$scope.selectedPending].account_id,
-                vendorId: $scope.pending[$scope.selectedPending].vendor_id,
-                invoiceDate: $scope.pending[$scope.selectedPending].invoice_date,
-                invoiceNo: $scope.pending[$scope.selectedPending].invoice_no,
-                transactionTypeId: Number($scope.pending[$scope.selectedPending].transaction_type_id), 
+                transaction_id: $scope.pending[$scope.selectedPending].transaction_id,
+                account_id: $scope.pending[$scope.selectedPending].account_id,
+                vendor_id: $scope.pending[$scope.selectedPending].vendor_id,
+                invoice_date: $scope.pending[$scope.selectedPending].invoice_date,
+                invoice_no: $scope.pending[$scope.selectedPending].invoice_no,
+                transaction_type_id: Number($scope.pending[$scope.selectedPending].transaction_type_id), 
                 description: $scope.pending[$scope.selectedPending].description,
                 expense: Number($scope.pending[$scope.selectedPending].expense)
 	    }
@@ -892,16 +892,16 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
     }
     
     $scope.coversheet ={
-        pprtaAccountCodeId: null,
-        vendorId: null,
+        pprta_account_code_id: null,
+        vendor_id: null,
         transactions: []
     }
 
     $scope.searchInvoice = function(){
-        if($scope.search.vendorId || $scope.search.invoiceNo || $scope.search.pprtaAccountCodeId){
+        if($scope.search.vendor_id || $scope.search.invoice_no || $scope.search.pprta_account_code_id){
             postRequestService.request('/api/transaction/invoice/search', $scope.search).then(function(success){
                 $scope.transactions = success.data.response
-                if($scope.coversheet.pprtaAccountCodeId){
+                if($scope.coversheet.pprta_account_code_id){
                     disableRows()
                     checkSelected()
                 }
@@ -925,14 +925,14 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
             $scope.disableCreate = false;
             $scope.coversheet.transactions.push(transaction)
             //PPRTA Id Has not yet been set
-            if(!$scope.coversheet.pprtaAccountCodeId){
-                $scope.coversheet.pprtaAccountCodeId = transaction.pprta_account_code_id
-                $scope.coversheet.vendorId = transaction.vendor_id
+            if(!$scope.coversheet.pprta_account_code_id){
+                $scope.coversheet.pprta_account_code_id = transaction.pprta_account_code_id
+                $scope.coversheet.vendor_id = transaction.vendor_id
                 disableRows()
             }
         }
         else{
-            deselectRow()
+            deselectRow(transaction)
             //See if any other transaction is checked, if not, unlock all other transactions
             if($scope.coversheet.transactions.length <= 0){
                 //no transactions in coversheer, enable all transacitons
@@ -948,7 +948,7 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
     var disableRows = function(){
         for(var i = 0; i < $scope.transactions.length; i++){
             //Disable rows that do not have matching invoice or vendor
-            if($scope.transactions[i].pprta_account_code_id != $scope.coversheet.pprtaAccountCodeId || $scope.transactions[i].vendor_id != $scope.coversheet.vendorId){
+            if($scope.transactions[i].pprta_account_code_id != $scope.coversheet.pprta_account_code_id || $scope.transactions[i].vendor_id != $scope.coversheet.vendor_id){
                 $scope.transactions[i].disabled = true;
             }
         }
@@ -965,21 +965,19 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         }
     }
 
-    var deselectRow = function(){
-        for(var i = 0; i < $scope.transactions.length; i++){
-            for(var j = 0; j < $scope.coversheet.transactions.length; j++){
-                if($scope.transactions[i].transaction_id == $scope.coversheet.transactions[j].transaction_id){
-                    $scope.coversheet.transactions.splice(j,1)
-                    i = $scope.transactions.length
-                    break;
-                }
+    var deselectRow = function(transaction){
+        for(var j = 0; j < $scope.coversheet.transactions.length; j++){
+            if(transaction.transaction_id == $scope.coversheet.transactions[j].transaction_id){
+                $scope.coversheet.transactions.splice(j,1)
+                i = $scope.transactions.length
+                break;
             }
         }
     }
 
     var resetSelection = function(){
-        $scope.coversheet.pprtaAccountCodeId = null
-        $scope.coversheet.vendorId = null
+        $scope.coversheet.pprta_account_code_id = null
+        $scope.coversheet.vendor_id = null
         $scope.disableCreate = true
     }
 }]);
@@ -1063,10 +1061,10 @@ app.controller('sidebarController', ['$scope', '$location', function($scope, $lo
 app.controller('singleCoversheetController', ['$scope', '$location', '$window', 'postRequestService', function($scope, $location, $window, postRequestService){
 
     $scope.search = {
-    	invoiceNo: null
+    	invoice_no: null
     }
     $scope.searchInvoice = function(){
-        if($scope.search.vendorId || $scope.search.invoiceNo){
+        if($scope.search.vendor_id || $scope.search.invoice_no){
             resetSelection()
             postRequestService.request('/api/transaction/invoice/search', $scope.search).then(function(success){
                if(success.data.response.length){
@@ -1080,24 +1078,23 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
     }
 
     $scope.createSingleCoversheet = function(){
-        $scope.invoice.transactionIds = []
+        $scope.invoice.transaction_ids = []
     	for(var i = 0; i < $scope.transactions.length; i++){
 			//Add selected transactionsId's to the invoice to be sent to the backend
             if($scope.transactions[i].selected){
-                $scope.invoice.transactionIds.push($scope.transactions[i].transaction_id)
+                $scope.invoice.transaction_ids.push($scope.transactions[i].transaction_id)
             }
 		}
 
 		postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
-            console.log("fired")
             $window.open("/coversheet/single-invoice/" +success.data.response)
         })
 
     }
 
     $scope.invoice ={
-    	invoiceNo: null,
-    	vendorId: null
+    	invoice_no: null,
+    	vendor_id: null
     }
 
     //TODO: Condense the logic of this function
@@ -1108,12 +1105,12 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
     	if(transaction.selected){
     		$scope.disableCreate = false;
     		//Invoice Number Has not yet been set
-    		if(!$scope.invoice.invoiceNo){
-	    		$scope.invoice.invoiceNo = transaction.invoice_no
-	    		$scope.invoice.vendorId = transaction.vendor_id
+    		if(!$scope.invoice.invoice_no){
+	    		$scope.invoice.invoice_no = transaction.invoice_no
+	    		$scope.invoice.vendor_id = transaction.vendor_id
 	    		for(var i = 0; i < $scope.transactions.length; i++){
 	    			//Disable rows that do not have matching invoice or vendor
-	    			if($scope.transactions[i].invoice_no != $scope.invoice.invoiceNo || $scope.transactions[i].vendor_id != $scope.invoice.vendorId){
+	    			if($scope.transactions[i].invoice_no != $scope.invoice.invoice_no || $scope.transactions[i].vendor_id != $scope.invoice.vendor_id){
 	    				$scope.transactions[i].disabled = true;
 	    			}
 	    		}
@@ -1140,8 +1137,8 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
     }
 
     var resetSelection = function(){
-        $scope.invoice.invoiceNo = null
-        $scope.invoice.vendorId = null
+        $scope.invoice.invoice_no = null
+        $scope.invoice.vendor_id = null
         $scope.disableCreate = true
     }
 }]);
@@ -1175,30 +1172,23 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
     $scope.selectedIndex = -1;
     $scope.setSelectedTransaction = function(){
 	    $scope.selectedTransaction = {
-                transactionId:$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_id,
-                accountId: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].account_id,
-	    		vendorId: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].vendor_id,
-	            invoiceDate: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_date,
-	            datePaid: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].date_paid,
-	            invoiceNo: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_no,
-                transactionTypeId: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_type_id), 
+                transaction_id:$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_id,
+                account_id: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].account_id,
+	    		vendor_id: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].vendor_id,
+	            invoice_date: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_date,
+	            date_paid: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].date_paid,
+	            invoice_no: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_no,
+                transaction_type_id: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_type_id), 
 	            description: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].description,
 	            expense: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].expense)
 	    }
 
-        postRequestService.request('/api/transaction/city-account-assignments/' +$scope.selectedTransaction.transactionId ).then(function(success){
-            var unsanitizedCityAccounts = success.data.response;
+        postRequestService.request('/api/transaction/city-account-assignments/' +$scope.selectedTransaction.transaction_id ).then(function(success){
+            $scope.selectedTransaction.city_accounts = success.data.response;
             
-            if(unsanitizedCityAccounts.length > 0){
-                $scope.selectedTransaction.cityAccounts = []
-                //Ammount come in as strings, these need to be floats
-                for(var i = 0;  i < unsanitizedCityAccounts.length; i++){
-                    $scope.selectedTransaction.cityAccounts.push({
-                        cityAccountAssignmentId: unsanitizedCityAccounts.city_account_assignment_id,
-                        amount: parseFloat(unsanitizedCityAccounts[i].amount),
-                        cityAccountId: unsanitizedCityAccounts[i].city_account_id
-                    })
-                }
+            //Ammount come in as strings, these need to be floats
+            for(var i = 0;  i < $scope.selectedTransaction.city_accounts.length; i++){
+                $scope.selectedTransaction.city_accounts[i].amount = parseFloat($scope.selectedTransaction.city_accounts[i].amount)
             }
         })
 	}
@@ -1231,7 +1221,7 @@ app.controller('transactionDialogController', ['$scope', '$window', 'postRequest
     }
     $scope.$watch('display', function(){
         if($scope.display){
-            postRequestService.request('/api/transaction/details/' +$scope.transactionId).then(function(success){
+            postRequestService.request('/api/transaction/details/' +$scope.transaction_id).then(function(success){
                 $scope.transaction = success.data.response
             })
         }
@@ -1239,10 +1229,10 @@ app.controller('transactionDialogController', ['$scope', '$window', 'postRequest
 
     $scope.createSingleCoversheet = function(){
         $scope.invoice = {
-            invoiceNo: $scope.transaction.invoice_no,
-            vendorId: $scope.transaction.vendor_id,
+            invoice_no: $scope.transaction.invoice_no,
+            vendor_id: $scope.transaction.vendor_id,
             description: $scope.transaction.description,
-            transactionIds: [$scope.transaction.transaction_id]
+            transaction_ids: [$scope.transaction.transaction_id]
         }
 
         postRequestService.request('/api/coversheet/single', $scope.invoice).then(function(success){
@@ -1284,7 +1274,7 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
             if(!$scope.transaction){
                 return 'nav-display'
             }
-            else if(!$scope.transaction.transactionId || allowDisplay){
+            else if(!$scope.transaction.transaction_id || allowDisplay){
                 return 'nav-display'
             }
         } 
@@ -1295,7 +1285,7 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
         //If the transaction has an Id, we know we are updateing an existing transaction.
         //If it does not, we are creating a new transaction
         if($scope.entryForm.$valid && $scope.remaining >= -0.005 /*rounding error allowance */){
-           if($scope.transaction.transactionId){
+           if($scope.transaction.transaction_id){
                 postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
                    $location.url('/') 
                 })
@@ -1310,10 +1300,10 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
 
     $scope.setupCityAccounts = function(){
 
-        if(!$scope.transaction.cityAccounts || ($scope.startExpense && $scope.startExpense != $scope.transaction.expense)){
+        if(!$scope.transaction.city_accounts || ($scope.startExpense && $scope.startExpense != $scope.transaction.expense)){
             $scope.remaining = 0
             $scope.startExpense = $scope.transaction.expense
-            $scope.transaction.cityAccounts = [{cityAccountId: "", amount: $scope.transaction.expense}]
+            $scope.transaction.city_accounts = [{city_account_id: "", amount: $scope.transaction.expense}]
         }
         else{
             $scope.checkRemaining();
@@ -1323,8 +1313,8 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     $scope.checkRemaining = function(){
         var sum = 0
 
-        for(i = 0; i < $scope.transaction.cityAccounts.length; i++){
-            sum += $scope.transaction.cityAccounts[i].amount
+        for(i = 0; i < $scope.transaction.city_accounts.length; i++){
+            sum += $scope.transaction.city_accounts[i].amount
         }
 
         $scope.remaining = Number(($scope.transaction.expense - sum).toFixed(2));
@@ -1332,14 +1322,14 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
 
     $scope.addAccount = function(){
         //Remove Accounts With a value of 0 before adding new accounts
-        for(i = 0; i < $scope.transaction.cityAccounts.length; i++){
-            if($scope.transaction.cityAccounts[i].amount == 0 && $scope.transaction.cityAccounts[i].cityAccountId ===""){ 
-                $scope.transaction.cityAccounts.splice(i,1)
+        for(i = 0; i < $scope.transaction.city_accounts.length; i++){
+            if($scope.transaction.city_accounts[i].amount == 0 && $scope.transaction.city_accounts[i].city_account_id ===""){ 
+                $scope.transaction.city_accounts.splice(i,1)
                 i--
             }
         }
         if($scope.remaining > 0){
-            $scope.transaction.cityAccounts.push({cityAccountId: "", amount: $scope.remaining})
+            $scope.transaction.city_accounts.push({city_account_id: "", amount: $scope.remaining})
             $scope.checkRemaining();
         }
     }
@@ -1358,13 +1348,13 @@ app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'm
                 var tempVendor = success.data.response;
 
                 $scope.vendor ={
-                    vendorId: tempVendor.vendor_id,
+                    vendor_id: tempVendor.vendor_id,
                     name: tempVendor.name,
-                    contractNo: tempVendor.contract_no,
-                    contractStart: tempVendor.contract_start,
-                    contractEnd: tempVendor.contract_end,
-                    pointOfContact: tempVendor.point_of_contact,
-                    phoneNo: tempVendor.phone_no,
+                    contract_no: tempVendor.contract_no,
+                    contract_start: tempVendor.contract_start,
+                    contract_end: tempVendor.contract_end,
+                    point_of_contact: tempVendor.point_of_contact,
+                    phone_nSo: tempVendor.phone_no,
                     address: tempVendor.address,
                     city: tempVendor.city,
                     state: tempVendor.state,
@@ -1399,7 +1389,7 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
 
     $scope.submitVendor = function(){
         if($scope.vendorEntryForm.$valid){
-           if($scope.vendor.vendorId){
+           if($scope.vendor.vendor_id){
                 postRequestService.request('/api/vendor/update', $scope.vendor).then(function(request){
                     $location.url('/')   
                 });
@@ -1582,7 +1572,7 @@ app.directive('transactionDialog', function() {
         restrict: 'E',
         controller: 'transactionDialogController',
         scope: {
-            transactionId: '=transaction',
+            transaction_id: '=transaction',
             display: '='
         },
         templateUrl: '/res/components/directives/transaction-dialog/transaction-dialog.template.html'

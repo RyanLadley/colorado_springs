@@ -162,7 +162,7 @@ app.directive('transactionDialog', function() {
         restrict: 'E',
         controller: 'transactionDialogController',
         scope: {
-            transactionId: '=transaction',
+            transaction_id: '=transaction',
             display: '='
         },
         templateUrl: '/res/components/directives/transaction-dialog/transaction-dialog.template.html'

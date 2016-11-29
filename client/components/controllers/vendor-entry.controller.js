@@ -2,7 +2,7 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
 
     $scope.submitVendor = function(){
         if($scope.vendorEntryForm.$valid){
-           if($scope.vendor.vendorId){
+           if($scope.vendor.vendor_id){
                 postRequestService.request('/api/vendor/update', $scope.vendor).then(function(request){
                     $location.url('/')   
                 });

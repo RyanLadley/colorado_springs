@@ -27,21 +27,18 @@ def update_transaction(transaction, cursor = None):
     for assignment in transaction.city_account_assignments:
         if(assignment.city_account_assignment_id):
             #Keep track of id's. This is used for deletion later
-            assignments.append(assignment.city_account_assignment_id)
+            assignment_ids.append(str(assignment.city_account_assignment_id))
 
-    id_string = ", ".join(str(ident) for ident in assignment_ids)
     cursor.execute('''
         DELETE FROM city_account_assignments
         WHERE transaction_id = %(transaction_id)s
-        AND city_account_assignment_id NOT IN (%(known_ids)s) ;''',
-        {"transaction_id": transaction.transaction_id, 'known_ids': id_string})
+        AND city_account_assignment_id NOT IN %(known_ids)s ;''',
+        {"transaction_id": transaction.transaction_id, 'known_ids': assignment_ids})
 
     #this loop is kept seperate from the above so we do not delete newly inserted records
     #TODO: See if we can combine these loops with a LAST_INSERTED_ID call
     for assignment in transaction.city_account_assignments:
         if(assignment.city_account_assignment_id):
-            #Keep track of id's. This is used for deletion later
-            assignments.append(assignment.city_account_assignment_id)
 
             #Update Records with the known id
             cursor.execute('''

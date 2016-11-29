@@ -24,8 +24,8 @@ import json
 @workflow.route('/transaction/new', methods = ['POST'])
 @authorize()
 def new_transaction():
+    
     transaction_form = json.loads(request.form['payload'])
-    transaction_form = sanitize.form_keys(transaction_form)
 
     transaction = Transaction.map_from_form(transaction_form)
 
@@ -45,8 +45,8 @@ def new_transaction():
 @authorize()
 def update_transaction():
 
+
     transaction_form = json.loads(request.form['payload'])
-    transaction_form = sanitize.form_keys(transaction_form)
 
     transaction = Transaction.map_from_form(transaction_form)
 
@@ -67,7 +67,6 @@ def update_transaction():
 def update_pending_transaction():
 
     transaction_form = json.loads(request.form['payload'])
-    transaction_form = sanitize.form_keys(transaction_form)
 
     transaction = Transaction.map_from_form(transaction_form)
 
@@ -91,7 +90,7 @@ def get_account_transaction_by_month(account_id):
 @workflow.route('/transaction/details/<transaction_id>', methods = ['POST'])
 @authorize()
 def get_transaction_details(transaction_id):
-    
+
     transaction = transaction_select.details(transaction_id)
     transaction.attatch_pprta_codes(accounts_select.pprta_codes(transaction.account_id))
 
@@ -113,9 +112,9 @@ def search_transaction_by_invoice():
 
     search_criteria = json.loads(request.form['payload'])
 
-    vendor_id = search_criteria.get('vendorId')
-    invoice_no = search_criteria.get('invoiceNo')
-    pprta_account_code_id = search_criteria.get('pprtaAccountCodeId')
+    vendor_id = search_criteria.get('vendor_id')
+    invoice_no = search_criteria.get('invoice_no')
+    pprta_account_code_id = search_criteria.get('pprta_account_code_id')
 
     transactions = transaction_select.search_by_invoice(vendor_id, invoice_no, pprta_account_code_id)
 

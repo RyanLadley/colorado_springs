@@ -16,32 +16,32 @@
         </div>
 
         <div class = "input-row">
-            <account-select account-id = "transaction.accountId" accounts = "accounts"></account-select>
+            <account-select account-id = "transaction.account_id" accounts = "accounts"></account-select>
         </div>
         
         <div class = "input-row">
             <div class = "label-input">
                 <label>Vendor</label>
-                <select ng-model = "transaction.vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors"  required>
+                <select ng-model = "transaction.vendor_id" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors"  required>
                     <option value="" disabled selected hidden>Select a Vendor</option>
                 </select>
             </div>
 
             <div class = "label-input">
                 <label>Invoice Number</label>
-                <input type = "text" placeholder = "Invoice Number" class = "invoice-textfield" ng-model = "transaction.invoiceNo"  required>
+                <input type = "text" placeholder = "Invoice Number" class = "invoice-textfield" ng-model = "transaction.invoice_no"  required>
             </div>
 
             <div class = "label-input">
                 <label>Transaction Type</label>
-                <select ng-model = "transaction.transactionTypeId" ng-options = "type.transaction_type_id as type.transaction_type for type in transactionTypes"  required>
+                <select ng-model = "transaction.transaction_type_id" ng-options = "type.transaction_type_id as type.transaction_type for type in transactionTypes"  required>
                     <option value="" disabled selected hidden>Select a Type</option>
                 </select>
             </div>
             
-            <date-select label ="Invoice Date"  date = "transaction.invoiceDate" input-disabled = "true" required = "true"></date-select>
+            <date-select label ="Invoice Date"  date = "transaction.invoice_date" input-disabled = "true" required = "true"></date-select>
 
-            <date-select label ="Date Paid (optional)"  date = "transaction.datePaid" input-disabled = "true" info = "Leaving this blank will create 'Pending' transaction. This is resolved in the 'adjustments' screen"></date-select>
+            <date-select label ="Date Paid (optional)"  date = "transaction.date_paid" input-disabled = "true" info = "Leaving this blank will create 'Pending' transaction. This is resolved in the 'adjustments' screen"></date-select>
 
             <div class = "label-input">
                 <label>Total Expense</label>
@@ -68,11 +68,11 @@
                 <info-tip message = "Add the proper city codes to this transaction to be used on coversheets."></info-tip>
             </div>
         </div>
-        <div ng-repeat ="cityAccount in transaction.cityAccounts">
+        <div ng-repeat ="cityAccount in transaction.city_accounts">
             <div class = "input-row">
                 <div class = "label-input">
                     <label>City Account</label>
-                    <select ng-model = "transaction.cityAccounts[$index].cityAccountId" 
+                    <select ng-model = "transaction.city_accounts[$index].city_account_id" 
                             ng-options = "account.city_account_id as [account.account_no,account.title].join(' - ') for account in cityAccounts">
                         <option value="" selected >Unassigned</option>
                     </select>
@@ -81,7 +81,7 @@
                     <label>Amount</label>
                     <div class = "dollar-input">
                         <i class="fa fa-usd" aria-hidden="true"></i>
-                        <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transaction.cityAccounts[$index].amount" ng-change = "checkRemaining()"> 
+                        <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transaction.city_accounts[$index].amount" ng-change = "checkRemaining()"> 
                     </div>
                 </div>
             </div>

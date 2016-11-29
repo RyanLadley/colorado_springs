@@ -11,13 +11,13 @@ app.controller('vendorAdjustmentController', function($scope, postRequestService
                 var tempVendor = success.data.response;
 
                 $scope.vendor ={
-                    vendorId: tempVendor.vendor_id,
+                    vendor_id: tempVendor.vendor_id,
                     name: tempVendor.name,
-                    contractNo: tempVendor.contract_no,
-                    contractStart: tempVendor.contract_start,
-                    contractEnd: tempVendor.contract_end,
-                    pointOfContact: tempVendor.point_of_contact,
-                    phoneNo: tempVendor.phone_no,
+                    contract_no: tempVendor.contract_no,
+                    contract_start: tempVendor.contract_start,
+                    contract_end: tempVendor.contract_end,
+                    point_of_contact: tempVendor.point_of_contact,
+                    phone_nSo: tempVendor.phone_no,
                     address: tempVendor.address,
                     city: tempVendor.city,
                     state: tempVendor.state,

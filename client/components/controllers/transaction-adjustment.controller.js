@@ -28,30 +28,23 @@ app.controller('transactionAdjustmentController', function($scope, $location, po
     $scope.selectedIndex = -1;
     $scope.setSelectedTransaction = function(){
 	    $scope.selectedTransaction = {
-                transactionId:$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_id,
-                accountId: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].account_id,
-	    		vendorId: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].vendor_id,
-	            invoiceDate: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_date,
-	            datePaid: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].date_paid,
-	            invoiceNo: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_no,
-                transactionTypeId: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_type_id), 
+                transaction_id:$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_id,
+                account_id: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].account_id,
+	    		vendor_id: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].vendor_id,
+	            invoice_date: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_date,
+	            date_paid: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].date_paid,
+	            invoice_no: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_no,
+                transaction_type_id: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_type_id), 
 	            description: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].description,
 	            expense: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].expense)
 	    }
 
-        postRequestService.request('/api/transaction/city-account-assignments/' +$scope.selectedTransaction.transactionId ).then(function(success){
-            var unsanitizedCityAccounts = success.data.response;
+        postRequestService.request('/api/transaction/city-account-assignments/' +$scope.selectedTransaction.transaction_id ).then(function(success){
+            $scope.selectedTransaction.city_accounts = success.data.response;
             
-            if(unsanitizedCityAccounts.length > 0){
-                $scope.selectedTransaction.cityAccounts = []
-                //Ammount come in as strings, these need to be floats
-                for(var i = 0;  i < unsanitizedCityAccounts.length; i++){
-                    $scope.selectedTransaction.cityAccounts.push({
-                        cityAccountAssignmentId: unsanitizedCityAccounts.city_account_assignment_id,
-                        amount: parseFloat(unsanitizedCityAccounts[i].amount),
-                        cityAccountId: unsanitizedCityAccounts[i].city_account_id
-                    })
-                }
+            //Ammount come in as strings, these need to be floats
+            for(var i = 0;  i < $scope.selectedTransaction.city_accounts.length; i++){
+                $scope.selectedTransaction.city_accounts[i].amount = parseFloat($scope.selectedTransaction.city_accounts[i].amount)
             }
         })
 	}
