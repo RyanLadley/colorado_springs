@@ -15,11 +15,11 @@ import json
 
 @workflow.route('/backup/accounts', methods = ['POST'])
 @authorize()
-def backup_accounts_breakdown():
+def backup_accounts_breakdown(api_response = True):
 
     accounts = accounts_select.accounts_overview()
 
     #The database is called within this builder to get transactions for all acounts
     file_name = backup_builder.build_accounts_breakdown(accounts)
-    return response.success(file_name)
+    return response.success(file_name) if api_response else file_name
 
