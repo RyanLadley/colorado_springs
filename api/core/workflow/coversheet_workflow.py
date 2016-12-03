@@ -27,6 +27,10 @@ import json
 @workflow.route('/coversheet/single', methods = ['POST'])
 @authorize()
 def create_single_coversheet():
+    """This function creates a single invoice coversheet
+    It recieves a request containing a list of all transactions included in the coversheet,
+    a desctiption, the vendor_id and the invoice_no 
+    """
 
     coversheet_form = json.loads(request.form['payload'])
 
@@ -47,6 +51,10 @@ def create_single_coversheet():
 @workflow.route('/coversheet/project', methods = ['POST'])
 @authorize()
 def create_project_coversheet():
+    """This function creates the project coversheet.
+     It recieves a request form containing a list containing the deatails of al  transations involved, a description,
+     and the vendor_id
+    """
 
     coversheet_form = json.loads(request.form['payload'])
 

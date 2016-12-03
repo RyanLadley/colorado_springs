@@ -1,25 +1,9 @@
 app.controller('adminController', function($scope, $location,postRequestService){
 
-	$scope.users = [
-		{
-			name: "Chuck Chuckers",
-			login: "TheChuck",
-			email: "chuck@email.com",
-			permissions: "2"
-		},
-		{
-			name: "Lama Links",
-			login: "TheRealLama",
-			email: "Lama@email.com",
-			permissions: "1"
-		},
-		{
-			name: "Adminstrator Dan",
-			login: "TrueAdmin2000",
-			email: "admin@email.com",
-			permissions: "0"
-		}
-	];
+	postRequestService.request('/api/admin/user/listing').then(function(success){
+        $scope.users = success.data.response;
+
+    })
 
 	$scope.submitNewUser = function(){
 		if($scope.newUserForm.$valid ){
@@ -37,4 +21,19 @@ app.controller('adminController', function($scope, $location,postRequestService)
 		}
 	}
 
+	$scope.permissionsToUpdate = []
+	$scope.queueChangedPermissions = function(user){
+		$scope.permissionsToUpdate.push(user)
+	}
+
+	$scope.updatePermissions = function(){
+		postRequestService.request('/api/admin/user/update/permissions', $scope.permissionsToUpdate).then(function(success){
+			if(success.data.status == "success"){
+				alert("Permissions have been updated.")
+			}
+			else{
+				alert("There was an error.")
+			}
+		})
+	}
 });

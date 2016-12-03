@@ -20,7 +20,8 @@ def form_keys(form):
     return form
 
 def date_for_storage(date):
-
+    """MSQL dates must be in the format y-m-d. This function asssures that the provided date is in that format
+    """
     try:
         date_object = datetime.strptime(date, '%m/%d/%Y')
 

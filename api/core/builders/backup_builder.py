@@ -7,26 +7,14 @@ from datetime import datetime
 
 
 def build_accounts_breakdown(accounts):
+    """This function is the outside interface to create the excell backup of the database.
+    Here the workbook is created and functions to create individula worksheets are called
+    """
 
     file_name = datetime.now().strftime('%Y-%m-%d_%H-%M') +".xlsx"
     workbook = xlsxwriter.Workbook('api/exports/backups/' +file_name)
 
-    formats = {}
-
-    formats['currency'] = workbook.add_format({'num_format': '$#,##0.00', 'align' : 'center', 'border': 1})
-    formats['currency_emphasis'] = workbook.add_format({'bg_color': 'yellow', 'num_format': '$#,##0.00', 'align' : 'center', 'border': 1})
-    formats['header'] = workbook.add_format({'align' : 'center', 'bold' : True, 'border': 1, 'bg_color': '#A59AAE'})
-    formats['account_number'] = workbook.add_format({'align' : 'center', 'bold' : True, 'border': 1})
-    formats['shred_number'] = workbook.add_format({'align' : 'left', 'bold' : False, 'border': 1})
-    formats['date'] = workbook.add_format({'num_format': 'm-d-yyyy', 'border': 1})
-    formats['border'] = workbook.add_format({'border': 1})
-    formats['center'] = workbook.add_format({'align' : 'center','border': 1})
-    formats['sub_header'] = workbook.add_format({'align' : 'center', 'border': 1, 'bg_color': '#E4C46E'})
-    formats['page_header'] = workbook.add_format({'align' : 'center', 'border': 1, 'bg_color': '#91AC8E'})
-    formats['total_row_left'] = workbook.add_format({'left': 1, 'top': 1, 'bottom': 1, 'bg_color': '#AB7777'})
-    formats['total_row'] = workbook.add_format({'top': 1, 'bottom': 1, 'bg_color': '#AB7777'})
-    formats['total_row_currency'] = workbook.add_format({'num_format': '$#,##0.00', 'align' : 'center', 'right': 1, 'top': 1, 'bottom': 1, 'bg_color': '#AB7777'})
-
+    formats = create_formats()
     
     _add_summary_worksheet(workbook, accounts, formats)
 
@@ -50,6 +38,11 @@ def build_accounts_breakdown(accounts):
     return file_name
 
 def _add_summary_worksheet(workbook, accounts, formats):
+    """This function createst the sumary worksheet.
+    The summary work sheet is the fronpage of te excell spread sheet. 
+    It is the equivalent of the 'Accounts Overview" page of the app
+    """
+
     worksheet = workbook.add_worksheet("Summary")
 
 
@@ -70,6 +63,8 @@ def _add_summary_worksheet(workbook, accounts, formats):
     
 
 def _add_summary_header(worksheet, formats, row = 0):
+    """ Creates the header row of the summary table
+    """
 
     worksheet.write(row, 0, "Account Code", formats['header'])
     worksheet.write(row, 1, "Sub Account", formats['header'])
@@ -81,6 +76,10 @@ def _add_summary_header(worksheet, formats, row = 0):
     worksheet.write(row, 7, "Remaining Balance", formats['header'])
 
 def _add_account_row(worksheet, account, row, formats, sub = False, shred = False):
+    """ Creates individual row of the summary table
+    The sub and shred booleans passsed in the parameters determin the location and format
+    of the account label
+    """
 
     start_row = 1 if sub else 0
     account_format = formats['account_number'] if not shred else formats['shred_number']
@@ -95,6 +94,11 @@ def _add_account_row(worksheet, account, row, formats, sub = False, shred = Fals
 
 
 def _add_account_worksheet(workbook, account, formats):
+    """This Function adds a new worksheet for the account provided
+    The worksheet created is the equivalent of the account details page in the app
+    """
+
+
     account_number = _format_account_number(account)
     worksheet = workbook.add_worksheet(account_number)
 
@@ -115,6 +119,8 @@ def _add_account_worksheet(workbook, account, formats):
 
 
 def _add_transaction_header(worksheet, row, formats):
+    """This function adds the header to the transaction table in an account worksheet
+    """
 
     worksheet.write(row, 0, "Account#", formats['sub_header'])
     worksheet.write(row, 1, "Vendor", formats['sub_header'])
@@ -126,6 +132,10 @@ def _add_transaction_header(worksheet, row, formats):
 
 
 def _add_transactions_for_month(worksheet, row, transactions, month_index, formats):
+    """This function adds the transactions to the provided accounts worksheet for the provided month
+    Each month will have a minimum of 30 rows of for transactions, wwhich will be blank
+    if 30 transactions are not provided
+    """
 
     if month_index < 12:
         worksheet.merge_range('A{}:G{}'.format(row+1, row+1), months(month_index), formats['header'])
@@ -171,6 +181,10 @@ def _add_transactions_for_month(worksheet, row, transactions, month_index, forma
 
 
 def _add_monthly_expenses(worksheet, monthly_total_rows, formats):
+    """This function adds the monthly expense column to table to the provided account workesheet
+    The monthly_total_rows parameter is the rowson which the caluated total of each months transactions expense is located
+    This talbe is located to the right of the transation table, with one cell inbetween
+    """
 
     row = 6
     start_column = 8
@@ -200,6 +214,9 @@ def _add_monthly_expenses(worksheet, monthly_total_rows, formats):
 
 
 def _add_budget(worksheet, account, expense_row, formats):
+    """This adds the budget table to the provided account worksheet
+    the expense row is the row in which  the total of the monthly expenses is loacted
+    """
 
     row = 0
     start_row = row
@@ -224,6 +241,8 @@ def _add_budget(worksheet, account, expense_row, formats):
 
 
 def _format_account_number(account):
+    """ This functoin provides the string representation of te acount number that is present within the rest of the app
+    """
 
     if account.shred_no:
         return "{}-{}-{}".format(account.account_no,account.sub_no, account.shred_no)
@@ -241,3 +260,24 @@ def months(n, abrv = False):
     a = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
     return a[n] if abrv else m[n] 
+
+
+def create_formats():
+
+    formats = {}
+
+    formats['currency'] = workbook.add_format({'num_format': '$#,##0.00', 'align' : 'center', 'border': 1})
+    formats['currency_emphasis'] = workbook.add_format({'bg_color': 'yellow', 'num_format': '$#,##0.00', 'align' : 'center', 'border': 1})
+    formats['header'] = workbook.add_format({'align' : 'center', 'bold' : True, 'border': 1, 'bg_color': '#A59AAE'})
+    formats['account_number'] = workbook.add_format({'align' : 'center', 'bold' : True, 'border': 1})
+    formats['shred_number'] = workbook.add_format({'align' : 'left', 'bold' : False, 'border': 1})
+    formats['date'] = workbook.add_format({'num_format': 'm-d-yyyy', 'border': 1})
+    formats['border'] = workbook.add_format({'border': 1})
+    formats['center'] = workbook.add_format({'align' : 'center','border': 1})
+    formats['sub_header'] = workbook.add_format({'align' : 'center', 'border': 1, 'bg_color': '#E4C46E'})
+    formats['page_header'] = workbook.add_format({'align' : 'center', 'border': 1, 'bg_color': '#91AC8E'})
+    formats['total_row_left'] = workbook.add_format({'left': 1, 'top': 1, 'bottom': 1, 'bg_color': '#AB7777'})
+    formats['total_row'] = workbook.add_format({'top': 1, 'bottom': 1, 'bg_color': '#AB7777'})
+    formats['total_row_currency'] = workbook.add_format({'num_format': '$#,##0.00', 'align' : 'center', 'right': 1, 'top': 1, 'bottom': 1, 'bg_color': '#AB7777'})
+
+    return formats

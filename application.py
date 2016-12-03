@@ -31,6 +31,7 @@ def send_project_image(resource_path):
         return send_file('api/DAL/images/vendors/' +resource_path)
     return False
 
+
 if __name__ == "__main__":
-    daily_events.start_schedule()
+    #daily_events.start_schedule()
     application.run(debug = True)

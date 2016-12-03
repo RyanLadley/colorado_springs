@@ -3,7 +3,7 @@
 </div>
 
 <div class = "admin-area area" >
-    <h2 class = "title"> Users </h2>
+    <h2 class = "title"> Manage Users </h2>
     <div class = "section-area">
 
         <h3 class = "section-title">Permissions</h3>
@@ -16,61 +16,66 @@
                     <th class = "permisions-headers">Craftsman</th>
 	       	    </tr>
             	<tr ng-repeat = "user in users">
-    	           	<td class = "user-column" title = "{{user.login}} - {{user.email}}">{{user.name}}</td>
-    	            <td><input type="radio" name="{{user.id}}" ng-model = "user.permissions" value="0"> </td>
-                    <td><input type="radio" name="{{user.id}}" ng-model = "user.permissions" value="1"> </td>
-                    <td><input type="radio" name="{{user.id}}" ng-model = "user.permissions" value="2"> </td>
+    	           	<td class = "user-column" title = "{user.first_name}} {{user.last_name}} - {{user.email}}">{{user.first_name}} {{user.last_name}}</td>
+    	            <td><input type="radio" name="{{user.user_id}}"  ng-change = "queueChangedPermissions(user)" ng-model = "user.permissions" value="0"> </td>
+                    <td><input type="radio" name="{{user.user_id}}"  ng-change = "queueChangedPermissions(user)" ng-model = "user.permissions" value="1"> </td>
+                    <td><input type="radio" name="{{user.user_id}}"  ng-change = "queueChangedPermissions(user)" ng-model = "user.permissions" value="2"> </td>
             	</tr>
             </table>
         </div>
-        <button class = "admin-edit-button">Update Permisions</button>
-
-        <h3 class = "section-title">New User</h3>
-        <div class ="section-inset admin-new-user-inset">
-            <form name = "newUserForm">
-                <p class = "error-message">{{newUserError}}</p>
-                <div class = "label-input">
-                    <label>First Name</label>
-                    <input type = "text" placeholder = "First Name" ng-model = "newUser.firstName"  required>
-                </div>
-                <div class = "label-input">
-                    <label>Last Name</label>
-                    <input type = "text" placeholder = "Last Name" ng-model = "newUser.lastName"  required>
-                </div>
-                <div class = "label-input">
-                    <label>Email</label>
-                    <input type = "email" placeholder = "Email" ng-model = "newUser.email"  required>
-                </div>
-                <div class = "label-input">
-                    <div class = "label-info">
-                        <label> Temporary Password</label>
-                        <info-tip message = "User will be prompted for a new password on initial login."></info-tip>
-                    </div>
-                    <input type = "password" placeholder = "Password" ng-model = "newUser.password"  required>
-                </div>
-                <div class = "label-input">
-                    <label> Confirm Password</label> 
-                    <input type = "password" placeholder = "Password" ng-model = "confirmedPassword"  required>
-                </div>
-                <div class = "label-input">
-                    <label>Permissions</label>
-                    <table>
-                        <tr>
-                            <td class = "new-headers">Admin</td>
-                            <td class = "new-headers">User</td>
-                            <td class = "new-headers">Craftsman</td>
-                        </tr>
-                        <tr>
-                            <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="0"> </td>
-                            <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="1"> </td>
-                            <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="2"> </td>
-                        </tr>
-                    </table>
-                </div>
-            </form>
-        </div>
-        <button class = "admin-edit-button" ng-click = "submitNewUser()">Create User</button>
+        <button class = "admin-edit-button" ng-click = "updatePermissions()">Update Permisions</button>
+    </div>
 </div>
 
 
+<div class = "admin-area area" >
 
+        <h2 class = "title"> User Creation </h2>
+        <div class = "section-area">
+            <h3 class = "section-title">New User</h3>
+            <div class ="section-inset admin-new-user-inset">
+                <form name = "newUserForm">
+                    <p class = "error-message">{{newUserError}}</p>
+                    <div class = "label-input">
+                        <label>First Name</label>
+                        <input type = "text" placeholder = "First Name" ng-model = "newUser.firstName"  required>
+                    </div>
+                    <div class = "label-input">
+                        <label>Last Name</label>
+                        <input type = "text" placeholder = "Last Name" ng-model = "newUser.lastName"  required>
+                    </div>
+                    <div class = "label-input">
+                        <label>Email</label>
+                        <input type = "email" placeholder = "Email" ng-model = "newUser.email"  required>
+                    </div>
+                    <div class = "label-input">
+                        <div class = "label-info">
+                            <label> Temporary Password</label>
+                            <info-tip message = "User will be prompted for a new password on initial login."></info-tip>
+                        </div>
+                        <input type = "password" placeholder = "Password" ng-model = "newUser.password"  required>
+                    </div>
+                    <div class = "label-input">
+                        <label> Confirm Password</label> 
+                        <input type = "password" placeholder = "Password" ng-model = "confirmedPassword"  required>
+                    </div>
+                    <div class = "label-input">
+                        <label>Permissions</label>
+                        <table>
+                            <tr>
+                                <td class = "new-headers">Admin</td>
+                                <td class = "new-headers">User</td>
+                                <td class = "new-headers">Craftsman</td>
+                            </tr>
+                            <tr>
+                                <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="0"> </td>
+                                <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="1"> </td>
+                                <td><input type="radio" name="newPermission" ng-model = "newUser.permissions" value="2"> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <button class = "admin-edit-button" ng-click = "submitNewUser()">Create User</button>
+        </div>
+</div>

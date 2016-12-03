@@ -55,7 +55,7 @@
 .error-message {
   color: red;
   margin-top: 0px;
-  margin-top: 0px; }
+  margin-bottom: 0px; }
 
 .clickable {
   cursor: pointer; }
@@ -650,6 +650,10 @@
     margin: 0px 10px;
     display: inline-block;
     margin-bottom: 15px; }
+
+.profile-input-inset div {
+  float: none;
+  display: inline-block; }
 
 .profile-edit-button {
   border: none;

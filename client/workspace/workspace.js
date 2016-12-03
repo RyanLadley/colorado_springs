@@ -53,28 +53,17 @@ app.service('postRequestService', ['$http', '$cookies', '$location', function($h
             transformRequest : angular.identity
         }).then(
         function(success){
+            //User token has expireed. Log them out
+            //They don't need to be burned... yet. 
+            if(success.data.response === "Invalid User" && success.data.error === "error"){
+                $cookies.remove('token')
+            }
+
             //Normal Operation, update token after request
-            //console.log(success)
-            if(success.data.status === "success"){
-                var now = new Date()
+            else{
+                var now = new Date();
                 var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
                 $cookies.putObject('token', success.data.token, {'expires': oneYear});
-            }
-            else{
-                //User tried to access a project they do not have permission to view
-                //Burn Them!! Or just remove the project token. Which ever
-                if(success.data.response === "Project Access Denied"){
-                    var now = new Date()
-                    var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
-                    $cookies.putObject('token', success.data.token, {'expires': oneYear});
-                }
-                //User token has expireed. Log them out
-                //They don't need to be burned... yet. 
-                else{
-                    if(success.data.response === "Invalid User"){
-                        $cookies.remove('token')
-                    }
-                }
             }
             return success
         }, 
@@ -367,26 +356,10 @@ app.controller('adjustmentsController', ['$scope', '$location', 'postRequestServ
 }]);
 app.controller('adminController', ['$scope', '$location', 'postRequestService', function($scope, $location,postRequestService){
 
-	$scope.users = [
-		{
-			name: "Chuck Chuckers",
-			login: "TheChuck",
-			email: "chuck@email.com",
-			permissions: "2"
-		},
-		{
-			name: "Lama Links",
-			login: "TheRealLama",
-			email: "Lama@email.com",
-			permissions: "1"
-		},
-		{
-			name: "Adminstrator Dan",
-			login: "TrueAdmin2000",
-			email: "admin@email.com",
-			permissions: "0"
-		}
-	];
+	postRequestService.request('/api/admin/user/listing').then(function(success){
+        $scope.users = success.data.response;
+
+    })
 
 	$scope.submitNewUser = function(){
 		if($scope.newUserForm.$valid ){
@@ -404,6 +377,21 @@ app.controller('adminController', ['$scope', '$location', 'postRequestService', 
 		}
 	}
 
+	$scope.permissionsToUpdate = []
+	$scope.queueChangedPermissions = function(user){
+		$scope.permissionsToUpdate.push(user)
+	}
+
+	$scope.updatePermissions = function(){
+		postRequestService.request('/api/admin/user/update/permissions', $scope.permissionsToUpdate).then(function(success){
+			if(success.data.status == "success"){
+				alert("Permissions have been updated.")
+			}
+			else{
+				alert("There was an error.")
+			}
+		})
+	}
 }]);
 app.controller('budgetAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 
@@ -859,14 +847,69 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
         }
     }
 }]);
-app.controller('profileController', ['$scope', '$location', function($scope, $location){
+app.controller('profileController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 
-	$scope.user = {
-		name: "FirstName LastName",
-		phoneNumber: "719-555-9876",
-		email: "user@email.com",
-		login: "Username64"
-	}
+    postRequestService.request('/api/user/details').then(function(success){
+        $scope.user = success.data.response;
+    })
+
+    $scope.submitNewPassword = function(){
+        if($scope.passwordForm.$valid){
+            if ($scope.password.new == $scope.confirmPassword){
+                $scope.password.id = $scope.user.user_id
+
+                postRequestService.request('/api/user/update/password', $scope.password).then(function(success){
+                    if(success.data.status == "success"){
+                        alert("Password successfully updated")
+                        $scope.passwordError = ""
+                        $scope.password= ""
+                        $scope.confirmPassword = ""
+                    }
+                    else{
+                        $scope.passwordError = "There was an error processing your change."
+                    }
+                }) 
+            }
+            else{
+                $scope.passwordError = "Passwords do not match."
+            } 
+        }
+        else{
+            $scope.passwordError = "Please fill out all fields."
+        }
+    }
+
+    $scope.submitBackupFreq = function(){
+        console.log($scope.user)
+
+        postRequestService.request('/api/user/update/freq', $scope.user).then(function(success){
+            if(success.data.status == "success"){
+                alert("Email Frequency successfully updated")
+            }
+            else{
+                $scope.freqError = "There was an error processing your change."
+            }
+        }) 
+            
+    }
+
+    $scope.submitContactInformation = function(){
+        if($scope.contactForm.$valid){
+            postRequestService.request('/api/user/update/contact', $scope.user).then(function(success){
+                console.log(success.data)
+                if(success.data.status == "success"){
+                    alert("Contact information successfully updated")
+                    $scope.contactError = ""
+                }
+                else{
+                    $scope.contactError = "There was an error processing your change."
+                }
+            }) 
+        }
+        else{
+            $scope.contactError = "Please fill out all fields."
+        }
+    }
 }]);
 app.controller('projectCoversheetController', ['$scope', '$location', '$window', 'postRequestService', function($scope, $location, $window, postRequestService){
 

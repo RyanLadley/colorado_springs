@@ -26,28 +26,17 @@ app.service('postRequestService', ['$http', '$cookies', '$location', function($h
             transformRequest : angular.identity
         }).then(
         function(success){
+            //User token has expireed. Log them out
+            //They don't need to be burned... yet. 
+            if(success.data.response === "Invalid User" && success.data.error === "error"){
+                $cookies.remove('token')
+            }
+
             //Normal Operation, update token after request
-            //console.log(success)
-            if(success.data.status === "success"){
-                var now = new Date()
+            else{
+                var now = new Date();
                 var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
                 $cookies.putObject('token', success.data.token, {'expires': oneYear});
-            }
-            else{
-                //User tried to access a project they do not have permission to view
-                //Burn Them!! Or just remove the project token. Which ever
-                if(success.data.response === "Project Access Denied"){
-                    var now = new Date()
-                    var oneYear = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
-                    $cookies.putObject('token', success.data.token, {'expires': oneYear});
-                }
-                //User token has expireed. Log them out
-                //They don't need to be burned... yet. 
-                else{
-                    if(success.data.response === "Invalid User"){
-                        $cookies.remove('token')
-                    }
-                }
             }
             return success
         }, 

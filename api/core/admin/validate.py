@@ -28,6 +28,10 @@ def login(stored, provided):
     if not (stored.email == provided.email and check_password_hash(stored.password, provided.password)):
         raise InvalidCredential("Incorect Email or Password")
 
+def confirmation_password(stored, provided):
+    if not check_password_hash(stored.password, provided.password):
+        raise InvalidCredential("Incorect Password")
+
 
 def token(stored, provided):
     if not (stored.token_value == provided.token_value):

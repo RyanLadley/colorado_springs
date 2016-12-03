@@ -24,6 +24,9 @@ import json
 @workflow.route('/transaction/new', methods = ['POST'])
 @authorize()
 def new_transaction():
+    """This function creates a new transaction in the database
+    It reieves all information pertinent to transactio creating in the request form
+    """
     
     transaction_form = json.loads(request.form['payload'])
 
@@ -44,6 +47,10 @@ def new_transaction():
 @workflow.route('/transaction/update', methods = ['POST'])
 @authorize()
 def update_transaction():
+    """This functoin updates an existing transaction.
+    The information recieved via the request form is identical to the information recied by the "new_transaction"
+    with the exception that ann update also contains a trnasaction id
+    """
 
 
     transaction_form = json.loads(request.form['payload'])
@@ -65,6 +72,9 @@ def update_transaction():
 @workflow.route('/transaction/pending/update', methods = ['POST'])
 @authorize()
 def update_pending_transaction():
+    """This function updates a pending transaction by giving it a" "date paid" date
+    It recieves a request form contining a transactin id, a date, and a description
+    """
 
     transaction_form = json.loads(request.form['payload'])
 
@@ -77,6 +87,10 @@ def update_pending_transaction():
 @workflow.route('/transaction/account/<account_id>', methods = ['POST'])
 @authorize()
 def get_account_transaction_by_month(account_id):
+    """This funtion returns a listing of all transactions for the provided account_id
+    sepeerated by it's date paid month. This call is not currenty used for the account details page,
+    rather it is used to provide a clean way for a user to view transaction for adjustments
+    """
 
     account = accounts_select.account_name(account_id)
     
@@ -90,6 +104,10 @@ def get_account_transaction_by_month(account_id):
 @workflow.route('/transaction/details/<transaction_id>', methods = ['POST'])
 @authorize()
 def get_transaction_details(transaction_id):
+    """This call gets all pertenatn information about a transactoin
+    This includes the city codes, pprta codes, transaction type, and
+    all other basic information.Currently used in the transaction dialog
+    """
 
     transaction = transaction_select.details(transaction_id)
     transaction.attatch_pprta_codes(accounts_select.pprta_codes(transaction.account_id))
@@ -100,6 +118,9 @@ def get_transaction_details(transaction_id):
 @workflow.route('/transaction/pending/vendor/<vendor_id>', methods = ['POST'])
 @authorize()
 def get_pending_transaction_by_vendor(vendor_id):
+    """This function gets all pending transactions assigned the provided vendor id
+    It is currently used in the "Pending Adjustments" page
+    """
 
     transactions = transaction_select.pending_by_vendor(vendor_id)
 
@@ -109,6 +130,11 @@ def get_pending_transaction_by_vendor(vendor_id):
 @workflow.route('/transaction/invoice/search', methods = ['POST'])
 @authorize()
 def search_transaction_by_invoice():
+    """This funnction returns all transactio thae meetthe criteria
+    provided by the request form. In the request form a vendor_id, invoic_no, 
+    and pprta_account_code_id are provided. If any of these are "None", then they are disregarded 
+    in the search.  
+    """
 
     search_criteria = json.loads(request.form['payload'])
 
@@ -124,6 +150,9 @@ def search_transaction_by_invoice():
 @workflow.route('/transaction/city-account-assignments/<transaction_id>', methods = ['POST'])
 @authorize()
 def get_city_account_assignments_for_transaction(transaction_id):
+    """This returns the city account assignemnts for the provided transaction_id
+    This is currently only called on tehe transaction adjustment screen 
+    """
 
     assignments = city_accounts_select.assignments_for_transaction(transaction_id)
     serialized_assignments =  utilities.serialize_array(assignments)

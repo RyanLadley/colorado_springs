@@ -22,14 +22,21 @@ $profile-area-width: 400px;
         margin-bottom: 15px;
     }
 }
+.profile-input-inset{
+   div{
+        float: none;
+        display: inline-block;
+    }
+}
+
 
 .profile-edit-button{
 	border: none;
-        background-color: #556AAE;
-        width: 96%;
-        margin: 2% 2%;
-        color: white;
-        padding: 5px;
-        font-weight: bold;
+    background-color: #556AAE;
+    width: 96%;
+    margin: 2% 2%;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
     
 }

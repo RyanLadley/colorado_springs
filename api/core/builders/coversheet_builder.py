@@ -12,6 +12,10 @@ from io import BytesIO
 import api.core.utilities as utilities
 
 def build_single_invoice(coversheet):
+    """This function is the interface to create the single invoice over sheet.
+    This is the simplest cover sheet that uses only one invoice, but can 
+    have multiple accounts. 
+    """
 
     document = Document()
     section = document.sections[0]
@@ -51,7 +55,6 @@ def build_single_invoice(coversheet):
 
     document.add_page_break()
 
-    #file = BytesIO()
     file_name = datetime.now().strftime('%Y-%m-%d_%H-%M') +".docx"
     document.save('api/exports/coversheets/single_invoice/' +file_name)
 
@@ -59,6 +62,10 @@ def build_single_invoice(coversheet):
 
 
 def build_project_sheet(coversheet):
+    """This function is the interface to create the a project cover sheet.
+    This Coversheet can have multiple invoices and city accounts, but only 
+    one pprta project
+    """
 
     document = Document()
     section = document.sections[0]
@@ -84,6 +91,9 @@ def build_project_sheet(coversheet):
     return file_name
 
 def _add_account_table(document, transactions):
+    """The account table is the borderless table that lists out all city accounts that is associated with the 
+    coversheet. This table includes the PPRRTA account and project associated with the specific accout
+    """
     
     table = document.add_table(rows = 1, cols = 4)
     table.style = None
@@ -124,6 +134,8 @@ def _add_account_table(document, transactions):
 
 
 def _add_approvals(document):
+    """This function adds the approval signiture area to the bottom the coversheet
+    """
 
     approvals = ["Procurements Svcs Approval", "Street Division Approval", "Finance Dept Approval\t"]
     for approval in approvals:
@@ -136,6 +148,8 @@ def _add_approvals(document):
 
 
 def _add_notes(document):
+    """This section adds the empty three row table labled notes to the coversheer
+    """
     
     table = document.add_table(rows = 4, cols = 1)
     table.style = 'Table Grid'
@@ -148,7 +162,8 @@ def _add_notes(document):
 
 
 def _add_vendor_table(document):
-
+    """ Not Used, Mayn=e?
+    """
     table = document.add_table(rows = 3, cols = 2)
 
     invoice_cell = table.rows[0].cells[0]
@@ -176,6 +191,9 @@ def _add_vendor_table(document):
 
 
 def _add_project_table(document, transactions):
+    """This function add the main table of the project coversheet
+    """
+
 
     table = document.add_table(rows = 1, cols = 4)
     table.style = 'TableGrid'
@@ -228,6 +246,9 @@ def _add_project_table(document, transactions):
 
 
 def _add_contract_table(document, vendor, description):
+    """This funton adds the contract table "The table with the vendor contract number and its desction"
+    to tht coversheet
+    """
 
     table = document.add_table(rows = 2, cols = 1)
 

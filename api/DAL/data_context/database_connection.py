@@ -32,8 +32,8 @@ class DatabaseConnection:
                 db.rollback()
 
                 message = exception.args[1]
-                print(message)
-                return response.error(message)
+                
+                return response.error("There was an error in the database.")
                
             finally: 
                 db.close()

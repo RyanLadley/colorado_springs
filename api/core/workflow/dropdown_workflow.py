@@ -68,6 +68,8 @@ def pprta_projects_dropdown(api_response = True):
 @workflow.route('/dropdown/all', methods = ['POST'])
 @authorize()
 def all_dropdowns():
+    """This request returns a listing of all dropdown menus and their associated informatio
+    """
 
     dropdowns = {}
 
