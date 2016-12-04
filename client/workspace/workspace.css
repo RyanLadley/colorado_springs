@@ -162,7 +162,7 @@
     text-align: center; }
 
 .dialog-screen {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

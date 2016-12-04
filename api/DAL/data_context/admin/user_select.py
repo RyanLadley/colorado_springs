@@ -62,7 +62,7 @@ def user(token, cursor = None):
 
 @DatabaseConnection
 def user_details(token, cursor = None):
-    
+
     cursor.execute("""
                 SELECT  id as user_id, 
                         email,
@@ -75,7 +75,7 @@ def user_details(token, cursor = None):
                 {'id' : token.user_id})
 
     row = cursor.fetchone() or {}
-    
+
     user = User.map_from_form(row)
 
     return user

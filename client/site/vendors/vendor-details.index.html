@@ -7,37 +7,10 @@
 
 <div class = "table-header vendor-table-header">
     <h2>{{vendor.name}} Transactions</h2>
-    <table id = "vendor-table" class = "table alternate-table" >
-        <tr ng-if = "vendor.transactions.length > 0">
-            <th>Account</th>
-            <th>Vendor</th>
-            <th>Invoice Date</th>
-            <th>Date Paid</th>
-            <th>Invoice Number</th>
-            <th>Descrpition</th>
-            <th>Total Expense</th>
-        </tr>
-
-        <tr ng-repeat = "transaction in vendor.transactions" class = "row clickable" ng-if = "vendor.transactions.length > 0">
-            <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
-            <td  ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.vendor_name}}</td>
-            <td  ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.invoice_date}}</td>
-            <td  ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.date_paid}}</td>
-            <td  ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "center">{{transaction.invoice_no}}</td>
-            <td  ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "description account-desription">{{transaction.description}}</td>
-            <td  ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "currency">{{transaction.expense | currency}}</td>
-        </tr>
-        <tr class = "total" ng-if = "vendor.transactions.length > 0">
-            <td colspan="6">Total Expensed</td>
-            <td> {{total_expense | currency}}</td>
-        </tr>
-        <tr ng-if = "!vendor.transactions.length > 0">
-            <th colspan="8"></th>
-        </tr>
-        <tr ng-if = "!vendor.transactions.length > 0">
-            <td colspan="8" class = "center">There are currently no transactions for {{vendor.name}}</td>
-        </tr>
-    </table>
+    <transaction-table id = "account-table" transactions = 'vendor.transactions' 
+                    total-label = 'Total Expense' total = 'total_expense'
+                    empty-message = "There are currently no transactions for {{vendor.name}}">
+    </transaction-table>
 </div>
 
 <div class = "vendor-area area" >

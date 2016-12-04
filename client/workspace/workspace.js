@@ -29,19 +29,16 @@ app.run(['$rootScope', '$location', '$cookies', function($rootScope, $location, 
 
     //Format the account name given the account number, sub number, and shred out number
     this.getName = function(account){
-        var accountName = ""
         if(account.shred_no != 'None'){
-            accountName = account.account_no.toString() + "-" +account.sub_no.toString() +"-" +account.shred_no.toString()
+            return [account.account_no, account.sub_no, account.shred_no].join('-')
         }
         else if(account.sub_no != 'None'){
-            accountName = account.account_no.toString() + "-" +account.sub_no.toString()
+            return [account.account_no, account.sub_no].join('-')
         }
         else{
-            accountName = account.account_no.toString()
+            return account.account_no
         }
-        return accountName
     }
-
 });
 app.service('monthsService', function(){
 
@@ -362,15 +359,16 @@ app.filter('percentage', ['$filter', function ($filter) {
     }
 
 }])
-app.controller('accountController', ['$scope', '$location', '$routeParams', 'postRequestService', 'monthsService', 'sortService', function($scope, $location, $routeParams, postRequestService, monthsService, sortService){
+app.controller('accountController', ['$scope', '$location', '$routeParams', 'postRequestService', 'monthsService', 'accountNameService', function($scope, $location, $routeParams, postRequestService, monthsService, accountNameService){
   
 
     //This block calls the backend to retrieve all transactions belonging to this account, seperated by months
     postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
         $scope.account = success.data.response;
-        $scope.accountName = generateAccountName();
-        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures)
+        $scope.accountName = accountNameService.getName($scope.account) //Get formated account name
+        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures) //Populate Budget Table
 
+         //Default to Current Month
         $scope.selectedMonth = d.getMonth()
         $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
 
@@ -404,17 +402,6 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
          }
     }
 
-    //Format the account name given the account number, sub number, and shred out number
-    var generateAccountName = function(){
-        if($scope.account.shred_no != "None"){
-            return [$scope.account.account_no, $scope.account.sub_no, $scope.account.shred_no].join('-')
-        }
-        else if($scope.account.sub_no != "None"){
-            return [$scope.account.account_no, $scope.account.sub_no].join('-')
-        }
-        return $scope.account.account_no
-    }
-
 
     //This block populates and watches the month dropdown menu. 
     //If the user selects a diffrent month, the displayed transactions will reflect the new month
@@ -423,32 +410,9 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
             $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-
-            column = $scope.sortColumn
-            $scope.sortColumn = '' // Reset the selected sortColumn so the default is in ascending order
-            $scope.sortTransactions(column) // Sort transactions in the previsouly defined fashion
         }
     })
 
-    //Sort by the given column in ascending order
-    //If the column has already been selected to be sorted, 
-    //Switch the direction in which we are soring
-    $scope.sortColumn = ''
-    var ascending = true;
-    $scope.sortTransactions = function(column){
-        if($scope.sortColumn != column){
-            $scope.sortColumn = column
-            ascending = true;
-        }
-        else{
-            ascending = !ascending
-        }
-        $scope.transactions = sortService.sortTransactions($scope.transactions, column, ascending)
-
-    }
-    $scope.isSelectedColumn = function(column){
-        return column == $scope.sortColumn
-    }
 
     //This block calulates the expense totals for every month retrieved.
     //Called after transations are retrieved from back end
@@ -464,16 +428,10 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
         }
     }
 
-    //This toggles whether or not the "Transactions Details" dialog will
-    //take over the screen. Triggered when a transaction row is clicked .
-    $scope.toggleTransactionDialog = false;
-    $scope.displayTransactionDetails = function(transactionId){
-        $scope.dialogTransaction = transactionId;
-        $scope.toggleTransactionDialog = true;
-    }
 }]);
 app.controller('adjustmentsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
   
+    //Request all dropdown menu information from backend
   	postRequestService.request('/api/dropdown/all').then(function(success){
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
@@ -481,41 +439,46 @@ app.controller('adjustmentsController', ['$scope', '$location', 'postRequestServ
         $scope.cityAccounts = success.data.response.city_accounts
     })
 
-    $scope.display = {
-    	transactions: true,
-    	pending: false,
-    	budget:false
-    };
+    //$scope.display determines which tab is currently being displayed
+    $scope.display = 'transactions'
 
 }]);
 app.controller('adminController', ['$scope', '$location', 'postRequestService', function($scope, $location,postRequestService){
 
+    //Gets information for all users
+    //Currently only used in permisions
 	postRequestService.request('/api/admin/user/listing').then(function(success){
         $scope.users = success.data.response;
 
     })
 
 	$scope.submitNewUser = function(){
-		if($scope.newUserForm.$valid ){
-            if($scope.newUser.password == $scope.confirmedPassword){
-    			postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
-                    $location.url('/') 
-                })
-            }
-            else{
-                $scope.newUserError = "Passwords do not match"
-            }
-		}
-		else{
-			$scope.newUserError = "Please fill out all fields"
-		}
+		if(!$scope.newUserForm.$valid ){
+            $scope.newUserError = "Please fill out all fields"
+            return
+        }
+        if($scope.newUser.password != $scope.confirmedPassword){
+			$scope.newUserError = "Passwords do not match"
+            return
+        }
+        if(scope.newUser.password.length < 6){
+            $scope.newUserError = "Passwords must be at least 6 characters"
+            return
+        }
+
+        //Only Executed if above conditions are met 
+        postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
+            $location.url('/') 
+        })
 	}
 
+    //When a users permissions is changed, they are added to this array
 	$scope.permissionsToUpdate = []
 	$scope.queueChangedPermissions = function(user){
 		$scope.permissionsToUpdate.push(user)
 	}
 
+    //Send the "permissionsToUpdate array to the back end to update the database"
 	$scope.updatePermissions = function(){
 		postRequestService.request('/api/admin/user/update/permissions', $scope.permissionsToUpdate).then(function(success){
 			if(success.data.status == "success"){
@@ -548,10 +511,8 @@ app.controller('coversheetController', ['$scope', '$location', 'postRequestServi
         $scope.pprtaProjects = success.data.response.pprta_projects
     })
 
-    $scope.display = {
-    	single: true,
-        project: false
-    }
+    //$scope.display destermines which tab is currently being displayed
+    $scope.display = 'single'
 
 }]);
 app.controller('dataInputController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
@@ -563,15 +524,14 @@ app.controller('dataInputController', ['$scope', '$location', 'postRequestServic
         $scope.cityAccounts = success.data.response.city_accounts
     })
 
-    $scope.display = {
-    	transaction: true,
-    	vendor: false
-    };
+    //$scope.display detemines which tab is currently beining displayed
+    $scope.display = 'transaction'
 
 
 }]);
 app.controller('dateSelectController', ['$scope', '$cookies', '$location', 'postRequestService', function($scope, $cookies, $location, postRequestService){
 
+    //When a date is selected, close the calender
     $scope.$watch('date', function(){
         $scope.displayCalendar = false;
     })
@@ -661,10 +621,17 @@ app.controller('expenseBreakdownController', ['$scope', function($scope){
 }]);
 app.controller('homeController', ['$scope', '$cookies', '$location', '$window', 'postRequestService', function($scope, $cookies, $location, $window, postRequestService){
 
+    //Get basic user information like their name and user id
+    postRequestService.request('/api/user/basics').then(function(success){
+        $scope.user = success.data.response
+    })
+
+    //Removes the cookie containing the token, forcing the user to log off
     $scope.logout = function(){
         $cookies.remove('token')
     }
 
+    //TEMPORARY: Creates the excell backup and sends it to the user
     $scope.createBackup = function(){
         postRequestService.request('/api/backup/accounts').then(function(success){
             $window.open("/backups/" +success.data.response)
@@ -672,6 +639,7 @@ app.controller('homeController', ['$scope', '$cookies', '$location', '$window', 
         })
     }
 
+    //Determines the time of day to guve the user a proper greeting
     $scope.getGreeting = function(){
         var date = new Date()
         hour = date.getHours()
@@ -686,12 +654,9 @@ app.controller('homeController', ['$scope', '$cookies', '$location', '$window', 
             return "Evening"
         }
     }
-
-    postRequestService.request('/api/user/basics').then(function(success){
-        $scope.user = success.data.response
-    })
 }]);
 app.controller('loginController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+    
     $scope.login = {}
     $scope.submit = function(){
         if(validEmail() && validPassword() ){
@@ -900,6 +865,11 @@ app.controller('monthlyExpenseController', ['$scope', '$location', 'monthsServic
 }]);
 app.controller('overviewController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
   
+    postRequestService.request('/api/accounts/overview').then(function(success){
+        $scope.accounts = success.data.response;
+    })
+
+    //Expands all accounts and theirs sub accounts so the user can see the whole table
     $scope.expandAll = function(){
         for(var i = 0; i < $scope.accounts.length; i++){
             $scope.accounts[i].showSubaccount = true;
@@ -909,6 +879,7 @@ app.controller('overviewController', ['$scope', '$location', 'postRequestService
         }
     }
 
+    //Collapses the table so only the main accounts are seen
     $scope.collapseAll = function(){
         for(var i = 0; i < $scope.accounts.length; i++){
             $scope.accounts[i].showSubaccount = false;
@@ -918,14 +889,11 @@ app.controller('overviewController', ['$scope', '$location', 'postRequestService
         }
     }
 
-    postRequestService.request('/api/accounts/overview').then(function(success){
-        $scope.accounts = success.data.response;
-    })
 
 }]);
 app.controller('pendingAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
-
+    //TODO: Use css classes the other tabs have to do this properly
     $scope.pendingDisplay = function(){
         $scope.pendingExpand = !$scope.pendingExpand;
 
@@ -949,8 +917,7 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
         }
     }
 
-    
-
+    //When the user selects a new vendor, call the backend and grab all pending transactions for this vendor
     $scope.$watch('vendorId', function(){
         if($scope.vendorId){
             postRequestService.request('/api/transaction/pending/vendor/' +$scope.vendorId).then(function(success){
@@ -959,23 +926,18 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
         } 
     })
 
+    //"$scope.pending[$scope.selectedPending]" serves as a refrence
+    //initiatlize $scope.selectedPendingTransaction for manipulation and to send back to server
     $scope.selectedPending = -1;
     $scope.setSelectedPendingTransaction = function(){
-	    $scope.selectedTransaction = {
-                transaction_id: $scope.pending[$scope.selectedPending].transaction_id,
-                account_id: $scope.pending[$scope.selectedPending].account_id,
-                vendor_id: $scope.pending[$scope.selectedPending].vendor_id,
-                invoice_date: $scope.pending[$scope.selectedPending].invoice_date,
-                invoice_no: $scope.pending[$scope.selectedPending].invoice_no,
-                transaction_type_id: Number($scope.pending[$scope.selectedPending].transaction_type_id), 
-                description: $scope.pending[$scope.selectedPending].description,
-                expense: Number($scope.pending[$scope.selectedPending].expense)
-	    }
+	    $scope.selectedPendingTransaction = $scope.pending[$scope.selectedPending]
+        $scope.selectedPendingTransaction.date_paid = null
+        $scope.pending[$scope.selectedPending].expense = Number($scope.pending[$scope.selectedPending].expense)
 	}
 
     $scope.submitPending = function(){
         if($scope.pendingForm.$valid){
-            postRequestService.request('/api/transaction/pending/update', $scope.selectedTransaction).then(function(success){
+            postRequestService.request('/api/transaction/pending/update', $scope.selectedPendingTransaction).then(function(success){
                 $location.url('/') 
             }) 
         }
@@ -1512,6 +1474,62 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     }
 
 }]);
+app.controller('transactionTableController', ['$scope', 'postRequestService', 'sortService', function($scope, postRequestService, sortService){
+
+    //Format the account name given the account number, sub number, and shred out number
+    var generateAccountName = function(){
+        if($scope.account.shred_no != "None"){
+            return [$scope.account.account_no, $scope.account.sub_no, $scope.account.shred_no].join('-')
+        }
+        else if($scope.account.sub_no != "None"){
+            return [$scope.account.account_no, $scope.account.sub_no].join('-')
+        }
+        return $scope.account.account_no
+    }
+
+
+    //Sort by the given column in ascending order
+    //If the column has already been selected to be sorted, 
+    //Switch the direction in which we are soring
+    $scope.sortColumn = ''
+    var ascending = true;
+    $scope.sortTransactions = function(column){
+        if($scope.sortColumn != column){
+            $scope.sortColumn = column
+            ascending = true;
+        }
+        else{
+            ascending = !ascending
+        }
+        $scope.transactions = sortService.sortTransactions($scope.transactions, column, ascending)
+
+    }
+    $scope.isSelectedColumn = function(column){
+        return column == $scope.sortColumn
+    }
+
+    //This block calulates the expense totals for every month retrieved.
+    //Called after transations are retrieved from back end
+    $scope.monthlyTotals = []
+    var calculateTotals = function(){
+
+        for (var i = 0; i < $scope.months.length ; i++){
+            total = 0
+            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
+                total += Number($scope.account.monthly_summary[i][j].expense)
+            }
+            $scope.monthlyTotals.push(total)
+        }
+    }
+
+    //This toggles whether or not the "Transactions Details" dialog will
+    //take over the screen. Triggered when a transaction row is clicked .
+    $scope.toggleTransactionDialog = false;
+    $scope.displayTransactionDetails = function(transactionId){
+        $scope.dialogTransaction = transactionId;
+        $scope.toggleTransactionDialog = true;
+    }
+}]);
 app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'monthsService', function($scope, postRequestService, monthsService){
     
 
@@ -1770,6 +1788,19 @@ app.directive('transactionEntry', function() {
             submit: '='
         },
        templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'
+    };
+})
+app.directive('transactionTable', function() {
+    return{
+        restrict: 'E',
+        controller: 'transactionTableController',
+        scope: {
+            transactions: '<',
+            totalLabel: '@?',
+            total: '<?',
+            emptyMessage: '@'
+        },
+        templateUrl: '/res/components/directives/transaction-table/transaction-table.template.html'
     };
 })
 app.directive('vendorEntry', function() {

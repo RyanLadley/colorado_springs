@@ -1,4 +1,5 @@
 app.controller('loginController', function($scope, $location, postRequestService){
+    
     $scope.login = {}
     $scope.submit = function(){
         if(validEmail() && validPassword() ){

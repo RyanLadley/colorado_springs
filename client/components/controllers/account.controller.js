@@ -1,12 +1,13 @@
-app.controller('accountController', function($scope, $location, $routeParams, postRequestService, monthsService, sortService){
+app.controller('accountController', function($scope, $location, $routeParams, postRequestService, monthsService, accountNameService){
   
 
     //This block calls the backend to retrieve all transactions belonging to this account, seperated by months
     postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
         $scope.account = success.data.response;
-        $scope.accountName = generateAccountName();
-        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures)
+        $scope.accountName = accountNameService.getName($scope.account) //Get formated account name
+        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures) //Populate Budget Table
 
+         //Default to Current Month
         $scope.selectedMonth = d.getMonth()
         $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
 
@@ -40,17 +41,6 @@ app.controller('accountController', function($scope, $location, $routeParams, po
          }
     }
 
-    //Format the account name given the account number, sub number, and shred out number
-    var generateAccountName = function(){
-        if($scope.account.shred_no != "None"){
-            return [$scope.account.account_no, $scope.account.sub_no, $scope.account.shred_no].join('-')
-        }
-        else if($scope.account.sub_no != "None"){
-            return [$scope.account.account_no, $scope.account.sub_no].join('-')
-        }
-        return $scope.account.account_no
-    }
-
 
     //This block populates and watches the month dropdown menu. 
     //If the user selects a diffrent month, the displayed transactions will reflect the new month
@@ -59,32 +49,9 @@ app.controller('accountController', function($scope, $location, $routeParams, po
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
             $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-
-            column = $scope.sortColumn
-            $scope.sortColumn = '' // Reset the selected sortColumn so the default is in ascending order
-            $scope.sortTransactions(column) // Sort transactions in the previsouly defined fashion
         }
     })
 
-    //Sort by the given column in ascending order
-    //If the column has already been selected to be sorted, 
-    //Switch the direction in which we are soring
-    $scope.sortColumn = ''
-    var ascending = true;
-    $scope.sortTransactions = function(column){
-        if($scope.sortColumn != column){
-            $scope.sortColumn = column
-            ascending = true;
-        }
-        else{
-            ascending = !ascending
-        }
-        $scope.transactions = sortService.sortTransactions($scope.transactions, column, ascending)
-
-    }
-    $scope.isSelectedColumn = function(column){
-        return column == $scope.sortColumn
-    }
 
     //This block calulates the expense totals for every month retrieved.
     //Called after transations are retrieved from back end
@@ -100,11 +67,4 @@ app.controller('accountController', function($scope, $location, $routeParams, po
         }
     }
 
-    //This toggles whether or not the "Transactions Details" dialog will
-    //take over the screen. Triggered when a transaction row is clicked .
-    $scope.toggleTransactionDialog = false;
-    $scope.displayTransactionDetails = function(transactionId){
-        $scope.dialogTransaction = transactionId;
-        $scope.toggleTransactionDialog = true;
-    }
 });
