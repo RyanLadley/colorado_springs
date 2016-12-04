@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `colorado_springs` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `colorado_springs`;
--- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.53, for debian-linux-gnu (x86_64)
 --
 -- Host: 127.0.0.1    Database: colorado_springs
 -- ------------------------------------------------------
--- Server version	5.5.49-0ubuntu0.14.04.1
+-- Server version	5.5.53-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -224,17 +224,19 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(254) DEFAULT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `password` varchar(160) DEFAULT NULL,
+  `email` varchar(254) NOT NULL,
+  `first_name` varchar(45) NOT NULL,
+  `last_name` varchar(45) NOT NULL,
+  `password` varchar(160) NOT NULL,
   `token` varchar(45) DEFAULT NULL,
   `token_exp` datetime DEFAULT NULL,
-  `permissions` tinyint(3) unsigned DEFAULT NULL,
+  `permissions` tinyint(3) unsigned NOT NULL,
+  `next_backup_email` datetime NOT NULL,
+  `backup_freq` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +245,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (14,'user@email.com','User','McUserson','pbkdf2:sha1:1000$pUDdp4b7$0f61e5f0477095e0659d1553668ea3f8341e045b','QH9OQ2X63DZZXL6ZSMVA5QNYWY44WC1B','2016-11-24 09:13:55',0),(15,'jladley@springsgov.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','PT2JO0CTRGG50YI60ZCP19TFZL2QEW8W','2016-11-24 00:01:14',0);
+INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','H0RZ471RGU1NGN0R9H5HZSZNWMQMVRD4','2016-12-04 00:15:14',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','F3HL4GJHM8LJKOEUN5WDHTWXGOC4828X','2016-12-02 00:45:10',0,'0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -571,4 +573,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-24  1:22:24
+-- Dump completed on 2016-12-03 22:51:00
