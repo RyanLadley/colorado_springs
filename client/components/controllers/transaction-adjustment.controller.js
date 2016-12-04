@@ -1,9 +1,8 @@
 app.controller('transactionAdjustmentController', function($scope, $location, postRequestService, monthsService){
 	
-
-    //TODO: The sliding is a hot mess held together by bubblegum and duct tape. Lets run a professional operation here and fix it. Eventually
     $scope.accountId = null;
 
+    //sThe next few blocks controll the navigation of the tab
     $scope.page = 1;
     $scope.incrementPage = function(){
         $scope.page++
@@ -24,7 +23,9 @@ app.controller('transactionAdjustmentController', function($scope, $location, po
         } 
     }
 
-    //TODO figure out why transactionTypeId needs to be a number and vendorId does not
+    //"$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex]" serves as a refrence
+    //initiatlize $scope.selectedTransaction for manipulation and to send back to server
+    //Then call the server to get the city-account assignemnts assigned to this tranaction 
     $scope.selectedIndex = -1;
     $scope.setSelectedTransaction = function(){
 	    $scope.selectedTransaction = {
@@ -49,7 +50,8 @@ app.controller('transactionAdjustmentController', function($scope, $location, po
         })
 	}
 
-
+    //When the user selects a new account, get the transactions associated with the account
+    //TODO: consider adding a button so there are no unnesicary searches.
     $scope.$watch('accountId', function(){
         if($scope.accountId){
             postRequestService.request('/api/transaction/account/' +$scope.accountId).then(function(success){

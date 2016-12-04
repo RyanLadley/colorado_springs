@@ -1,8 +1,11 @@
 app.controller('transactionDialogController', function($scope, $window, postRequestService){
 
+    //Close the dialog
     $scope.exit = function(){
         $scope.display = false
     }
+
+    //When the dialog is called, set the transaction information from the server
     $scope.$watch('display', function(){
         if($scope.display){
             postRequestService.request('/api/transaction/details/' +$scope.transaction_id).then(function(success){
@@ -11,6 +14,7 @@ app.controller('transactionDialogController', function($scope, $window, postRequ
         }
     })
 
+    //Maps a single invoice coversheet to create for the user. 
     $scope.createSingleCoversheet = function(){
         $scope.invoice = {
             invoice_no: $scope.transaction.invoice_no,

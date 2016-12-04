@@ -1,10 +1,10 @@
 app.controller('vendorAdjustmentController', function($scope, postRequestService, monthsService){
-    
 
-    //TODO: The sliding is a hot mess held together by bubblegum and duct tape. Lets run a professional operation here and fix it. Eventually
+    //Search Id is the vendor id that is to be changed    
     $scope.searchId = null;
 
-
+    //When the user selects a vendor, get the intormation from the server
+    //TODO: See if tempVendor is still needed
     $scope.$watch('searchId', function(){
         if($scope.searchId){
             postRequestService.request('/api/vendor/details/' +$scope.searchId).then(function(success){
@@ -17,7 +17,7 @@ app.controller('vendorAdjustmentController', function($scope, postRequestService
                     contract_start: tempVendor.contract_start,
                     contract_end: tempVendor.contract_end,
                     point_of_contact: tempVendor.point_of_contact,
-                    phone_nSo: tempVendor.phone_no,
+                    phone_no: tempVendor.phone_no,
                     address: tempVendor.address,
                     city: tempVendor.city,
                     state: tempVendor.state,

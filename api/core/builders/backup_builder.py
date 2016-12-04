@@ -14,7 +14,7 @@ def build_accounts_breakdown(accounts):
     file_name = datetime.now().strftime('%Y-%m-%d_%H-%M') +".xlsx"
     workbook = xlsxwriter.Workbook('api/exports/backups/' +file_name)
 
-    formats = create_formats()
+    formats = create_formats(workbook)
     
     _add_summary_worksheet(workbook, accounts, formats)
 
@@ -30,9 +30,6 @@ def build_accounts_breakdown(accounts):
                 account_details = accounts_select.account_details(shredaccount.account_id)
                 _add_account_worksheet(workbook, account_details, formats)
     
-
-
-
     workbook.close()
     
     return file_name
@@ -83,13 +80,13 @@ def _add_account_row(worksheet, account, row, formats, sub = False, shred = Fals
 
     start_row = 1 if sub else 0
     account_format = formats['account_number'] if not shred else formats['shred_number']
-
-    worksheet.write(row, start_row, _format_account_number(account), account_format)
+    account_name = _format_account_number(account)
+    worksheet.write(row, start_row, account_name, account_format)
     worksheet.write(row, 2, account.description, formats['border'])
     worksheet.write(row, 3, account.annual_budget, formats['currency'])
     worksheet.write(row, 4, account.transfer, formats['currency'])
     worksheet.write_formula(row, 5, '=D{}+E{}'.format(row+1,row+1), formats['currency'])
-    worksheet.write(row, 6, account.expendetures, formats['currency'])
+    worksheet.write_formula(row, 6, "='{}'!J22".format(account_name), formats['currency'])
     worksheet.write_formula(row, 7, '=F{}-G{}'.format(row+1,row+1), formats['currency'])
 
 
@@ -262,7 +259,7 @@ def months(n, abrv = False):
     return a[n] if abrv else m[n] 
 
 
-def create_formats():
+def create_formats(workbook):
 
     formats = {}
 

@@ -949,35 +949,35 @@ app.controller('profileController', ['$scope', '$location', 'postRequestService'
         $scope.user = success.data.response;
     })
 
+    //Called when user presses Submit Password Button
+    //All fields must be filled 
+    //Confirmation and new passwords must match
     $scope.submitNewPassword = function(){
-        if($scope.passwordForm.$valid){
-            if ($scope.password.new == $scope.confirmPassword){
-                $scope.password.id = $scope.user.user_id
-
-                postRequestService.request('/api/user/update/password', $scope.password).then(function(success){
-                    if(success.data.status == "success"){
-                        alert("Password successfully updated")
-                        $scope.passwordError = ""
-                        $scope.password= ""
-                        $scope.confirmPassword = ""
-                    }
-                    else{
-                        $scope.passwordError = "There was an error processing your change."
-                    }
-                }) 
+        if(!$scope.passwordForm.$valid){
+            $scope.passwordError = "Please fill out all fields."
+            return
+        }
+        if ($scope.password.new != $scope.confirmPassword){
+            $scope.passwordError = "Passwords do not match."
+            return
+        }
+        //Add user ID to password to get sent to the backend 
+        $scope.password.id = $scope.user.user_id
+        postRequestService.request('/api/user/update/password', $scope.password).then(function(success){
+            if(success.data.status == "success"){
+                alert("Password successfully updated")
+                //Reset all user inputs
+                $scope.passwordError = ""
+                $scope.password= ""
+                $scope.confirmPassword = ""
             }
             else{
-                $scope.passwordError = "Passwords do not match."
-            } 
-        }
-        else{
-            $scope.passwordError = "Please fill out all fields."
-        }
+                $scope.passwordError = "There was an error processing your change."
+            }
+        }) 
     }
 
     $scope.submitBackupFreq = function(){
-        console.log($scope.user)
-
         postRequestService.request('/api/user/update/freq', $scope.user).then(function(success){
             if(success.data.status == "success"){
                 alert("Email Frequency successfully updated")
@@ -985,14 +985,12 @@ app.controller('profileController', ['$scope', '$location', 'postRequestService'
             else{
                 $scope.freqError = "There was an error processing your change."
             }
-        }) 
-            
+        })    
     }
 
     $scope.submitContactInformation = function(){
         if($scope.contactForm.$valid){
             postRequestService.request('/api/user/update/contact', $scope.user).then(function(success){
-                console.log(success.data)
                 if(success.data.status == "success"){
                     alert("Contact information successfully updated")
                     $scope.contactError = ""
@@ -1009,6 +1007,7 @@ app.controller('profileController', ['$scope', '$location', 'postRequestService'
 }]);
 app.controller('projectCoversheetController', ['$scope', '$location', '$window', 'postRequestService', function($scope, $location, $window, postRequestService){
 
+    //NExt lines are used for user display/navigation
     $scope.page = 1;
 
     $scope.incrementPage = function(){
@@ -1030,12 +1029,14 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         } 
     }
     
+    //INitialize empty coversheet
     $scope.coversheet ={
         pprta_account_code_id: null,
         vendor_id: null,
         transactions: []
     }
 
+    //Submit an invoice search only if at least one of the fields has a value
     $scope.searchInvoice = function(){
         if($scope.search.vendor_id || $scope.search.invoice_no || $scope.search.pprta_account_code_id){
             postRequestService.request('/api/transaction/invoice/search', $scope.search).then(function(success){
@@ -1048,14 +1049,23 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         }
     }
 
+    //Create the cover sheet and send the results to the user
     $scope.createProjectCoversheet = function(){
-
         postRequestService.request('/api/coversheet/project', $scope.coversheet).then(function(success){
             $window.open("/coversheet/project/" +success.data.response)
         })
 
     }
 
+
+    //The following blocks are what enable and disable the rows in the row selection
+    
+    //This function is the main evaluator. It determines if the given transaction was 
+    //selected of deslected. IF it was just selected, evaluate all other visable rows to ensure
+    //That only valid (same pprta code and vendor) are slectable. 
+    //Then add the selected transaction to the coversheet transaction array
+    //If the transaction was just deselected, make sure that it was not the last row to be deselected
+    //If it was, re-enable all rows. 
     $scope.disableCreate = true
     $scope.evaluateRows = function(transaction){
 
@@ -1084,6 +1094,7 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         }
     }
 
+    //Disables all rows that do not have the current pprta code and vendor
     var disableRows = function(){
         for(var i = 0; i < $scope.transactions.length; i++){
             //Disable rows that do not have matching invoice or vendor
@@ -1093,6 +1104,8 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         }
     }
 
+
+    //This is called when we change search cirteria to make sure that items that have been checked, appear checked. 
     var checkSelected = function(){
         for(var i = 0; i < $scope.transactions.length; i++){
             for(var j = 0; j < $scope.coversheet.transactions.length; j++){
@@ -1104,6 +1117,8 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         }
     }
 
+    //This is called when the "remove" button has been pressed. This removes the provided transaction
+    //From the cover sheet transaction sarray and unchecks it. 
     var deselectRow = function(transaction){
         for(var j = 0; j < $scope.coversheet.transactions.length; j++){
             if(transaction.transaction_id == $scope.coversheet.transactions[j].transaction_id){
@@ -1114,6 +1129,7 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         }
     }
 
+    //All rows have been enabled, reset the pprta and vend ids
     var resetSelection = function(){
         $scope.coversheet.pprta_account_code_id = null
         $scope.coversheet.vendor_id = null
@@ -1283,10 +1299,9 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
 }]);
 app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
-
-    //TODO: The sliding is a hot mess held together by bubblegum and duct tape. Lets run a professional operation here and fix it. Eventually
     $scope.accountId = null;
 
+    //sThe next few blocks controll the navigation of the tab
     $scope.page = 1;
     $scope.incrementPage = function(){
         $scope.page++
@@ -1307,7 +1322,9 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
         } 
     }
 
-    //TODO figure out why transactionTypeId needs to be a number and vendorId does not
+    //"$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex]" serves as a refrence
+    //initiatlize $scope.selectedTransaction for manipulation and to send back to server
+    //Then call the server to get the city-account assignemnts assigned to this tranaction 
     $scope.selectedIndex = -1;
     $scope.setSelectedTransaction = function(){
 	    $scope.selectedTransaction = {
@@ -1332,7 +1349,8 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
         })
 	}
 
-
+    //When the user selects a new account, get the transactions associated with the account
+    //TODO: consider adding a button so there are no unnesicary searches.
     $scope.$watch('accountId', function(){
         if($scope.accountId){
             postRequestService.request('/api/transaction/account/' +$scope.accountId).then(function(success){
@@ -1355,9 +1373,12 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
 }]);
 app.controller('transactionDialogController', ['$scope', '$window', 'postRequestService', function($scope, $window, postRequestService){
 
+    //Close the dialog
     $scope.exit = function(){
         $scope.display = false
     }
+
+    //When the dialog is called, set the transaction information from the server
     $scope.$watch('display', function(){
         if($scope.display){
             postRequestService.request('/api/transaction/details/' +$scope.transaction_id).then(function(success){
@@ -1366,6 +1387,7 @@ app.controller('transactionDialogController', ['$scope', '$window', 'postRequest
         }
     })
 
+    //Maps a single invoice coversheet to create for the user. 
     $scope.createSingleCoversheet = function(){
         $scope.invoice = {
             invoice_no: $scope.transaction.invoice_no,
@@ -1383,6 +1405,10 @@ app.controller('transactionDialogController', ['$scope', '$window', 'postRequest
 }]);
 app.controller('transactionEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
+    //The next few blocks are for navigation 
+    //Since this is a special case within the adjustments screen
+    //A few complexities are added
+    //If no firstpage is provided, this is in data entry, so it is 1
     if ($scope.firstpage == undefined) {
       $scope.firstpage = 1;
 
@@ -1437,6 +1463,8 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
         }
     }
 
+    //This is called when the user transtions from the basic data entry to the city accoutnts screen
+    //If this is the initial move, or if the expense has been changed, it populate the city account the "Unassigned" and 100% of the expense
     $scope.setupCityAccounts = function(){
 
         if(!$scope.transaction.city_accounts || ($scope.startExpense && $scope.startExpense != $scope.transaction.expense)){
@@ -1449,6 +1477,8 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
         }
     }
 
+    //Check the transaction expense to the amount that has been assigned to city accounts
+    //This is displayed as Total Remining. 
     $scope.checkRemaining = function(){
         var sum = 0
 
@@ -1459,6 +1489,8 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
         $scope.remaining = Number(($scope.transaction.expense - sum).toFixed(2));
     }
 
+    //If there is more money to be assigned to city account, this function is called by the add acount button
+    //It initializes a new account to unasigned to the remaining amount need to be assigned 
     $scope.addAccount = function(){
         //Remove Accounts With a value of 0 before adding new accounts
         for(i = 0; i < $scope.transaction.city_accounts.length; i++){
@@ -1531,12 +1563,12 @@ app.controller('transactionTableController', ['$scope', 'postRequestService', 's
     }
 }]);
 app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'monthsService', function($scope, postRequestService, monthsService){
-    
 
-    //TODO: The sliding is a hot mess held together by bubblegum and duct tape. Lets run a professional operation here and fix it. Eventually
+    //Search Id is the vendor id that is to be changed    
     $scope.searchId = null;
 
-
+    //When the user selects a vendor, get the intormation from the server
+    //TODO: See if tempVendor is still needed
     $scope.$watch('searchId', function(){
         if($scope.searchId){
             postRequestService.request('/api/vendor/details/' +$scope.searchId).then(function(success){
@@ -1549,7 +1581,7 @@ app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'm
                     contract_start: tempVendor.contract_start,
                     contract_end: tempVendor.contract_end,
                     point_of_contact: tempVendor.point_of_contact,
-                    phone_nSo: tempVendor.phone_no,
+                    phone_no: tempVendor.phone_no,
                     address: tempVendor.address,
                     city: tempVendor.city,
                     state: tempVendor.state,

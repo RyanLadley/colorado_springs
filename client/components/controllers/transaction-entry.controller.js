@@ -1,5 +1,9 @@
 app.controller('transactionEntryController', function($scope, $location, postRequestService){
 	
+    //The next few blocks are for navigation 
+    //Since this is a special case within the adjustments screen
+    //A few complexities are added
+    //If no firstpage is provided, this is in data entry, so it is 1
     if ($scope.firstpage == undefined) {
       $scope.firstpage = 1;
 
@@ -54,6 +58,8 @@ app.controller('transactionEntryController', function($scope, $location, postReq
         }
     }
 
+    //This is called when the user transtions from the basic data entry to the city accoutnts screen
+    //If this is the initial move, or if the expense has been changed, it populate the city account the "Unassigned" and 100% of the expense
     $scope.setupCityAccounts = function(){
 
         if(!$scope.transaction.city_accounts || ($scope.startExpense && $scope.startExpense != $scope.transaction.expense)){
@@ -66,6 +72,8 @@ app.controller('transactionEntryController', function($scope, $location, postReq
         }
     }
 
+    //Check the transaction expense to the amount that has been assigned to city accounts
+    //This is displayed as Total Remining. 
     $scope.checkRemaining = function(){
         var sum = 0
 
@@ -76,6 +84,8 @@ app.controller('transactionEntryController', function($scope, $location, postReq
         $scope.remaining = Number(($scope.transaction.expense - sum).toFixed(2));
     }
 
+    //If there is more money to be assigned to city account, this function is called by the add acount button
+    //It initializes a new account to unasigned to the remaining amount need to be assigned 
     $scope.addAccount = function(){
         //Remove Accounts With a value of 0 before adding new accounts
         for(i = 0; i < $scope.transaction.city_accounts.length; i++){
