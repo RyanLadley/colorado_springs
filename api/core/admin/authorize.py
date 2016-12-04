@@ -58,16 +58,10 @@ def process_token(token_form):
     validate.token(stored_token, provided_token) #Exception thrown if token is ivalid
     
     #TODO: Update app to allow update of token on every call
-    provided_token.update() 
+    #provided_token.update() 
     user_update.token(provided_token)
 
     return provided_token
-
-def project_access(project_id, token):
-
-    if project_id:
-        if not user_select.project_access(project_id, token):
-            raise AccessDenied("Project Access Denied")
 
 class AccessDenied(Exception):
     pass

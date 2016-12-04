@@ -19,31 +19,6 @@ import api.core.utilities as utilities
 
 import json
 
-@workflow.route('/admin/register', methods = ['POST'])
-def register_user():
-
-    '''Called when adding a new user to the database. Makes sure that all information 
-    provided is valid(see individual validations for details) and hashes the password for storage'''
-
-    credentials_form = json.loads(request.form['payload'])
-    credentials_form = sanitize.form_keys(credentials_form)
-
-    credentials = Credentials.map_from_form(credentials_form)
-
-    try:
-        validate.email(credentials.email)
-        validate.name(credentials.first_name)
-        validate.name(credentials.last_name)
-        validate.password(credentials.password)
-    
-    except InvalidCredential as invalid:
-        return response.error(invalid.args[0])
-
-    credentials.hash_password()
-
-    user_insert.new_user(credentials)
-    
-    return response.success()
 
 
 @workflow.route('/admin/login', methods = ['POST'])
@@ -71,6 +46,34 @@ def login():
     user_update.token(token)
     
     return response.add_token(token = token)
+    
+
+@workflow.route('/admin/register', methods = ['POST'])
+@authorize()
+def register_user():
+
+    '''Called when adding a new user to the database. Makes sure that all information 
+    provided is valid(see individual validations for details) and hashes the password for storage'''
+
+    credentials_form = json.loads(request.form['payload'])
+    credentials_form = sanitize.form_keys(credentials_form)
+
+    credentials = Credentials.map_from_form(credentials_form)
+
+    try:
+        validate.email(credentials.email)
+        validate.name(credentials.first_name)
+        validate.name(credentials.last_name)
+        validate.password(credentials.password)
+    
+    except InvalidCredential as invalid:
+        return response.error(invalid.args[0])
+
+    credentials.hash_password()
+
+    user_insert.new_user(credentials)
+    
+    return response.success()
 
 
 @workflow.route('/admin/user/listing', methods = ['POST'])

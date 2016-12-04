@@ -461,6 +461,7 @@ app.controller('adminController', ['$scope', '$location', 'postRequestService', 
     })
 
 	$scope.submitNewUser = function(){
+
 		if(!$scope.newUserForm.$valid ){
             $scope.newUserError = "Please fill out all fields"
             return
@@ -469,14 +470,19 @@ app.controller('adminController', ['$scope', '$location', 'postRequestService', 
 			$scope.newUserError = "Passwords do not match"
             return
         }
-        if(scope.newUser.password.length < 6){
+        if($scope.newUser.password.length < 6){
             $scope.newUserError = "Passwords must be at least 6 characters"
             return
         }
 
         //Only Executed if above conditions are met 
         postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
-            $location.url('/') 
+            if(success.data.status == "success"){
+                alert("New User Created.")
+            }
+            else{
+                alert("There was an error.")
+            }
         })
 	}
 
