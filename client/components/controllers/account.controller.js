@@ -1,10 +1,13 @@
-app.controller('accountController', function($scope, $location, $routeParams, postRequestService, monthsService){
+app.controller('accountController', function($scope, $location, $routeParams, postRequestService, monthsService, accountNameService){
   
+
+    //This block calls the backend to retrieve all transactions belonging to this account, seperated by months
     postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
         $scope.account = success.data.response;
-        $scope.accountName = generateAccountName();
-        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures)
+        $scope.accountName = accountNameService.getName($scope.account) //Get formated account name
+        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures) //Populate Budget Table
 
+         //Default to Current Month
         $scope.selectedMonth = d.getMonth()
         $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
 
@@ -17,6 +20,9 @@ app.controller('accountController', function($scope, $location, $routeParams, po
 
     })
 
+    //This Block toggles the Get Transfers button
+    //If tansfers have not been retrieved from the backend, retrieve them on first click
+    //Change button text depending on what is currently being displayed
     $scope.displayTransfers=false;
     $scope.buttonMessage = "View Transfers";
     $scope.getTransfers = function(){
@@ -35,25 +41,20 @@ app.controller('accountController', function($scope, $location, $routeParams, po
          }
     }
 
-    var generateAccountName = function(){
-        if($scope.account.shred_no != "None"){
-            return [$scope.account.account_no, $scope.account.sub_no, $scope.account.shred_no].join('-')
-        }
-        else if($scope.account.sub_no != "None"){
-            return [$scope.account.account_no, $scope.account.sub_no].join('-')
-        }
-        return $scope.account.account_no
-    }
 
+    //This block populates and watches the month dropdown menu. 
+    //If the user selects a diffrent month, the displayed transactions will reflect the new month
     var d = new Date()
     $scope.months = monthsService.monthList();
-
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
             $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
         }
     })
 
+
+    //This block calulates the expense totals for every month retrieved.
+    //Called after transations are retrieved from back end
     $scope.monthlyTotals = []
     var calculateTotals = function(){
 
@@ -66,9 +67,4 @@ app.controller('accountController', function($scope, $location, $routeParams, po
         }
     }
 
-    $scope.toggleTransactionDialog = false;
-    $scope.displayTransactionDetails = function(transactionId){
-        $scope.dialogTransaction = transactionId;
-        $scope.toggleTransactionDialog = true;
-    }
 });

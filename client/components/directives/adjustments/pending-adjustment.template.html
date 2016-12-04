@@ -59,10 +59,10 @@
     <h2  class = "tab-title">Set Payment Date</h2>
 
     <form name = "pendingForm">
-        <date-select label ="Date Paid"  date = "selectedTransaction.date_paid" input-disabled = "true" required = "true" class = "input-row"></date-select>
+        <date-select label ="Date Paid"  date = "selectedPendingTransaction.date_paid" input-disabled = "true" required = "true" class = "input-row"></date-select>
         <div class = "label-input input-row">
             <label>Description</label>
-            <textarea placeholder="Enter Discription" ng-model = "selectedTransaction.description"></textarea>
+            <textarea placeholder="Enter Discription" ng-model = "selectedPendingTransaction.description"></textarea>
         </div>
         <button class = "entry-submit" ng-click = "submitPending()" ng-disabled = "pendingForm.$invalid" >Submit</button>
     </form>

@@ -182,8 +182,10 @@ def get_user_details():
     retrieve all information currently stored in thedatabase about a user.
     This is used in the profile settings.
     """
+    
     token_form = json.loads(request.form['token'])
     token_form = sanitize.form_keys(token_form)
+
 
     token = Token.map_from_form(token_form)
     user = user_select.user_details(token)

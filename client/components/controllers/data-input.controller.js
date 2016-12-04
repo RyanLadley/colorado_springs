@@ -7,10 +7,8 @@ app.controller('dataInputController', function($scope, $location, postRequestSer
         $scope.cityAccounts = success.data.response.city_accounts
     })
 
-    $scope.display = {
-    	transaction: true,
-    	vendor: false
-    };
+    //$scope.display detemines which tab is currently beining displayed
+    $scope.display = 'transaction'
 
 
 });

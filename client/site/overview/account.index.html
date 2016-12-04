@@ -53,38 +53,10 @@
 
 <div class = "table-header month-table-header" ng-if = "!displayTransfers">
     <h2>{{months[selectedMonth]}} Transactions</h2>
-    <table id = "account-table" class = "table alternate-table">
-        <tr ng-if = "transactions.length > 0">
-            <th> Account</th>
-            <th>Vendor</th>
-            <th>Invoice Date</th>
-            <th>Date Paid</th>
-            <th>Invoice Number</th>
-            <th>Descrpition</th>
-            <th>Total Expense</th>
-        </tr>
-
-        <tr ng-repeat = "transaction in transactions" class = "row clickable" ng-if = "transactions.length > 0">
-            <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
-            <td ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.vendor_name}}</td>
-            <td ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.invoice_date}}</td>
-            <td ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.date_paid}}</td>
-            <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "center">{{transaction.invoice_no}}</td>
-            <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "description account-desription">{{transaction.description}}</td>
-            <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "currency">{{transaction.expense | currency}}</td>
-        </tr>
-        <tr class = "total" ng-if = "transactions.length > 0">
-            <td colspan="6">{{months[selectedMonth]}} Total</td>
-            <td> {{monthlyTotals[selectedMonth] | currency }}</td>
-        </tr>
-
-        <tr ng-if = "!transactions.length > 0">
-            <th colspan="8"></th>
-        </tr>
-        <tr ng-if = "!transactions.length > 0">
-            <td colspan="8" class = "center">There are currently no transactions for {{months[selectedMonth]}}</td>
-        </tr>
-    </table>
+    <transaction-table id = "account-table" transactions = 'transactions' 
+                    total-label = '{{months[selectedMonth]}} Total' total = 'monthlyTotals[selectedMonth]'
+                    empty-message = "There are currently no transactions for {{months[selectedMonth]}}">
+    </transaction-table>
 </div>
 
 <div class = "table-header month-table-header" ng-if = "displayTransfers">
@@ -118,5 +90,3 @@
         </tr>
     </table>
 </div>
-
-<transaction-dialog display = "toggleTransactionDialog" transaction = "dialogTransaction"></transaction-dialog>

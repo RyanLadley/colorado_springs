@@ -1,6 +1,6 @@
 app.controller('pendingAdjustmentController', function($scope, $location, postRequestService){
 	
-
+    //TODO: Use css classes the other tabs have to do this properly
     $scope.pendingDisplay = function(){
         $scope.pendingExpand = !$scope.pendingExpand;
 
@@ -24,8 +24,7 @@ app.controller('pendingAdjustmentController', function($scope, $location, postRe
         }
     }
 
-    
-
+    //When the user selects a new vendor, call the backend and grab all pending transactions for this vendor
     $scope.$watch('vendorId', function(){
         if($scope.vendorId){
             postRequestService.request('/api/transaction/pending/vendor/' +$scope.vendorId).then(function(success){
@@ -34,23 +33,18 @@ app.controller('pendingAdjustmentController', function($scope, $location, postRe
         } 
     })
 
+    //"$scope.pending[$scope.selectedPending]" serves as a refrence
+    //initiatlize $scope.selectedPendingTransaction for manipulation and to send back to server
     $scope.selectedPending = -1;
     $scope.setSelectedPendingTransaction = function(){
-	    $scope.selectedTransaction = {
-                transaction_id: $scope.pending[$scope.selectedPending].transaction_id,
-                account_id: $scope.pending[$scope.selectedPending].account_id,
-                vendor_id: $scope.pending[$scope.selectedPending].vendor_id,
-                invoice_date: $scope.pending[$scope.selectedPending].invoice_date,
-                invoice_no: $scope.pending[$scope.selectedPending].invoice_no,
-                transaction_type_id: Number($scope.pending[$scope.selectedPending].transaction_type_id), 
-                description: $scope.pending[$scope.selectedPending].description,
-                expense: Number($scope.pending[$scope.selectedPending].expense)
-	    }
+	    $scope.selectedPendingTransaction = $scope.pending[$scope.selectedPending]
+        $scope.selectedPendingTransaction.date_paid = null
+        $scope.pending[$scope.selectedPending].expense = Number($scope.pending[$scope.selectedPending].expense)
 	}
 
     $scope.submitPending = function(){
         if($scope.pendingForm.$valid){
-            postRequestService.request('/api/transaction/pending/update', $scope.selectedTransaction).then(function(success){
+            postRequestService.request('/api/transaction/pending/update', $scope.selectedPendingTransaction).then(function(success){
                 $location.url('/') 
             }) 
         }

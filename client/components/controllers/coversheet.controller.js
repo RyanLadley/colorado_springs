@@ -7,9 +7,7 @@ app.controller('coversheetController', function($scope, $location, postRequestSe
         $scope.pprtaProjects = success.data.response.pprta_projects
     })
 
-    $scope.display = {
-    	single: true,
-        project: false
-    }
+    //$scope.display destermines which tab is currently being displayed
+    $scope.display = 'single'
 
 });
