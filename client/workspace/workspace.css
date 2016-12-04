@@ -93,6 +93,12 @@
   .table .total {
     background-color: #4E4E4E !important;
     color: white; }
+  .table .sort-icon {
+    padding-top: 2px;
+    float: right;
+    color: grey; }
+  .table .sortSelected {
+    color: white; }
 
 .table-header {
   margin-left: 50px;

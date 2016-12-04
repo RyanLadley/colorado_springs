@@ -55,13 +55,19 @@
     <h2>{{months[selectedMonth]}} Transactions</h2>
     <table id = "account-table" class = "table alternate-table">
         <tr ng-if = "transactions.length > 0">
-            <th> Account</th>
-            <th>Vendor</th>
-            <th>Invoice Date</th>
-            <th>Date Paid</th>
-            <th>Invoice Number</th>
+            <th>Account<i class="fa fa-sort sort-icon clickable" 
+                       ng-class = "{sortSelected : isSelectedColumn('account')}" ng-click = "sortTransactions('account')" aria-hidden="true"></i></th>
+            <th>Vendor<i class="fa fa-sort sort-icon clickable" 
+                       ng-class = "{sortSelected : isSelectedColumn('vendor_name')}" ng-click = "sortTransactions('vendor_name')" aria-hidden="true" ></i></th>
+            <th>Invoice Date<i class="fa fa-sort sort-icon clickable" 
+                       ng-class = "{sortSelected : isSelectedColumn('invoice_date')}" ng-click = "sortTransactions('invoice_date')" aria-hidden="true"></i></th>
+            <th>Date Paid<i class="fa fa-sort sort-icon clickable" 
+                       ng-class = "{sortSelected : isSelectedColumn('date_paid')}" ng-click = "sortTransactions('date_paid')" aria-hidden="true"></i></th>
+            <th>Invoice Number<i class="fa fa-sort sort-icon clickable" 
+                       ng-class = "{sortSelected : isSelectedColumn('invoice_no')}" ng-click = "sortTransactions('invoice_no')" aria-hidden="true"></i></th>
             <th>Descrpition</th>
-            <th>Total Expense</th>
+            <th>Total Expense<i class="fa fa-sort sort-icon clickable" 
+                       ng-class = "{sortSelected : isSelectedColumn('expense')}" ng-click = "sortTransactions('expense')" aria-hidden="true"></i></th>
         </tr>
 
         <tr ng-repeat = "transaction in transactions" class = "row clickable" ng-if = "transactions.length > 0">
