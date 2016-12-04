@@ -96,7 +96,8 @@
   .table .sort-icon {
     padding-top: 2px;
     float: right;
-    color: grey; }
+    color: grey;
+    padding-left: 5px; }
   .table .sortSelected {
     color: white; }
 
@@ -570,6 +571,9 @@
 .login-background {
   position: absolute;
   left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
   height: 100vh;
   width: 100vw;
   overflow: hidden; }
@@ -586,7 +590,7 @@
   height: 700px;
   padding: 50px 150px;
   margin-left: 50px;
-  margin-top: 5%; }
+  margin-top: 4%; }
 
 .login-section h3 {
   margin-bottom: 3px;
@@ -702,10 +706,10 @@
 
 .vendor-area {
   background-color: #B3B332;
-  width: 450px;
+  width: 400px;
   margin-left: 50px; }
   .vendor-area .vendor-image {
-    width: 300px;
+    width: 250px;
     display: block;
     margin: 20px auto; }
   .vendor-area .label {
@@ -714,7 +718,7 @@
     float: right;
     margin-left: 8px; }
   .vendor-area .label-value {
-    width: 400px;
+    width: 350px;
     margin: 0px 10px;
     display: inline-block;
     margin-bottom: 15px; }
@@ -727,7 +731,7 @@
 
 .vendor-table-header {
   background-color: #B3B332;
-  width: 1250px; }
+  width: 1300px; }
 
 #vendor-table .row:hover {
   background: #FFFDE8; }
@@ -928,6 +932,9 @@
 .city-account-totals {
   display: inline-block;
   width: 100%; }
+
+.credit-message {
+  text-align: center; }
 
 .entry-submit {
   background-color: #549250;

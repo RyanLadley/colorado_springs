@@ -118,6 +118,9 @@ $entry-area-width: 870px;
     display: inline-block;
     width: 100%;
 }
+.credit-message{
+    text-align: center; 
+}
 
 .entry-submit{
     background-color: #549250;
@@ -142,8 +145,6 @@ $entry-area-width: 870px;
         cursor: not-allowed;
         box-shadow: none;
     }
-
-
 }
 
 .dollar-input{

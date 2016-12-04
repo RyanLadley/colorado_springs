@@ -145,10 +145,18 @@ app.service('sortService', ['accountNameService', function(accountNameService){
     }
 
     var byDate = function(a,b){
-        aDate = createDateFromString(a)
-        bDate = createDateFromString(b)
+        if( a == 'None'){
+            return -1
+        }
+        else if( b == 'None'){
+            return 1
+        }
+        else{
+            aDate = createDateFromString(a)
+            bDate = createDateFromString(b)
 
-       return aDate - bDate
+           return aDate - bDate
+        }
     }
 
     var createDateFromString = function(dateString){
@@ -1449,7 +1457,7 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
     $scope.submitTransaction = function(){
         //If the transaction has an Id, we know we are updateing an existing transaction.
         //If it does not, we are creating a new transaction
-        if($scope.entryForm.$valid && $scope.remaining >= -0.005 /*rounding error allowance */){
+        if($scope.entryForm.$valid && ($scope.remaining >= -0.005 /*rounding error allowance */ || $scope.transaction.expense < 0)){
            if($scope.transaction.transaction_id){
                 postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
                    $location.url('/') 

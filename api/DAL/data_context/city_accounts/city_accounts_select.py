@@ -12,8 +12,8 @@ def city_account_listing(cursor = None):
                 SELECT  city_account_id, 
                         account_no, 
                         title 
-                        
-                FROM city_accounts;""")
+                FROM city_accounts
+                ORDER BY account_no;""")
 
     results = cursor.fetchall() or {}
 
@@ -32,8 +32,7 @@ def assignments_for_transaction(transaction_id, cursor = None):
                         transaction_id,
                         city_account_id,
                         city_account_no,
-                        amount 
-                        
+                        amount    
                 FROM v_city_account_assignments
                 WHERE transaction_id = %(transaction_id)s;""",
                 {'transaction_id': transaction_id})

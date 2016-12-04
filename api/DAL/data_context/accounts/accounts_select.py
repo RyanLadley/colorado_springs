@@ -339,8 +339,8 @@ def pprta_project_listing( cursor = None):
                 SELECT pprta_account_code_id,
                        account_no,
                        project_description
-
-                FROM pprta_account_codes;""")
+                FROM pprta_account_codes
+                ORDER BY account_no""")
 
     results = cursor.fetchall() or {}
 

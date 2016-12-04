@@ -17,7 +17,8 @@ def vendor_listing(cursor = None):
                         image_folder, 
                         image_file_name, 
                         image_file_type
-                FROM v_vendors;""")
+                FROM v_vendors
+                ORDER BY name;""")
 
     results = cursor.fetchall() or {}
 

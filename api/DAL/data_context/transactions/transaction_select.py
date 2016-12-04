@@ -14,7 +14,8 @@ def types(cursor = None):
     cursor.execute("""
                 SELECT  transaction_type_id,
                         transaction_type
-                FROM transaction_types;""")
+                FROM transaction_types
+                ORDER BY transaction_type;""")
 
     results = cursor.fetchall() or {}
 

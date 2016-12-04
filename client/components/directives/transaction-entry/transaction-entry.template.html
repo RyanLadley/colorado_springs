@@ -68,37 +68,40 @@
                 <info-tip message = "Add the proper city codes to this transaction to be used on coversheets."></info-tip>
             </div>
         </div>
-        <div ng-repeat ="cityAccount in transaction.city_accounts">
-            <div class = "input-row">
-                <div class = "label-input">
-                    <label>City Account</label>
-                    <select ng-model = "transaction.city_accounts[$index].city_account_id" 
-                            ng-options = "account.city_account_id as [account.account_no,account.title].join(' - ') for account in cityAccounts">
-                        <option value="" selected >Unassigned</option>
-                    </select>
-                </div>
-                <div class = "label-input">
-                    <label>Amount</label>
-                    <div class = "dollar-input">
-                        <i class="fa fa-usd" aria-hidden="true"></i>
-                        <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transaction.city_accounts[$index].amount" ng-change = "checkRemaining()"> 
+        <h4 class = "credit-message" ng-if = "transaction.expense < 0"> The transaction expense is negative. No city accounts will be added. Pressing Submit will add a credit to the account</h3>
+        <div  ng-if = "transaction.expense >= 0">
+            <div ng-repeat ="cityAccount in transaction.city_accounts">
+                <div class = "input-row">
+                    <div class = "label-input">
+                        <label>City Account</label>
+                        <select ng-model = "transaction.city_accounts[$index].city_account_id" 
+                                ng-options = "account.city_account_id as [account.account_no,account.title].join(' - ') for account in cityAccounts">
+                            <option value="" selected >Unassigned</option>
+                        </select>
+                    </div>
+                    <div class = "label-input">
+                        <label>Amount</label>
+                        <div class = "dollar-input">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "transaction.city_accounts[$index].amount" ng-change = "checkRemaining()"> 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <button ng-click = "addAccount()" ng-disabled = "remaining <= 0" class = "add-button"> Add Account </button>
+            <button ng-click = "addAccount()" ng-disabled = "remaining <= 0" class = "add-button"> Add Account </button>
 
-        <div class = "city-account-totals">
-            <div class = "label-display">
-                <label>Total Expense</label>
-                <p>{{transaction.expense |  currency}}</p>
-            </div>
-            <div class = "label-display">
-                <label>Remaining Unassigned</label>
-                <p>{{remaining |  currency}}</p>
+            <div class = "city-account-totals">
+                <div class = "label-display">
+                    <label>Total Expense</label>
+                    <p>{{transaction.expense |  currency}}</p>
+                </div>
+                <div class = "label-display">
+                    <label>Remaining Unassigned</label>
+                    <p>{{remaining |  currency}}</p>
+                </div>
             </div>
         </div>
-            
+                
         <button class="from-button transition-button" ng-click = "decrementPage();" formnovalidate><i class="fa fa-chevron-left" aria-hidden="true"></i>Back To Transactions</button>
 
         <button class = "entry-submit" ng-click = "submitTransaction()">Submit</button>

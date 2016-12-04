@@ -53,10 +53,18 @@ app.service('sortService', function(accountNameService){
     }
 
     var byDate = function(a,b){
-        aDate = createDateFromString(a)
-        bDate = createDateFromString(b)
+        if( a == 'None'){
+            return -1
+        }
+        else if( b == 'None'){
+            return 1
+        }
+        else{
+            aDate = createDateFromString(a)
+            bDate = createDateFromString(b)
 
-       return aDate - bDate
+           return aDate - bDate
+        }
     }
 
     var createDateFromString = function(dateString){

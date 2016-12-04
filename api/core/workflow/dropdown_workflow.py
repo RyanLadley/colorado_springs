@@ -43,7 +43,7 @@ def vendor_dropdown(api_response = True):
 
     return response.success(serialized_vendors) if api_response else serialized_vendors
 
-@workflow.route('/dropdown/vendors', methods = ['POST'])
+@workflow.route('/dropdown/city-accounts', methods = ['POST'])
 @authorize()
 def city_accounts_dropdown(api_response = True):
 
@@ -54,7 +54,7 @@ def city_accounts_dropdown(api_response = True):
     return response.success(serialized_city_accounts) if api_response else serialized_city_accounts
 
 
-@workflow.route('/dropdown/vendors', methods = ['POST'])
+@workflow.route('/dropdown/pprta', methods = ['POST'])
 @authorize()
 def pprta_projects_dropdown(api_response = True):
 
