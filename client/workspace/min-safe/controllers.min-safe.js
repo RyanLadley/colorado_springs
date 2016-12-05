@@ -79,143 +79,6 @@ app.controller('accountSelectController', ['$scope', '$location', 'monthsService
     }
 
 }])
-app.controller('accountController', ['$scope', '$location', '$routeParams', 'postRequestService', 'monthsService', 'accountNameService', function($scope, $location, $routeParams, postRequestService, monthsService, accountNameService){
-  
-
-    //This block calls the backend to retrieve all transactions belonging to this account, seperated by months
-    postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
-        $scope.account = success.data.response;
-        $scope.accountName = accountNameService.getName($scope.account) //Get formated account name
-        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures) //Populate Budget Table
-
-         //Default to Current Month
-        $scope.selectedMonth = d.getMonth()
-        $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-
-        //This was being fired more than once
-        //TODO: Figure out why, and find a more elegant solution to the problem
-        if($scope.months.length <13){
-            $scope.months.push("Pending")
-        }
-        calculateTotals()
-
-    })
-
-    //This Block toggles the Get Transfers button
-    //If tansfers have not been retrieved from the backend, retrieve them on first click
-    //Change button text depending on what is currently being displayed
-    $scope.displayTransfers=false;
-    $scope.buttonMessage = "View Transfers";
-    $scope.getTransfers = function(){
-        if(!$scope.transfers){
-            postRequestService.request('/api/accounts/transfers/' +$routeParams.accountId).then(function(success){
-                $scope.transfers = success.data.response;
-            })
-        }
-         $scope.displayTransfers = !$scope.displayTransfers
-
-         if($scope.displayTransfers){
-            $scope.buttonMessage = "View Transactions"
-         }
-         else{
-            $scope.buttonMessage = "View Transfers"
-         }
-    }
-
-
-    //This block populates and watches the month dropdown menu. 
-    //If the user selects a diffrent month, the displayed transactions will reflect the new month
-    var d = new Date()
-    $scope.months = monthsService.monthList();
-    $scope.$watch('selectedMonth', function(){
-        if ($scope.transactions){
-            $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
-        }
-    })
-
-
-    //This block calulates the expense totals for every month retrieved.
-    //Called after transations are retrieved from back end
-    $scope.monthlyTotals = []
-    var calculateTotals = function(){
-
-        for (var i = 0; i < $scope.months.length ; i++){
-            total = 0
-            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
-                total += Number($scope.account.monthly_summary[i][j].expense)
-            }
-            $scope.monthlyTotals.push(total)
-        }
-    }
-
-}]);
-app.controller('adjustmentsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-  
-    //Request all dropdown menu information from backend
-  	postRequestService.request('/api/dropdown/all').then(function(success){
-        $scope.accounts = success.data.response.accounts
-        $scope.vendors = success.data.response.vendors
-        $scope.transactionTypes = success.data.response.transaction_types
-        $scope.cityAccounts = success.data.response.city_accounts
-    })
-
-    //$scope.display determines which tab is currently being displayed
-    $scope.display = 'transactions'
-
-}]);
-app.controller('adminController', ['$scope', '$location', 'postRequestService', function($scope, $location,postRequestService){
-
-    //Gets information for all users
-    //Currently only used in permisions
-	postRequestService.request('/api/admin/user/listing').then(function(success){
-        $scope.users = success.data.response;
-
-    })
-
-	$scope.submitNewUser = function(){
-
-		if(!$scope.newUserForm.$valid ){
-            $scope.newUserError = "Please fill out all fields"
-            return
-        }
-        if($scope.newUser.password != $scope.confirmedPassword){
-			$scope.newUserError = "Passwords do not match"
-            return
-        }
-        if($scope.newUser.password.length < 6){
-            $scope.newUserError = "Passwords must be at least 6 characters"
-            return
-        }
-
-        //Only Executed if above conditions are met 
-        postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
-            if(success.data.status == "success"){
-                alert("New User Created.")
-            }
-            else{
-                alert("There was an error.")
-            }
-        })
-	}
-
-    //When a users permissions is changed, they are added to this array
-	$scope.permissionsToUpdate = []
-	$scope.queueChangedPermissions = function(user){
-		$scope.permissionsToUpdate.push(user)
-	}
-
-    //Send the "permissionsToUpdate array to the back end to update the database"
-	$scope.updatePermissions = function(){
-		postRequestService.request('/api/admin/user/update/permissions', $scope.permissionsToUpdate).then(function(success){
-			if(success.data.status == "success"){
-				alert("Permissions have been updated.")
-			}
-			else{
-				alert("There was an error.")
-			}
-		})
-	}
-}]);
 app.controller('budgetAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 
 	//$scope.accounts = $scope.$parent.accounts
@@ -228,394 +91,12 @@ app.controller('budgetAdjustmentController', ['$scope', '$location', 'postReques
         }
     }
 }]);
-app.controller('coversheetController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-  
-  	postRequestService.request('/api/dropdown/all').then(function(success){
-        $scope.accounts = success.data.response.accounts
-        $scope.vendors = success.data.response.vendors
-        $scope.transactionTypes = success.data.response.transaction_types
-        $scope.pprtaProjects = success.data.response.pprta_projects
-    })
-
-    //$scope.display destermines which tab is currently being displayed
-    $scope.display = 'single'
-
-}]);
-app.controller('dataInputController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-  
-  	postRequestService.request('/api/dropdown/all').then(function(success){
-        $scope.accounts = success.data.response.accounts
-        $scope.vendors = success.data.response.vendors
-        $scope.transactionTypes = success.data.response.transaction_types
-        $scope.cityAccounts = success.data.response.city_accounts
-    })
-
-    //$scope.display detemines which tab is currently beining displayed
-    $scope.display = 'transaction'
-
-
-}]);
 app.controller('dateSelectController', ['$scope', '$cookies', '$location', 'postRequestService', function($scope, $cookies, $location, postRequestService){
 
     //When a date is selected, close the calender
     $scope.$watch('date', function(){
         $scope.displayCalendar = false;
     })
-}]);
-app.controller('expenseBreakdownController', ['$scope', function($scope){
-    $scope.options = {
-        chart: {
-            type: 'pieChart',
-            height: 500,
-            x: function(d){return d.key;},
-            y: function(d){return d.percentage;},
-            showLabels: true,
-            duration: 500,
-            labelThreshold: 0.01,
-            labelSunbeamLayout: true,
-            legend: {
-                margin: {
-                    top: 5,
-                    right: 35,
-                    bottom: 5,
-                    left: 0
-                }
-            },
-            tooltip: {
-                valueFormatter: function(d) {
-                    return d3.format(",.2f")(d);
-                }
-            }
-        }
-    };
-
-    $scope.data = [
-        {
-            key: 522100,
-            percentage: 30,
-            value: 23440.43
-        },
-        {
-            key: 522200,
-            percentage: 10,
-            value: 13440.43
-        },
-        {
-            key: 522300,
-            percentage: 20,
-            value: 23540.43
-        },
-        {
-            key: 522400,
-            percentage: 15,
-            value: 3440.43
-        },
-        {
-            key: 522500,
-            percentage: 15,
-            value: 23430.43
-        }
-    ];
-
-    $scope.overviewSelected = true;
-
-    $scope.viewFilters = [
-        {
-            account: 52100,
-            selected: false
-        },
-        {
-            account: 52200,
-            selected: false
-        },
-        {
-            account: 52300,
-            selected: false
-        },
-        {
-            account: 52400,
-            selected: false
-        },
-        {
-            account: 52500,
-            selected: false
-        },
-    ]
-    $scope.filterSelect = function(id){
-
-    }
-}]);
-app.controller('homeController', ['$scope', '$cookies', '$location', '$window', 'postRequestService', function($scope, $cookies, $location, $window, postRequestService){
-
-    //Get basic user information like their name and user id
-    postRequestService.request('/api/user/basics').then(function(success){
-        $scope.user = success.data.response
-    })
-
-    //Removes the cookie containing the token, forcing the user to log off
-    $scope.logout = function(){
-        $cookies.remove('token')
-    }
-
-    //TEMPORARY: Creates the excell backup and sends it to the user
-    $scope.createBackup = function(){
-        postRequestService.request('/api/backup/accounts').then(function(success){
-            $window.open("/backups/" +success.data.response)
-
-        })
-    }
-
-    //Determines the time of day to guve the user a proper greeting
-    $scope.getGreeting = function(){
-        var date = new Date()
-        hour = date.getHours()
-
-        if(hour < 12){
-            return "Morning"
-        }
-        else if(hour < 17){
-            return "Afternoon"
-        }
-        else{
-            return "Evening"
-        }
-    }
-}]);
-app.controller('loginController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-    
-    $scope.login = {}
-    $scope.submit = function(){
-        if(validEmail() && validPassword() ){
-            postRequestService.request("/api/admin/login", $scope.login).then(function(request){
-                if(request.data.status === "success"){
-                    $location.url("/")
-                }
-                else{
-                    $scope.failureMessage = request.data.response;
-                }
-            });
-        }
-    }
-
-
-    var validPassword = function(){
-        if(!$scope.login.password || $scope.login.password.length < 6){
-            $scope.failureMessage = "Password must be at least 6 characters";
-            return false;
-        }
-        return true;
-    }
-    
-    var validEmail = function(){
-        if(!$scope.login.email || !$scope.loginForm.loginEmail.$valid){
-            $scope.failureMessage = "The email address provided is invalid";
-            return false;
-        }
-        return true;
-    }
-
-}]);
-app.controller('monthlyBreakdownController', ['$scope', '$location', function($scope, $location){
-    $scope.options = {
-            chart: {
-            type: 'multiBarChart',
-            height: 450,
-            stacked: true,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 60,
-                left: 65
-            },
-            x: function(d){ return d.month; },
-            y: function(d){ return d.amount; },
-            useInteractiveGuideline: true,
-            forceY: [0, 20000],
-
-            color: d3.scale.category10().range(),
-            duration: 300,
-
-            xAxis: {
-                axisLabel: 'Month',
-                showMaxMin: false,
-                tickFormat: function(d){
-                    return $scope.months[d];
-                },
-            },
-
-            yAxis: {
-                axisLabel: 'Amount',
-                axisLabelDistance: 20,
-                tickFormat: function(d){
-                    return "$" + d3.format(",.2f")(d);
-                },
-            },
-            tooltip: {
-                valueFormatter: function(d) {
-                    return "$"+d3.format(",.2f")(d);
-                }
-            }
-        }
-    };
-
-    $scope.months = ["Janary", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    $scope.data = [
-        {
-            key: "522000-1",
-            values: [{month: 0, amount: 3000},{month: 1, amount: 4356},{month: 2, amount: 1009},{month: 3, amount: 3000},{month: 4, amount: 4356},{month: 5, amount: 1009},
-                     {month: 6, amount: 3000},{month: 7, amount: 4346},{month: 8, amount: 1009},{month: 9, amount: 2000},{month: 10, amount: 4356},{month: 11, amount: 1009}]
-        },
-        {
-            key: "522000-2",
-            values: [{month: 0, amount: 2000},{month: 1, amount: 14656},{month: 2, amount: 21409},{month: 3, amount: 20000},{month: 4, amount: 10356},{month: 5, amount: 1009},
-                     {month: 6, amount: 12300},{month: 7, amount: 1106},{month: 8, amount: 279},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1009}]
-        },
-        {
-            key: "522000-3",
-            values: [{month: 0, amount: 300},{month: 1, amount: 956},{month: 2, amount: 2109},{month: 3, amount: 200},{month: 4, amount: 1056},{month: 5, amount: 1009},
-                     {month: 6, amount: 1900},{month: 7, amount: 1136},{month: 8, amount: 909},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1000}]
-        }
-    ];
-
-    $scope.overviewSelected = true;
-
-    $scope.viewFilters = [
-        {
-            account: 52100,
-            selected: false
-        },
-        {
-            account: 52200,
-            selected: false
-        },
-        {
-            account: 52300,
-            selected: false
-        },
-        {
-            account: 52400,
-            selected: false
-        },
-        {
-            account: 52500,
-            selected: false
-        },
-    ]
-    $scope.filterSelect = function(id){
-
-    }
-}]);
-app.controller('monthlyExpenseController', ['$scope', '$location', 'monthsService', function($scope, $location, monthsService){
-
-    $scope.months = function(n){
-        return monthsService.getMonth(n)
-    }
-
-    $scope.options = {
-            chart: {
-            type: 'lineChart',
-            height: 450,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 60,
-                left: 65
-            },
-            x: function(d){ return d.month; },
-            y: function(d){ return d.amount; },
-            useInteractiveGuideline: true,
-            forceY: [0, 20000],
-
-            color: d3.scale.category10().range(),
-            duration: 300,
-
-            xAxis: {
-                axisLabel: 'Month',
-                showMaxMin: false,
-                staggerLabels: true,
-                tickFormat: function(d){
-                    return $scope.months(d);
-                },
-            },
-
-            yAxis: {
-                axisLabel: 'Amount',
-                axisLabelDistance: 20,
-                tickFormat: function(d){
-                    return "$" + d3.format(",.2f")(d);
-                },
-            }
-        }
-    };
-
-    $scope.data = [
-        {
-            key: "Budget",
-            values: [{month: 0, amount: 23000},{month: 1, amount: 14356},{month: 2, amount: 21009},{month: 3, amount: 23000},{month: 4, amount: 14356},{month: 5, amount: 11009},
-                     {month: 6, amount: 23000},{month: 7, amount: 14356},{month: 8, amount: 21009},{month: 9, amount: 23000},{month: 10, amount: 14356},{month: 11, amount: 11009}]
-        },
-        {
-            key: "Actual",
-            values: [{month: 0, amount: 21000},{month: 1, amount: 14656},{month: 2, amount: 21409},{month: 3, amount: 20000},{month: 4, amount: 10356},{month: 5, amount: 12009},
-                     {month: 6, amount: 19000},{month: 7, amount: 11356},{month: 8, amount: 23009},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 10009}]
-        }
-    ];
-
-    $scope.overviewSelected = true;
-
-    $scope.viewFilters = [
-        {
-            account: 52100,
-            selected: false
-        },
-        {
-            account: 52200,
-            selected: false
-        },
-        {
-            account: 52300,
-            selected: false
-        },
-        {
-            account: 52400,
-            selected: false
-        },
-        {
-            account: 52500,
-            selected: false
-        },
-    ]
-    $scope.filterSelect = function(id){
-
-    }
-}]);
-app.controller('overviewController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-  
-    postRequestService.request('/api/accounts/overview').then(function(success){
-        $scope.accounts = success.data.response;
-    })
-
-    //Expands all accounts and theirs sub accounts so the user can see the whole table
-    $scope.expandAll = function(){
-        for(var i = 0; i < $scope.accounts.length; i++){
-            $scope.accounts[i].showSubaccount = true;
-            for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++){
-                $scope.accounts[i].sub_accounts[j].showSubaccount = true;
-            }
-        }
-    }
-
-    //Collapses the table so only the main accounts are seen
-    $scope.collapseAll = function(){
-        for(var i = 0; i < $scope.accounts.length; i++){
-            $scope.accounts[i].showSubaccount = false;
-            for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++){
-                $scope.accounts[i].sub_accounts[j].showSubaccount = false;
-            }
-        }
-    }
-
-
 }]);
 app.controller('pendingAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 	
@@ -666,68 +147,6 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
             postRequestService.request('/api/transaction/pending/update', $scope.selectedPendingTransaction).then(function(success){
                 $location.url('/') 
             }) 
-        }
-    }
-}]);
-app.controller('profileController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-
-    postRequestService.request('/api/user/details').then(function(success){
-        $scope.user = success.data.response;
-    })
-
-    //Called when user presses Submit Password Button
-    //All fields must be filled 
-    //Confirmation and new passwords must match
-    $scope.submitNewPassword = function(){
-        if(!$scope.passwordForm.$valid){
-            $scope.passwordError = "Please fill out all fields."
-            return
-        }
-        if ($scope.password.new != $scope.confirmPassword){
-            $scope.passwordError = "Passwords do not match."
-            return
-        }
-        //Add user ID to password to get sent to the backend 
-        $scope.password.id = $scope.user.user_id
-        postRequestService.request('/api/user/update/password', $scope.password).then(function(success){
-            if(success.data.status == "success"){
-                alert("Password successfully updated")
-                //Reset all user inputs
-                $scope.passwordError = ""
-                $scope.password= ""
-                $scope.confirmPassword = ""
-            }
-            else{
-                $scope.passwordError = "There was an error processing your change."
-            }
-        }) 
-    }
-
-    $scope.submitBackupFreq = function(){
-        postRequestService.request('/api/user/update/freq', $scope.user).then(function(success){
-            if(success.data.status == "success"){
-                alert("Email Frequency successfully updated")
-            }
-            else{
-                $scope.freqError = "There was an error processing your change."
-            }
-        })    
-    }
-
-    $scope.submitContactInformation = function(){
-        if($scope.contactForm.$valid){
-            postRequestService.request('/api/user/update/contact', $scope.user).then(function(success){
-                if(success.data.status == "success"){
-                    alert("Contact information successfully updated")
-                    $scope.contactError = ""
-                }
-                else{
-                    $scope.contactError = "There was an error processing your change."
-                }
-            }) 
-        }
-        else{
-            $scope.contactError = "Please fill out all fields."
         }
     }
 }]);
@@ -861,23 +280,6 @@ app.controller('projectCoversheetController', ['$scope', '$location', '$window',
         $scope.coversheet.vendor_id = null
         $scope.disableCreate = true
     }
-}]);
-app.controller('reportsController', ['$scope', '$location', function($scope, $location){
-
-    $scope.reports = [
-        {
-            name: "Monthly Expense",
-            link: "monthly-expense"
-        },
-        {
-            name: "Expense Breakdown",
-            link: "expense-breakdown"
-        },
-        {
-            name: "Monthly Breakdown",
-            link: "monthly-breakdown"
-        },
-    ]
 }]);
 app.controller('sidebarController', ['$scope', '$location', function($scope, $location){
   
@@ -1321,23 +723,6 @@ app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'm
 
    
 }]);
-app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
-  
-    postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
-        $scope.vendor = success.data.response;
-
-        $scope.total_expense = 0
-        for(var i = 0; i < $scope.vendor.transactions.length; i++){
-            $scope.total_expense += Number($scope.vendor.transactions[i].expense)
-        }
-    })
-
-    $scope.toggleTransactionDialog = false;
-    $scope.displayTransactionDetails = function(transactionId){
-        $scope.dialogTransaction = transactionId;
-        $scope.toggleTransactionDialog = true;
-    }
-}]);
 app.controller('vendorEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 
     $scope.submitVendor = function(){
@@ -1353,6 +738,621 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
                 });
             }
         }
+    }
+}]);
+app.controller('expenseBreakdownController', ['$scope', function($scope){
+    $scope.options = {
+        chart: {
+            type: 'pieChart',
+            height: 500,
+            x: function(d){return d.key;},
+            y: function(d){return d.percentage;},
+            showLabels: true,
+            duration: 500,
+            labelThreshold: 0.01,
+            labelSunbeamLayout: true,
+            legend: {
+                margin: {
+                    top: 5,
+                    right: 35,
+                    bottom: 5,
+                    left: 0
+                }
+            },
+            tooltip: {
+                valueFormatter: function(d) {
+                    return d3.format(",.2f")(d);
+                }
+            }
+        }
+    };
+
+    $scope.data = [
+        {
+            key: 522100,
+            percentage: 30,
+            value: 23440.43
+        },
+        {
+            key: 522200,
+            percentage: 10,
+            value: 13440.43
+        },
+        {
+            key: 522300,
+            percentage: 20,
+            value: 23540.43
+        },
+        {
+            key: 522400,
+            percentage: 15,
+            value: 3440.43
+        },
+        {
+            key: 522500,
+            percentage: 15,
+            value: 23430.43
+        }
+    ];
+
+    $scope.overviewSelected = true;
+
+    $scope.viewFilters = [
+        {
+            account: 52100,
+            selected: false
+        },
+        {
+            account: 52200,
+            selected: false
+        },
+        {
+            account: 52300,
+            selected: false
+        },
+        {
+            account: 52400,
+            selected: false
+        },
+        {
+            account: 52500,
+            selected: false
+        },
+    ]
+    $scope.filterSelect = function(id){
+
+    }
+}]);
+app.controller('monthlyBreakdownController', ['$scope', '$location', function($scope, $location){
+    $scope.options = {
+            chart: {
+            type: 'multiBarChart',
+            height: 450,
+            stacked: true,
+            margin : {
+                top: 20,
+                right: 20,
+                bottom: 60,
+                left: 65
+            },
+            x: function(d){ return d.month; },
+            y: function(d){ return d.amount; },
+            useInteractiveGuideline: true,
+            forceY: [0, 20000],
+
+            color: d3.scale.category10().range(),
+            duration: 300,
+
+            xAxis: {
+                axisLabel: 'Month',
+                showMaxMin: false,
+                tickFormat: function(d){
+                    return $scope.months[d];
+                },
+            },
+
+            yAxis: {
+                axisLabel: 'Amount',
+                axisLabelDistance: 20,
+                tickFormat: function(d){
+                    return "$" + d3.format(",.2f")(d);
+                },
+            },
+            tooltip: {
+                valueFormatter: function(d) {
+                    return "$"+d3.format(",.2f")(d);
+                }
+            }
+        }
+    };
+
+    $scope.months = ["Janary", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    $scope.data = [
+        {
+            key: "522000-1",
+            values: [{month: 0, amount: 3000},{month: 1, amount: 4356},{month: 2, amount: 1009},{month: 3, amount: 3000},{month: 4, amount: 4356},{month: 5, amount: 1009},
+                     {month: 6, amount: 3000},{month: 7, amount: 4346},{month: 8, amount: 1009},{month: 9, amount: 2000},{month: 10, amount: 4356},{month: 11, amount: 1009}]
+        },
+        {
+            key: "522000-2",
+            values: [{month: 0, amount: 2000},{month: 1, amount: 14656},{month: 2, amount: 21409},{month: 3, amount: 20000},{month: 4, amount: 10356},{month: 5, amount: 1009},
+                     {month: 6, amount: 12300},{month: 7, amount: 1106},{month: 8, amount: 279},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1009}]
+        },
+        {
+            key: "522000-3",
+            values: [{month: 0, amount: 300},{month: 1, amount: 956},{month: 2, amount: 2109},{month: 3, amount: 200},{month: 4, amount: 1056},{month: 5, amount: 1009},
+                     {month: 6, amount: 1900},{month: 7, amount: 1136},{month: 8, amount: 909},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1000}]
+        }
+    ];
+
+    $scope.overviewSelected = true;
+
+    $scope.viewFilters = [
+        {
+            account: 52100,
+            selected: false
+        },
+        {
+            account: 52200,
+            selected: false
+        },
+        {
+            account: 52300,
+            selected: false
+        },
+        {
+            account: 52400,
+            selected: false
+        },
+        {
+            account: 52500,
+            selected: false
+        },
+    ]
+    $scope.filterSelect = function(id){
+
+    }
+}]);
+app.controller('monthlyExpenseController', ['$scope', '$location', 'monthsService', function($scope, $location, monthsService){
+
+    $scope.months = function(n){
+        return monthsService.getMonth(n)
+    }
+
+    $scope.options = {
+            chart: {
+            type: 'lineChart',
+            height: 450,
+            margin : {
+                top: 20,
+                right: 20,
+                bottom: 60,
+                left: 65
+            },
+            x: function(d){ return d.month; },
+            y: function(d){ return d.amount; },
+            useInteractiveGuideline: true,
+            forceY: [0, 20000],
+
+            color: d3.scale.category10().range(),
+            duration: 300,
+
+            xAxis: {
+                axisLabel: 'Month',
+                showMaxMin: false,
+                staggerLabels: true,
+                tickFormat: function(d){
+                    return $scope.months(d);
+                },
+            },
+
+            yAxis: {
+                axisLabel: 'Amount',
+                axisLabelDistance: 20,
+                tickFormat: function(d){
+                    return "$" + d3.format(",.2f")(d);
+                },
+            }
+        }
+    };
+
+    $scope.data = [
+        {
+            key: "Budget",
+            values: [{month: 0, amount: 23000},{month: 1, amount: 14356},{month: 2, amount: 21009},{month: 3, amount: 23000},{month: 4, amount: 14356},{month: 5, amount: 11009},
+                     {month: 6, amount: 23000},{month: 7, amount: 14356},{month: 8, amount: 21009},{month: 9, amount: 23000},{month: 10, amount: 14356},{month: 11, amount: 11009}]
+        },
+        {
+            key: "Actual",
+            values: [{month: 0, amount: 21000},{month: 1, amount: 14656},{month: 2, amount: 21409},{month: 3, amount: 20000},{month: 4, amount: 10356},{month: 5, amount: 12009},
+                     {month: 6, amount: 19000},{month: 7, amount: 11356},{month: 8, amount: 23009},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 10009}]
+        }
+    ];
+
+    $scope.overviewSelected = true;
+
+    $scope.viewFilters = [
+        {
+            account: 52100,
+            selected: false
+        },
+        {
+            account: 52200,
+            selected: false
+        },
+        {
+            account: 52300,
+            selected: false
+        },
+        {
+            account: 52400,
+            selected: false
+        },
+        {
+            account: 52500,
+            selected: false
+        },
+    ]
+    $scope.filterSelect = function(id){
+
+    }
+}]);
+app.controller('reportsController', ['$scope', '$location', function($scope, $location){
+
+    $scope.reports = [
+        {
+            name: "Monthly Expense",
+            link: "monthly-expense"
+        },
+        {
+            name: "Expense Breakdown",
+            link: "expense-breakdown"
+        },
+        {
+            name: "Monthly Breakdown",
+            link: "monthly-breakdown"
+        },
+    ]
+}]);
+app.controller('accountController', ['$scope', '$location', '$routeParams', 'postRequestService', 'monthsService', 'accountNameService', function($scope, $location, $routeParams, postRequestService, monthsService, accountNameService){
+  
+
+    //This block calls the backend to retrieve all transactions belonging to this account, seperated by months
+    postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
+        $scope.account = success.data.response;
+        $scope.accountName = accountNameService.getName($scope.account) //Get formated account name
+        $scope.account.remaining = Number($scope.account.total_budget) - Number($scope.account.expendetures) //Populate Budget Table
+
+         //Default to Current Month
+        $scope.selectedMonth = d.getMonth()
+        $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+
+        //This was being fired more than once
+        //TODO: Figure out why, and find a more elegant solution to the problem
+        if($scope.months.length <13){
+            $scope.months.push("Pending")
+        }
+        calculateTotals()
+
+    })
+
+    //This Block toggles the Get Transfers button
+    //If tansfers have not been retrieved from the backend, retrieve them on first click
+    //Change button text depending on what is currently being displayed
+    $scope.displayTransfers=false;
+    $scope.buttonMessage = "View Transfers";
+    $scope.getTransfers = function(){
+        if(!$scope.transfers){
+            postRequestService.request('/api/accounts/transfers/' +$routeParams.accountId).then(function(success){
+                $scope.transfers = success.data.response;
+            })
+        }
+         $scope.displayTransfers = !$scope.displayTransfers
+
+         if($scope.displayTransfers){
+            $scope.buttonMessage = "View Transactions"
+         }
+         else{
+            $scope.buttonMessage = "View Transfers"
+         }
+    }
+
+
+    //This block populates and watches the month dropdown menu. 
+    //If the user selects a diffrent month, the displayed transactions will reflect the new month
+    var d = new Date()
+    $scope.months = monthsService.monthList();
+    $scope.$watch('selectedMonth', function(){
+        if ($scope.transactions){
+            $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+        }
+    })
+
+
+    //This block calulates the expense totals for every month retrieved.
+    //Called after transations are retrieved from back end
+    $scope.monthlyTotals = []
+    var calculateTotals = function(){
+
+        for (var i = 0; i < $scope.months.length ; i++){
+            total = 0
+            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
+                total += Number($scope.account.monthly_summary[i][j].expense)
+            }
+            $scope.monthlyTotals.push(total)
+        }
+    }
+
+}]);
+app.controller('adjustmentsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+  
+    //Request all dropdown menu information from backend
+  	postRequestService.request('/api/dropdown/all').then(function(success){
+        $scope.accounts = success.data.response.accounts
+        $scope.vendors = success.data.response.vendors
+        $scope.transactionTypes = success.data.response.transaction_types
+        $scope.cityAccounts = success.data.response.city_accounts
+    })
+
+    //$scope.display determines which tab is currently being displayed
+    $scope.display = 'transactions'
+
+}]);
+app.controller('adminController', ['$scope', '$location', 'postRequestService', function($scope, $location,postRequestService){
+
+    //Gets information for all users
+    //Currently only used in permisions
+	postRequestService.request('/api/admin/user/listing').then(function(success){
+        $scope.users = success.data.response;
+
+    })
+
+	$scope.submitNewUser = function(){
+
+		if(!$scope.newUserForm.$valid ){
+            $scope.newUserError = "Please fill out all fields"
+            return
+        }
+        if($scope.newUser.password != $scope.confirmedPassword){
+			$scope.newUserError = "Passwords do not match"
+            return
+        }
+        if($scope.newUser.password.length < 6){
+            $scope.newUserError = "Passwords must be at least 6 characters"
+            return
+        }
+
+        //Only Executed if above conditions are met 
+        postRequestService.request('/api/admin/register', $scope.newUser).then(function(success){
+            if(success.data.status == "success"){
+                alert("New User Created.")
+            }
+            else{
+                alert("There was an error.")
+            }
+        })
+	}
+
+    //When a users permissions is changed, they are added to this array
+	$scope.permissionsToUpdate = []
+	$scope.queueChangedPermissions = function(user){
+		$scope.permissionsToUpdate.push(user)
+	}
+
+    //Send the "permissionsToUpdate array to the back end to update the database"
+	$scope.updatePermissions = function(){
+		postRequestService.request('/api/admin/user/update/permissions', $scope.permissionsToUpdate).then(function(success){
+			if(success.data.status == "success"){
+				alert("Permissions have been updated.")
+			}
+			else{
+				alert("There was an error.")
+			}
+		})
+	}
+}]);
+app.controller('coversheetController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+  
+  	postRequestService.request('/api/dropdown/all').then(function(success){
+        $scope.accounts = success.data.response.accounts
+        $scope.vendors = success.data.response.vendors
+        $scope.transactionTypes = success.data.response.transaction_types
+        $scope.pprtaProjects = success.data.response.pprta_projects
+    })
+
+    //$scope.display destermines which tab is currently being displayed
+    $scope.display = 'single'
+
+}]);
+app.controller('dataInputController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+  
+  	postRequestService.request('/api/dropdown/all').then(function(success){
+        $scope.accounts = success.data.response.accounts
+        $scope.vendors = success.data.response.vendors
+        $scope.transactionTypes = success.data.response.transaction_types
+        $scope.cityAccounts = success.data.response.city_accounts
+    })
+
+    //$scope.display detemines which tab is currently beining displayed
+    $scope.display = 'transaction'
+
+
+}]);
+app.controller('homeController', ['$scope', '$cookies', '$location', '$window', 'postRequestService', function($scope, $cookies, $location, $window, postRequestService){
+
+    //Get basic user information like their name and user id
+    postRequestService.request('/api/user/basics').then(function(success){
+        $scope.user = success.data.response
+    })
+
+    //Removes the cookie containing the token, forcing the user to log off
+    $scope.logout = function(){
+        $cookies.remove('token')
+    }
+
+    //TEMPORARY: Creates the excell backup and sends it to the user
+    $scope.createBackup = function(){
+        postRequestService.request('/api/backup/accounts').then(function(success){
+            $window.open("/backups/" +success.data.response)
+
+        })
+    }
+
+    //Determines the time of day to guve the user a proper greeting
+    $scope.getGreeting = function(){
+        var date = new Date()
+        hour = date.getHours()
+
+        if(hour < 12){
+            return "Morning"
+        }
+        else if(hour < 17){
+            return "Afternoon"
+        }
+        else{
+            return "Evening"
+        }
+    }
+}]);
+app.controller('loginController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+    
+    $scope.login = {}
+    $scope.submit = function(){
+        if(validEmail() && validPassword() ){
+            postRequestService.request("/api/admin/login", $scope.login).then(function(request){
+                if(request.data.status === "success"){
+                    $location.url("/")
+                }
+                else{
+                    $scope.failureMessage = request.data.response;
+                }
+            });
+        }
+    }
+
+
+    var validPassword = function(){
+        if(!$scope.login.password || $scope.login.password.length < 6){
+            $scope.failureMessage = "Password must be at least 6 characters";
+            return false;
+        }
+        return true;
+    }
+    
+    var validEmail = function(){
+        if(!$scope.login.email || !$scope.loginForm.loginEmail.$valid){
+            $scope.failureMessage = "The email address provided is invalid";
+            return false;
+        }
+        return true;
+    }
+
+}]);
+app.controller('overviewController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+  
+    postRequestService.request('/api/accounts/overview').then(function(success){
+        $scope.accounts = success.data.response;
+    })
+
+    //Expands all accounts and theirs sub accounts so the user can see the whole table
+    $scope.expandAll = function(){
+        for(var i = 0; i < $scope.accounts.length; i++){
+            $scope.accounts[i].showSubaccount = true;
+            for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++){
+                $scope.accounts[i].sub_accounts[j].showSubaccount = true;
+            }
+        }
+    }
+
+    //Collapses the table so only the main accounts are seen
+    $scope.collapseAll = function(){
+        for(var i = 0; i < $scope.accounts.length; i++){
+            $scope.accounts[i].showSubaccount = false;
+            for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++){
+                $scope.accounts[i].sub_accounts[j].showSubaccount = false;
+            }
+        }
+    }
+
+
+}]);
+app.controller('profileController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+
+    postRequestService.request('/api/user/details').then(function(success){
+        $scope.user = success.data.response;
+    })
+
+    //Called when user presses Submit Password Button
+    //All fields must be filled 
+    //Confirmation and new passwords must match
+    $scope.submitNewPassword = function(){
+        if(!$scope.passwordForm.$valid){
+            $scope.passwordError = "Please fill out all fields."
+            return
+        }
+        if ($scope.password.new != $scope.confirmPassword){
+            $scope.passwordError = "Passwords do not match."
+            return
+        }
+        //Add user ID to password to get sent to the backend 
+        $scope.password.id = $scope.user.user_id
+        postRequestService.request('/api/user/update/password', $scope.password).then(function(success){
+            if(success.data.status == "success"){
+                alert("Password successfully updated")
+                //Reset all user inputs
+                $scope.passwordError = ""
+                $scope.password= ""
+                $scope.confirmPassword = ""
+            }
+            else{
+                $scope.passwordError = "There was an error processing your change."
+            }
+        }) 
+    }
+
+    $scope.submitBackupFreq = function(){
+        postRequestService.request('/api/user/update/freq', $scope.user).then(function(success){
+            if(success.data.status == "success"){
+                alert("Email Frequency successfully updated")
+            }
+            else{
+                $scope.freqError = "There was an error processing your change."
+            }
+        })    
+    }
+
+    $scope.submitContactInformation = function(){
+        if($scope.contactForm.$valid){
+            postRequestService.request('/api/user/update/contact', $scope.user).then(function(success){
+                if(success.data.status == "success"){
+                    alert("Contact information successfully updated")
+                    $scope.contactError = ""
+                }
+                else{
+                    $scope.contactError = "There was an error processing your change."
+                }
+            }) 
+        }
+        else{
+            $scope.contactError = "Please fill out all fields."
+        }
+    }
+}]);
+app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
+  
+    postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
+        $scope.vendor = success.data.response;
+
+        $scope.total_expense = 0
+        for(var i = 0; i < $scope.vendor.transactions.length; i++){
+            $scope.total_expense += Number($scope.vendor.transactions[i].expense)
+        }
+    })
+
+    $scope.toggleTransactionDialog = false;
+    $scope.displayTransactionDetails = function(transactionId){
+        $scope.dialogTransaction = transactionId;
+        $scope.toggleTransactionDialog = true;
     }
 }]);
 app.controller('vendorsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
