@@ -11,6 +11,7 @@ app.run(['$rootScope', '$location', '$cookies', function($rootScope, $location, 
             if($location.path() !== "/login"){
                 alert("You have been logged out!")
                 $location.url("/login")
+                $rootScope.loading = false;
             }
         }
         else{
@@ -23,6 +24,10 @@ app.run(['$rootScope', '$location', '$cookies', function($rootScope, $location, 
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
         if (!$rootScope.isSignedIn) {
             $location.url("/login")
+            $rootScope.loading = false;
         }
     })
+
+    //Variable to toggle loading icon
+    $rootScope.loading = false;
 }]);

@@ -35265,6 +35265,7 @@ app.run(['$rootScope', '$location', '$cookies', function($rootScope, $location, 
             if($location.path() !== "/login"){
                 alert("You have been logged out!")
                 $location.url("/login")
+                $rootScope.loading = false;
             }
         }
         else{
@@ -35277,8 +35278,12 @@ app.run(['$rootScope', '$location', '$cookies', function($rootScope, $location, 
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
         if (!$rootScope.isSignedIn) {
             $location.url("/login")
+            $rootScope.loading = false;
         }
     })
+
+    //Variable to toggle loading icon
+    $rootScope.loading = false;
 }]);;app.service('accountNameService', function(){
 
     //Format the account name given the account number, sub number, and shred out number
@@ -36556,10 +36561,11 @@ app.controller('reportsController', ['$scope', '$location', function($scope, $lo
         },
     ]
 }]);
-app.controller('accountController', ['$scope', '$location', '$routeParams', 'postRequestService', 'monthsService', 'accountNameService', function($scope, $location, $routeParams, postRequestService, monthsService, accountNameService){
+app.controller('accountController', ['$scope', '$rootScope', '$location', '$routeParams', 'postRequestService', 'monthsService', 'accountNameService', function($scope, $rootScope, $location, $routeParams, postRequestService, monthsService, accountNameService){
   
 
     //This block calls the backend to retrieve all transactions belonging to this account, seperated by months
+    $rootScope.loading = true;
     postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
         $scope.account = success.data.response;
         $scope.accountName = accountNameService.getName($scope.account) //Get formated account name
@@ -36575,6 +36581,7 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
             $scope.months.push("Pending")
         }
         calculateTotals()
+        $rootScope.loading = false;
 
     })
 
@@ -36626,14 +36633,16 @@ app.controller('accountController', ['$scope', '$location', '$routeParams', 'pos
     }
 
 }]);
-app.controller('adjustmentsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+app.controller('adjustmentsController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){
   
     //Request all dropdown menu information from backend
+    $rootScope.loading = true;
   	postRequestService.request('/api/dropdown/all').then(function(success){
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
         $scope.cityAccounts = success.data.response.city_accounts
+        $rootScope.loading = false;
     })
 
     //$scope.display determines which tab is currently being displayed
@@ -36706,13 +36715,15 @@ app.controller('coversheetController', ['$scope', '$location', 'postRequestServi
     $scope.display = 'single'
 
 }]);
-app.controller('dataInputController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-  
+app.controller('dataInputController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){
+    
+    $rootScope.loading = false;
   	postRequestService.request('/api/dropdown/all').then(function(success){
         $scope.accounts = success.data.response.accounts
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
         $scope.cityAccounts = success.data.response.city_accounts
+        $rootScope.loading = false;
     })
 
     //$scope.display detemines which tab is currently beining displayed
@@ -36790,10 +36801,12 @@ app.controller('loginController', ['$scope', '$location', 'postRequestService', 
     }
 
 }]);
-app.controller('overviewController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+app.controller('overviewController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){
   
+   $rootScope.loading = true;
     postRequestService.request('/api/accounts/overview').then(function(success){
         $scope.accounts = success.data.response;
+        $rootScope.loading = false;
     })
 
     //Expands all accounts and theirs sub accounts so the user can see the whole table
@@ -36880,8 +36893,9 @@ app.controller('profileController', ['$scope', '$location', 'postRequestService'
         }
     }
 }]);
-app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams', 'postRequestService', function($scope, $location, $routeParams, postRequestService){
+app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', '$routeParams', 'postRequestService', function($scope, $rootScope, $location, $routeParams, postRequestService){
   
+    $rootScope.loading = true;
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
         $scope.vendor = success.data.response;
 
@@ -36889,6 +36903,7 @@ app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams'
         for(var i = 0; i < $scope.vendor.transactions.length; i++){
             $scope.total_expense += Number($scope.vendor.transactions[i].expense)
         }
+        $rootScope.loading = false;
     })
 
     $scope.toggleTransactionDialog = false;
@@ -36897,10 +36912,12 @@ app.controller('vendorDetailsController', ['$scope', '$location', '$routeParams'
         $scope.toggleTransactionDialog = true;
     }
 }]);
-app.controller('vendorsController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+app.controller('vendorsController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){
   
+    $rootScope.loading = true;
     postRequestService.request('/api/vendor/listing').then(function(success){
         $scope.vendors = success.data.response;
+        $rootScope.loading = false;
     })
 
 }]);;app.directive('accountName', function() {
@@ -37032,6 +37049,12 @@ app.directive('infoTip', function() {
             message: '@'
         },
         template: '<div class = "info"><i class = "fa fa-info-circle"></i><div class = "infotext">{{message}}</div></div>'
+    };
+})
+app.directive('loadingIcon', function() {
+    return{
+        restrict: 'E',
+        templateUrl: '/res/components/directives/loading-icon/loading-icon.template.html'    
     };
 })
 app.directive('searchField', function() {

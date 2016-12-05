@@ -1,7 +1,9 @@
-app.controller('overviewController', function($scope, $location, postRequestService){
+app.controller('overviewController', function($scope, $rootScope, $location, postRequestService){
   
+   $rootScope.loading = true;
     postRequestService.request('/api/accounts/overview').then(function(success){
         $scope.accounts = success.data.response;
+        $rootScope.loading = false;
     })
 
     //Expands all accounts and theirs sub accounts so the user can see the whole table

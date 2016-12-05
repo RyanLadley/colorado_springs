@@ -129,6 +129,12 @@ app.directive('infoTip', function() {
         template: '<div class = "info"><i class = "fa fa-info-circle"></i><div class = "infotext">{{message}}</div></div>'
     };
 })
+app.directive('loadingIcon', function() {
+    return{
+        restrict: 'E',
+        templateUrl: '/res/components/directives/loading-icon/loading-icon.template.html'    
+    };
+})
 app.directive('searchField', function() {
     return{
         restrict: 'E',

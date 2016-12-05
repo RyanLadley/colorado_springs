@@ -18,7 +18,8 @@
     </head>
     <body>
             <sidebar ng-if = "isSignedIn" ></sidebar>
-
+            <loading-icon ng-if = "loading"></loading-icon>
+            
             <div class = "content">
                 <ng-view></ng-view>
             </div>

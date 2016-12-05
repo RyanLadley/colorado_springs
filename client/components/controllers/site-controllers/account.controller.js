@@ -1,7 +1,8 @@
-app.controller('accountController', function($scope, $location, $routeParams, postRequestService, monthsService, accountNameService){
+app.controller('accountController', function($scope, $rootScope, $location, $routeParams, postRequestService, monthsService, accountNameService){
   
 
     //This block calls the backend to retrieve all transactions belonging to this account, seperated by months
+    $rootScope.loading = true;
     postRequestService.request('/api/accounts/details/' +$routeParams.accountId).then(function(success){
         $scope.account = success.data.response;
         $scope.accountName = accountNameService.getName($scope.account) //Get formated account name
@@ -17,6 +18,7 @@ app.controller('accountController', function($scope, $location, $routeParams, po
             $scope.months.push("Pending")
         }
         calculateTotals()
+        $rootScope.loading = false;
 
     })
 

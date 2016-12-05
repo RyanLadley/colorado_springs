@@ -1,0 +1,56 @@
+$duration:20s;
+$ease:ease-in-out;
+
+.loading-screen{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99;
+    background-color: rgba(259, 259, 259, 0.93);
+
+    h1{
+        position: relative;
+        text-shadow: 1px 1px white;
+        top: 50px;
+        text-align: center;
+        font-size:50px; 
+    }
+}
+.holder{
+    width:500px;
+    height: 250px;
+    margin: 7% auto;
+    position: relative;
+    .circle{
+        border-radius:100% 100% 0 0;
+        position: absolute;
+        bottom: 0;
+        left:50%;
+        transform:translateX(-50%);
+        transform-origin:bottom center;
+    }
+    @for $i from 1 through 16{
+        .circle:nth-child(#{$i}){
+            $size:0;
+            @if($i > 1){
+                $size:31px * ($i - 1);
+                border:13px solid #464646;
+            }@else{
+                $size:25px;
+                background:#464646;
+            }
+            border-bottom:none;
+            border-radius:$size $size 0 0;
+            width:$size;
+            height:$size / 2;
+            z-index: 16 - $i;
+            animation: circle-#{$i} $duration infinite $ease;
+        }
+        @keyframes circle-#{$i}{
+            0%{transform:translateX(-50%) rotate(0deg);}
+            100%{transform:translateX(-50%) rotate(-($i * 360deg));}
+        }
+    }
+}
