@@ -33,6 +33,7 @@ def account_backups(file_name):
 #Routes For Web Pages
 
 #Main Agility Page
+@client_side.route('/dev')
 @client_side.route('/')
 @client_side.route('/login')
 @client_side.route('/overview')

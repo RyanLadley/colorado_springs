@@ -1,0 +1,49 @@
+<div class = "page-title">
+    <div class = "large-title-info">
+        <h1> Bug Report</h1>
+        <info-tip message = "View and submit bugs. This page will not look pretty and will be deleted before January 1st"></info-tip>
+    </div>
+</div>
+
+<div class = "area" style = "width: 95%;margin: 20px 50px; background: green">
+    <h2 class = "title">Bugs!! </h2>
+    <div class = "section-area">
+
+    <h3 class = "section-title">Submit a Bug</h3>
+        
+    <div class = "section-inset" style = "display: inline-block; margin-left: 30px; padding-bottom: 20px;">
+        <div class = "input-row">
+            <div class = "label-input">
+                <label>Severity</label>
+                <select ng-model = "newBug.severity" required>
+                    <option> Major</option>
+                    <option> Minor</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class = "label-input input-row">
+            <label>Description</label>
+            <textarea placeholder="Enter Discription" ng-model = "newBug.description" required></textarea>
+        </div>
+
+        <button class = "entry-submit" ng-click = "submitNewBug()">Submit Bug</button>
+    </div>
+
+    <h3 class = "section-title">Known Bugs</h3>
+    <div class = section-inset>
+        <table class = "table alternate-table" >
+            <tr>
+                <th style = "width: 150px;">Severity</th>
+                <th ">Description</th>
+                <th style = "width: 200px;">Status</th>
+            </tr>
+            <tr ng-repeat = "bug in bugs">
+                <td style = "width: 150px;">{{bug.severity}}</td>
+                <td class = "description">{{bug.description}}</td>
+                <td style = "width: 200px;">{{bug.status}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

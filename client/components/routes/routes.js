@@ -1,6 +1,12 @@
 app.config(['$routeProvider', '$locationProvider', 
     function($routeProvider, $locationProvider){
     $routeProvider
+    .when("/dev",
+        {
+            controller: 'devController',
+            templateUrl: '/res/site/dev/dev.html'
+        }
+    )
     .when("/",
         {
             controller: 'homeController',

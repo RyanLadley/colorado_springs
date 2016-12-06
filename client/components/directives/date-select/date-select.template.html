@@ -6,7 +6,7 @@
     </div>
     <div class = "input-div"s>
         <button ng-click = "displayCalendar = !displayCalendar" formnovalidate><i class="fa fa-calendar-o" aria-hidden="true"></i></button>
-        <input type="text" placeholder="DD/MM/YYYY" ng-model = "date" ng-disabled = "inputDisabled" title = "Select Date From Calendar" ng-required = "required">
+        <input type="text" placeholder="YYYY-MM-DD" ng-model = "date" ng-disabled = "inputDisabled" title = "Select Date From Calendar" ng-required = "required">
     </div>
-    <date-picker class = "date-picker" ng-show = "displayCalendar" ng-model = "date"></date-picker>
+    <date-picker class = "date-picker" ng-show = "displayCalendar"  format-date = "formatDate" ng-model = "date"></date-picker>
 </div>
