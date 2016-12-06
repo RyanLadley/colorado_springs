@@ -75,6 +75,34 @@ INSERT INTO `accounts` VALUES (1,1,NULL,NULL,'In House Resurfacing',2160938.00),
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bugs`
+--
+
+DROP TABLE IF EXISTS `bugs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bugs` (
+  `bugs_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `severity` varchar(45) DEFAULT NULL,
+  `description` varchar(360) DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`bugs_id`),
+  UNIQUE KEY `bugs_id_UNIQUE` (`bugs_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bugs`
+--
+
+LOCK TABLES `bugs` WRITE;
+/*!40000 ALTER TABLE `bugs` DISABLE KEYS */;
+INSERT INTO `bugs` VALUES (1,18,' Minor','Fix the \"date format bug\" that appears on a few browsers.','Open');
+/*!40000 ALTER TABLE `bugs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `city_account_assignments`
 --
 
@@ -245,7 +273,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','H0RZ471RGU1NGN0R9H5HZSZNWMQMVRD4','2016-12-04 00:15:14',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','F3HL4GJHM8LJKOEUN5WDHTWXGOC4828X','2016-12-02 00:45:10',0,'0000-00-00 00:00:00',1);
+INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','SFJOZOFRNQ890YWNNWF87LJCV4PTJ3KJ','2016-12-05 23:51:22',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','Y0FT53FAD8ABDGXQID01EXJ51Y3MCLLV','2016-12-05 19:08:35',0,'0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -573,4 +601,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-03 22:51:00
+-- Dump completed on 2016-12-05 22:55:35
