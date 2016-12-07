@@ -1,64 +1,135 @@
 <form name = "vendorEntryForm">
-    <div class = "label-input">
-        <label>Vendor Name</label>
-        <input type="text" ng-model="vendor.name" placeholder="Vendor Name" required>
-    </div>
-    <div class = "label-input">
-        <label>Icon</label>
-        <input type = "file" file-upload file = "vendor.image" accept="image/*">
-    </div>
-    
-    <div class = "input-row">
-        <h3 class = "tab-sub-title">Contact Information</h3>
+    <div ng-class = "navLocation(firstpage,false)" class ="nav-content">
+        <div class = "tab-title" ng-if = "!vendor.vendor_id">
+            <div class = "title-info">
+                <h2>New Vendor</h2>
+                <info-tip message = "Use this tab to create a new vendor. Only 'Vendor Name' and 'Contract Number' are required."></info-tip>
+            </div>
+        </div> 
         <div class = "label-input">
-            <label>Point of Contact</label>
-            <input type="text" ng-model= "vendor.point_of_contact" placeholder="Point of Contact">
+            <label>Vendor Name</label>
+            <input type="text" ng-model="vendor.name" placeholder="Vendor Name" required>
         </div>
         <div class = "label-input">
-            <label>Phone Number</label>
-            <input type="tel" ng-model="vendor.phone_no" placeholder="Phone Number">
+            <label>Icon</label>
+            <input type = "file" file-upload file = "vendor.image" accept="image/*">
         </div>
-        <div class = "label-input">
-            <label>Email</label>
-            <input type="email" ng-model="vendor.email" placeholder="Email">
-        </div>
-        <div class = "label-input">
-            <label>Website</label>
-            <input type="text" ng-model="vendor.website" placeholder="Website">
-        </div>
-    </div>
-
-    <div class = "address input-row">
-        <h3 class = "tab-sub-title">Address</h3>
-        <div class = "label-input">
-            <label>Street</label>
-            <input type="text" ng-model="vendor.address" placeholder="Address">
-        </div>
-        <div class = "label-input">
-            <label>City</label>
-            <input type="text" ng-model= "vendor.city" placeholder="City">
-        </div>
-        <div class = "label-input">
-            <label>State</label>
-            <input type="text" ng-model="vendor.state" placeholder="State">
-        </div>
-        <div class = "label-input">
-            <label>Zip-Code</label>
-            <input type="text" ng-model="vendor.zip" placeholder="Zip Code">
-        </div>
-    </div>
-
-
-    <div class = "input-row">
-        <h3 class = "tab-sub-title">Contract Information</h3>
-        <div class = "label-input">
-            <label>Contract Number</label>
-            <input type="text" ng-model="vendor.contract_no" placeholder="Contract Number" required>
+        
+        <div class = "input-row">
+            <h3 class = "tab-sub-title">Contact Information</h3>
+            <div class = "label-input">
+                <label>Point of Contact</label>
+                <input type="text" ng-model= "vendor.point_of_contact" placeholder="Point of Contact">
+            </div>
+            <div class = "label-input">
+                <label>Phone Number</label>
+                <input type="tel" ng-model="vendor.phone_no" placeholder="Phone Number">
+            </div>
+            <div class = "label-input">
+                <label>Email</label>
+                <input type="email" ng-model="vendor.email" placeholder="Email">
+            </div>
+            <div class = "label-input">
+                <label>Website</label>
+                <input type="text" ng-model="vendor.website" placeholder="Website">
+            </div>
         </div>
 
-        <date-select label ="Contract Start Date"  date = "vendor.contract_start" input-disabled = "true"></date-select>
-        <date-select label ="Contract End Date"  date = "vendor.contract_end" input-disabled = "true"></date-select>
-    </div>
+        <div class = "address input-row">
+            <h3 class = "tab-sub-title">Address</h3>
+            <div class = "label-input">
+                <label>Street</label>
+                <input type="text" ng-model="vendor.address" placeholder="Address">
+            </div>
+            <div class = "label-input">
+                <label>City</label>
+                <input type="text" ng-model= "vendor.city" placeholder="City">
+            </div>
+            <div class = "label-input">
+                <label>State</label>
+                <input type="text" ng-model="vendor.state" placeholder="State">
+            </div>
+            <div class = "label-input">
+                <label>Zip-Code</label>
+                <input type="text" ng-model="vendor.zip" placeholder="Zip Code">
+            </div>
+        </div>
 
-    <button type="submit" class = "entry-submit" ng-click = 'submitVendor()' ng-disabled = "vendorEntryForm.$invalid" >Submit</button>
+
+        <div class = "input-row">
+            <h3 class = "tab-sub-title">Contract Information</h3>
+            <div class = "label-input">
+                <label>Contract Number</label>
+                <input type="text" ng-model="vendor.contract_no" placeholder="Contract Number" required>
+            </div>
+
+            <date-select label ="Contract Start Date"  date = "vendor.contract_start" input-disabled = "true"></date-select>
+            <date-select label ="Contract End Date"  date = "vendor.contract_end" input-disabled = "true"></date-select>
+        </div>
+
+        <button class="to-button transition-button" ng-click = "incrementPage();" > Attatch Materials<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    </div>
 </form>
+<div ng-class = "navLocation(firstpage+1, true)" class ="nav-content scrolable-tabed-content">
+    <div class = "tab-title">
+        <div class = "title-info">
+            <h2>Attatch Materials</h2>
+            <info-tip message = "If this vendor has known materials, use this screen to attatch them to the vendor. This is optional. If there are no materials, press submit."></info-tip>
+        </div>
+    </div>
+
+    <h3 class = "tab-sub-title">Known Materials</h3>
+    <div ng-repeat = "known in vendor.materials" class = "input-row">
+        <button class ="remove-button"  ng-click = "removeKnownMaterial($index)" > <i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class = "label-input">
+            <label>Material</label>
+            <select ng-model = "known.material" ng-options = "material.material_id as material.material_name for material in materials"  >
+                <option value="" disabled selected hidden>Select a Material</option>
+            </select>
+        </div>
+
+        <div class = "label-display">
+            <label>Unit</label>
+            <p>{{known.unit}}</p>
+        </div>
+
+        <div class = "label-input">
+            <label>Cost per Unit</label>
+            <div class = "dollar-input">
+                <i class="fa fa-usd" aria-hidden="true"></i>
+                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "known.cost"> 
+            </div>
+        </div>
+    </div>
+    <button ng-click = "addKnownMaterial()" ng-disabled = "remaining <= 0" class = "add-button"> Add Known Material </button>
+    
+
+    <h3 class = "tab-sub-title">New Materials</h3>
+    <div ng-repeat = "new in vendor.new_materials" class = "input-row">
+
+        <button class ="remove-button"  ng-click = "removeNewMaterial($index)" > <i class="fa fa-times" aria-hidden="true"></i></button>
+        <div class = "label-input">
+            <label>Material Name</label>
+            <input type = "text" ng-model = new.name placeholder="Material Name">
+        </div>
+
+        <div class = "label-input">
+            <label>Unit</label>
+            <input type = "text" ng-model = new.unit placeholder="Material Units">
+        </div>
+
+        <div class = "label-input">
+            <label>Cost per Unit</label>
+            <div class = "dollar-input">
+                <i class="fa fa-usd" aria-hidden="true"></i>
+                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "known.cost""> 
+            </div>
+        </div>
+
+    </div>
+    <div class = "input-row">
+        <button ng-click = "addNewMaterial()" ng-disabled = "remaining <= 0" class = "add-button"> Add New Material </button>
+    </div>
+    <button class="from-button transition-button" ng-click = "decrementPage();" formnovalidate><i class="fa fa-chevron-left" aria-hidden="true"></i>Back To Vendor Details</button>
+    <button class = "entry-submit" ng-click = "submitVendor()">Submit</button>
+</div>

@@ -87,17 +87,15 @@ app.controller('transactionEntryController', function($scope, $location, postReq
     //If there is more money to be assigned to city account, this function is called by the add acount button
     //It initializes a new account to unasigned to the remaining amount need to be assigned 
     $scope.addAccount = function(){
-        //Remove Accounts With a value of 0 before adding new accounts
-        for(i = 0; i < $scope.transaction.city_accounts.length; i++){
-            if($scope.transaction.city_accounts[i].amount == 0 && $scope.transaction.city_accounts[i].city_account_id ===""){ 
-                $scope.transaction.city_accounts.splice(i,1)
-                i--
-            }
-        }
         if($scope.remaining > 0){
             $scope.transaction.city_accounts.push({city_account_id: "", amount: $scope.remaining})
             $scope.checkRemaining();
         }
+    }
+
+    $scope.removeAccount = function(index){
+        $scope.transaction.city_accounts.splice(index, 1)
+        $scope.checkRemaining();
     }
 
 });
