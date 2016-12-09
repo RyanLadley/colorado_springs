@@ -89,7 +89,7 @@ CREATE TABLE `bugs` (
   `status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`bugs_id`),
   UNIQUE KEY `bugs_id_UNIQUE` (`bugs_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `bugs` (
 
 LOCK TABLES `bugs` WRITE;
 /*!40000 ALTER TABLE `bugs` DISABLE KEYS */;
-INSERT INTO `bugs` VALUES (1,18,' Minor','Fix the \"date format bug\" that appears on a few browsers.','Open');
+INSERT INTO `bugs` VALUES (1,18,' Minor','Fix the \"date format bug\" that appears on a few browsers.','Open'),(2,18,' Minor','On materials screen for vendors, do not allow users to input duplicate materials','Open');
 /*!40000 ALTER TABLE `bugs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,6 +154,32 @@ LOCK TABLES `city_accounts` WRITE;
 /*!40000 ALTER TABLE `city_accounts` DISABLE KEYS */;
 INSERT INTO `city_accounts` VALUES (1,52185,'Aggregate Material','Rip rap, Pioneer sand, river rock, etc.'),(2,51205,'Civilian Salaries','Salaries for FTE positions conducting Street Division field and office duties'),(3,51210,'Overtime','Overtime primarily performed by FTE\'s for various projects and maintenance activities'),(4,51220,'Seasonal Tempory Positions','Seasonal temporary  positions to support Street Division and Stormwater/Drainage  activities throughout the year'),(5,51250,'Special Assignment  Pay','Salaries for personnel for special assignments'),(6,51610,'PERA','Pension fund for FTE’s'),(7,51615,'Worker\'s  Comp.','Worker\'s Compensation  Costs'),(8,51620,'Equitable Life Insurance','Life insurance expenditure for FTE\'s'),(9,51640,'Dental Insurance','Dental insurance expenditure for FTE\'s'),(10,51690,'Medicare','Medicare costs for FTE’s'),(11,51695,'City EPO Medical Plan','Medical Plan costs for FTE\'s'),(12,52110,'Office Supplies','Folders, pens, binders, ink, pads, scissors, staples, adding machine tape, etc.'),(13,52111,'Paper Supplies','Copier  paper'),(14,52120,'Computer Software','Software for computers'),(15,52122,'Cell Phone Equipment','Chargers, cell phones, cases, etc'),(16,52125,'General Supplies','Bolts, screws, batteries, propane, coffee supplies, straps, paper towels, plates, cups, etc.'),(17,52127,'Construction  Supplies','Standard construction supplies to include gas used for marking machines, sockets, tape measure, pails, nuts, bolts, screws, nails, rope, ora'),(18,52131,'Concrete Supplies','Concrete, forms, blankets, structural angle iron, wood, diamond blades, saws, etc.'),(19,52135,'Postage','Postage stamps, postal service charges, Fed Ex, etc.'),(20,52140,'Wearing Apparel','Safety boots, vests, glasses, coveralls, gloves, etc.'),(21,52145,'Paint & Chemical','Spray paint, floor dry, big orange, glass cleaner'),(22,52150,'Seed & Fertilizer','Seed and fertilizer'),(23,52160,'Fuel','Fuel'),(24,52165,'Licenses & Tags','Licenses & Tags'),(25,52175,'Signs','Signs'),(26,52180,'Asphaltic Material','Used for smaller amounts of asphalt'),(27,52190,'Janitorial Supplies','Toilet paper, tissue, soap, lotion, etc.'),(28,52192,'Stormwater Permit','Strictly a SWENT cost'),(29,52210,'Maintenance Trees','Used by SWENT in the past and now drainage STR.  Trees or items to maintain'),(30,52220,'Maintenance  Office  Machines','Maintenance on copiers/printers,  fax machines, map plotter, etc.'),(31,52235,'Maintenance  Machines/App','Maintenance for equipment and field machinery (chain saws, chippers, other equipment)'),(32,52255,'Maintenance  Signs','Sign installation, repair and replacements to include sign blanks, poles, pole sleeves, tools,\nhardware and maintenance'),(33,52265,'Maintenance Building & Str','El Paso Facilities Repairs/Upkeep (Miller, Briargate, Wheeler, Outwest, Transit Yard, Fontanero), City Fire Dept. Hazmat Inspections of buil'),(34,52281,'Maintenance  Infrastructure','Drainage expenditures that are not mandated - Pond issues.   Emergency drainage issues'),(35,52405,'Advertising Services','In the past involved placement of help wanted ads in the Gazette'),(36,52410,'Building Security','ADT bills or other security contracts'),(37,52415,'Contracts & Special Projects','Expenses of “outsourced\" projects/contracts other than Snow Contract'),(38,52423,'Telecommunication Service','Bolts, screws, batteries, propane, coffee supplies, straps, paper towels,  plates, cups, etc.'),(39,52425,'Environmental  Services','Environmental costs ie; waste recycling-sand Trap Wastes by Resource Geoscience at Geiger, Outwest, Briargate, Fontanero and Wheeler, permit'),(40,52426,'Mun Fac Runoff','Drainage - invoicles permits and various municipal items'),(41,52431,'Consulting  Services','Road Weather Information System (RWIS), Design Survey and Grading plans, Anit-skid\ntesting, and multiple project tests and consulting servic'),(42,52435,'Garbage Removal','Monthly Waste Mgmt and other garbage service for Street Barn Locations - 6 in all'),(43,52437,'Debris Waste Service','Use ONLY for Waste Management Barter Program - FOR THIS PURPOSE ONLY!  Revenue for same expense comes back into the City General Fund via th'),(44,52445,'Janitorial Services','Monthly janitorial service for all facilities'),(45,52560,'Parking Services','Parking costs downtown for Streets personnel'),(46,52571,'Snow Removal','De-icer, apex, ice slicer, anti-skid material, temps peronnel working snow events, snow\nmeals, etc.'),(47,52575,'General Services','Answering service, pest control, dead animals dump fee, Sierra Spgs, radio communication, Acme Fire & Safety, hydrant permits (CSU), bird mi'),(48,52590,'Temperary Employment','Outsourced Expenses through temporary employment agencies for personnel in the field and office, ie: Remedy'),(49,52615,'Dues & Memership','APW (Amer. Public Workd Assoc) & CARMA (Colo. Assoc. of Stormwater & Roadway Maintenance), etc'),(50,52625,'In Town Meeting Expenses','Annual employee meeting for suervisors and management'),(51,52630,'Training','Confrences for roadway/snow removal/pubilc safety/personnel safety/enviromental issues, training'),(52,52645,'Subscriptions','Roadway/Construction Subscriptions for managers/supervisors.');
 /*!40000 ALTER TABLE `city_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `materials`
+--
+
+DROP TABLE IF EXISTS `materials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `materials` (
+  `material_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(300) NOT NULL,
+  `unit` varchar(140) NOT NULL,
+  PRIMARY KEY (`material_id`),
+  UNIQUE KEY `materials_id_UNIQUE` (`material_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materials`
+--
+
+LOCK TABLES `materials` WRITE;
+/*!40000 ALTER TABLE `materials` DISABLE KEYS */;
+INSERT INTO `materials` VALUES (16,'Plant mixed asphaltic surfacing material grading SC PG 64-22','Ton');
+/*!40000 ALTER TABLE `materials` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -273,7 +299,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','SFJOZOFRNQ890YWNNWF87LJCV4PTJ3KJ','2016-12-05 23:51:22',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','Y0FT53FAD8ABDGXQID01EXJ51Y3MCLLV','2016-12-05 19:08:35',0,'0000-00-00 00:00:00',1);
+INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','0YA8E4O7ET771H8R427LGKRELU430NXV','2016-12-08 22:14:30',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','8XGRGIT68872QM7A4W7SR5C7TFW9ZNJE','2016-12-08 01:18:14',0,'0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,6 +412,23 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary table structure for view `v_vendor_materials`
+--
+
+DROP TABLE IF EXISTS `v_vendor_materials`;
+/*!50001 DROP VIEW IF EXISTS `v_vendor_materials`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `v_vendor_materials` (
+  `vendor_id` tinyint NOT NULL,
+  `material_id` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `unit` tinyint NOT NULL,
+  `cost` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `v_vendors`
 --
 
@@ -429,7 +472,7 @@ CREATE TABLE `vendor_images` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `vendor_id_UNIQUE` (`vendor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,8 +481,34 @@ CREATE TABLE `vendor_images` (
 
 LOCK TABLES `vendor_images` WRITE;
 /*!40000 ALTER TABLE `vendor_images` DISABLE KEYS */;
-INSERT INTO `vendor_images` VALUES (2,3,'0','3','png'),(3,4,'0','4','png'),(4,6,'0','6','jpeg'),(5,7,'0','7','jpeg'),(9,11,'0','11','jpeg');
+INSERT INTO `vendor_images` VALUES (2,3,'0','3','png'),(3,4,'0','4','png'),(4,6,'0','6','jpeg'),(5,7,'0','7','jpeg'),(9,11,'0','11','jpeg'),(21,20,'0','20','png');
 /*!40000 ALTER TABLE `vendor_images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendor_materials`
+--
+
+DROP TABLE IF EXISTS `vendor_materials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vendor_materials` (
+  `vendor_materials_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vendor_id` int(10) unsigned NOT NULL,
+  `material_id` int(10) unsigned NOT NULL,
+  `cost` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`vendor_materials_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vendor_materials`
+--
+
+LOCK TABLES `vendor_materials` WRITE;
+/*!40000 ALTER TABLE `vendor_materials` DISABLE KEYS */;
+INSERT INTO `vendor_materials` VALUES (1,20,16,44.00);
+/*!40000 ALTER TABLE `vendor_materials` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -465,7 +534,7 @@ CREATE TABLE `vendors` (
   `website` varchar(360) DEFAULT NULL,
   PRIMARY KEY (`vendor_id`),
   UNIQUE KEY `vendor_id_UNIQUE` (`vendor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -474,7 +543,7 @@ CREATE TABLE `vendors` (
 
 LOCK TABLES `vendors` WRITE;
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
-INSERT INTO `vendors` VALUES (3,'Grainger','TS1534','2015-06-11','2018-03-23','Tom McGrainger','719-555-3924','1234 Fake Street','Colorado Springs','Colorado','80918','tom@grainger.com','www.grainger.com'),(4,'Concrete Co','PL435A','2015-04-06','2017-12-02','Mr Concrete Jr','719-555-63','987 Not Real Road','Peyton','Colorado','80810','mr@concrete.ord','www.google.com/'),(6,'AAA Building Supply','DS09098','2015-04-12','2018-06-02','Lord Vader','702-963-8745','321 No Moon Lane','Seattle','Washington','85634','vader@deathstar.net','www.starwars.com'),(7,'Iron Wood','PL-9635','2016-02-04','2017-06-16','Woodchuck Ben','719-963-4563','1236 North Street','Colorado Springs','Colorado','80918','benchucks@chuckers.org','www.google.com'),(11,'Logo Inc','LOG987','2016-07-05','2017-04-15','Mr. Logo','719-636-9878','1234 Logo Lane','Logoville','Colorado','80918','logo@logo.com','www.google.com');
+INSERT INTO `vendors` VALUES (3,'Grainger','TS1534','2015-06-11','2018-03-23','Tom McGrainger','719-555-3924','1234 Fake Street','Colorado Springs','Colorado','80918','tom@grainger.com','www.grainger.com'),(4,'Concrete Co','PL435A','2015-04-06','2017-12-02','Mr Concrete Jr','719-555-63','987 Not Real Road','Peyton','Colorado','80810','mr@concrete.ord','www.google.com/'),(6,'AAA Building Supply','DS09098','2015-04-12','2018-06-02','Lord Vader','702-963-8745','321 No Moon Lane','Seattle','Washington','85634','vader@deathstar.net','www.starwars.com'),(7,'Iron Wood','PL-9635','2016-02-04','2017-06-16','Woodchuck Ben','719-963-4563','1236 North Street','Colorado Springs','Colorado','80918','benchucks@chuckers.org','www.google.com'),(11,'Logo Inc','LOG987','2016-07-05','2017-04-15','Mr. Logo','719-636-9878','1234 Logo Lane','Logoville','Colorado','80918','logo@logo.com','www.google.com'),(20,'Kiewit','KWT123','2016-09-11','2017-05-23','Mr Kiewit','719-987-6543','Kiewit','Colorado Springs','Colorado','80918','mister@kiewit.com','www.kiewit.com');
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -574,6 +643,25 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_vendor_materials`
+--
+
+/*!50001 DROP TABLE IF EXISTS `v_vendor_materials`*/;
+/*!50001 DROP VIEW IF EXISTS `v_vendor_materials`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_vendor_materials` AS select `vendor_materials`.`vendor_id` AS `vendor_id`,`materials`.`material_id` AS `material_id`,`materials`.`name` AS `name`,`materials`.`unit` AS `unit`,`vendor_materials`.`cost` AS `cost` from (`vendor_materials` join `materials` on((`materials`.`material_id` = `vendor_materials`.`material_id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_vendors`
 --
 
@@ -601,4 +689,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-05 22:55:35
+-- Dump completed on 2016-12-08 21:24:05
