@@ -9,12 +9,10 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
 
     }
     if($scope.page == undefined) {
-        console.log("fired")
         $scope.page = $scope.firstpage;
     }
     $scope.incrementPage = function(){
 
-        console.log("hello")
         $scope.page++
     }
     $scope.decrementPage = function(){
@@ -33,11 +31,7 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
         }
         else{
             //If th page is an "adjustment" do not attach nav-display
-            //TODO: Think long and hard about if we need to if statements here 
-            if(!$scope.vendor){
-                return 'nav-display'
-            }
-            else if(!$scope.vendor.vendor_id || allowDisplay){
+            if(!$scope.vendor || !$scope.vendor.vendor_id || allowDisplay){
                 return 'nav-display'
             }
         }
@@ -57,7 +51,7 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
             $scope.vendor.materials = []
         }
 
-        $scope.vendor.materials.push({material: "", amount: 0, unit: "None Selected"})
+        $scope.vendor.materials.push({material: "", cost: 0, unit: "None Selected"})
 
     }
     //Remove Eleement from material array
@@ -78,7 +72,7 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
             $scope.vendor.new_materials = []
         }
 
-        $scope.vendor.new_materials.push({material: "", amount: 0, unit: "None Selected"})
+        $scope.vendor.new_materials.push({name: "", cost: 0, unit: ""})
 
     }
 

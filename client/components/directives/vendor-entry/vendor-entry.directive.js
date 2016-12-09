@@ -4,6 +4,7 @@ app.directive('vendorEntry', function() {
         controller: 'vendorEntryController',
         scope: {
             vendor: '=',
+            materials: '<materialOptions',
             firstpage: '<?',
             page: '=?',
             submit: '='

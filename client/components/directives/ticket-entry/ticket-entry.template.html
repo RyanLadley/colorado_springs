@@ -1,0 +1,22 @@
+<div class = "tab-title">
+    <div class = "title-info">
+        <h2>New Tickets</h2>
+        <info-tip message = "Use this tab to create a batch of new tickets."></info-tip>
+    </div>
+</div> 
+
+<div class = "input-row">
+    <div class = "label-input">
+        <label>Vendor</label>
+        <select ng-model = "vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors"  required>
+            <option value="" disabled selected hidden>Select a Vendor</option>
+        </select>
+    </div>
+</div>
+
+<form name = ticketForm>
+	<div class = "input row" ng-repeat = "ticket in tickets">
+
+	</div>
+
+</form>

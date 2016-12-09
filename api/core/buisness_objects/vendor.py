@@ -28,6 +28,10 @@ class Vendor:
 
         self.transactions = transactions
 
+    def attatch_materials(self, materials):
+
+        self.materials = materials
+
 
     def serialize(self):
         serial = {key:str(value) for key,value in self.__dict__.items()}
@@ -36,6 +40,9 @@ class Vendor:
 
         if 'transactions' in serial:
             serial['transactions'] = self._serialize_transactions()
+
+        if 'materials' in serial:
+            serial['materials'] = self._serialize_materials()
 
         return serial
 
@@ -47,3 +54,12 @@ class Vendor:
             serialized_transactions.append(transaction.serialize())
 
         return serialized_transactions
+
+    def _serialize_materials(self):
+        
+        serialized_materials = []
+
+        for material in self.materials:
+            serialized_materials.append(material.serialize())
+
+        return serialized_materials

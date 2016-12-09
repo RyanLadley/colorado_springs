@@ -7,6 +7,7 @@ app.controller('adjustmentsController', function($scope, $rootScope, $location, 
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
         $scope.cityAccounts = success.data.response.city_accounts
+        $scope.materials = success.data.response.materials
         $rootScope.loading = false;
     })
 

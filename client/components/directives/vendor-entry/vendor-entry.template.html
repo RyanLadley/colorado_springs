@@ -83,7 +83,7 @@
         <button class ="remove-button"  ng-click = "removeKnownMaterial($index)" > <i class="fa fa-times" aria-hidden="true"></i></button>
         <div class = "label-input">
             <label>Material</label>
-            <select ng-model = "known.material" ng-options = "material.material_id as material.material_name for material in materials"  >
+            <select ng-model = "known.material_id" ng-options = "material.material_id as material.name for material in materials"  >
                 <option value="" disabled selected hidden>Select a Material</option>
             </select>
         </div>
@@ -110,19 +110,19 @@
         <button class ="remove-button"  ng-click = "removeNewMaterial($index)" > <i class="fa fa-times" aria-hidden="true"></i></button>
         <div class = "label-input">
             <label>Material Name</label>
-            <input type = "text" ng-model = new.name placeholder="Material Name">
+            <input type = "text" ng-model = "new.name" placeholder="Material Name">
         </div>
 
         <div class = "label-input">
             <label>Unit</label>
-            <input type = "text" ng-model = new.unit placeholder="Material Units">
+            <input type = "text" ng-model = "new.unit" placeholder="Material Units">
         </div>
 
         <div class = "label-input">
             <label>Cost per Unit</label>
             <div class = "dollar-input">
                 <i class="fa fa-usd" aria-hidden="true"></i>
-                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "known.cost""> 
+                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "new.cost""> 
             </div>
         </div>
 

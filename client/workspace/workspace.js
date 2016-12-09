@@ -35978,6 +35978,18 @@ app.controller('singleCoversheetController', ['$scope', '$location', '$window', 
         $scope.disableCreate = true
     }
 }]);
+app.controller('ticketEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
+
+
+    //When a date is selected, close the calender
+    $scope.$watch('vendorId', function(){
+        if($scope.vendorId){
+            postRequestService.request('/api/vendor/materials/' +$scope.vendorId).then(function(success){
+                $scope.materials = success.data.response;
+            }) 
+        } 
+    })
+}]);
 app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
     $scope.accountId = null;
@@ -36268,27 +36280,16 @@ app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'm
     $scope.searchId = null;
 
     //When the user selects a vendor, get the intormation from the server
-    //TODO: See if tempVendor is still needed
     $scope.$watch('searchId', function(){
         if($scope.searchId){
-            postRequestService.request('/api/vendor/details/' +$scope.searchId).then(function(success){
-                var tempVendor = success.data.response;
-
-                $scope.vendor ={
-                    vendor_id: tempVendor.vendor_id,
-                    name: tempVendor.name,
-                    contract_no: tempVendor.contract_no,
-                    contract_start: tempVendor.contract_start,
-                    contract_end: tempVendor.contract_end,
-                    point_of_contact: tempVendor.point_of_contact,
-                    phone_no: tempVendor.phone_no,
-                    address: tempVendor.address,
-                    city: tempVendor.city,
-                    state: tempVendor.state,
-                    zip: tempVendor.zip,
-                    email: tempVendor.email,
-                    website: tempVendor.website
+            postRequestService.request('/api/vendor/basics/' +$scope.searchId).then(function(success){
+                $scope.vendor = success.data.response;
+                //Convert cost string into a number
+                for(var i = 0; i < $scope.vendor.materials.length; i++){
+                    $scope.vendor.materials[i].cost = Number($scope.vendor.materials[i].cost)
                 }
+                console.log($scope.vendor)
+
             }) 
         } 
     })
@@ -36306,12 +36307,10 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
 
     }
     if($scope.page == undefined) {
-        console.log("fired")
         $scope.page = $scope.firstpage;
     }
     $scope.incrementPage = function(){
 
-        console.log("hello")
         $scope.page++
     }
     $scope.decrementPage = function(){
@@ -36330,11 +36329,7 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
         }
         else{
             //If th page is an "adjustment" do not attach nav-display
-            //TODO: Think long and hard about if we need to if statements here 
-            if(!$scope.vendor){
-                return 'nav-display'
-            }
-            else if(!$scope.vendor.vendor_id || allowDisplay){
+            if(!$scope.vendor || !$scope.vendor.vendor_id || allowDisplay){
                 return 'nav-display'
             }
         }
@@ -36354,7 +36349,7 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
             $scope.vendor.materials = []
         }
 
-        $scope.vendor.materials.push({material: "", amount: 0, unit: "None Selected"})
+        $scope.vendor.materials.push({material: "", cost: 0, unit: "None Selected"})
 
     }
     //Remove Eleement from material array
@@ -36375,7 +36370,7 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
             $scope.vendor.new_materials = []
         }
 
-        $scope.vendor.new_materials.push({material: "", amount: 0, unit: "None Selected"})
+        $scope.vendor.new_materials.push({name: "", cost: 0, unit: ""})
 
     }
 
@@ -36754,6 +36749,7 @@ app.controller('adjustmentsController', ['$scope', '$rootScope', '$location', 'p
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
         $scope.cityAccounts = success.data.response.city_accounts
+        $scope.materials = success.data.response.materials
         $rootScope.loading = false;
     })
 
@@ -37229,6 +37225,16 @@ app.directive('sidebar', function() {
        templateUrl: '/res/components/directives/sidebar/sidebar.template.html'
     };
 })
+app.directive('ticketEntry', function() {
+    return{
+        restrict: 'E',
+        controller: 'ticketEntryController',
+        scope: {
+            vendors: '<'
+        },
+       templateUrl: '/res/components/directives/ticket-entry/ticket-entry.template.html'
+    };
+})
 app.directive('transactionDialog', function() {
     return{
         restrict: 'E',
@@ -37276,6 +37282,7 @@ app.directive('vendorEntry', function() {
         controller: 'vendorEntryController',
         scope: {
             vendor: '=',
+            materials: '<materialOptions',
             firstpage: '<?',
             page: '=?',
             submit: '='

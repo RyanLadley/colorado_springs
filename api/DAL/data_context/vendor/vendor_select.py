@@ -29,7 +29,7 @@ def vendor_listing(cursor = None):
     return vendors
 
 @DatabaseConnection
-def vendor_details(vendor_id, cursor = None):
+def vendor(vendor_id, cursor = None):
 
     cursor.execute("""
                 SELECT  vendor_id, 
@@ -55,7 +55,5 @@ def vendor_details(vendor_id, cursor = None):
     result = cursor.fetchone()
 
     vendor= Vendor.map_from_form(result)
-
-    vendor.attatch_transactions(transaction_select.by_vendor(vendor.vendor_id))
 
     return vendor

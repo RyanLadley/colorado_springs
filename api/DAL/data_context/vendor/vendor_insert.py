@@ -1,5 +1,7 @@
 from api.DAL.data_context.database_connection import DatabaseConnection
 
+import api.DAL.data_context.materials.materials_insert as materials_insert
+
 import api.core.response as response
 import api.core.sanitize as sanitize
 
@@ -63,4 +65,7 @@ def new_vendor(vendor, cursor = None):
 
     vendor.image.save_to_file_system("api/DAL/images/vendors/")
 
+    materials_insert.vendor_materials(vendor, cursor = cursor)
+
     return response.success()
+

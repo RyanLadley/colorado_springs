@@ -2,6 +2,7 @@ from api.core.workflow import workflow
 from flask import request
 
 import api.DAL.data_context.accounts.accounts_select as accounts_select
+import api.DAL.data_context.materials.materials_select as materials_select
 import api.DAL.data_context.transactions.transaction_select as transaction_select
 import api.DAL.data_context.vendor.vendor_select as vendor_select
 import api.DAL.data_context.city_accounts.city_accounts_select as city_accounts_select
@@ -64,6 +65,16 @@ def pprta_projects_dropdown(api_response = True):
 
     return response.success(serialized_pprta_project) if api_response else serialized_pprta_project
 
+@workflow.route('/dropdown/materials', methods = ['POST'])
+@authorize()
+def materials_dropdown(api_response = True):
+
+    materials = materials_select.materials_listing()
+
+    serialized_materials = utilities.serialize_array(materials)
+
+    return response.success(serialized_materials) if api_response else serialized_materials
+
 
 @workflow.route('/dropdown/all', methods = ['POST'])
 @authorize()
@@ -77,6 +88,7 @@ def all_dropdowns():
     dropdowns['transaction_types'] = transaction_types_dropdown(api_response = False)
     dropdowns['accounts'] = accounts_dropdown(api_response = False)
     dropdowns['city_accounts'] = city_accounts_dropdown(api_response = False)
-    dropdowns['pprta_projects'] = pprta_projects_dropdown(api_response = False) 
+    dropdowns['pprta_projects'] = pprta_projects_dropdown(api_response = False)
+    dropdowns['materials'] = materials_dropdown(api_response = False)
 
     return response.success(dropdowns)

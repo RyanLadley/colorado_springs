@@ -174,6 +174,16 @@ app.directive('sidebar', function() {
        templateUrl: '/res/components/directives/sidebar/sidebar.template.html'
     };
 })
+app.directive('ticketEntry', function() {
+    return{
+        restrict: 'E',
+        controller: 'ticketEntryController',
+        scope: {
+            vendors: '<'
+        },
+       templateUrl: '/res/components/directives/ticket-entry/ticket-entry.template.html'
+    };
+})
 app.directive('transactionDialog', function() {
     return{
         restrict: 'E',
@@ -221,6 +231,7 @@ app.directive('vendorEntry', function() {
         controller: 'vendorEntryController',
         scope: {
             vendor: '=',
+            materials: '<materialOptions',
             firstpage: '<?',
             page: '=?',
             submit: '='
