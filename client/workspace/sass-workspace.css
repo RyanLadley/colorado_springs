@@ -289,6 +289,12 @@
   padding: 10px; }
 
 .scrolable-tabed-content {
+  left: 0;
+  width: 97.5%;
+  top: 0;
+  max-width: 100%;
+  padding: 1px 20px;
+  position: absolute;
   height: 695px;
   overflow-y: auto; }
 
@@ -1137,7 +1143,7 @@
     height: 100px; }
 
 .label-display {
-  display: inline-block;
+  float: left;
   margin: 10px 30px; }
   .label-display label {
     display: block;

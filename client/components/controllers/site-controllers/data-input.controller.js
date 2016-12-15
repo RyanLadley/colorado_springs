@@ -6,6 +6,7 @@ app.controller('dataInputController', function($scope, $rootScope, $location, po
         $scope.vendors = success.data.response.vendors
         $scope.transactionTypes = success.data.response.transaction_types
         $scope.cityAccounts = success.data.response.city_accounts
+        $scope.pprtaProjects = success.data.response.pprta_projects
         $rootScope.loading = false;
     })
 

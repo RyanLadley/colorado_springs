@@ -1,22 +1,81 @@
-<div class = "tab-title">
-    <div class = "title-info">
-        <h2>New Tickets</h2>
-        <info-tip message = "Use this tab to create a batch of new tickets."></info-tip>
-    </div>
-</div> 
+<div class = "scrolable-tabed-content">
+    <div class = "tab-title">
+        <div class = "title-info">
+            <h2>New Tickets</h2>
+            <info-tip message = "Use this tab to create a batch of new tickets."></info-tip>
+        </div>
+    </div> 
 
-<div class = "input-row">
-    <div class = "label-input">
-        <label>Vendor</label>
-        <select ng-model = "vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors"  required>
-            <option value="" disabled selected hidden>Select a Vendor</option>
-        </select>
+    <div class = "input-row">
+        <div class = "label-input">
+            <label>Vendor</label>
+            <select ng-model = "vendorId" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors"  required>
+                <option value="" disabled selected hidden>Select a Vendor</option>
+            </select>
+        </div>
+
+        <div class = "label-input">
+            <label>Projects</label>
+            <select ng-model = "projectId" ng-options = "project.pprta_account_code_id as [project.project_no, project.project_description].join(' - ') for project in pprtaProjects"  required>
+                <option value="" disabled selected hidden>Select a Project</option>
+            </select>
+        </div>
+
+        <div class = "label-input">
+            <label>Districts?</label>
+            <input type="checkbox" ng-model = "showDistricts">
+        </div>
     </div>
+
+    <form name = ticketForm>
+    	<div class = "input-row" ng-repeat = "ticket in tickets">
+        <button class ="remove-button"  ng-click = "removeTicket($index)" > <i class="fa fa-times" aria-hidden="true"></i></button>
+
+            <date-select label ="Date"  date = "ticket.date" input-disabled = "true" required = "true"></date-select>
+
+
+            <div class = "label-input">
+                <label>Ticket Number</label>
+                <input type = "Number" ng-model = ticket.ticket_no  step="1" placeholder="Ticket Number" required>
+            </div>
+
+            <div class = "label-input">
+                <label>Material</label>
+                <select ng-model = "ticket.material" ng-options = "material as material.name for material in materials"  ng-change = "calulateCost(ticket)") required>
+                    <option value="" disabled selected hidden>Select a Materials</option>
+                </select>
+            </div>
+            <div class = "label-input">
+                <label>Quantity</label>
+                <input type = "Number" ng-model = ticket.quantity  step="0.01" placeholder="Quantity" ng-change = "calulateCost(ticket)" required>
+            </div>
+
+            <div class = "label-display">
+                <label>Units</label>
+                <p title = "{{ticket.material.cost| currency}} per {{ticket.material.unit}}">{{ticket.material.unit}}</p>
+            </div>
+
+            <div class = "label-display">
+                <label>Cost</label>
+                <p>{{ticket.cost |currency}}</p>
+            </div>
+
+            <div class = "label-input" ng-if = "showDistricts"  style = "margin-right: 0">
+                <label>District</label>
+                <select ng-model = "ticket.district" required>
+                    <option value="" disabled selected hidden>Select a Materials</option>
+                    <option> North </option>
+                    <option> South </option>
+                    <option> East </option>
+                    <option> West </option>
+                </select>
+            </div>
+
+    	</div>
+        <div  ng-if = "showButtons" >
+            <button ng-click = "newTicket()" class = "add-button" formnovalidate> New Account </button>
+            <button class = "entry-submit" ng-click = "submitTickets()">Submit</button>
+        </div>
+
+    </form>
 </div>
-
-<form name = ticketForm>
-	<div class = "input row" ng-repeat = "ticket in tickets">
-
-	</div>
-
-</form>

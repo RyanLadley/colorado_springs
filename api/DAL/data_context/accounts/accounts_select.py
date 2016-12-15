@@ -338,7 +338,8 @@ def pprta_project_listing( cursor = None):
     cursor.execute("""
                 SELECT pprta_account_code_id,
                        account_no,
-                       project_description
+                       project_description,
+                       project_no
                 FROM pprta_account_codes
                 ORDER BY account_no""")
 

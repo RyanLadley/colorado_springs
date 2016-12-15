@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `colorado_springs` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `colorado_springs`;
--- MySQL dump 10.13  Distrib 5.5.53, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
 --
 -- Host: 127.0.0.1    Database: colorado_springs
 -- ------------------------------------------------------
--- Server version	5.5.53-0ubuntu0.14.04.1
+-- Server version	5.5.49-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -213,6 +213,38 @@ INSERT INTO `pprta_account_codes` VALUES (1,5221000,935,9000,3900003,'Maintenanc
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tickets`
+--
+
+DROP TABLE IF EXISTS `tickets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tickets` (
+  `ticket_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vendor_id` int(10) unsigned NOT NULL,
+  `pprta_id` int(10) unsigned NOT NULL,
+  `date` date NOT NULL,
+  `ticket_no` varchar(45) NOT NULL,
+  `material_id` int(10) unsigned NOT NULL,
+  `quantity` float NOT NULL,
+  `cost` decimal(10,2) NOT NULL,
+  `district` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ticket_id`),
+  UNIQUE KEY `ticket_id_UNIQUE` (`ticket_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tickets`
+--
+
+LOCK TABLES `tickets` WRITE;
+/*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
+INSERT INTO `tickets` VALUES (1,20,1,'2016-12-06','1234',16,1,44.00,NULL);
+/*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `transaction_types`
 --
 
@@ -299,7 +331,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','0YA8E4O7ET771H8R427LGKRELU430NXV','2016-12-08 22:14:30',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','8XGRGIT68872QM7A4W7SR5C7TFW9ZNJE','2016-12-08 01:18:14',0,'0000-00-00 00:00:00',1);
+INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','0YA8E4O7ET771H8R427LGKRELU430NXV','2016-12-08 22:14:30',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','V7F1PR8R1CH84SBX2D6WLWORZF47N156','2016-12-09 18:00:06',0,'0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -689,4 +721,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-08 21:24:05
+-- Dump completed on 2016-12-15 15:21:39

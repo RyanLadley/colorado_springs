@@ -55,6 +55,12 @@ $tab-width: 1700px;
 }
 
 .scrolable-tabed-content{
+    left:0;
+    width: 97.5%;
+    top: 0;
+    max-width: 100%;
+    padding: 1px 20px;
+    position: absolute;
     height: $tab-height - 105px;
     overflow-y: auto;
 }

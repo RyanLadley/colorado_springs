@@ -179,7 +179,8 @@ app.directive('ticketEntry', function() {
         restrict: 'E',
         controller: 'ticketEntryController',
         scope: {
-            vendors: '<'
+            vendors: '<',
+            pprtaProjects: '<'
         },
        templateUrl: '/res/components/directives/ticket-entry/ticket-entry.template.html'
     };
