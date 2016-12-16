@@ -15,7 +15,7 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
         //This was being fired more than once
         //TODO: Figure out why, and find a more elegant solution to the problem
         if($scope.months.length <13){
-            $scope.months.push("Pending")
+            $scope.months.push("All")
         }
         calculateTotals()
         $rootScope.loading = false;
@@ -50,7 +50,15 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
     $scope.months = monthsService.monthList();
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
-            $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+            if($scope.selectedMonth < 12){
+                $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+            }
+            else{ //View All has been selected
+                $scope.transactions = []
+                for(var i = 0; i < 12; i++){
+                    $scope.transactions = $scope.transactions.concat($scope.account.monthly_summary[i])
+                }
+            }
         }
     })
 
@@ -59,14 +67,16 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
     //Called after transations are retrieved from back end
     $scope.monthlyTotals = []
     var calculateTotals = function(){
-
-        for (var i = 0; i < $scope.months.length ; i++){
+        all_total = 0 //Should be the same as account expense. 
+        for (var i = 0; i < 12 ; i++){
             total = 0
             for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
                 total += Number($scope.account.monthly_summary[i][j].expense)
             }
+            all_total +=total
             $scope.monthlyTotals.push(total)
         }
+        $scope.monthlyTotals.push(all_total)
     }
 
 });

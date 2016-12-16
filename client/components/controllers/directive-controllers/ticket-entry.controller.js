@@ -44,6 +44,9 @@ app.controller('ticketEntryController', function($scope, $location, postRequestS
         if( i > 0){
             $scope.tickets[i].date = $scope.tickets[i-1].date
             $scope.tickets[i].material = $scope.tickets[i-1].material
+            if($scope.tickets[i-1].district){
+                $scope.tickets[i].district = $scope.tickets[i-1].district
+            }
         }
     }
 

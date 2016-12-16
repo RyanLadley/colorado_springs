@@ -66,9 +66,7 @@ def from_account_by_month(account, cursor = None):
         for row in results:
             transactions.append(Transaction.map_from_form(row))
 
-        transactions_by_month[str(month-1)] = transactions
-
-    transactions_by_month['12'] = pending_by_account(account, cursor = cursor) 
+        transactions_by_month[str(month-1)] = transactions 
 
     return transactions_by_month
 
