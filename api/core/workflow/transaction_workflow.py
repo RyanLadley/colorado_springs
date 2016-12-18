@@ -14,6 +14,7 @@ import api.DAL.data_context.transactions.transaction_update as transaction_updat
 import api.DAL.data_context.city_accounts.city_accounts_select as city_accounts_select
 
 
+from api.core.buisness_objects.ticket import Ticket
 from api.core.buisness_objects.transaction import Transaction
 from api.core.buisness_objects.city_account_assignment import CityAccountAssignment
 
@@ -25,7 +26,7 @@ import json
 @authorize()
 def new_transaction():
     """This function creates a new transaction in the database
-    It reieves all information pertinent to transactio creating in the request form
+    It reieves all information pertinent to transaction creating in the request form.
     """
     
     transaction_form = json.loads(request.form['payload'])
@@ -33,13 +34,16 @@ def new_transaction():
     transaction = Transaction.map_from_form(transaction_form)
 
     assignments = []
-
     for assignment in transaction_form.get('city_accounts'):
         if(assignment.get("city_account_id") == '' or not assignment.get("city_account_id")): #ignore unassigned city accounts
             continue
         assignments.append(CityAccountAssignment.map_from_form(assignment))
-
     transaction.attatch_city_account_assignments(assignments)
+
+    tickets = []
+    for ticket in transaction_form.get('tickets'):
+        tickets.append(Ticket.map_from_form(ticket))
+    transaction.attatch_tickets(tickets)
 
     return transaction_insert.new_transaction(transaction)
 
@@ -69,20 +73,6 @@ def update_transaction():
     return transaction_update.update_transaction(transaction)
 
 
-@workflow.route('/transaction/pending/update', methods = ['POST'])
-@authorize()
-def update_pending_transaction():
-    """This function updates a pending transaction by giving it a" "date paid" date
-    It recieves a request form contining a transactin id, a date, and a description
-    """
-
-    transaction_form = json.loads(request.form['payload'])
-
-    transaction = Transaction.map_from_form(transaction_form)
-
-    return transaction_update.update_pending_transaction(transaction)
-
-
 
 @workflow.route('/transaction/account/<account_id>', methods = ['POST'])
 @authorize()
@@ -104,7 +94,7 @@ def get_account_transaction_by_month(account_id):
 @workflow.route('/transaction/details/<transaction_id>', methods = ['POST'])
 @authorize()
 def get_transaction_details(transaction_id):
-    """This call gets all pertenatn information about a transactoin
+    """This call gets all pertenatent information about a transaction
     This includes the city codes, pprta codes, transaction type, and
     all other basic information.Currently used in the transaction dialog
     """
@@ -113,18 +103,6 @@ def get_transaction_details(transaction_id):
     transaction.attatch_pprta_codes(accounts_select.pprta_codes(transaction.account_id))
 
     return response.success(transaction.serialize())
-
-
-@workflow.route('/transaction/pending/vendor/<vendor_id>', methods = ['POST'])
-@authorize()
-def get_pending_transaction_by_vendor(vendor_id):
-    """This function gets all pending transactions assigned the provided vendor id
-    It is currently used in the "Pending Adjustments" page
-    """
-
-    transactions = transaction_select.pending_by_vendor(vendor_id)
-
-    return response.success(utilities.serialize_array(transactions))
 
 
 @workflow.route('/transaction/invoice/search', methods = ['POST'])

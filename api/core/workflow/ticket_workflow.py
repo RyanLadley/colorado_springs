@@ -6,6 +6,7 @@ import api.core.sanitize as sanitize
 import api.core.utilities as utilities
 
 import api.DAL.data_context.tickets.tickets_insert as tickets_insert
+import api.DAL.data_context.tickets.tickets_select as tickets_select
 
 
 from api.core.buisness_objects.ticket import Ticket
@@ -29,3 +30,14 @@ def new_ticket_batch():
         tickets.append(Ticket.map_from_form(ticket))
 
     return tickets_insert.new_ticket_batch(tickets)
+
+
+@workflow.route('/tickets/pending/vendor/<vendor_id>/project/<project_id>', methods = ['POST'])
+@authorize()
+def get_pending_tickets(vendor_id, project_id):
+    """This function retrieves all pending tickets for the provided vendor and pprta project
+    """
+    
+    tickets = tickets_select.pending_tickets(vendor_id, project_id)
+
+    return response.success(utilities.serialize_array(tickets))

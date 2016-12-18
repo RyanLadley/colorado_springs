@@ -32,6 +32,9 @@ class Transaction:
 
         self.pprta_codes = pprta_codes
 
+    def attatch_tickets(self, tickets):
+        self.tickets = tickets
+
 
     def serialize(self):
 
@@ -39,6 +42,9 @@ class Transaction:
 
         if 'city_account_assignments' in serial:
             serial['city_account_assignments'] = self._serialize_city_account_assignments()
+
+        if 'tickets' in serial:
+            serial['tickets'] = self._serialize_tickets()
 
         if 'pprta_codes' in serial:
             serial['pprta_codes'] = self.pprta_codes.serialize()
@@ -53,3 +59,13 @@ class Transaction:
             serialized_city_account_assignments.append(assignment.serialize())
 
         return serialized_city_account_assignments
+
+
+    def _serialize_tickets(self):
+        
+        serialized_tickets = []
+
+        for ticket in self.tickets:
+            serialized_tickets.append(ticket.serialize())
+
+        return serialized_tickets

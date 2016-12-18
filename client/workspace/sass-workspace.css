@@ -207,8 +207,9 @@
     margin: 0; }
 
 .dialog-section-header {
+  display: inline-block;
   margin-left: 30px;
-  margin-right: 30px;
+  width: 540px;
   margin-bottom: 5px;
   border-bottom: solid 1px lightgrey; }
 

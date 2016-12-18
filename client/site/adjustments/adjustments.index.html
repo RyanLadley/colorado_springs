@@ -6,10 +6,10 @@
 </div>
 
 <ul class = "tabs adjustment-tabs">
-    <li ng-click = "display = 'transactions'" ng-class = "{selected : display == 'transactions'}">Transactions</li>
-    <li ng-click = "display = 'pending'" ng-class = "{selected : display == 'pending'}">Pending</li>
-    <li ng-click = "display = 'vendor'" ng-class = "{selected : display == 'vendor'}">Vendor</li>
-    <li ng-click = "display = 'budget'" ng-class = "{selected : display == 'budget'}">Budget</li>
+    <li ng-click = "display = 'transactions';resetPage(); " ng-class = "{selected : display == 'transactions'}">Transactions</li>
+    <li ng-click = "display = 'pending';resetPage();" ng-class = "{selected : display == 'pending'}">Pending</li>
+    <li ng-click = "display = 'vendor';resetPage();" ng-class = "{selected : display == 'vendor'}">Vendor</li>
+    <li ng-click = "display = 'budget';resetPage();" ng-class = "{selected : display == 'budget'}">Budget</li>
 </ul>
 
 <div class = "tabed-area adjustment-area">

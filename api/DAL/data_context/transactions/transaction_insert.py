@@ -5,6 +5,8 @@ import api.core.sanitize as sanitize
 
 from api.core.buisness_objects.transaction import Transaction
 
+import api.DAL.data_context.tickets.tickets_update as tickets_update
+
 @DatabaseConnection
 def new_transaction(transaction, cursor = None):
 
@@ -46,5 +48,9 @@ def new_transaction(transaction, cursor = None):
             VALUES
                 (%s, %s, %s);''',
          assignments)
+
+
+    if len(transaction.tickets) > 0 :
+        tickets_update.pending_tickets(transaction_id, transaction.tickets, cursor = cursor)
 
     return response.success()

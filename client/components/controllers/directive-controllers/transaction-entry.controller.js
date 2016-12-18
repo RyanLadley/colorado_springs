@@ -29,12 +29,8 @@ app.controller('transactionEntryController', function($scope, $location, postReq
             }
         }
         else{
-            //If th page is an "adjustment" do not attach nav-display
-            //TODO: Think long and hard about if we need to if statements here 
-            if(!$scope.transaction){
-                return 'nav-display'
-            }
-            else if(!$scope.transaction.transaction_id || allowDisplay){
+            //If th page is an "adjustment" do not attach nav-display 
+            if(!$scope.transaction || (!$scope.transaction.transaction_id  && !$scope.transaction.tickets) || allowDisplay){
                 return 'nav-display'
             }
         } 

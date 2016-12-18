@@ -5,6 +5,7 @@ import api.core.response as response
 import api.core.sanitize as sanitize
 
 import api.DAL.data_context.city_accounts.city_accounts_select as city_accounts_select
+import api.DAL.data_context.tickets.tickets_select as tickets_select
 
 from api.core.buisness_objects.transaction import Transaction
 
@@ -200,8 +201,10 @@ def details(transaction_id, cursor = None):
     transaction = Transaction.map_from_form(result)
 
     assignments = city_accounts_select.assignments_for_transaction(transaction_id, cursor = cursor)
-
     transaction.attatch_city_account_assignments(assignments)
+
+    tickets = tickets_select.tickets_for_transaction(transaction_id, cursor = cursor)
+    transaction.attatch_tickets(tickets)
 
     return transaction
 

@@ -35652,55 +35652,63 @@ app.controller('dateSelectController', ['$scope', '$cookies', '$location', 'post
     })
 }]);
 app.controller('pendingAdjustmentController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
-	
-    //TODO: Use css classes the other tabs have to do this properly
-    $scope.pendingDisplay = function(){
-        $scope.pendingExpand = !$scope.pendingExpand;
+    
+    $scope.accountId = null;
 
-        if($scope.pendingExpand){
-            $scope.pendingSetPos = {
-                "left": "0"
-            };
+    //sThe next few blocks controll the navigation of the tab
+    $scope.page = 1;
+    $scope.incrementPage = function(){
+        $scope.page++
+    }
+    $scope.decrementPage = function(){
+        $scope.page--
+    }
 
-            $scope.pendingSelectPos= {
-                "left": "-1700px" //should mack with $tab-width in shared/_tab.scss
-            }
+    $scope.navLocation = function(firstSectionPage, lastSectionPage){
+        if(lastSectionPage <  $scope.page){
+            return 'nav-left'
+        }
+        else if(firstSectionPage >  $scope.page){
+            return 'nav-right'
         }
         else{
-            $scope.pendingSelectPos = {
-                "left": "0"
-            };
-
-            $scope.pendingSetPos = {
-                "left": "1700px" //should mack with $tab-width in shared/_tab.scss
-            }
-        }
+            return 'nav-display'
+        } 
     }
 
     //When the user selects a new vendor, call the backend and grab all pending transactions for this vendor
-    $scope.$watch('vendorId', function(){
-        if($scope.vendorId){
-            postRequestService.request('/api/transaction/pending/vendor/' +$scope.vendorId).then(function(success){
+    $scope.retrieveTickets = function(){
+        if($scope.vendorId && $scope.projectId){
+            postRequestService.request('/api/tickets/pending/vendor/' +$scope.vendorId +'/project/' +$scope.projectId).then(function(success){
                 $scope.pending = success.data.response;
             }) 
-        } 
-    })
-
-    //"$scope.pending[$scope.selectedPending]" serves as a refrence
-    //initiatlize $scope.selectedPendingTransaction for manipulation and to send back to server
-    $scope.selectedPending = -1;
-    $scope.setSelectedPendingTransaction = function(){
-	    $scope.selectedPendingTransaction = $scope.pending[$scope.selectedPending]
-        $scope.selectedPendingTransaction.date_paid = null
-        $scope.pending[$scope.selectedPending].expense = Number($scope.pending[$scope.selectedPending].expense)
-	}
-
-    $scope.submitPending = function(){
-        if($scope.pendingForm.$valid){
-            postRequestService.request('/api/transaction/pending/update', $scope.selectedPendingTransaction).then(function(success){
-                $location.url('/') 
-            }) 
         }
+        else{
+
+        }
+    }
+
+    $scope.transaction = {
+        tickets: []
+    }
+
+    $scope.addSelected = function(ticket){
+        $scope.transaction.tickets.push(ticket)
+    }
+
+    $scope.setupTransaction = function(){
+        $scope.transaction.expense = 0;
+        for(var i = 0; i < $scope.transaction.tickets.length; i++){
+            $scope.transaction.expense += Number($scope.transaction.tickets[i].cost)
+        }
+
+        $scope.transaction.vendor_id = $scope.vendorId
+    }
+
+    //Remove Element from ticket array
+    $scope.removeTicket = function(index){
+        $scope.transaction.tickets[index].selected = false
+        $scope.transaction.tickets.splice(index, 1)
     }
 }]);
 app.controller('projectCoversheetController', ['$scope', '$location', '$window', 'postRequestService', function($scope, $location, $window, postRequestService){
@@ -36181,12 +36189,8 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
             }
         }
         else{
-            //If th page is an "adjustment" do not attach nav-display
-            //TODO: Think long and hard about if we need to if statements here 
-            if(!$scope.transaction){
-                return 'nav-display'
-            }
-            else if(!$scope.transaction.transaction_id || allowDisplay){
+            //If th page is an "adjustment" do not attach nav-display 
+            if(!$scope.transaction || (!$scope.transaction.transaction_id  && !$scope.transaction.tickets) || allowDisplay){
                 return 'nav-display'
             }
         } 
@@ -36814,12 +36818,18 @@ app.controller('adjustmentsController', ['$scope', '$rootScope', '$location', 'p
         $scope.transactionTypes = success.data.response.transaction_types
         $scope.cityAccounts = success.data.response.city_accounts
         $scope.materials = success.data.response.materials
+        $scope.pprtaProjects = success.data.response.pprta_projects
         $rootScope.loading = false;
     })
 
     //$scope.display determines which tab is currently being displayed
     $scope.display = 'transactions'
 
+    //Since all the tabs share a scope, this makes sure that when a new tab
+    //is selected, the first page is displayed
+    $scope.resetPage = function(){
+        $scope.page = 1;
+    }
 }]);
 app.controller('adminController', ['$scope', '$location', 'postRequestService', function($scope, $location,postRequestService){
 

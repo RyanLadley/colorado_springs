@@ -1,8 +1,8 @@
-<div class = "pending-select" ng-style = "pendingSelectPos">
+<div ng-class = "navLocation(1,1)" class ="nav-content">
     <div class = "tab-title">
         <div class = "title-info">
-            <h2>Pending Transactions</h2>
-            <info-tip message = "A Pending Transaction is a transaction with no 'Date Paid'. Use this screen to update a pending transaction"></info-tip>
+            <h2>Pending Tickets</h2>
+            <info-tip message = "This allows you to assign pending tickets to a new transaction."></info-tip>
         </div>
     </div>
     <div class = "label-input">
@@ -11,61 +11,83 @@
             <option value="" disabled selected hidden>Select a Vendor</option>
         </select>
     </div>
-    
+    <div class = "label-input">
+        <label>Project</label>
+        <select ng-model = "projectId" ng-options = "project.pprta_account_code_id as [project.project_no, project.project_description].join(' - ') for project in pprtaProjects"  required>
+            <option value="" disabled selected hidden>Select a Project</option>
+        </select>
+    </div>
+
+    <button ng-click = "retrieveTickets()">Retrieve Tickets</button>
+
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">
             <tr ng-if = "pending.length > 0">
                 <th></th>
-                <th>Account</th>
-                <th>Vendor</th>
-                <th>Invoice Date</th>
-                <th>Date Paid</th>
-                <th>Invoice Number</th>
-                <th>Descrpition</th>
-                <th>Total Expense</th>
+                <th>Date</th>
+                <th>Ticket No</th>
+                <th>Material</th>
+                <th>Quantitiy</th>
+                <th>Cost</th>
             </tr>
-            <tr ng-repeat = "transaction in pending" class = "row" ng-show = "pending.length > 0">
-                <td><input type="radio" name = "transaction" ng-model ="$parent.selectedPending" ng-value="{{$index}}"></td>
-                <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
-                <td>{{transaction.vendor_name}}</td>
-                <td>{{transaction.invoice_date}}</td>
-                <td>{{transaction.date_paid}}</td>
-                <td class = "center">{{transaction.invoice_no}}</td>
-                <td class = "description account-desription">{{transaction.description}}</td>
-                <td class = "currency">{{transaction.expense | currency}}</td>
+            <tr ng-repeat = "ticket in pending" class = "row" ng-show = "pending.length > 0">
+                <td><input type="checkbox" name = "tickets" ng-model ="ticket.selected" ng-click = "addSelected(ticket)"></td>
+                <td>{{ticket.date}}</td>
+                <td>{{ticket.ticket_no}}</td>
+                <td>{{ticket.material_name}}</td>
+                <td class = "center">{{ticket.quantity}}</td>
+                <td class = "currency">{{ticket.cost | currency}}</td>
             </tr>
             <tr ng-if = "!pending.length > 0">
-                <th colspan="8"></th>
+                <th colspan="6"></th>
             </tr>
             <tr ng-if = "!pending.length > 0">
-                <td colspan="8" class = "center">There are currently no transactions for {{months[selectedMonth]}}</td>
+                <td colspan="6" class = "center">There are no pending tickets for the selected vendor and project</td>
             </tr>
         </table>
     </div>
-    <button class="to-button transition-button" ng-click = "pendingDisplay();setSelectedPendingTransaction();" ng-disabled = "selectedPending < 0;">To<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    <button class="to-button transition-button" ng-click = "incrementPage()" ng-disabled = "!transaction.tickets.length > 0;">Verify Tickets<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
 </div>
 
-<div class = "pending-set" ng-style = "pendingSetPos">
-    <table id = "adjustment-table" class = "selected-preview table alternate-table">
-        <tr>
-            <td>{{pending[selectedPending].vendor_name}}</td>
-            <td>{{pending[selectedPending].invoice_date}}</td>
-            <td>{{pending[selectedPending].date_paid}}</td>
-            <td class = "center">{{pending[selectedPending].invoice_no}}</td>
-            <td class = "description account-desription">{{pending[selectedPending].description}}</td>
-            <td class = "currency">{{pending[selectedPending].expense | currency}}</td>
-        </tr>
-    </table>
-    <h2  class = "tab-title">Set Payment Date</h2>
-
-    <form name = "pendingForm">
-        <date-select label ="Date Paid"  date = "selectedPendingTransaction.date_paid" input-disabled = "true" required = "true" class = "input-row"></date-select>
-        <div class = "label-input input-row">
-            <label>Description</label>
-            <textarea placeholder="Enter Discription" ng-model = "selectedPendingTransaction.description"></textarea>
+<div ng-class = "navLocation(2,2)" class ="nav-content">
+    <div class = "tab-title">
+        <div class = "title-info">
+            <h2>Verify Tickets</h2>
+            <info-tip message = "Verify the selected tickets to be added to the transaction"></info-tip>
         </div>
-        <button class = "entry-submit" ng-click = "submitPending()" ng-disabled = "pendingForm.$invalid" >Submit</button>
-    </form>
+    </div>
+    <div class = "adjustment-table-scroll" >
+        <table id = "adjustment-table" class = "table alternate-table ">
+            <tr ng-if = "transaction.tickets.length > 0">
+                <th></th>
+                <th>Date</th>
+                <th>Ticket No</th>
+                <th>Material</th>
+                <th>Quantitiy</th>
+                <th>Cost</th>
+            </tr>
+            <tr ng-repeat = "ticket in transaction.tickets" class = "row" ng-show = "transaction.tickets.length > 0">
+                <td> <button class ="table-remove-button"  ng-click = "removeTicket($index)" > <i class="fa fa-times" aria-hidden="true"></i></button></td>
+                <td>{{ticket.date}}</td>
+                <td>{{ticket.ticket_no}}</td>
+                <td>{{ticket.material_name}}</td>
+                <td class = "center">{{ticket.quantity}}</td>
+                <td class = "currency">{{ticket.cost | currency}}</td>
+            </tr>
+            <tr ng-if = "!transaction.tickets.length > 0">
+                <th colspan="6"></th>
+            </tr>
+            <tr ng-if = "!transaction.tickets.length > 0">
+                <td colspan="6" class = "center">You have removed all tickets from this transaction.</td>
+            </tr>
+        </table>
 
-    <button class="from-button transition-button" ng-click = "pendingDisplay()" formnovalidate><i class="fa fa-chevron-left" aria-hidden="true"></i>From</button>
+    </div>
+    <button class="from-button transition-button" ng-click = "decrementPage()" formnovalidate><i class="fa fa-chevron-left" aria-hidden="true"></i>Ticket Selection</button>
+    <button class="to-button transition-button" ng-click = "incrementPage(); setupTransaction();" ng-disabled = "!transaction.tickets.length > 0;">Create Transaction<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+</div>
+
+<div ng-class = "navLocation(3,4)" class ="nav-content">
+    <transaction-entry transaction = "transaction" account-options = "accounts"  vendor-options = "vendors" transaction-type-options = "transactionTypes"  city-account-options = "cityAccounts" firstpage = "3" page = "page"></transaction-entry>
+    <button class="from-button transition-button hidableelement" ng-click = "decrementPage()" ng-class = "{'hideelementleft': page == 4}"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back to Ticket Verification</button>
 </div>
