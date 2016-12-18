@@ -116,7 +116,7 @@ CREATE TABLE `city_account_assignments` (
   `amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`city_account_assignment_id`),
   UNIQUE KEY `city_account_assignments_id_UNIQUE` (`city_account_assignment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `city_account_assignments` (
 
 LOCK TABLES `city_account_assignments` WRITE;
 /*!40000 ALTER TABLE `city_account_assignments` DISABLE KEYS */;
-INSERT INTO `city_account_assignments` VALUES (1,24,4,96.30),(5,42,3,63.21),(40,9,6,63.20),(56,2,9,50.52),(57,2,11,90.00),(60,27,3,63.21),(81,43,7,3.10),(82,43,5,26.00),(83,43,15,11.10),(84,47,9,5.00),(85,47,13,51.25),(88,48,6,96.32),(89,46,2,6.20),(90,46,3,57.00),(91,49,2,7.25),(92,49,1,34.90),(93,49,5,27.90),(94,49,15,8.20),(95,50,3,6.20),(96,50,4,5.00),(97,50,31,52.00),(101,28,3,97.20),(102,28,4,87.00),(103,28,13,78.00),(104,28,2,709.00);
+INSERT INTO `city_account_assignments` VALUES (1,24,4,96.30),(5,42,3,63.21),(40,9,6,63.20),(56,2,9,50.52),(57,2,11,90.00),(60,27,3,63.21),(81,43,7,3.10),(82,43,5,26.00),(83,43,15,11.10),(84,47,9,5.00),(85,47,13,51.25),(88,48,6,96.32),(89,46,2,6.20),(90,46,3,57.00),(91,49,2,7.25),(92,49,1,34.90),(93,49,5,27.90),(94,49,15,8.20),(95,50,3,6.20),(96,50,4,5.00),(97,50,31,52.00),(101,28,3,97.20),(102,28,4,87.00),(103,28,13,78.00),(104,28,2,709.00),(106,52,7,44.00),(108,54,14,44.00),(109,55,6,44.00);
 /*!40000 ALTER TABLE `city_account_assignments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,9 +229,10 @@ CREATE TABLE `tickets` (
   `quantity` float NOT NULL,
   `cost` decimal(10,2) NOT NULL,
   `district` varchar(45) DEFAULT NULL,
+  `transaction_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`ticket_id`),
   UNIQUE KEY `ticket_id_UNIQUE` (`ticket_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +241,7 @@ CREATE TABLE `tickets` (
 
 LOCK TABLES `tickets` WRITE;
 /*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
-INSERT INTO `tickets` VALUES (1,20,1,'2016-12-06','1234',16,1,44.00,NULL);
+INSERT INTO `tickets` VALUES (1,20,1,'2016-12-06','1234',16,1,44.00,NULL,55),(2,20,1,'2016-12-14','35435',16,2,88.00,NULL,NULL);
 /*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +289,7 @@ CREATE TABLE `transactions` (
   `transaction_type_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`transaction_id`),
   UNIQUE KEY `transaction_id_UNIQUE` (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +298,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',0),(24,18,4,'2016-11-14','2016-11-20','JMU-POL-90','This is a test of account codes','96.3',1),(27,22,7,'2016-11-06','2016-11-27','SFSAFS','Testing Unassigned City Accounts.','63.21',1),(28,19,11,'2016-11-06','2016-11-26','ASFSAF6','Testing Multiple Accounts','971.2',2),(42,44,4,'2016-11-14','2016-11-20','HNH-123-LO','Testing City Accounts... Again','63.21',1),(43,44,4,'2016-11-08','2016-11-16','13-PO-LO','This is testing city account adjustments','63.2',2),(44,23,7,'2016-11-16','2016-11-05','63-854','What a beautiful transaction.','90.09',0),(45,18,4,'2016-11-08','2016-11-24','324','Testing new conversions','63.25',0),(46,20,4,'2016-11-08','2016-11-29','LOK-98','This is a test. I bet this gets deleted. So far it has not','63.2',3),(47,20,6,'2016-11-14','2016-12-07','VNSH-876-SA','When in doubt, make an account... transaction','63',1),(48,19,4,'2016-11-23','2016-11-17','656565','I refactored stuff','96.32',1),(49,11,4,'2016-11-12','2016-12-22','90-876','Regression test.','78.25',2),(50,17,11,'2016-11-07','2016-11-25','JDHE-32','This is a test for the pending functionality. It\'s been a while.','63.2',2);
+INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',0),(24,18,4,'2016-11-14','2016-11-20','JMU-POL-90','This is a test of account codes','96.3',1),(27,22,7,'2016-11-06','2016-11-27','SFSAFS','Testing Unassigned City Accounts.','63.21',1),(28,19,11,'2016-11-06','2016-11-26','ASFSAF6','Testing Multiple Accounts','971.2',2),(42,44,4,'2016-11-14','2016-11-20','HNH-123-LO','Testing City Accounts... Again','63.21',1),(43,44,4,'2016-11-08','2016-11-16','13-PO-LO','This is testing city account adjustments','63.2',2),(44,23,7,'2016-11-16','2016-11-05','63-854','What a beautiful transaction.','90.09',0),(45,18,4,'2016-11-08','2016-11-24','324','Testing new conversions','63.25',0),(46,20,4,'2016-11-08','2016-11-29','LOK-98','This is a test. I bet this gets deleted. So far it has not','63.2',3),(47,20,6,'2016-11-14','2016-12-07','VNSH-876-SA','When in doubt, make an account... transaction','63',1),(48,19,4,'2016-11-23','2016-11-17','656565','I refactored stuff','96.32',1),(49,11,4,'2016-11-12','2016-12-22','90-876','Regression test.','78.25',2),(50,17,11,'2016-11-07','2016-11-25','JDHE-32','This is a test for the pending functionality. It\'s been a while.','63.2',2),(52,15,20,'2016-12-16','2016-12-11','123421','123','44',2),(54,14,20,'2016-12-22','2016-12-02','PEND21','1234','44',3),(55,18,20,'2016-12-12','2016-12-19','123-432','Testing Pending','44',1);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,7 +332,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','0YA8E4O7ET771H8R427LGKRELU430NXV','2016-12-08 22:14:30',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','V7F1PR8R1CH84SBX2D6WLWORZF47N156','2016-12-09 18:00:06',0,'0000-00-00 00:00:00',1);
+INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','31255LJVMF5ZCL86IZ6D2JFJRWDDRG3N','2016-12-17 20:56:55',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','V7F1PR8R1CH84SBX2D6WLWORZF47N156','2016-12-09 18:00:06',0,'0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -413,6 +414,33 @@ SET character_set_client = utf8;
   `account_id` tinyint NOT NULL,
   `account_no` tinyint NOT NULL,
   `expense` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `v_tickets`
+--
+
+DROP TABLE IF EXISTS `v_tickets`;
+/*!50001 DROP VIEW IF EXISTS `v_tickets`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `v_tickets` (
+  `ticket_id` tinyint NOT NULL,
+  `vendor_id` tinyint NOT NULL,
+  `vendor_name` tinyint NOT NULL,
+  `pprta_id` tinyint NOT NULL,
+  `project_no` tinyint NOT NULL,
+  `project_description` tinyint NOT NULL,
+  `date` tinyint NOT NULL,
+  `ticket_no` tinyint NOT NULL,
+  `material_id` tinyint NOT NULL,
+  `material_name` tinyint NOT NULL,
+  `quantity` tinyint NOT NULL,
+  `cost` tinyint NOT NULL,
+  `district` tinyint NOT NULL,
+  `transaction_id` tinyint NOT NULL,
+  `invoice_no` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -656,6 +684,25 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_tickets`
+--
+
+/*!50001 DROP TABLE IF EXISTS `v_tickets`*/;
+/*!50001 DROP VIEW IF EXISTS `v_tickets`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_tickets` AS select `tickets`.`ticket_id` AS `ticket_id`,`tickets`.`vendor_id` AS `vendor_id`,`vendors`.`name` AS `vendor_name`,`tickets`.`pprta_id` AS `pprta_id`,`pprta`.`project_no` AS `project_no`,`pprta`.`project_description` AS `project_description`,`tickets`.`date` AS `date`,`tickets`.`ticket_no` AS `ticket_no`,`tickets`.`material_id` AS `material_id`,`materials`.`name` AS `material_name`,`tickets`.`quantity` AS `quantity`,`tickets`.`cost` AS `cost`,`tickets`.`district` AS `district`,`tickets`.`transaction_id` AS `transaction_id`,`transactions`.`invoice_no` AS `invoice_no` from ((((`tickets` join `vendors` on((`tickets`.`vendor_id` = `vendors`.`vendor_id`))) join `pprta_account_codes` `pprta` on((`tickets`.`pprta_id` = `pprta`.`pprta_account_code_id`))) join `materials` on((`tickets`.`material_id` = `materials`.`material_id`))) left join `transactions` on((`tickets`.`transaction_id` = `transactions`.`transaction_id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_transactions`
 --
 
@@ -721,4 +768,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-15 15:21:39
+-- Dump completed on 2016-12-18 15:59:31
