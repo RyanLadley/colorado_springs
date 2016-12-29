@@ -85,6 +85,8 @@
     border-right: 1px solid lightgrey; }
   .table .center {
     text-align: center; }
+  .table .left {
+    text-align: left; }
   .table .description {
     min-width: 350px;
     max-width: 500px; }
@@ -135,6 +137,20 @@
   .disabledrow td {
     background-color: lightgrey; }
 
+.bare-table {
+  border-collapse: collapse;
+  margin: 0 5px; }
+  .bare-table td {
+    padding-top: 15px;
+    padding-bottom: 5px;
+    border-bottom: solid 1px lightgrey; }
+  .bare-table .center {
+    text-align: center; }
+  .bare-table .left {
+    text-align: left; }
+  .bare-table .currency {
+    text-align: right; }
+
 .area {
   display: inline-block;
   box-shadow: 3px 3px 2px grey;
@@ -161,6 +177,12 @@
     margin: 5px auto 5px auto;
     padding: 10px 1px 1px 3px;
     text-align: center; }
+    .area .section-inset a {
+      color: black;
+      display: block;
+      padding: 3px; }
+      .area .section-inset a:hover {
+        background-color: lightgrey; }
 
 .dialog-screen {
   position: fixed;
@@ -244,6 +266,9 @@
     background: #777997;
     cursor: not-allowed;
     box-shadow: none; }
+
+.vendor-dialog-title {
+  background-color: #B3B332; }
 
 .tabs {
   list-style: none;
@@ -931,6 +956,15 @@
   .admin-area input {
     margin: 0 auto; }
 
+.admin-table-area {
+  background-color: #D74646;
+  width: 700px;
+  margin-left: 50px; }
+  .admin-table-area table {
+    width: 98%; }
+  .admin-table-area td {
+    padding-left: 10px; }
+
 .admin-edit-button {
   border: none;
   background-color: #7B5E86;
@@ -965,6 +999,10 @@
     margin: 0px 10px;
     display: inline-block;
     margin-bottom: 15px; }
+
+.vendor-pprta-dropdown {
+  margin: 5px 5px 10px 15px;
+  width: 355px; }
 
 .vendor-details-inset {
   padding: 10px; }
@@ -1087,6 +1125,11 @@
   font-weight: bold;
   cursor: pointer; }
 
+.materials-table-header {
+  background-color: #4E539F;
+  float: left;
+  width: 1600px; }
+
 .entry-tabs li {
   background: lightgrey;
   border: 1px solid lightgrey; }
@@ -1109,7 +1152,8 @@
   position: relative; }
   .date-input .date-picker {
     position: absolute;
-    top: 40px; }
+    top: 40px;
+    z-index: 999; }
   .date-input .input-div {
     width: 175px; }
   .date-input input {
@@ -1191,12 +1235,66 @@
     transition-duration: 0.2s;
     box-shadow: 2px 2px 10px grey; }
 
+.table-remove-button {
+  color: white;
+  background: #D74646;
+  border: none;
+  padding: 3px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s; }
+  .table-remove-button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    box-shadow: 2px 2px 10px grey; }
+
+.search-button {
+  margin-left: 10px;
+  margin-top: 15px;
+  padding: 10px 15px;
+  color: white;
+  background: #3A805A;
+  border: black;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s; }
+  .search-button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    box-shadow: 2px 2px 10px grey; }
+  .search-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    box-shadow: none; }
+
 .city-account-totals {
   display: inline-block;
   width: 100%; }
 
 .credit-message {
   text-align: center; }
+
+.delete-button {
+  background: #D74646;
+  color: white;
+  border: none;
+  font-weight: bold;
+  font-size: 17px;
+  padding: 10px 20px;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 25px 35px 0 0;
+  float: right; }
+  .delete-button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    box-shadow: 2px 2px 10px grey; }
 
 .entry-submit {
   background-color: #549250;

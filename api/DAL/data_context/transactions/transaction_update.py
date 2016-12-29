@@ -64,6 +64,24 @@ def update_transaction(transaction, cursor = None):
 
 
 @DatabaseConnection
+def delete_transaction(transaction_id, cursor = None):
+
+    cursor.execute('''
+        DELETE FROM transactions
+        WHERE transaction_id =  %(trans_id)s;''',
+        {'trans_id': transaction_id})
+
+
+    cursor.execute('''
+        DELETE FROM city_account_assignments
+        WHERE transaction_id =  %(trans_id)s;''',
+        {'trans_id': transaction_id})
+
+
+    return response.success()
+
+
+@DatabaseConnection
 def update_pending_transaction(transaction, cursor = None):
 
     cursor.execute('''

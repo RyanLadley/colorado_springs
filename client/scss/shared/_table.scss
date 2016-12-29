@@ -30,6 +30,10 @@
         text-align: center;
     }
 
+    .left{
+        text-align: left;
+    }
+
     .description{
         min-width: 350px;
         max-width: 500px;
@@ -102,4 +106,27 @@
     td{
         background-color: lightgrey;
     }
+}
+
+.bare-table{
+    border-collapse:collapse;
+    margin: 0 5px;
+    
+    td{
+        padding-top: 15px;
+        padding-bottom: 5px; 
+        border-bottom: solid 1px lightgrey;
+    }
+
+    .center{
+        text-align: center;
+    }
+
+    .left{
+        text-align: left;
+    }
+    .currency{
+        text-align: right;
+    }
+
 }

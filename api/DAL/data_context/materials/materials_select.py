@@ -14,7 +14,8 @@ from api.core.buisness_objects.material import Material
 def vendor_materials(vendor_id, cursor = None):
 
     cursor.execute("""
-                SELECT  material_id,
+                SELECT  vendor_materials_id,
+                        material_id,
                         name,
                         unit,
                         cost
@@ -48,3 +49,4 @@ def materials_listing(cursor = None):
         materials.append(Material.map_from_form(row))
 
     return materials
+

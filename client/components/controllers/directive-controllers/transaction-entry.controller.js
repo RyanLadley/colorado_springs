@@ -54,6 +54,14 @@ app.controller('transactionEntryController', function($scope, $location, postReq
         }
     }
 
+    $scope.deleteTransaction = function(transactionId){
+        if(confirm("Are you sure you want to delete this transaction?")){  
+            postRequestService.request('/api/transaction/delete/' +transactionId).then(function(success){
+                $location.url('/') 
+            })
+        }
+    }
+
     //This is called when the user transtions from the basic data entry to the city accoutnts screen
     //If this is the initial move, or if the expense has been changed, it populate the city account the "Unassigned" and 100% of the expense
     $scope.setupCityAccounts = function(){

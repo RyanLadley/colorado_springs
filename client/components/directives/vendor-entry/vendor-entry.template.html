@@ -67,7 +67,7 @@
             <date-select label ="Contract End Date"  date = "vendor.contract_end" input-disabled = "true"></date-select>
         </div>
 
-        <button class="to-button transition-button" ng-click = "incrementPage();" > Attatch Materials<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+        <button class="to-button transition-button" ng-click = "incrementPage();"  ng-disabled = "vendorEntryForm.$invalid"> Attatch Materials<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
     </div>
 </form>
 <div ng-class = "navLocation(firstpage+1, true)" class ="nav-content scrolable-tabed-content">
@@ -83,7 +83,7 @@
         <button class ="remove-button"  ng-click = "removeKnownMaterial($index)" > <i class="fa fa-times" aria-hidden="true"></i></button>
         <div class = "label-input">
             <label>Material</label>
-            <select ng-model = "known.material_id" ng-options = "material.material_id as material.name for material in materials"  >
+            <select ng-model = "known.material_id" ng-change = "selectKnownMaterial(known.material_id, $index)" ng-options = "material.material_id as material.name for material in materials"  >
                 <option value="" disabled selected hidden>Select a Material</option>
             </select>
         </div>
@@ -131,5 +131,5 @@
         <button ng-click = "addNewMaterial()" ng-disabled = "remaining <= 0" class = "add-button"> Add New Material </button>
     </div>
     <button class="from-button transition-button" ng-click = "decrementPage();" formnovalidate><i class="fa fa-chevron-left" aria-hidden="true"></i>Back To Vendor Details</button>
-    <button class = "entry-submit" ng-click = "submitVendor()">Submit</button>
+    <button class = "entry-submit" ng-click = "submitVendor()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Submit</button>
 </div>

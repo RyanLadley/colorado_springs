@@ -13,6 +13,21 @@ app.service('accountNameService', function(){
         }
     }
 });
+app.service('dateFromString', function(){
+
+    this.get = function(dateString){
+        var dateParts = dateString.split("-");
+        if(dateParts > 1){
+            var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2));
+        }
+        else{
+            var date = new Date(dateString)
+        }
+
+        return date
+
+    }
+});
 app.service('monthsService', function(){
 
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -86,6 +101,31 @@ app.service('sortService', ['accountNameService', function(accountNameService){
                 return byDate(a[column] ,b[column])
             }
             else if(column == 'expense'){
+                return byNumber(parseFloat(a[column]) ,parseFloat(b[column]))
+            }
+        })
+
+        return transactions
+    }
+
+    this.sortTickets = function(tickets, column, ascending){
+
+        tickets.sort(function(a,b){
+            //Swap a and b if sorting in a descending (not ascending) fashion
+            if(!ascending){
+                var temp = a
+                a = b
+                b = temp
+            }
+
+            //Detrmine the columns being sorted
+            if (column =='material_name' || column == 'ticket_no' || column == 'invoice_no'){
+                return byString(a[column] ,b[column])
+            }
+            else if(column == 'date'){
+                return byDate(a[column] ,b[column])
+            }
+            else if(column == 'quantity' || column == 'cost'){
                 return byNumber(parseFloat(a[column]) ,parseFloat(b[column]))
             }
         })

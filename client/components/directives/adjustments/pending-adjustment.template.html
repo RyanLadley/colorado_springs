@@ -18,7 +18,7 @@
         </select>
     </div>
 
-    <button ng-click = "retrieveTickets()">Retrieve Tickets</button>
+    <button class = "search-button" ng-click = "retrieveTickets()" ng-disabled = "!projectId || !vendorId">Retrieve Tickets</button>
 
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">

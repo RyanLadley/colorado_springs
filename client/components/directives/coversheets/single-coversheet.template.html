@@ -11,7 +11,14 @@
 	        <option value="" disabled selected hidden>Select a Vendor</option>
 	    </select>
 	</div>
-	<search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoice_no"></search-field>
+
+    <div class = "label-input">
+        <label>Invoice Number</label>
+        <input type = "text" ng-model = "search.invoice_no">
+    </div>
+
+    <button class = "search-button" ng-click = "searchInvoice()"> <i class="fa fa-search" aria-hidden="true"></i>  Search</button>
+	<!--<search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoice_no"></search-field> -->
 </form>
 
 <div class ="coversheet-table">

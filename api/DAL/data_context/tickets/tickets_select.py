@@ -69,3 +69,34 @@ def tickets_for_transaction(transaction_id, cursor = None):
         tickets.append(Ticket.map_from_form(row))
 
     return tickets
+
+@DatabaseConnection
+def tickets_for_vendor(vendor_id, cursor = None):
+
+    cursor.execute("""
+                SELECT  ticket_id,
+                        vendor_id,
+                        vendor_name,
+                        pprta_id,
+                        project_no,
+                        project_description,
+                        date,
+                        ticket_no,
+                        material_id,
+                        material_name,
+                        quantity,
+                        cost,
+                        district,
+                        transaction_id,
+                        invoice_no
+                FROM v_tickets
+                WHERE vendor_id = %(vendor_id)s""",
+                {'vendor_id' : vendor_id})
+
+    results = cursor.fetchall() or {}
+
+    tickets = []
+    for row in results:
+        tickets.append(Ticket.map_from_form(row))
+
+    return tickets

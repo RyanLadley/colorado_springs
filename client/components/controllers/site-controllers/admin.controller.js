@@ -7,6 +7,31 @@ app.controller('adminController', function($scope, $location,postRequestService)
 
     })
 
+    //Gets accounts
+    postRequestService.request('/api/accounts/budget').then(function(success){
+        $scope.accounts = success.data.response;
+
+        convertAccountBudgets()
+
+    })
+
+    var convertAccountBudgets = function(){
+        for(var i = 0; i < $scope.accounts.length; i++ ){
+            $scope.accounts[i].annual_budget = Number($scope.accounts[i].annual_budget)
+            $scope.accounts[i].displayBudget = Number($scope.accounts[i].annual_budget)
+
+            for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++ ){
+                $scope.accounts[i].sub_accounts[j].annual_budget = Number($scope.accounts[i].sub_accounts[j].annual_budget)
+                $scope.accounts[i].sub_accounts[j].displayBudget = Number($scope.accounts[i].sub_accounts[j].annual_budget)
+
+                for(var k = 0; k < $scope.accounts[i].sub_accounts[j].sub_accounts.length; k++ ){
+                    $scope.accounts[i].sub_accounts[j].sub_accounts[k].annual_budget = Number($scope.accounts[i].sub_accounts[j].sub_accounts[k].annual_budget)
+                    $scope.accounts[i].sub_accounts[j].sub_accounts[k].displayBudget = Number($scope.accounts[i].sub_accounts[j].sub_accounts[k].annual_budget)
+                }
+            }
+        }
+    }
+
 	$scope.submitNewUser = function(){
 
 		if(!$scope.newUserForm.$valid ){
@@ -50,4 +75,16 @@ app.controller('adminController', function($scope, $location,postRequestService)
 			}
 		})
 	}
+
+    $scope.submitAccounts = function(){
+        postRequestService.request('/api/accounts/update/budget', $scope.accounts).then(function(success){
+            if(success.data.status == "success"){
+                convertAccountBudgets()
+                alert("Accounts have been updated.")
+            }
+            else{
+                alert("There was an error.")
+            }
+        })
+    }
 });

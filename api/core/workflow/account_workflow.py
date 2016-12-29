@@ -3,6 +3,7 @@ from flask import request
 
 import api.DAL.data_context.accounts.accounts_select as accounts_select
 import api.DAL.data_context.accounts.accounts_insert as accounts_insert
+import api.DAL.data_context.accounts.accounts_update as accounts_update
 
 from api.core.buisness_objects.account import Account
 from api.core.buisness_objects.account_transfer import AccountTransfer
@@ -29,6 +30,43 @@ def get_accounts_overview():
     serialized_accounts = utilities.serialize_array(accounts)
 
     return response.success(serialized_accounts)
+
+
+@workflow.route('/accounts/budget', methods = ['POST'])
+@authorize()
+def get_accounts_budget():
+    """This funtion returns a liist of all accounts with there annual budget.
+    This is used in the admin screen to facilitate budget updates 
+    """
+
+    accounts = accounts_select.accounts_budget()
+
+    serialized_accounts = utilities.serialize_array(accounts)
+
+    return response.success(serialized_accounts)
+
+
+@workflow.route('/accounts/update/budget', methods = ['POST'])
+@authorize()
+def update_accounts_budget():
+    """Update all account budgets
+    """
+
+    accounts_form = json.loads(request.form['payload'])
+
+    accounts = []
+
+    #This does not distinguish accounts and there subaccounts. 
+    for account in accounts_form:
+        accounts.append(Account.map_from_form(account))
+
+        for sub_account in account.get('sub_accounts'):
+            accounts.append(Account.map_from_form(sub_account))
+
+            for shred_out in sub_account.get('sub_accounts'):
+                accounts.append(Account.map_from_form(shred_out))
+
+    return accounts_update.accounts_budget(accounts)
 
 
 @workflow.route('/accounts/numbers', methods = ['POST'])

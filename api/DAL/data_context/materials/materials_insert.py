@@ -26,6 +26,11 @@ def new_materials(materials, cursor = None):
 
 @DatabaseConnection
 def vendor_materials(vendor, cursor = None):
+    """Attatch materials to a vendor/
+    TODO: This may beome a bottle newk as we delete and insert rather than update. 
+    Keep an eye out
+    """
+
 
     #Delete any materials associated with this vendor
     cursor.execute('''

@@ -28,6 +28,12 @@ class Vendor:
 
         self.transactions = transactions
 
+
+    def attatch_tickets(self, tickets):
+
+        self.tickets =tickets
+
+
     def attatch_materials(self, materials):
 
         self.materials = materials
@@ -41,10 +47,14 @@ class Vendor:
         if 'transactions' in serial:
             serial['transactions'] = self._serialize_transactions()
 
+        if 'tickets' in serial:
+            serial['tickets'] = self._serialize_tickets()
+
         if 'materials' in serial:
             serial['materials'] = self._serialize_materials()
 
         return serial
+
 
     def _serialize_transactions(self):
         
@@ -54,6 +64,17 @@ class Vendor:
             serialized_transactions.append(transaction.serialize())
 
         return serialized_transactions
+
+
+    def _serialize_tickets(self):
+        
+        serialized_tickets = []
+
+        for ticket in self.tickets:
+            serialized_tickets.append(ticket.serialize())
+
+        return serialized_tickets
+
 
     def _serialize_materials(self):
         

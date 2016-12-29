@@ -1,16 +1,16 @@
 <form class = "entry-form " name = "entryForm">
     <div ng-class = "navLocation(firstpage, false)" class ="nav-content">
 
-        <div class = "tab-title" ng-if = "!transaction.transactionId">
+        <div class = "tab-title" ng-if = "!transaction.transaction_id">
             <div class = "title-info">
                 <h2>New Transactions</h2>
                 <info-tip message = "Use this tab to create a new transaction. All fields but the 'Date Paid' are required for input."></info-tip>
             </div>
         </div>
 
-        <div class = "tab-title" ng-if = "transaction.transactionId">
+        <div class = "tab-title" ng-if = "transaction.transaction_id">
             <div class = "title-info">
-                <h2>To</h2>
+                <h2>Adjust Transaction To</h2>
                 <info-tip message = "The row above shows the existing entry. Use the inputs bellow to change this transaction and press submit to save."></info-tip>
             </div>
         </div>
@@ -102,7 +102,12 @@
                 
         <button class="from-button transition-button" ng-click = "decrementPage();" formnovalidate><i class="fa fa-chevron-left" aria-hidden="true"></i>Back To Transactions</button>
 
-        <button class = "entry-submit" ng-click = "submitTransaction()">Submit</button>
+
+        <button class = "entry-submit" ng-click = "submitTransaction()"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+Submit</button>
+
+        <button class="delete-button"  ng-click = deleteTransaction(transaction.transaction_id) ng-if = "transaction.transaction_id"><i class="fa fa-ban" aria-hidden="true"></i>
+    Delete</button>
     </div>
    
 </form>

@@ -1,0 +1,21 @@
+<div class = "page-title">
+    <div class = "large-title-info">
+        <h1> Materials Overview</h1>
+        <info-tip message = "This page displays all known materials, and the cost associated with indiviual vendors"></info-tip>
+    </div>
+</div>
+
+<div class = "table-header materials-table-header">
+	<h2>Materials By Vendor</h2>
+	<table class = "table">
+		<tr>
+			<th>Material Name</th>
+			<th ng-repeat = "vendor in vendors">{{vendor.name}}</th>
+		</tr>
+
+		<tr ng-repeat = "material in materials">
+			<td>{{material.material}}</td>
+			<td class = "currency" ng-repeat = "vendor in vendors"> {{(material[vendor.name] | currency) || "N/A"}}</td>
+		</tr>
+	</table>
+</div>

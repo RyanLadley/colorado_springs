@@ -1,0 +1,33 @@
+<div class = "dialog-screen" ng-if = "display">
+
+    <div class = "dialog-content">
+        <div class = "dialog-exit" ng-click = "exit()">X</div>
+        <div class = "dialog-title vendor-dialog-title">
+            <h1> {{vendor.name}} Contact Information</h1>
+        </div>
+
+        <div class = "label-display">
+            <label>Point of Contact</label>
+            <p class = "value"> {{vendor.point_of_contact}}</p>
+        </div>
+        <div class = "label-display">
+            <label>Phone Number</label>
+            <p class = "value"> {{vendor.phone_no}}</p>
+        </div>
+        <div class = "label-display input-row">
+            <label>Address</label>
+            <p class = "value">{{vendor.address}}<br>{{vendor.city}}, {{vendor.state}}, {{vendor.zip}}</p>
+        </div>
+        <div class = "label-display">
+            <label>Email</label>
+            <p class = "value"> {{vendor.email}}</p>
+        </div>
+        <div class = "label-display">
+            <label>Website</label>
+            <p> <a href="http://{{vendor.website}}" target="_blank">{{vendor.website}}</a></p>
+        </div>
+        <h3 class = "dialog-section-header"></h3>
+
+    </div>
+
+</div>

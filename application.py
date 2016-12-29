@@ -18,6 +18,8 @@ import api.core.workflow.dropdown_workflow
 import api.core.workflow.coversheet_workflow
 import api.core.workflow.backup_workflow
 import api.core.workflow.ticket_workflow
+import api.core.workflow.materials_workflow
+import api.core.workflow.reports_workflow
 import api.core.workflow.dev_temp
 
 

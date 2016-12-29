@@ -28,6 +28,7 @@ app.controller('transactionTableController', function($scope, postRequestService
         $scope.transactions = sortService.sortTransactions($scope.transactions, column, ascending)
 
     }
+    
     $scope.isSelectedColumn = function(column){
         return column == $scope.sortColumn
     }

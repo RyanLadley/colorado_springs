@@ -27,9 +27,7 @@
     </div>
 </div>
 
-
 <div class = "admin-area area" >
-
         <h2 class = "title"> User Creation </h2>
         <div class = "section-area">
             <h3 class = "section-title">New User</h3>
@@ -77,5 +75,52 @@
                 </form>
             </div>
             <button class = "admin-edit-button" ng-click = "submitNewUser()">Create User</button>
+        </div>
+</div>
+
+<div class = "admin-table-area area" >
+        <h2 class = "title"> PPRTA Account Management </h2>
+        <div class = "section-area">
+            <h3 class = "section-title">Budget</h3>
+            <div class ="section-inset admin-new-user-inset">
+                <form name = "newUserForm">
+                    <table class = "bare-table">
+                        <tr>
+                            <th>Account Number</t>
+                            <th>Current Budget</th>
+                            <th>New Budget</th>
+                        </tr>
+                        <tr ng-repeat-start = "account in accounts" class = "account-row account-{{acount.accountNo}}">
+                            <td class = "account"> <a class = "account-link" href = "/overview/account/{{account.account_id}}" >{{account.account_no}}</a></td>
+                            <td>{{account.displayBudget | currency}}</td>
+                            <td class ="input"><div class = "dollar-input">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "account.annual_budget" required>
+                            </div></td>
+                        </tr>
+                        <tr ng-repeat-start = "sub_account in account.sub_accounts" class = "subaccount-row account-{{subacount.accountNo}}">
+                            <td class = "account"> <a  class = "account-link" href = "/overview/account/{{sub_account.account_id}}" >{{sub_account.account_no}}-{{sub_account.sub_no}}</a></td>
+                            <td>{{sub_account.displayBudget | currency}}</td>
+                            <td class ="input"><div class = "dollar-input">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "sub_account.annual_budget" required>
+                            </div></td>
+                        </tr>
+                        <tr ng-repeat-start = "shred_out in sub_account.sub_accounts" class = "sub-row account-{{sub.accountNo}}">
+                            <td class = "account"> <a  class = "account-link" href = "/overview/account/{{shred_out.account_id}}" >{{shred_out.account_no}}-{{sub_account.sub_no}}-{{shred_out.shred_no}}</a></td>
+                            <td>{{shred_out.displayBudget | currency}}</td>
+                            <td class ="input"><div class = "dollar-input">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model = "shred_out.annual_budget" required>
+                            </div></td>
+                        </tr>
+                        <tr ng-repeat-end ng-hide="true"></tr> <!--Ends Shred Out Loop -->
+                        <tr ng-repeat-end ng-hide="true"></tr> <!--Ends Sub Account Loop -->
+                        <tr ng-repeat-end ng-hide="true"></tr> <!--Ends Account Loop -->
+                        
+                    </table>
+                </form>
+            </div>
+            <button class = "admin-edit-button" ng-click = "submitAccounts()">Update Accounts</button>
         </div>
 </div>

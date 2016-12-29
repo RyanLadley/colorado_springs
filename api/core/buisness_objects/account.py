@@ -13,10 +13,18 @@ class Account:
         account.description = form.get('description')
         account.annual_budget = form.get('annual_budget')
         account.transfer = form.get('transfer')
-        account.total_budget = (account.annual_budget + account.transfer) if account.annual_budget is not None and account.transfer is not None else None
+
+        if not (account.annual_budget is None or account.annual_budget == 'None') and not (account.transfer is None  or account.transfer == 'None'):
+            account.total_budget = (decimal.Decimal(account.annual_budget) + decimal.Decimal(account.transfer))
+        else:
+            account.total_budget = None
+
         account.expendetures = form.get('expendetures')
-        account.remaining = (decimal.Decimal(account.total_budget) - decimal.Decimal(account.expendetures)) if (account.total_budget is not None and 
-                                                                                                            account.expendetures is not None) else None
+
+        if (account.total_budget is not None and account.expendetures is not None):
+            account.remaining = (decimal.Decimal(account.total_budget) - decimal.Decimal(account.expendetures)) 
+        else:
+            account.remaining =  None
 
         return account
 

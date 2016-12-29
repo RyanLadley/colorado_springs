@@ -38,6 +38,7 @@ def account_backups(file_name):
 @client_side.route('/login')
 @client_side.route('/overview')
 @client_side.route('/overview/account/<account_number>')
+@client_side.route('/overview/materials')
 @client_side.route('/entry')
 @client_side.route('/vendors')
 @client_side.route('/vendors/<vendor_id>')

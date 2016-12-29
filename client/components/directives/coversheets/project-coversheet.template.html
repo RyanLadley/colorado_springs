@@ -18,7 +18,13 @@
                 <option value="" disabled selected hidden>Select a Project</option>
             </select>
         </div>
-        <search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoice_no"></search-field>
+        <div class = "label-input">
+            <label>Invoice Number</label>
+            <input type = "text" ng-model = "search.invoice_no">
+        </div>
+
+        <button class = "search-button" ng-click = "searchInvoice()"> <i class="fa fa-search" aria-hidden="true"></i>  Search</button>
+        <!--<search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoice_no"></search-field>-->
     </form>
 
     <div class ="coversheet-table">
@@ -65,7 +71,7 @@
             </tr>
             <tbody>
                 <tr ng-repeat = "transaction in coversheet.transactions" class = "row">
-                    <td><button ng-click = "transaction.selected = false; evaluateRows(transaction)" >Remove</button></td>
+                    <td><button class = "table-remove-button" ng-click = "transaction.selected = false; evaluateRows(transaction)" ><i class="fa fa-times" aria-hidden="true"></i></button></td>
                     <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
                     <td>{{transaction.vendor_name}}</td>
                     <td>{{transaction.invoice_date}}</td>
@@ -102,7 +108,7 @@
             </tr>
             <tbody>
                 <tr ng-repeat = "transaction in coversheet.transactions" class = "row">
-                    <td><button ng-click = "transaction.selected = false; evaluateRows(transaction)" >Remove</button></td>
+                    <td><button class = "table-remove-button" ng-click = "transaction.selected = false; evaluateRows(transaction)" ><i class="fa fa-times" aria-hidden="true"></i></button></td>
                     <td><account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name></td>
                     <td>{{transaction.vendor_name}}</td>
                     <td>{{transaction.invoice_date}}</td>

@@ -40,7 +40,18 @@ app.controller('pendingAdjustmentController', function($scope, $location, postRe
     }
 
     $scope.addSelected = function(ticket){
-        $scope.transaction.tickets.push(ticket)
+        if(ticket.selected){
+            $scope.transaction.tickets.push(ticket)
+        }
+        else{
+            for(var j = 0; j < $scope.transaction.tickets.length; j++){
+                if(ticket.ticket_id == $scope.transaction.tickets[j].ticket_id){
+                    $scope.transaction.tickets.splice(j,1)
+                    j = $scope.transaction.tickets.length
+                    break;
+                }
+            }
+        }
     }
 
     $scope.setupTransaction = function(){

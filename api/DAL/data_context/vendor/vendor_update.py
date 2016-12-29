@@ -3,6 +3,8 @@ from api.DAL.data_context.database_connection import DatabaseConnection
 import api.core.response as response
 import api.core.sanitize as sanitize
 
+import api.DAL.data_context.materials.materials_insert as materials_insert
+
 from api.core.buisness_objects.vendor import Vendor
 
 @DatabaseConnection
@@ -27,6 +29,8 @@ def update_vendor(vendor, cursor = None):
          'end': sanitize.date_for_storage(vendor.contract_end), 'poc': vendor.point_of_contact, 'phone': vendor.phone_no, 
          'address': vendor.address, 'city': vendor.city, 'state': vendor.state, 'zip': vendor.zip, 'email': vendor.email, 
          'website': vendor.website, 'vendor_id': vendor.vendor_id})
+
+    materials_insert.vendor_materials(vendor, cursor = cursor)
 
     return response.success()
 

@@ -31,6 +31,12 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/overview/account.index.html'
         }
     )
+    .when("/overview/materials",
+        {
+            controller: 'materialsController',
+            templateUrl: '/res/site/overview/materials.index.html'
+        }
+    )
     .when("/entry",
         {
             controller: 'dataInputController',

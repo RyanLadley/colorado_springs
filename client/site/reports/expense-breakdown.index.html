@@ -5,30 +5,37 @@
 <div class ="filter-area">
     <h2 class = "title"> Filter </h2>
     <div class = "section-area">
-        <h3 class = section-title>View</h3>
+        <h3 class = section-title>Time Frame</h3>
         <div class = "filter-section selection-list">
-            <div class = "selectable" ng-class = "{selected: overviewSelected}" ng-click = "viewOverview(); overviewSelected = !overviewSelected">
-                <p> Overview</p>
-            </div>
-            <h3 class = "section-break">Accounts</h3>
-            <div ng-repeat = "account in viewFilters" class = "selectable" ng-class = "{selected: account.selected}" ng-click = "viewFilter(account.account); account.selected = !account.selected">
-                <p>{{account.account}}</p>
-            </div>
-
+            <date-select label ="Start Date"  date = "filter.start_date" input-disabled = "true" required = "true"></date-select>
+            <date-select label ="End Date"  date = "filter.end_date" input-disabled = "true" required = "true"></date-select>
+            <p>-<p>
         </div>
-        <h3 class = "section-title">Toggles</h3>
-        <div class = "toggle-area">
-            <div class = "toggles">
-                <input type="checkbox">
-                <label>Display Graph</label> 
-            </div>
 
-            <div class = "toggles">
-                <input type="checkbox">
-                <label>Display Table</label>
-            </div> 
+        <h3 class = section-title>View All</h3>
+        <div class = "filter-section selection-list">
+            <div class = "selectable" ng-class = "{selected: overviewSelected}" ng-click = "selectAll();">
+                <p> All Accounts </p>
+            </div>
         </div>
-        <button class = "filter-reset">Reset Filter</button>
+
+        <h3 class = section-title>Account</h3>
+        <div class = "filter-section selection-list">
+            <div ng-repeat = "account in accounts" class = "selectable" ng-class = "{selected: account.selected}" ng-click = "selectAccount(account)">
+                <p>{{account.account_no}}</p>
+            </div>
+        </div>
+
+        <div ng-if = "selectedAccount">
+            <h3 class = section-title>Sub-Account</h3>
+            <div class = "filter-section selection-list">
+                <div ng-repeat = "subaccount in selectedAccount.sub_accounts" class = "selectable" ng-class = "{selected: subaccount.selected}" ng-click = "selectSubaccount(subaccount)">
+                    <p>{{subaccount.account_no}}-{{subaccount.sub_no}}</p>
+                </div>
+            </div>
+        </div>
+
+        <button class = "filter-reset" ng-click ="filterReport()">Reset Filter</button>
     </div>
 </div>
 
@@ -51,10 +58,10 @@
                 <th>Amount</th>
                 <th>Percentage</th>
             </tr>
-            <tr ng-repeat = "info in data">
-                <td> {{info.key}}</td>
-                <td class = "currency"> {{info.value | currency}}</td>
-                <td class= "currency"> %{{info.percentage}}</td>
+            <tr ng-repeat = "account in data">
+                <td><account-name  account-id = "account.account_id" account-no = "account.account_no" sub-no = "account.sub_no" shred-no = "account.shred_no"></account-name></td>
+                <td class = "currency"> {{account.expendetures | currency}}</td>
+                <td class= "currency"> %{{(account.expendetures / total) *100 || 0.00 | number : 2}}</td>
 
             </tr>
         </table>

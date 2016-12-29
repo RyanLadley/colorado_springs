@@ -28,6 +28,31 @@ app.service('sortService', function(accountNameService){
         return transactions
     }
 
+    this.sortTickets = function(tickets, column, ascending){
+
+        tickets.sort(function(a,b){
+            //Swap a and b if sorting in a descending (not ascending) fashion
+            if(!ascending){
+                var temp = a
+                a = b
+                b = temp
+            }
+
+            //Detrmine the columns being sorted
+            if (column =='material_name' || column == 'ticket_no' || column == 'invoice_no'){
+                return byString(a[column] ,b[column])
+            }
+            else if(column == 'date'){
+                return byDate(a[column] ,b[column])
+            }
+            else if(column == 'quantity' || column == 'cost'){
+                return byNumber(parseFloat(a[column]) ,parseFloat(b[column]))
+            }
+        })
+
+        return transactions
+    }
+
     var byAccount = function(a,b){
 
         if(accountNameService.getName(a) < accountNameService.getName(b)){

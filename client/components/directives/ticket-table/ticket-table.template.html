@@ -1,0 +1,32 @@
+<table id = "account-table" class = "table alternate-table">
+    <tr ng-if = "tickets.length > 0">
+        <th>Date <i class="fa fa-sort sort-icon clickable" 
+                   ng-class = "{sortSelected : isSelectedColumn('date')}" ng-click = "sortTickets('date')" aria-hidden="true"></i></th>
+        <th>Ticket No <i class="fa fa-sort sort-icon clickable" 
+                   ng-class = "{sortSelected : isSelectedColumn('ticket_no')}" ng-click = "sortTickets('ticket_no')" aria-hidden="true"></i></th>
+        <th>Material<i class="fa fa-sort sort-icon clickable" 
+                   ng-class = "{sortSelected : isSelectedColumn('material_name')}" ng-click = "sortTickets('material_name')" aria-hidden="true"></i></th>
+        <th>Quantity<i class="fa fa-sort sort-icon clickable" 
+                   ng-class = "{sortSelected : isSelectedColumn('quantity')}" ng-click = "sortTickets('quantity')" aria-hidden="true"></i></th>
+        <th>Cost<i class="fa fa-sort sort-icon clickable" 
+                   ng-class = "{sortSelected : isSelectedColumn('cost')}" ng-click = "sortTickets('cost')" aria-hidden="true"></i></th>
+        <th>Invoice Number<i class="fa fa-sort sort-icon clickable" 
+                   ng-class = "{sortSelected : isSelectedColumn('invoice_no')}" ng-click = "sortTickets('invoice_no')" aria-hidden="true"></i></th>
+    </tr>
+
+    <tr ng-repeat = "ticket in tickets" class = "row" ng-if = "tickets.length > 0">
+       <td>{{ticket.date}}</td>
+        <td>{{ticket.ticket_no}}</td>
+        <td>{{ticket.material_name}}</td>
+        <td class = "center">{{ticket.quantity}}</td>
+        <td class = "currency">{{ticket.cost | currency}}</td>
+        <td>{{ticket.invoice_no}}</td>
+    </tr>
+
+    <tr ng-if = "!tickets.length > 0">
+        <th colspan="5"></th>
+    </tr>
+    <tr ng-if = "!tickets.length > 0">
+        <td colspan="5" class = "center">There are currently no tickets to display.</td>
+    </tr>
+</table>

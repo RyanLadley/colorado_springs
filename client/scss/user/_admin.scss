@@ -21,9 +21,23 @@ $admin-area-width: 400px;
     input{
         margin: 0 auto;
     }
+}
 
+.admin-table-area{
+    background-color: $dull-red;
+    width: 700px;
+    margin-left: 50px;
+
+    table{
+        width: 98%;
+    }
+
+    td{
+        padding-left: 10px;
+    }
 
 }
+
 
 .admin-edit-button{
 	border: none;

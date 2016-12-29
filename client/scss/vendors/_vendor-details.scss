@@ -29,6 +29,11 @@ $vendor-area-width: 400px;
     }
 }
 
+.vendor-pprta-dropdown{
+	margin: 5px 5px 10px 15px;
+    width: $vendor-area-width - 45px;
+}
+
 .vendor-details-inset{
 	padding: 10px;
 	p, h3{

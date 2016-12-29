@@ -140,7 +140,18 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
     }
 
     $scope.addSelected = function(ticket){
-        $scope.transaction.tickets.push(ticket)
+        if(ticket.selected){
+            $scope.transaction.tickets.push(ticket)
+        }
+        else{
+            for(var j = 0; j < $scope.transaction.tickets.length; j++){
+                if(ticket.ticket_id == $scope.transaction.tickets[j].ticket_id){
+                    $scope.transaction.tickets.splice(j,1)
+                    j = $scope.transaction.tickets.length
+                    break;
+                }
+            }
+        }
     }
 
     $scope.setupTransaction = function(){
@@ -499,6 +510,29 @@ app.controller('ticketEntryController', ['$scope', '$location', 'postRequestServ
         }
     }
 }]);
+app.controller('ticketTableController', ['$scope', 'postRequestService', 'sortService', function($scope, postRequestService, sortService){
+
+    //Sort by the given column in ascending order
+    //If the column has already been selected to be sorted, 
+    //Switch the direction in which we are soring
+    $scope.sortColumn = ''
+    var ascending = true;
+    $scope.sortTickets = function(column){
+        if($scope.sortColumn != column){
+            $scope.sortColumn = column
+            ascending = true;
+        }
+        else{
+            ascending = !ascending
+        }
+        $scope.tickets = sortService.sortTickets($scope.tickets, column, ascending)
+
+    }
+
+    $scope.isSelectedColumn = function(column){
+        return column == $scope.sortColumn
+    }
+}]);
 app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
     $scope.accountId = null;
@@ -661,6 +695,14 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
         }
     }
 
+    $scope.deleteTransaction = function(transactionId){
+        if(confirm("Are you sure you want to delete this transaction?")){  
+            postRequestService.request('/api/transaction/delete/' +transactionId).then(function(success){
+                $location.url('/') 
+            })
+        }
+    }
+
     //This is called when the user transtions from the basic data entry to the city accoutnts screen
     //If this is the initial move, or if the expense has been changed, it populate the city account the "Unassigned" and 100% of the expense
     $scope.setupCityAccounts = function(){
@@ -732,6 +774,7 @@ app.controller('transactionTableController', ['$scope', 'postRequestService', 's
         $scope.transactions = sortService.sortTransactions($scope.transactions, column, ascending)
 
     }
+    
     $scope.isSelectedColumn = function(column){
         return column == $scope.sortColumn
     }
@@ -801,6 +844,14 @@ app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'm
 
    
 }]);
+app.controller('vendorDialogController', ['$scope', '$window', 'postRequestService', function($scope, $window, postRequestService){
+
+    //Close the dialog
+    $scope.exit = function(){
+        $scope.display = false
+    }
+    
+}]);
 app.controller('vendorEntryController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
 
    //The next few blocks are for navigation 
@@ -855,8 +906,19 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
         }
 
         $scope.vendor.materials.push({material: "", cost: 0, unit: "None Selected"})
-
     }
+
+
+    //Display the proper units when a known material is selected
+    $scope.selectKnownMaterial = function(material_id, index){
+        for(var i = 0; i < $scope.materials.length ; i++){
+            if( $scope.materials[i].material_id == material_id){
+                $scope.vendor.materials[index].unit = $scope.materials[i].unit
+            }
+        }
+    }
+
+
     //Remove Eleement from material array
     $scope.removeKnownMaterial = function(index){
         $scope.vendor.materials.splice(index, 1)
@@ -883,7 +945,6 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
     $scope.removeNewMaterial = function(index){
         $scope.vendor.new_materials.splice(index, 1)
     }
-
     $scope.submitVendor = function(){
         if($scope.vendorEntryForm.$valid){
            if($scope.vendor.vendor_id){
@@ -899,13 +960,13 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
         }
     }
 }]);
-app.controller('expenseBreakdownController', ['$scope', function($scope){
+app.controller('expenseBreakdownController', ['$scope', '$rootScope', 'postRequestService', 'dateFromString', 'accountNameService', function($scope, $rootScope,  postRequestService, dateFromString, accountNameService){
     $scope.options = {
         chart: {
             type: 'pieChart',
             height: 500,
-            x: function(d){return d.key;},
-            y: function(d){return d.percentage;},
+            x: function(d){return accountNameService.getName(d);},
+            y: function(d){return (Number(d.expendetures) / Number($scope.total)) * 100;},
             showLabels: true,
             duration: 500,
             labelThreshold: 0.01,
@@ -926,60 +987,93 @@ app.controller('expenseBreakdownController', ['$scope', function($scope){
         }
     };
 
-    $scope.data = [
-        {
-            key: 522100,
-            percentage: 30,
-            value: 23440.43
-        },
-        {
-            key: 522200,
-            percentage: 10,
-            value: 13440.43
-        },
-        {
-            key: 522300,
-            percentage: 20,
-            value: 23540.43
-        },
-        {
-            key: 522400,
-            percentage: 15,
-            value: 3440.43
-        },
-        {
-            key: 522500,
-            percentage: 15,
-            value: 23430.43
-        }
-    ];
+
+
 
     $scope.overviewSelected = true;
+    $scope.filter = {
+        start_date: "2017-01-01",
+        end_date: "2017-12-31"
+    }
 
-    $scope.viewFilters = [
-        {
-            account: 52100,
-            selected: false
-        },
-        {
-            account: 52200,
-            selected: false
-        },
-        {
-            account: 52300,
-            selected: false
-        },
-        {
-            account: 52400,
-            selected: false
-        },
-        {
-            account: 52500,
-            selected: false
-        },
-    ]
-    $scope.filterSelect = function(id){
+    $scope.filterReport = function(){
+        if(($scope.filter.start_date && $scope.filter.end_date) && (dateFromString.get($scope.filter.start_date) < dateFromString.get($scope.filter.end_date))){
+            //Check if a account ID has been provided (subaccount has been selected). If Not, use the account_id if the selected account. Left null if all accounts selected
+            if(!$scope.filter.account_id){
+                if($scope.selectedAccount){
+                    $scope.filter.account_id = $scope.selectedAccount.account_id
+                }
+            }
+            sendRequest()
+            $scope.filter.account_id = null
+        }
+        else{
+            alert("Please select a valid start and end date")
+        }
+    }
 
+    var sendRequest = function(){
+        $rootScope.loading = true;
+        postRequestService.request('/api/reports/expense', $scope.filter).then(function(success){
+            $scope.data = success.data.response.accounts;
+            $scope.total = success.data.response.total;
+            $rootScope.loading = false;
+        })
+    }
+
+    sendRequest()
+
+    postRequestService.request('/api/dropdown/accounts').then(function(success){
+        $scope.accounts = success.data.response;
+    })
+
+
+    $scope.selectAll = function(){
+        if(!$scope.overviewSelected){
+            $scope.overviewSelected = true
+            $scope.selectedAccount = null
+            for(var i = 0; i < $scope.accounts.length; i++){
+                $scope.accounts[i].selected = false
+
+                for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++){
+                    $scope.accounts[i].sub_accounts[j].selected = false
+                }
+            }
+        }    
+    }
+
+
+    $scope.selectAccount = function(account){
+        if(account.selected){
+            $scope.selectAll()
+        }
+        else{
+            $scope.overviewSelected = false
+            for(var i = 0; i < $scope.accounts.length; i++){
+                $scope.accounts[i].selected = false
+            }
+
+            account.selected = true
+            $scope.selectedAccount = account
+
+            for(var i = 0; i < $scope.selectedAccount.sub_accounts.length; i++){
+                $scope.selectedAccount.sub_accounts[i].selected = false
+            }
+            $scope.filter.account_id = null
+        }
+    }
+
+    $scope.selectSubaccount = function(subaccount){
+        if(subaccount.selected){
+            subaccount.selected = false
+        }
+        else{
+            for(var i = 0; i < $scope.selectedAccount.sub_accounts.length; i++){
+                $scope.selectedAccount.sub_accounts[i].selected = false
+            }
+            subaccount.selected = true  
+            $scope.filter.account_id = subaccount.account_id
+        }
     }
 }]);
 app.controller('monthlyBreakdownController', ['$scope', '$location', function($scope, $location){
@@ -1287,6 +1381,31 @@ app.controller('adminController', ['$scope', '$location', 'postRequestService', 
 
     })
 
+    //Gets accounts
+    postRequestService.request('/api/accounts/budget').then(function(success){
+        $scope.accounts = success.data.response;
+
+        convertAccountBudgets()
+
+    })
+
+    var convertAccountBudgets = function(){
+        for(var i = 0; i < $scope.accounts.length; i++ ){
+            $scope.accounts[i].annual_budget = Number($scope.accounts[i].annual_budget)
+            $scope.accounts[i].displayBudget = Number($scope.accounts[i].annual_budget)
+
+            for(var j = 0; j < $scope.accounts[i].sub_accounts.length; j++ ){
+                $scope.accounts[i].sub_accounts[j].annual_budget = Number($scope.accounts[i].sub_accounts[j].annual_budget)
+                $scope.accounts[i].sub_accounts[j].displayBudget = Number($scope.accounts[i].sub_accounts[j].annual_budget)
+
+                for(var k = 0; k < $scope.accounts[i].sub_accounts[j].sub_accounts.length; k++ ){
+                    $scope.accounts[i].sub_accounts[j].sub_accounts[k].annual_budget = Number($scope.accounts[i].sub_accounts[j].sub_accounts[k].annual_budget)
+                    $scope.accounts[i].sub_accounts[j].sub_accounts[k].displayBudget = Number($scope.accounts[i].sub_accounts[j].sub_accounts[k].annual_budget)
+                }
+            }
+        }
+    }
+
 	$scope.submitNewUser = function(){
 
 		if(!$scope.newUserForm.$valid ){
@@ -1330,6 +1449,18 @@ app.controller('adminController', ['$scope', '$location', 'postRequestService', 
 			}
 		})
 	}
+
+    $scope.submitAccounts = function(){
+        postRequestService.request('/api/accounts/update/budget', $scope.accounts).then(function(success){
+            if(success.data.status == "success"){
+                convertAccountBudgets()
+                alert("Accounts have been updated.")
+            }
+            else{
+                alert("There was an error.")
+            }
+        })
+    }
 }]);
 app.controller('coversheetController', ['$scope', '$location', 'postRequestService', function($scope, $location, postRequestService){
   
@@ -1452,6 +1583,17 @@ app.controller('loginController', ['$scope', '$location', 'postRequestService', 
     }
 
 }]);
+app.controller('materialsController', ['$scope', '$rootScope', 'postRequestService', function($scope, $rootScope, postRequestService){
+  
+   $rootScope.loading = true;
+    postRequestService.request('/api/materials/table').then(function(success){
+        $scope.materials = success.data.response.table;
+        $scope.vendors = success.data.response.vendors;
+        console.log($scope.materials)
+        $rootScope.loading = false;
+    })
+
+}]);
 app.controller('overviewController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){
   
    $rootScope.loading = true;
@@ -1550,6 +1692,8 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
         $scope.vendor = success.data.response;
 
+        $scope.pprtaCodes = getTicketsProjects($scope.vendor.tickets)
+
         $scope.total_expense = 0
         for(var i = 0; i < $scope.vendor.transactions.length; i++){
             $scope.total_expense += Number($scope.vendor.transactions[i].expense)
@@ -1561,6 +1705,53 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
     $scope.displayTransactionDetails = function(transactionId){
         $scope.dialogTransaction = transactionId;
         $scope.toggleTransactionDialog = true;
+    }
+
+    $scope.displayTickets = false;
+    $scope.buttonMessage = "View Tickets"
+    $scope.toggleTable = function(){
+        $scope.displayTickets = !$scope.displayTickets
+
+        if($scope.displayTickets){
+            $scope.buttonMessage = "View Transactions"
+            if($scope.pprtaCodes.length > 0){
+                $scope.selected.project = $scope.pprtaCodes[0]
+            }
+        }
+        else{
+            $scope.buttonMessage = "View Tickets"
+        }
+    }
+
+    $scope.selected = {}
+    $scope.$watch('selected.project', function(){
+        console.log("fired")
+        if($scope.selected.project){
+            selectTicketsForDisplay($scope.selected.project.pprtaId)
+        }
+    })
+
+    var selectTicketsForDisplay = function(pprtaId){
+        $scope.tickets = []
+        for(var i = 0; i < $scope.vendor.tickets.length; i++){
+            if($scope.vendor.tickets[i].pprta_id == pprtaId){
+                $scope.tickets.push($scope.vendor.tickets[i])
+            }
+        }
+    }
+
+    var getTicketsProjects = function(tickets){
+        var uniqueCheck = {}
+        var array = []
+
+        for(var i = 0; i < tickets.length; i++){
+            if(uniqueCheck.hasOwnProperty(tickets[i].pprta_id)) {
+                continue;
+            }
+            array.push({pprtaId: tickets[i].pprta_id, pprtaNo: tickets[i].pprta_no, pprtaDescription: tickets[i].pprta_description});
+            uniqueCheck[tickets[i].pprta_id] = 1;
+        }
+        return array
     }
 }]);
 app.controller('vendorsController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){

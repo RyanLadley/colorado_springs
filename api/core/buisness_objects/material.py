@@ -3,7 +3,8 @@ class Material:
     @staticmethod
     def map_from_form(form):
         material = Material()
-
+        
+        material.vendor_materials_id = form.get('vendor_materials_id')
         material.material_id = form.get('material_id')
         material.name = form.get('name')
         material.unit = form.get('unit')

@@ -57,3 +57,21 @@ def vendor(vendor_id, cursor = None):
     vendor= Vendor.map_from_form(result)
 
     return vendor
+
+
+@DatabaseConnection
+def vendor_with_materials_listings(cursor = None):
+
+    cursor.execute("""
+                SELECT DISTINCT 
+                    vendor_id,
+                    vendor_name as name
+                FROM v_vendor_materials;""")
+
+    results = cursor.fetchall() or {}
+
+    vendors = []
+    for row in results:
+        vendors.append(Vendor.map_from_form(row))
+
+    return vendors

@@ -185,6 +185,17 @@ app.directive('ticketEntry', function() {
        templateUrl: '/res/components/directives/ticket-entry/ticket-entry.template.html'
     };
 })
+app.directive('ticketTable', function() {
+    return{
+        restrict: 'E',
+        controller: 'ticketTableController',
+        scope: {
+            tickets: '<',
+            emptyMessage: '@'
+        },
+        templateUrl: '/res/components/directives/ticket-table/ticket-table.template.html'
+    };
+})
 app.directive('transactionDialog', function() {
     return{
         restrict: 'E',
@@ -224,6 +235,17 @@ app.directive('transactionTable', function() {
             emptyMessage: '@'
         },
         templateUrl: '/res/components/directives/transaction-table/transaction-table.template.html'
+    };
+})
+app.directive('vendorDialog', function() {
+    return{
+        restrict: 'E',
+        controller: 'vendorDialogController',
+        scope: {
+            vendor: '=',
+            display: '='
+        },
+        templateUrl: '/res/components/directives/vendor-dialog/vendor-dialog.template.html'
     };
 })
 app.directive('vendorEntry', function() {

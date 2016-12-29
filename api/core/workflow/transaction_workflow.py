@@ -73,6 +73,15 @@ def update_transaction():
     return transaction_update.update_transaction(transaction)
 
 
+@workflow.route('/transaction/delete/<transaction_id>', methods = ['POST'])
+@authorize()
+def delete_transaction(transaction_id):
+    """This functoin deletes an existing transaction.
+    The id of the transaction to delet is passes via the uri
+    """
+
+    return transaction_update.delete_transaction(transaction_id)
+
 
 @workflow.route('/transaction/account/<account_id>', methods = ['POST'])
 @authorize()

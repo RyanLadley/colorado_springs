@@ -52,8 +52,19 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
         }
 
         $scope.vendor.materials.push({material: "", cost: 0, unit: "None Selected"})
-
     }
+
+
+    //Display the proper units when a known material is selected
+    $scope.selectKnownMaterial = function(material_id, index){
+        for(var i = 0; i < $scope.materials.length ; i++){
+            if( $scope.materials[i].material_id == material_id){
+                $scope.vendor.materials[index].unit = $scope.materials[i].unit
+            }
+        }
+    }
+
+
     //Remove Eleement from material array
     $scope.removeKnownMaterial = function(index){
         $scope.vendor.materials.splice(index, 1)
@@ -80,7 +91,6 @@ app.controller('vendorEntryController', function($scope, $location, postRequestS
     $scope.removeNewMaterial = function(index){
         $scope.vendor.new_materials.splice(index, 1)
     }
-
     $scope.submitVendor = function(){
         if($scope.vendorEntryForm.$valid){
            if($scope.vendor.vendor_id){
