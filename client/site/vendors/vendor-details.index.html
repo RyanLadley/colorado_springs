@@ -17,7 +17,8 @@
     <h2>{{vendor.name}} Tickets</h2>
 
     <ticket-table tickets = "tickets" 
-                  emty-message = "There are currently no tickets to display.">
+                  emty-message = "There are currently no tickets to display."
+                  show-districts = "showDistricts">
     </ticket-table>
 </div>
 
@@ -59,7 +60,7 @@
         <h3 class = "section-title">Materials</h3>
 
         <div class ="section-inset vendor-details-inset">
-	        <table class = "bare-table" ng-if = "vendor.materials.length > 0">
+	        <table class = "bare-table full-table" ng-if = "vendor.materials.length > 0">
                 <tr ng-repeat = "material in vendor.materials" >
                     <td class = "left">{{material.name}}</td>
                     <td class = "currency">{{material.cost | currency}} per {{material.unit}}</td>

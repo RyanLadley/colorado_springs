@@ -27,7 +27,7 @@ app.controller('ticketEntryController', function($scope, $location, postRequestS
         }
     
         postRequestService.request('/api/tickets/new/batch', $scope.tickets).then(function(success){
-            $location.url("/")
+            $location.url("/vendors/" +$scope.vendorId)
         }) 
 
     }

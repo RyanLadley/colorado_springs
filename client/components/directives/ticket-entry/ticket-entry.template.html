@@ -69,7 +69,7 @@
     	</div>
         <div  ng-if = "showButtons" >
             <button ng-click = "newTicket()" class = "add-button" formnovalidate> New Ticket </button>
-            <button class = "entry-submit" ng-click = "submitTickets()"  ng-disabled = "ticketForm.$invalid || tickets.length <= 0"><i class="fa fa-check-square-o" aria-hidden="true"></i> Submit</button>
+            <button class = "entry-submit" ng-click = "submitTickets()"  ng-disabled = "ticketForm.$invalid || tickets.length <= 0 || !projectId"><i class="fa fa-check-square-o" aria-hidden="true"></i> Submit</button>
         </div>
 
     </form>

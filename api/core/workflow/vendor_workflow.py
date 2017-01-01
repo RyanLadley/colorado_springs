@@ -86,6 +86,17 @@ def vendor_listing():
     return response.success(serialized_vendors)
 
 
+@workflow.route('/vendor/with-materials/listing', methods = ['POST'])
+@authorize()
+def vendor_with_materials_listing():
+
+    vendors = vendor_select.vendors_with_materials_listing()
+
+    serialized_vendors = utilities.serialize_array(vendors)
+
+    return response.success(serialized_vendors)
+
+
 @workflow.route('/vendor/basics/<vendor_id>', methods = ['POST'])
 @authorize()
 def vendor_basics(vendor_id, api_response = True):

@@ -28,6 +28,33 @@ def vendor_listing(cursor = None):
 
     return vendors
 
+
+@DatabaseConnection
+def vendors_with_materials_listing(cursor = None):
+
+    cursor.execute("""
+                SELECT  vendor_id, 
+                        name, 
+                        contract_no,
+                        image_folder, 
+                        image_file_name, 
+                        image_file_type
+                FROM v_vendors
+                WHERE vendor_id IN(
+                    SELECT DISTINCT vendor_id 
+                    FROM v_vendor_materials
+                )
+                ORDER BY name;""")
+
+    results = cursor.fetchall() or {}
+
+    vendors = []
+    for row in results:
+        vendors.append(Vendor.map_from_form(row))
+
+    return vendors
+
+
 @DatabaseConnection
 def vendor(vendor_id, cursor = None):
 

@@ -32,13 +32,15 @@ def expense(start_date, end_date, account_id, cursor = None):
                                     FROM v_transactions
                                     WHERE account_no = v_accounts.account_no
                                         AND sub_no = v_accounts.sub_no
-                                        AND shred_no = v_accounts.shred_no) AS Decimal(10,2)) as expendetures
+                                        AND shred_no = v_accounts.shred_no
+                                        AND invoice_date >= %(start_date)s
+                                        AND invoice_date <= %(end_date)s) AS Decimal(10,2)) as expendetures
 
                         FROM v_accounts
-                        WHERE account_no = %(account_no)s 
+                        WHERE account_no = %(account_no)s
                             AND sub_no = %(sub_no)s
-                                AND shred_no IS NOT NULL;""",
-                            {"account_no" : account.account_no, "sub_no" : account.sub_no})
+                            AND shred_no IS NOT NULL;""",
+                            {"account_no" : account.account_no, "sub_no" : account.sub_no, 'start_date' : start_date, 'end_date' : end_date})
         else:
             #Get Sub Accounts of provided account
             cursor.execute("""
@@ -50,13 +52,15 @@ def expense(start_date, end_date, account_id, cursor = None):
                                 CAST((SELECT COALESCE(SUM(expense),0)
                                 FROM v_transactions
                                 WHERE account_no = v_accounts.account_no
-                                   AND sub_no = v_accounts.sub_no) AS Decimal(10,2)) AS expendetures
+                                   AND sub_no = v_accounts.sub_no
+                                   AND invoice_date >= %(start_date)s
+                                   AND invoice_date <= %(end_date)s) AS Decimal(10,2)) AS expendetures
 
                         FROM v_accounts
                         WHERE account_no = %(account_no)s 
                             AND sub_no IS NOT NULL
-                            AND shred_no IS NULL;""",
-                            {"account_no" : account.account_no})
+                            AND shred_no IS NULL ;""",
+                            {"account_no" : account.account_no, 'start_date' : start_date, 'end_date' : end_date})
 
     else:
         #no account provideded, get all main accounts
@@ -68,11 +72,14 @@ def expense(start_date, end_date, account_id, cursor = None):
 
                             CAST((SELECT COALESCE(SUM(expense),0)
                                 FROM v_transactions
-                                WHERE account_no = v_accounts.account_no) AS Decimal(10,2))  AS expendetures
+                                WHERE account_no = v_accounts.account_no
+                                    AND invoice_date >= %(start_date)s
+                                    AND invoice_date <= %(end_date)s) AS Decimal(10,2))  AS expendetures
 
                     FROM v_accounts
                     WHERE sub_no IS NULL
-                        AND shred_no IS NULL;""")
+                        AND shred_no IS NULL;""",
+                        {'start_date' : start_date, 'end_date' : end_date})
 
     
     results = cursor.fetchall() or {}
@@ -82,3 +89,25 @@ def expense(start_date, end_date, account_id, cursor = None):
         accounts.append(Account.map_from_form(row))
 
     return accounts
+
+
+@DatabaseConnection
+def tickets(start_date, end_date, vendor_id, cursor = None):
+
+    cursor.execute("""
+                SELECT  project_no,
+                        project_description,
+                        SUM(CASE WHEN transaction_id IS NULL THEN cost ELSE 0 END) as pending,
+                        SUM(CASE WHEN transaction_id IS NOT NULL THEN cost ELSE 0 END) as expensed
+
+                FROM v_tickets
+                WHERE vendor_id LIKE %(vendor_id)s
+                    AND date >= %(start_date)s
+                    AND date <= %(end_date)s
+                GROUP BY pprta_id
+                ORDER BY project_no;""",
+                {'vendor_id': vendor_id or '%', 'start_date' : start_date, 'end_date' : end_date})
+
+    result = cursor.fetchall() or {}
+
+    return result

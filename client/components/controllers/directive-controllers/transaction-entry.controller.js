@@ -43,12 +43,12 @@ app.controller('transactionEntryController', function($scope, $location, postReq
         if($scope.entryForm.$valid && ($scope.remaining >= -0.005 /*rounding error allowance */ || $scope.transaction.expense < 0)){
            if($scope.transaction.transaction_id){
                 postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
-                   $location.url('/') 
+                   $location.url('/overview/account/' +$scope.transaction.account_id ) 
                 })
             }
             else{
                 postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
-                    $location.url('/') 
+                    $location.url('/overview/account/' +$scope.transaction.account_id ) 
                 })
             }
         }

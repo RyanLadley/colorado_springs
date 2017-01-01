@@ -77,6 +77,12 @@ def delete_transaction(transaction_id, cursor = None):
         WHERE transaction_id =  %(trans_id)s;''',
         {'trans_id': transaction_id})
 
+    cursor.execute('''
+        UPDATE tickets
+        SET transaction_id = NULL
+        WHERE transaction_id =  %(trans_id)s;''',
+        {'trans_id': transaction_id})
+
 
     return response.success()
 

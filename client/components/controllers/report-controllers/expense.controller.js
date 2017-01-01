@@ -1,4 +1,4 @@
-app.controller('expenseBreakdownController', function($scope, $rootScope,  postRequestService, dateFromString, accountNameService){
+app.controller('expenseController', function($scope, $rootScope,  postRequestService, dateFromString, accountNameService){
     $scope.options = {
         chart: {
             type: 'pieChart',

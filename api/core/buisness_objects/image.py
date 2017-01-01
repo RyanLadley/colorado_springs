@@ -11,11 +11,11 @@ class Image:
 
         image.parse_data_uri(form.get('image'))
 
-        image.folder = form.get('image_folder') #from database or DAL function
-        image.file_name = form.get('image_file_name') #from database or DAL function
+        image.folder = form.get('image_folder') or '0' #from database or DAL function
+        image.file_name = form.get('image_file_name') or 'default'#from database or DAL function
         
         #image.type is either populated here or in data parse
-        image.type = form.get('image_file_type') or image.type
+        image.type = form.get('image_file_type') or image.type or 'jpg'
 
         return image
 

@@ -79,16 +79,16 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: '/res/site/reports/monthly-expense.index.html'
         }
     )
-    .when("/reports/expense-breakdown",
+    .when("/reports/expense",
         {
-            controller: 'expenseBreakdownController',
-            templateUrl: '/res/site/reports/expense-breakdown.index.html'
+            controller: 'expenseController',
+            templateUrl: '/res/site/reports/expense.index.html'
         }
     )
-    .when("/reports/monthly-breakdown",
+    .when("/reports/ticket-summary",
         {
-            controller: 'monthlyBreakdownController',
-            templateUrl: '/res/site/reports/monthly-breakdown.index.html'
+            controller: 'ticketSummaryController',
+            templateUrl: '/res/site/reports/ticket-summary.index.html'
         }
     )
     .when("/profile/:userId",

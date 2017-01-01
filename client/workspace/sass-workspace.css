@@ -151,6 +151,9 @@
   .bare-table .currency {
     text-align: right; }
 
+.full-table {
+  width: 98%; }
+
 .area {
   display: inline-block;
   box-shadow: 3px 3px 2px grey;

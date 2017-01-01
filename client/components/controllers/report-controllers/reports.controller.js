@@ -6,12 +6,12 @@ app.controller('reportsController', function($scope, $location){
             link: "monthly-expense"
         },
         {
-            name: "Expense Breakdown",
-            link: "expense-breakdown"
+            name: "Expense",
+            link: "expense"
         },
         {
-            name: "Monthly Breakdown",
-            link: "monthly-breakdown"
+            name: "Ticket Summary",
+            link: "ticket-summary"
         },
     ]
 });

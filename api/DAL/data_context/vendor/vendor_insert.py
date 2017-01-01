@@ -63,9 +63,10 @@ def new_vendor(vendor, cursor = None):
                 %(file_type)s);''',
         {'vendor_id': vendor.vendor_id, 'folder': vendor.image.folder, 'file_name' : vendor.image.file_name, 'file_type' : vendor.image.type})
 
-    vendor.image.save_to_file_system("api/DAL/images/vendors/")
+    if vendor.image.data:
+        vendor.image.save_to_file_system("api/DAL/images/vendors/")
 
     materials_insert.vendor_materials(vendor, cursor = cursor)
 
-    return response.success()
+    return response.success(vendor.vendor_id)
 

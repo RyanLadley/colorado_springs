@@ -86,7 +86,7 @@ app.controller('budgetAdjustmentController', ['$scope', '$location', 'postReques
     $scope.submitTransfer = function(){
         if($scope.transferForm.$valid){
             postRequestService.request('/api/accounts/transfer', $scope.transfer).then(function(success){
-               $location.url('/') 
+               $location.url('/overview') 
             })
         }
     }
@@ -473,7 +473,7 @@ app.controller('ticketEntryController', ['$scope', '$location', 'postRequestServ
         }
     
         postRequestService.request('/api/tickets/new/batch', $scope.tickets).then(function(success){
-            $location.url("/")
+            $location.url("/vendors/" +$scope.vendorId)
         }) 
 
     }
@@ -684,12 +684,12 @@ app.controller('transactionEntryController', ['$scope', '$location', 'postReques
         if($scope.entryForm.$valid && ($scope.remaining >= -0.005 /*rounding error allowance */ || $scope.transaction.expense < 0)){
            if($scope.transaction.transaction_id){
                 postRequestService.request('/api/transaction/update', $scope.transaction).then(function(success){
-                   $location.url('/') 
+                   $location.url('/overview/account/' +$scope.transaction.account_id ) 
                 })
             }
             else{
                 postRequestService.request('/api/transaction/new', $scope.transaction).then(function(success){
-                    $location.url('/') 
+                    $location.url('/overview/account/' +$scope.transaction.account_id ) 
                 })
             }
         }
@@ -949,18 +949,18 @@ app.controller('vendorEntryController', ['$scope', '$location', 'postRequestServ
         if($scope.vendorEntryForm.$valid){
            if($scope.vendor.vendor_id){
                 postRequestService.request('/api/vendor/update', $scope.vendor).then(function(request){
-                    $location.url('/')   
+                    $location.url('/vendors/' +$scope.vendor.vendor_id)   
                 });
             }
             else{
                 postRequestService.request('/api/vendor/new', $scope.vendor).then(function(request){
-                    $location.url('/')   
+                    $location.url('/vendors/' +request.data.response)   
                 });
             }
         }
     }
 }]);
-app.controller('expenseBreakdownController', ['$scope', '$rootScope', 'postRequestService', 'dateFromString', 'accountNameService', function($scope, $rootScope,  postRequestService, dateFromString, accountNameService){
+app.controller('expenseController', ['$scope', '$rootScope', 'postRequestService', 'dateFromString', 'accountNameService', function($scope, $rootScope,  postRequestService, dateFromString, accountNameService){
     $scope.options = {
         chart: {
             type: 'pieChart',
@@ -1076,96 +1076,6 @@ app.controller('expenseBreakdownController', ['$scope', '$rootScope', 'postReque
         }
     }
 }]);
-app.controller('monthlyBreakdownController', ['$scope', '$location', function($scope, $location){
-    $scope.options = {
-            chart: {
-            type: 'multiBarChart',
-            height: 450,
-            stacked: true,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 60,
-                left: 65
-            },
-            x: function(d){ return d.month; },
-            y: function(d){ return d.amount; },
-            useInteractiveGuideline: true,
-            forceY: [0, 20000],
-
-            color: d3.scale.category10().range(),
-            duration: 300,
-
-            xAxis: {
-                axisLabel: 'Month',
-                showMaxMin: false,
-                tickFormat: function(d){
-                    return $scope.months[d];
-                },
-            },
-
-            yAxis: {
-                axisLabel: 'Amount',
-                axisLabelDistance: 20,
-                tickFormat: function(d){
-                    return "$" + d3.format(",.2f")(d);
-                },
-            },
-            tooltip: {
-                valueFormatter: function(d) {
-                    return "$"+d3.format(",.2f")(d);
-                }
-            }
-        }
-    };
-
-    $scope.months = ["Janary", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    $scope.data = [
-        {
-            key: "522000-1",
-            values: [{month: 0, amount: 3000},{month: 1, amount: 4356},{month: 2, amount: 1009},{month: 3, amount: 3000},{month: 4, amount: 4356},{month: 5, amount: 1009},
-                     {month: 6, amount: 3000},{month: 7, amount: 4346},{month: 8, amount: 1009},{month: 9, amount: 2000},{month: 10, amount: 4356},{month: 11, amount: 1009}]
-        },
-        {
-            key: "522000-2",
-            values: [{month: 0, amount: 2000},{month: 1, amount: 14656},{month: 2, amount: 21409},{month: 3, amount: 20000},{month: 4, amount: 10356},{month: 5, amount: 1009},
-                     {month: 6, amount: 12300},{month: 7, amount: 1106},{month: 8, amount: 279},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1009}]
-        },
-        {
-            key: "522000-3",
-            values: [{month: 0, amount: 300},{month: 1, amount: 956},{month: 2, amount: 2109},{month: 3, amount: 200},{month: 4, amount: 1056},{month: 5, amount: 1009},
-                     {month: 6, amount: 1900},{month: 7, amount: 1136},{month: 8, amount: 909},{month: 9, amount: 24000},{month: 10, amount: 12356},{month: 11, amount: 1000}]
-        }
-    ];
-
-    $scope.overviewSelected = true;
-
-    $scope.viewFilters = [
-        {
-            account: 52100,
-            selected: false
-        },
-        {
-            account: 52200,
-            selected: false
-        },
-        {
-            account: 52300,
-            selected: false
-        },
-        {
-            account: 52400,
-            selected: false
-        },
-        {
-            account: 52500,
-            selected: false
-        },
-    ]
-    $scope.filterSelect = function(id){
-
-    }
-}]);
 app.controller('monthlyExpenseController', ['$scope', '$location', 'monthsService', function($scope, $location, monthsService){
 
     $scope.months = function(n){
@@ -1258,14 +1168,114 @@ app.controller('reportsController', ['$scope', '$location', function($scope, $lo
             link: "monthly-expense"
         },
         {
-            name: "Expense Breakdown",
-            link: "expense-breakdown"
+            name: "Expense",
+            link: "expense"
         },
         {
-            name: "Monthly Breakdown",
-            link: "monthly-breakdown"
+            name: "Ticket Summary",
+            link: "ticket-summary"
         },
     ]
+}]);
+app.controller('ticketSummaryController', ['$scope', '$rootScope', 'dateFromString', 'postRequestService', function($scope, $rootScope, dateFromString, postRequestService){
+    $scope.options = {
+            chart: {
+            type: 'multiBarChart',
+            height: 450,
+            stacked: true,
+            margin : {
+                top: 20,
+                right: 20,
+                bottom: 60,
+                left: 65
+            },
+            x: function(d){ return [d.project_no, d.project_description].join(" - "); },
+            y: function(d){ return d.amount; },
+            useInteractiveGuideline: true,
+
+            color: d3.scale.category10().range(),
+            duration: 300,
+
+            xAxis: {
+                axisLabel: 'Project',
+                showMaxMin: false,
+            },
+
+            yAxis: {
+                axisLabel: 'Amount',
+                axisLabelDistance: 20,
+                tickFormat: function(d){
+                    return "$" + d3.format(",.2f")(Number(d));
+                },
+            },
+            tooltip: {
+                valueFormatter: function(d) {
+                    return "$"+d3.format(",.2f")(d);
+                }
+            }
+        }
+    };
+
+    $scope.overviewSelected = true;
+    $scope.filter = {
+        start_date: "2017-01-01",
+        end_date: "2017-12-31"
+    }
+
+    $scope.filterReport = function(){
+        if(($scope.filter.start_date && $scope.filter.end_date) && (dateFromString.get($scope.filter.start_date) < dateFromString.get($scope.filter.end_date))){
+            sendRequest()
+        }
+        else{
+            alert("Please select a valid start and end date")
+        }
+    }
+
+
+    postRequestService.request('/api/vendor/with-materials/listing').then(function(success){
+        $scope.vendors = success.data.response;
+    })
+
+
+    $scope.overviewSelected = true;
+
+    var sendRequest = function(){
+        $rootScope.loading = true;
+        console.log($scope.filter)
+        postRequestService.request('/api/reports/tickets', $scope.filter).then(function(success){
+            $scope.data = success.data.response;
+            $rootScope.loading = false;
+        })
+    }
+    sendRequest()
+
+    $scope.selectAll = function(){
+        if(!$scope.overviewSelected){
+            $scope.overviewSelected = true
+            $scope.filter.vendor_id = null
+            for(var i = 0; i < $scope.vendors.length; i++){
+                $scope.vendors[i].selected = false
+            }
+        }    
+    }
+
+
+    $scope.selectVendor = function(vendor){
+        if(vendor.selected){
+            $scope.selectAll()
+        }
+        else{
+            $scope.overviewSelected = false
+            for(var i = 0; i < $scope.vendors.length; i++){
+                $scope.vendors[i].selected = false
+            }
+
+            vendor.selected = true
+            $scope.filter.vendor_id = vendor.vendor_id
+
+        }
+    }
+
 }]);
 app.controller('accountController', ['$scope', '$rootScope', '$location', '$routeParams', 'postRequestService', 'monthsService', 'accountNameService', function($scope, $rootScope, $location, $routeParams, postRequestService, monthsService, accountNameService){
   
@@ -1725,16 +1735,30 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
 
     $scope.selected = {}
     $scope.$watch('selected.project', function(){
-        console.log("fired")
         if($scope.selected.project){
             selectTicketsForDisplay($scope.selected.project.pprtaId)
         }
     })
 
     var selectTicketsForDisplay = function(pprtaId){
+
         $scope.tickets = []
+        $scope.showDistricts = false
         for(var i = 0; i < $scope.vendor.tickets.length; i++){
+
             if($scope.vendor.tickets[i].pprta_id == pprtaId){
+                if($scope.vendor.tickets[i].district == "None" || $scope.vendor.tickets[i].district == ""){
+                    $scope.vendor.tickets[i].district = ""
+                }
+                else{
+                    $scope.showDistricts = true
+                }
+
+                if($scope.vendor.tickets[i].invoice_no == "None" || $scope.vendor.tickets[i].invoice_no == ""){
+                    $scope.vendor.tickets[i].invoice_no = ""
+                    $scope.pendingTotal += $scope.vendor.tickets[i].cost
+                }
+
                 $scope.tickets.push($scope.vendor.tickets[i])
             }
         }
@@ -1748,6 +1772,7 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
             if(uniqueCheck.hasOwnProperty(tickets[i].pprta_id)) {
                 continue;
             }
+
             array.push({pprtaId: tickets[i].pprta_id, pprtaNo: tickets[i].pprta_no, pprtaDescription: tickets[i].pprta_description});
             uniqueCheck[tickets[i].pprta_id] = 1;
         }

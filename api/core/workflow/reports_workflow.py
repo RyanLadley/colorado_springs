@@ -31,3 +31,24 @@ def expense_report():
         total += account.expendetures
 
     return response.success({'accounts': utilities.serialize_array(accounts), 'total': str(total)})
+
+
+@workflow.route('/reports/tickets', methods = ['POST'])
+@authorize()
+def pending_report():
+    """
+    """
+    
+    filters = json.loads(request.form['payload'])
+
+    result = reports_select.tickets(filters.get('start_date'), filters.get('end_date'), filters.get('vendor_id'))
+
+    report = [
+        {'key': 'Pending', 'values' : []},
+        {'key': 'Expensed', 'values' : []}]
+
+    for row in result:
+        report[0]['values'].append({'project_no': row["project_no"], 'project_description': row["project_description"], 'amount': float(row["pending"])})
+        report[1]['values'].append({'project_no': row["project_no"], 'project_description': row["project_description"], 'amount': float(row["expensed"])})
+
+    return response.success(report)

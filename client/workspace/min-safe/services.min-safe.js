@@ -119,7 +119,7 @@ app.service('sortService', ['accountNameService', function(accountNameService){
             }
 
             //Detrmine the columns being sorted
-            if (column =='material_name' || column == 'ticket_no' || column == 'invoice_no'){
+            if (column =='material_name' || column == 'ticket_no' || column == 'invoice_no' || column == 'district'){
                 return byString(a[column] ,b[column])
             }
             else if(column == 'date'){

@@ -37,16 +37,30 @@ app.controller('vendorDetailsController', function($scope, $rootScope, $location
 
     $scope.selected = {}
     $scope.$watch('selected.project', function(){
-        console.log("fired")
         if($scope.selected.project){
             selectTicketsForDisplay($scope.selected.project.pprtaId)
         }
     })
 
     var selectTicketsForDisplay = function(pprtaId){
+
         $scope.tickets = []
+        $scope.showDistricts = false
         for(var i = 0; i < $scope.vendor.tickets.length; i++){
+
             if($scope.vendor.tickets[i].pprta_id == pprtaId){
+                if($scope.vendor.tickets[i].district == "None" || $scope.vendor.tickets[i].district == ""){
+                    $scope.vendor.tickets[i].district = ""
+                }
+                else{
+                    $scope.showDistricts = true
+                }
+
+                if($scope.vendor.tickets[i].invoice_no == "None" || $scope.vendor.tickets[i].invoice_no == ""){
+                    $scope.vendor.tickets[i].invoice_no = ""
+                    $scope.pendingTotal += $scope.vendor.tickets[i].cost
+                }
+
                 $scope.tickets.push($scope.vendor.tickets[i])
             }
         }
@@ -60,6 +74,7 @@ app.controller('vendorDetailsController', function($scope, $rootScope, $location
             if(uniqueCheck.hasOwnProperty(tickets[i].pprta_id)) {
                 continue;
             }
+
             array.push({pprtaId: tickets[i].pprta_id, pprtaNo: tickets[i].pprta_no, pprtaDescription: tickets[i].pprta_description});
             uniqueCheck[tickets[i].pprta_id] = 1;
         }

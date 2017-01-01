@@ -48,7 +48,7 @@ def account_backups(file_name):
 @client_side.route('/adjustments')
 @client_side.route('/coversheet')
 @client_side.route('/reports/monthly-expense')
-@client_side.route('/reports/expense-breakdown')
-@client_side.route('/reports/monthly-breakdown')
+@client_side.route('/reports/expense')
+@client_side.route('/reports/ticket-summary')
 def initial_page(*args, **kwargs):
     return send_file(client_url +'site/index.html')

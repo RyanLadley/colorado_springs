@@ -4,6 +4,7 @@ app.directive('ticketTable', function() {
         controller: 'ticketTableController',
         scope: {
             tickets: '<',
+            showDistricts: '<?',
             emptyMessage: '@'
         },
         templateUrl: '/res/components/directives/ticket-table/ticket-table.template.html'

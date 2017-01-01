@@ -1,5 +1,5 @@
 <div class = "page-title">
-    <h1>Expense Breakdown</h1>
+    <h1>Ticket Summary</h1>
 </div>
 
 <div class ="filter-area">
@@ -9,33 +9,23 @@
         <div class = "filter-section selection-list">
             <date-select label ="Start Date"  date = "filter.start_date" input-disabled = "true" required = "true"></date-select>
             <date-select label ="End Date"  date = "filter.end_date" input-disabled = "true" required = "true"></date-select>
-            <p>-<p>
+            <p>-</p>
         </div>
 
         <h3 class = section-title>View All</h3>
         <div class = "filter-section selection-list">
             <div class = "selectable" ng-class = "{selected: overviewSelected}" ng-click = "selectAll();">
-                <p> All Accounts </p>
+                <p> All Vendors </p>
             </div>
         </div>
 
-        <h3 class = section-title>Account</h3>
+        <h3 class = section-title>Vendors</h3>
         <div class = "filter-section selection-list">
-            <div ng-repeat = "account in accounts" class = "selectable" ng-class = "{selected: account.selected}" ng-click = "selectAccount(account)">
-                <p>{{account.account_no}}</p>
+            <div ng-repeat = "vendor in vendors" class = "selectable" ng-class = "{selected: vendor.selected}" ng-click = "selectVendor(vendor)">
+                <p>{{vendor.name}}</p>
             </div>
         </div>
-
-        <div ng-if = "selectedAccount">
-            <h3 class = section-title>Sub-Account</h3>
-            <div class = "filter-section selection-list">
-                <div ng-repeat = "subaccount in selectedAccount.sub_accounts" class = "selectable" ng-class = "{selected: subaccount.selected}" ng-click = "selectSubaccount(subaccount)">
-                    <p>{{subaccount.account_no}}-{{subaccount.sub_no}}</p>
-                </div>
-            </div>
-        </div>
-
-        <button class = "filter-reset" ng-click ="filterReport()">Reset Filter</button>
+        <button class = "filter-reset" ng-click = "filterReport()">Reset Filter</button>
     </div>
 </div>
 
@@ -54,15 +44,12 @@
         <h2> Tabular Data</h2>
         <table class = "table alternate-table">
             <tr>
-                <th>Account</th>
-                <th>Amount</th>
-                <th>Percentage</th>
+                <th></th>
+                <th ng-repeat = "set in data[0].values">{{[set.project_no, set.project_description].join(" - ")}}</th>
             </tr>
-            <tr ng-repeat = "account in data">
-                <td><account-name  account-id = "account.account_id" account-no = "account.account_no" sub-no = "account.sub_no" shred-no = "account.shred_no"></account-name></td>
-                <td class = "currency"> {{account.expendetures | currency}}</td>
-                <td class= "currency"> %{{(account.expendetures / total) *100 || 0.00 | number : 2}}</td>
-
+            <tr ng-repeat = "set in data">
+                <td> {{set.key}}</td>
+                <td class = "currency" ng-repeat = "expense in set.values"> {{expense.amount | currency}}</td>
             </tr>
         </table>
     </div>
