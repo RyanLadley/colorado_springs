@@ -16,7 +16,7 @@
                     <th class = "permisions-headers">Craftsman</th>
 	       	    </tr>
             	<tr ng-repeat = "user in users">
-    	           	<td class = "user-column" title = "{user.first_name}} {{user.last_name}} - {{user.email}}">{{user.first_name}} {{user.last_name}}</td>
+    	           	<td class = "user-column" title = "{{user.first_name}} {{user.last_name}} - {{user.email}}">{{user.first_name}} {{user.last_name}}</td>
     	            <td><input type="radio" name="{{user.user_id}}"  ng-change = "queueChangedPermissions(user)" ng-model = "user.permissions" value="0"> </td>
                     <td><input type="radio" name="{{user.user_id}}"  ng-change = "queueChangedPermissions(user)" ng-model = "user.permissions" value="1"> </td>
                     <td><input type="radio" name="{{user.user_id}}"  ng-change = "queueChangedPermissions(user)" ng-model = "user.permissions" value="2"> </td>

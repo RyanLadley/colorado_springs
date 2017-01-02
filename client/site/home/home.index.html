@@ -3,7 +3,7 @@
 	<div id = "home-list">
 		<h1 id = "greeting"> Good {{getGreeting()}}, {{user.first_name}}!</h1>
 		<ul>
-			<li><a href = "/administrator/{{user.user_id}}" ng-if = "user.permissions == 0">Administartor</a></li>
+			<li><a href = "/administrator/{{user.user_id}}" ng-if = "user.permissions == 0">Administrator</a></li>
 			<li><a href = "/profile/{{user.user_id}}">User Profile</a></li>
 			<li><a href = "/coversheet">Create an Invoice Coversheet</a></li>
 			<li><a href = "/dev">Development</a></li>

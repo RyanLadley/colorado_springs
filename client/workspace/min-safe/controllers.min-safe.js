@@ -1164,10 +1164,6 @@ app.controller('reportsController', ['$scope', '$location', function($scope, $lo
 
     $scope.reports = [
         {
-            name: "Monthly Expense",
-            link: "monthly-expense"
-        },
-        {
             name: "Expense",
             link: "expense"
         },
@@ -1494,6 +1490,7 @@ app.controller('dataInputController', ['$scope', '$rootScope', '$location', 'pos
         $scope.transactionTypes = success.data.response.transaction_types
         $scope.cityAccounts = success.data.response.city_accounts
         $scope.pprtaProjects = success.data.response.pprta_projects
+        $scope.materials = success.data.response.materials
         $rootScope.loading = false;
     })
 

@@ -18,7 +18,7 @@
                 <transaction-entry transaction="transaction" account-options = "accounts"  vendor-options = "vendors" transaction-type-options = "transactionTypes" city-account-options = "cityAccounts"></transaction-entry>
             </div>
             <div class = "pending" ng-show = "display == 'vendor'">   
-                <vendor-entry vendor = "vendor"></vendor-entry>
+                <vendor-entry vendor = "vendor", material-options = "materials"></vendor-entry>
             </div>
             <div class = "tickets" ng-show = "display == 'tickets'">   
                 <ticket-entry vendors = "vendors" pprta-projects = "pprtaProjects"></ticket-entry>
