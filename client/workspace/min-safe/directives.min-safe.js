@@ -54,6 +54,13 @@ app.directive('pendingAdjustment', function() {
         templateUrl: '/res/components/directives/adjustments/pending-adjustment.template.html'
     };
 })
+app.directive('ticketAdjustment', function() {
+    return{
+        restrict: 'E',
+        controller: 'ticketAdjustmentController',
+        templateUrl: '/res/components/directives/adjustments/ticket-adjustment.template.html'
+    };
+})
 app.directive('transactionAdjustment', function() {
     return{
         restrict: 'E',

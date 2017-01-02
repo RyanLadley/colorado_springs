@@ -25,6 +25,6 @@
             <label>Description</label>
             <textarea placeholder="Enter Discription" ng-model = "transfer.description"></textarea>
         </div>
-        <button class = "entry-submit" ng-click = "submitTransfer()">Submit</button>
+        <button class = "entry-submit" ng-click = "submitTransfer()" ng-disabled = "transferForm.$invalid"><i class="fa fa-check-square-o" aria-hidden="true"></i> Submit</button>
     </form>
 </div>

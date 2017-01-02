@@ -13,7 +13,7 @@ class Ticket:
         ticket.pprta_description = form.get('project_description')
         ticket.date = form.get('date')
         ticket.ticket_no = form.get('ticket_no')
-        ticket.material_id = form.get('material_id')
+        ticket.material_id = int(form['material_id']) if form.get('material_id') else None
         ticket.material_name = form.get('material_name')
         ticket.quantity = form.get('quantity')
         ticket.cost = form.get('cost')

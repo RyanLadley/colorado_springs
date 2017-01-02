@@ -1350,6 +1350,12 @@
   height: 475px;
   overflow-y: auto; }
 
+.small-adjustment-table-scroll {
+  display: inline-block;
+  width: 100%;
+  height: 375px;
+  overflow-y: auto; }
+
 .to-button {
   float: right;
   margin: 20px; }

@@ -8,6 +8,7 @@
 <ul class = "tabs adjustment-tabs">
     <li ng-click = "display = 'transactions';resetPage(); " ng-class = "{selected : display == 'transactions'}">Transactions</li>
     <li ng-click = "display = 'pending';resetPage();" ng-class = "{selected : display == 'pending'}">Pending</li>
+    <li ng-click = "display = 'tickets';resetPage();" ng-class = "{selected : display == 'tickets'}">Tickets</li>
     <li ng-click = "display = 'vendor';resetPage();" ng-class = "{selected : display == 'vendor'}">Vendor</li>
     <li ng-click = "display = 'budget';resetPage();" ng-class = "{selected : display == 'budget'}">Budget</li>
 </ul>
@@ -20,6 +21,9 @@
             </div>
             <div class = "pending" ng-show = "display == 'pending'">
                 <pending-adjustment></pending-adjustment>
+            </div>
+             <div class = "tickets" ng-show = "display == 'tickets'">
+                <ticket-adjustment></ticket-adjustment>
             </div>
             <div class = "vendor" ng-show = "display == 'vendor'">
                 <vendor-adjustment></vendor-adjustment>

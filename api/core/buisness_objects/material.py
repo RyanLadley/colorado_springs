@@ -5,7 +5,7 @@ class Material:
         material = Material()
         
         material.vendor_materials_id = form.get('vendor_materials_id')
-        material.material_id = form.get('material_id')
+        material.material_id = int(form['material_id']) if form.get('material_id') else None
         material.name = form.get('name')
         material.unit = form.get('unit')
         material.cost = form.get('cost')
