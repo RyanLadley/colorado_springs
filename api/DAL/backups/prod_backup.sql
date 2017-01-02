@@ -618,7 +618,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_account_transfers` AS select `account_transfers`.`transfer_id` AS `transfer_id`,`account_transfers`.`from_account_id` AS `from_account_id`,`from_account`.`account_no` AS `from_account_no`,`from_account`.`sub_no` AS `from_sub_no`,`from_account`.`shred_no` AS `from_shred_no`,`account_transfers`.`to_account_id` AS `to_account_id`,`to_account`.`account_no` AS `to_account_no`,`to_account`.`sub_no` AS `to_sub_no`,`to_account`.`shred_no` AS `to_shred_no`,`account_transfers`.`amount` AS `amount`,`account_transfers`.`description` AS `description`,`account_transfers`.`transfer_date` AS `transfer_date` from ((`account_transfers` join `v_accounts` `from_account` on((`from_account`.`account_id` = `account_transfers`.`from_account_id`))) join `v_accounts` `to_account` on((`to_account`.`account_id` = `account_transfers`.`to_account_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -637,7 +636,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_accounts` AS select `accounts`.`account_id` AS `account_id`,`accounts`.`pprta_account_code_id` AS `pprta_account_code_id`,`pprta`.`account_no` AS `account_no`,`accounts`.`sub_no` AS `sub_no`,`accounts`.`shred_no` AS `shred_no`,`accounts`.`description` AS `description`,`accounts`.`annual_budget` AS `annual_budget`,`pprta`.`fund_no` AS `fund_no`,`pprta`.`dept_no` AS `dept_no`,`pprta`.`project_no` AS `project_no`,`pprta`.`project_description` AS `project_description`,`pprta`.`account_prefix` AS `account_prefix` from (`accounts` join `pprta_account_codes` `pprta` on((`accounts`.`pprta_account_code_id` = `pprta`.`pprta_account_code_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -656,7 +654,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_city_account_assignments` AS select `assignment`.`city_account_assignment_id` AS `city_account_assignment_id`,`assignment`.`transaction_id` AS `transaction_id`,`assignment`.`city_account_id` AS `city_account_id`,`city_accounts`.`account_no` AS `city_account_no`,`assignment`.`amount` AS `amount` from (`city_account_assignments` `assignment` join `city_accounts` on((`city_accounts`.`city_account_id` = `assignment`.`city_account_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -675,7 +672,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_invoice_accounts` AS select `v_transactions`.`transaction_id` AS `transaction_id`,`v_transactions`.`account_id` AS `account_id`,`v_transactions`.`account_no` AS `account_no`,`v_transactions`.`expense` AS `expense` from `v_transactions` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -694,7 +690,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_tickets` AS select `tickets`.`ticket_id` AS `ticket_id`,`tickets`.`vendor_id` AS `vendor_id`,`vendors`.`name` AS `vendor_name`,`tickets`.`pprta_id` AS `pprta_id`,`pprta`.`project_no` AS `project_no`,`pprta`.`project_description` AS `project_description`,`tickets`.`date` AS `date`,`tickets`.`ticket_no` AS `ticket_no`,`tickets`.`material_id` AS `material_id`,`materials`.`name` AS `material_name`,`tickets`.`quantity` AS `quantity`,`tickets`.`cost` AS `cost`,`tickets`.`district` AS `district`,`tickets`.`transaction_id` AS `transaction_id`,`transactions`.`invoice_no` AS `invoice_no` from ((((`tickets` join `vendors` on((`tickets`.`vendor_id` = `vendors`.`vendor_id`))) join `pprta_account_codes` `pprta` on((`tickets`.`pprta_id` = `pprta`.`pprta_account_code_id`))) join `materials` on((`tickets`.`material_id` = `materials`.`material_id`))) left join `transactions` on((`tickets`.`transaction_id` = `transactions`.`transaction_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -713,7 +708,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_transactions` AS select `t`.`transaction_id` AS `transaction_id`,`t`.`account_id` AS `account_id`,`v_accounts`.`pprta_account_code_id` AS `pprta_account_code_id`,`v_accounts`.`account_no` AS `account_no`,`v_accounts`.`sub_no` AS `sub_no`,`v_accounts`.`shred_no` AS `shred_no`,`t`.`vendor_id` AS `vendor_id`,`vendors`.`name` AS `vendor_name`,`t`.`invoice_date` AS `invoice_date`,`t`.`date_paid` AS `date_paid`,`t`.`invoice_no` AS `invoice_no`,`t`.`description` AS `description`,`t`.`expense` AS `expense`,`t`.`transaction_type_id` AS `transaction_type_id`,`transaction_types`.`transaction_type` AS `transaction_type` from (((`transactions` `t` join `vendors` on((`t`.`vendor_id` = `vendors`.`vendor_id`))) join `transaction_types` on((`transaction_types`.`transaction_type_id` = `t`.`transaction_type_id`))) join `v_accounts` on((`v_accounts`.`account_id` = `t`.`account_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -732,7 +726,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_vendor_materials` AS select `vendor_materials`.`vendor_materials_id` AS `vendor_materials_id`,`vendor_materials`.`vendor_id` AS `vendor_id`,`vendors`.`name` AS `vendor_name`,`materials`.`material_id` AS `material_id`,`materials`.`name` AS `name`,`materials`.`unit` AS `unit`,`vendor_materials`.`cost` AS `cost` from ((`vendor_materials` join `materials` on((`materials`.`material_id` = `vendor_materials`.`material_id`))) join `vendors` on((`vendor_materials`.`vendor_id` = `vendors`.`vendor_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -751,7 +744,6 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_vendors` AS select `vendors`.`vendor_id` AS `vendor_id`,`vendors`.`name` AS `name`,`vendors`.`contract_no` AS `contract_no`,`vendors`.`contract_start` AS `contract_start`,`vendors`.`contract_end` AS `contract_end`,`vendors`.`point_of_contact` AS `point_of_contact`,`vendors`.`phone_no` AS `phone_no`,`vendors`.`address` AS `address`,`vendors`.`city` AS `city`,`vendors`.`state` AS `state`,`vendors`.`zip` AS `zip`,`vendors`.`email` AS `email`,`vendors`.`website` AS `website`,`image`.`folder` AS `image_folder`,`image`.`file_name` AS `image_file_name`,`image`.`file_type` AS `image_file_type` from (`vendors` join `vendor_images` `image` on((`image`.`vendor_id` = `vendors`.`vendor_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
