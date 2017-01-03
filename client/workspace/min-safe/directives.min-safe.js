@@ -232,6 +232,18 @@ app.directive('transactionEntry', function() {
        templateUrl: '/res/components/directives/transaction-entry/transaction-entry.template.html'
     };
 })
+app.directive('transactionSelectDialog', function() {
+    return{
+        restrict: 'E',
+        controller: 'transactionSelectDialogController',
+        scope: {
+            ticket: '=?',
+            vendors: '<',
+            display: '='
+        },
+       templateUrl: '/res/components/directives/transaction-select-dialog/transaction-select-dialog.template.html'
+    };
+})
 app.directive('transactionTable', function() {
     return{
         restrict: 'E',

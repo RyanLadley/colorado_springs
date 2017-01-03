@@ -28,11 +28,12 @@ def ticket(ticket, cursor = None):
             material_id = %(material_id)s,
             quantity = %(quantity)s,
             cost = %(cost)s,
-            district = %(district)s
+            district = %(district)s,
+            transaction_id = %(transaction_id)s
         WHERE ticket_id = %(ticket_id)s;''',  
 
             {'ticket_id' : ticket.ticket_id, 'vendor_id': ticket.vendor_id,  'pprta_id': ticket.pprta_id, 'date': ticket.date, 'ticket_no': ticket.ticket_no, 
-            'material_id': ticket.material_id, 'quantity': ticket.quantity, 'cost': ticket.cost, 'district': ticket.district })
+            'material_id': ticket.material_id, 'quantity': ticket.quantity, 'cost': ticket.cost, 'district': ticket.district , 'transaction_id': ticket.transaction_id})
 
 
     return response.success()

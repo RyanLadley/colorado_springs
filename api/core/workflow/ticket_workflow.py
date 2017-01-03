@@ -77,4 +77,8 @@ def get_ticket_search():
     
     tickets = tickets_select.ticket_search(search_form.get('vendor_id'), search_form.get('project_id'), search_form.get('ticket_no'))
 
+    for ticket in tickets:
+        if(ticket.invoice_no is None):
+            ticket.invoice_no = ""
+
     return response.success(utilities.serialize_array(tickets))

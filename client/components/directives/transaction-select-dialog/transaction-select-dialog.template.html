@@ -1,0 +1,77 @@
+<div class = "dialog-screen" ng-if = "display">
+
+    <div class = "dialog-content">
+        <div class = "dialog-exit" ng-click = "exit()">X</div>
+        <div class = "dialog-title trasaction-dialog-title">
+            <h1> Transaction Select</h1>
+        </div>
+
+        <div ng-if = "currentTransaction">
+            <h3 class = "dialog-section-header">Current Transaction</h3>
+            <div class = "dialog-padded-section">
+                <table class = "table">
+                    <tr>
+                        <th class = "center">Vendor</th>
+                        <th class = "center">Invoice Number</th>
+                        <th class = "center">Expense</th>
+                    </tr>
+                    <tr>
+                        <td class = "center">{{currentTransaction.vendor_name}}</td>
+                        <td class = "center">{{currentTransaction.invoice_no}}</td>
+                        <td class = "center">{{currentTransaction.expense | currency}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <form  class = "input-row"  name = "searchForm">
+            <h3 class = "dialog-section-header">Transaction Search</h3>
+            <div class = "label-input">
+                <label>Vendor</label>
+                <select ng-model = "search.vendor_id" ng-options = "vendor.vendor_id as vendor.name for vendor in vendors">
+                    <option value="" disabled selected hidden>Select a Vendor</option>
+                </select>
+            </div>
+
+            <div class = "label-input">
+                <label>Invoice Number</label>
+                <input type = "text" ng-model = "search.invoice_no">
+            </div>
+
+            <button class = "search-button" ng-click = "searchInvoice()"> <i class="fa fa-search" aria-hidden="true"></i>  Search</button>
+            <!--<search-field label = "Invoice Search" function = "searchInvoice" model = "search.invoice_no"></search-field> -->
+        </form>
+
+        <div class = "dialog-padded-section dialog-table-scroll">
+            <table class = "table alternate-table">
+                <tr ng-if = "transactions.length > 0">
+                    <th></th>
+                    <th>Vendor<i class="fa fa-sort sort-icon clickable" 
+                               ng-class = "{sortSelected : isSelectedColumn('vendor_name')}" ng-click = "sortTransactions('vendor_name')" aria-hidden="true" ></i></th>
+                    <th>Invoice Number<i class="fa fa-sort sort-icon clickable" 
+                               ng-class = "{sortSelected : isSelectedColumn('invoice_no')}" ng-click = "sortTransactions('invoice_no')" aria-hidden="true"></i></th>
+                    <th>Total Expense<i class="fa fa-sort sort-icon clickable" 
+                               ng-class = "{sortSelected : isSelectedColumn('expense')}" ng-click = "sortTransactions('expense')" aria-hidden="true"></i></th>
+                </tr>
+
+                <tr ng-repeat = "transaction in transactions" class = "row clickable" ng-if = "transactions.length > 0">
+                    <td><input type="radio" name = "transaction" ng-click = "selectTransaction(transaction)"></td>
+                    <td ng-click ="displayTransactionDetails(transaction.transaction_id)">{{transaction.vendor_name}}</td>
+                    <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "center">{{transaction.invoice_no}}</td>
+                    <td ng-click ="displayTransactionDetails(transaction.transaction_id)" class = "currency">{{transaction.expense | currency}}</td>
+                </tr>
+
+                <tr ng-if = "!transactions.length > 0">
+                    <th></th>
+                </tr>
+                <tr ng-if = "!transactions.length > 0">
+                    <td  class = "center">There are no transactions matching this search criteria</td>
+                </tr>
+            </table>
+        </div>
+        <button class = "entry-submit" ng-click = "updateTicketTransaction(selectedTransaction)"><i class="fa fa-check-square-o" aria-hidden="true"></i> Update</button>
+        <button class="delete-button"  ng-click = deleteTicketTranasction()><i class="fa fa-ban" aria-hidden="true"></i>
+        Remove</button>
+        <h3 class = "dialog-section-header"></h3>
+    </div>
+
+</div>

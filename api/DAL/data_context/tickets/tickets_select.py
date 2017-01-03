@@ -57,7 +57,8 @@ def ticket_search(vendor_id, project_id, ticket_no, cursor = None):
                         quantity,
                         cost,
                         district,
-                        transaction_id
+                        transaction_id,
+                        invoice_no
                 FROM v_tickets
                 WHERE vendor_id LIKE %(vendor_id)s
                   AND pprta_id LIKE %(project_id)s 
@@ -68,6 +69,7 @@ def ticket_search(vendor_id, project_id, ticket_no, cursor = None):
 
     tickets = []
     for row in results:
+        print(row)
         tickets.append(Ticket.map_from_form(row))
 
     return tickets

@@ -56,6 +56,10 @@ app.controller('ticketAdjustmentController', function($scope, $location, postReq
         postRequestService.request('/api/tickets/delete/'+ ticket.ticket_id).then(function(success){
             $location.url("/vendors/" +ticket.vendor_id)
         }) 
-
     }
+
+    $scope.displayTransactionSelect = function(){
+        $scope.showTransasctionSelect = true;
+    }
+
 });

@@ -194,6 +194,7 @@
   right: 0;
   bottom: 0;
   width: 100%;
+  z-index: 100;
   background-color: rgba(46, 46, 46, 0.6); }
 
 .dialog-content {
@@ -237,6 +238,9 @@
   width: 540px;
   margin-bottom: 5px;
   border-bottom: solid 1px lightgrey; }
+
+.dialog-padded-section {
+  padding: 0 30px; }
 
 .dialog-table {
   padding: 5px 30px;
@@ -1199,6 +1203,26 @@
   .label-display p {
     margin: 0; }
 
+.edit-button {
+  margin-right: 5px;
+  background-color: #2878AE;
+  border: none;
+  color: white;
+  float: left;
+  margin-right: 2px;
+  font-weight: bold;
+  padding: 3px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  border-radius: 3px; }
+  .edit-button:hover {
+    background-color: #2878AE;
+    box-shadow: 1px 1px 2px grey;
+    border: none;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s; }
+
 .add-button {
   margin-top: 20px;
   margin-left: 30px;
@@ -1366,6 +1390,10 @@
   margin: 20px; }
   .from-button i {
     margin-right: 5px; }
+
+.dialog-table-scroll {
+  height: 400px;
+  overflow-y: scroll; }
 
 .transaction-adjustment-label {
   margin: 5px 5px 5px 15px; }

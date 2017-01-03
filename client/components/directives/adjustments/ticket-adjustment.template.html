@@ -23,7 +23,7 @@
         <input type = 'text' ng-model = "search.ticket_no">
     </div>
 
-    <button class = "search-button" ng-click = "searchTickets()" ng-disabled = "(!search.project_id || !search.vendor_id) && !search.ticket_no">Search Tickets</button>
+    <button class = "search-button" ng-click = "searchTickets()" ng-disabled = "(!search.project_id || !search.vendor_id) && !search.ticket_no"> <i class="fa fa-search" aria-hidden="true"></i>  Search Tickets</button>
 
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">
@@ -34,6 +34,7 @@
                 <th>Material</th>
                 <th>Quantitiy</th>
                 <th>Cost</th>
+                <th>Invoice Number</th>
             </tr>
             <tr ng-repeat = "ticket in tickets" class = "row" ng-show = "tickets.length > 0">
                 <td><input type="radio" name = "ticket" ng-click = "select(ticket)"></td>
@@ -42,6 +43,7 @@
                 <td>{{ticket.material_name}}</td>
                 <td class = "center">{{ticket.quantity}}</td>
                 <td class = "currency">{{ticket.cost | currency}}</td>
+                <td>{{ticket.invoice_no}}</td>
             </tr>
             <tr ng-if = "!tickets.length > 0">
                 <th colspan="6"></th>
@@ -111,6 +113,11 @@
 
     <div class = "input-row">
 
+        <div class = "label-display" ng-if = "selected.invoice_no != 'None'">
+            <label>Invoice Number</label>
+            <button class = " edit-button" ng-click = "displayTransactionSelect()"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></button><p>{{selected.invoice_no}}</p>
+        </div>
+
         <div class = "label-input" ng-if = "showDistricts">
             <label>District</label>
             <select ng-model = "selected.district" required>
@@ -123,9 +130,10 @@
         </div>
     </div>
 
-    <button class="from-button transition-button hidableelement" ng-click = "decrementPage()" ng-class = "{'hideelementleft': page == 4}"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back to Ticket Selection</button>
+    <button class="from-button transition-button" ng-click = "decrementPage()"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back to Ticket Selection</button>
     <button class = "entry-submit" ng-click = "updateTicket(selected)"><i class="fa fa-check-square-o" aria-hidden="true"></i> Update</button>
     <button class="delete-button"  ng-click = deleteTicket(selected)><i class="fa fa-ban" aria-hidden="true"></i>
     Delete</button>
 </div>
 
+<transaction-select-dialog ticket = selected  vendors = "vendors" display = "showTransasctionSelect"></transaction-select-dialog>
