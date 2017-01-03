@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `colorado_springs` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `colorado_springs`;
--- MySQL dump 10.13  Distrib 5.5.53, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
 --
 -- Host: 127.0.0.1    Database: colorado_springs
 -- ------------------------------------------------------
--- Server version	5.5.53-0ubuntu0.14.04.1
+-- Server version	5.5.49-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -61,7 +61,7 @@ CREATE TABLE `accounts` (
   `description` varchar(140) NOT NULL,
   `annual_budget` decimal(10,2) NOT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,1,NULL,NULL,'In House Resurfacing',2.00),(2,1,1,NULL,'Maitenance Paving',2000.00),(4,2,2,NULL,'Structural Digout',20000.00),(5,2,2,1,'North District Digout',3000.00),(6,2,2,2,'South District Digout',520.00),(7,2,2,3,'East District Digout',8963.00),(8,2,2,4,'West District Digout',876.00),(9,1,3,NULL,'District Maintenance Paving',100.00),(10,1,3,1,'North Maintenence Paving',8635.00),(11,1,3,2,'South Maintenance Paving',7548.00),(12,1,3,3,'East Maintenance Paving',9863.00),(13,1,3,4,'West Maintenance Paving',10025.00),(14,3,NULL,NULL,'Pothole Patching Repair',331447.80),(15,3,1,NULL,'Asphalt Repair',7888.00),(16,3,2,NULL,'Propane',896.25),(17,3,3,NULL,'Shovels/Rakes/etc',7865.50),(18,7,NULL,NULL,'In House Pipe',137447.80),(19,7,1,NULL,'Pipe Materials',896.54),(20,7,2,NULL,'Saws/Hand Tools/Etc',788.36),(21,4,NULL,NULL,'In House Concrete',3523678.92),(22,4,1,NULL,'Concrete Materials',5496.54),(23,4,2,NULL,'Tool/Supplies',7778.57),(24,5,NULL,NULL,'In House Project Support',158016.80),(25,5,1,NULL,'Maint Paving Manpower',7835.00),(26,5,2,NULL,'Maint Paving Rental Equip',785.00),(27,5,3,NULL,'Maint District Manpower',4563.50),(28,5,3,1,'North District Manpower',785.00),(29,5,3,2,'South District Manpower',7854.00),(30,5,3,3,'East District Manpower',455.00),(31,5,3,4,'West District Manpower',456.00),(32,5,4,NULL,'Maint District Rental Equip',7854.00),(33,5,4,1,'North District Rental Equip',456.00),(34,5,4,2,'South District Rental Equip',7863.00),(35,5,4,3,'East District Rental Equip',4596.00),(36,5,4,4,'West District Rental Equip',8754.00),(37,5,5,NULL,'In House Pipe Manpower',86.57),(38,5,6,NULL,'In House Pipe Rental Equip',9875.00),(39,5,7,NULL,'In House Concrete Manpower',1265.00),(40,5,8,NULL,'In House Concrete Equip',7868.00),(41,5,9,NULL,'Signs & Markings Manpower',782.00),(42,5,10,NULL,'Reserves',785.00),(43,6,NULL,NULL,'Signs & Markings',14135000.00),(44,6,1,NULL,'Crosswalks/School Legends',785.00),(45,6,2,NULL,'Long Line Contract',7863.00);
+INSERT INTO `accounts` VALUES (1,1,NULL,NULL,'In House Resurfacing',2.00),(2,1,1,NULL,'Maitenance Paving',2000.00),(4,2,2,NULL,'Structural Digout',20000.00),(5,2,2,1,'North District Digout',3000.00),(6,2,2,2,'South District Digout',520.00),(7,2,2,3,'East District Digout',8963.00),(8,2,2,4,'West District Digout',876.00),(9,1,3,NULL,'District Maintenance Paving',100.00),(10,1,3,1,'North Maintenence Paving',8635.00),(11,1,3,2,'South Maintenance Paving',7548.00),(12,1,3,3,'East Maintenance Paving',9863.00),(13,1,3,4,'West Maintenance Paving',10025.00),(14,3,NULL,NULL,'Pothole Patching Repair',331447.80),(15,3,1,NULL,'Asphalt Repair',7888.00),(16,3,2,NULL,'Propane',896.25),(17,3,3,NULL,'Shovels/Rakes/etc',7865.50),(18,7,NULL,NULL,'In House Pipe',137447.80),(19,7,1,NULL,'Pipe Materials',896.54),(20,7,2,NULL,'Saws/Hand Tools/Etc',788.36),(21,4,NULL,NULL,'In House Concrete',3523678.92),(22,4,1,NULL,'Concrete Materials',5496.54),(23,4,2,NULL,'Tool/Supplies',7778.57),(24,5,NULL,NULL,'In House Project Support',158016.80),(25,5,1,NULL,'Maint Paving Manpower',7835.00),(26,5,2,NULL,'Maint Paving Rental Equip',785.00),(27,5,3,NULL,'Maint District Manpower',4563.50),(28,5,3,1,'North District Manpower',785.00),(29,5,3,2,'South District Manpower',7854.00),(30,5,3,3,'East District Manpower',455.00),(31,5,3,4,'West District Manpower',456.00),(32,5,4,NULL,'Maint District Rental Equip',7854.00),(33,5,4,1,'North District Rental Equip',456.00),(34,5,4,2,'South District Rental Equip',7863.00),(35,5,4,3,'East District Rental Equip',4596.00),(36,5,4,4,'West District Rental Equip',8754.00),(37,5,5,NULL,'In House Pipe Manpower',86.57),(38,5,6,NULL,'In House Pipe Rental Equip',9875.00),(39,5,7,NULL,'In House Concrete Manpower',1265.00),(40,5,8,NULL,'In House Concrete Equip',7868.00),(41,5,9,NULL,'Signs & Markings Manpower',782.00),(42,5,10,NULL,'Reserves',785.00),(43,6,NULL,NULL,'Signs & Markings',14135000.00),(44,6,1,NULL,'Crosswalks/School Legends',785.00),(45,6,2,NULL,'Long Line Contract',7863.00),(46,5,10,1,'District Mill/Pave Rental',125184.00),(47,5,10,2,'Misc.',201273.40),(48,5,11,NULL,'Saftey',31160.00),(49,6,3,NULL,'Roadway Paint',306000.00),(50,6,4,NULL,'Sign Mainenance',0.00);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +116,7 @@ CREATE TABLE `city_account_assignments` (
   `amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`city_account_assignment_id`),
   UNIQUE KEY `city_account_assignments_id_UNIQUE` (`city_account_assignment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +222,7 @@ DROP TABLE IF EXISTS `tickets`;
 CREATE TABLE `tickets` (
   `ticket_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `vendor_id` int(10) unsigned NOT NULL,
-  `pprta_id` int(10) unsigned NOT NULL,
+  `account_id` int(10) unsigned NOT NULL,
   `date` date NOT NULL,
   `ticket_no` varchar(45) NOT NULL,
   `material_id` int(10) unsigned NOT NULL,
@@ -232,7 +232,7 @@ CREATE TABLE `tickets` (
   `transaction_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`ticket_id`),
   UNIQUE KEY `ticket_id_UNIQUE` (`ticket_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `tickets` (
 
 LOCK TABLES `tickets` WRITE;
 /*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
-INSERT INTO `tickets` VALUES (1,20,1,'2016-12-06','1234',16,1,44.00,NULL,54),(2,20,1,'2016-12-14','35435',16,2,88.00,NULL,NULL),(3,20,1,'2016-12-07','23423',16,1,44.00,NULL,NULL),(4,20,1,'2016-12-07','2132',16,2.2,96.80,NULL,NULL),(5,20,1,'2016-12-15','54312',16,1.4,61.60,NULL,NULL),(6,20,2,'2016-12-06','9876',17,2,110.00,NULL,NULL),(7,20,2,'2016-12-06','2343',17,1,55.00,NULL,NULL),(8,20,2,'2016-12-22','1234',17,0.08,4.40,NULL,NULL),(9,7,7,'2016-12-07','12345',18,2,6.00,NULL,NULL),(10,11,1,'2016-12-14','1234',16,21,1155.00,NULL,NULL),(11,7,3,'2016-12-06','568',18,5.3,15.90,NULL,NULL),(12,7,1,'2016-12-13','09876',18,2,6.00,NULL,NULL),(13,20,5,'2016-12-07','213425',16,2,88.00,' North ',NULL),(14,20,5,'2016-12-07','65457',16,2.5,110.00,' North ',NULL),(15,20,5,'2016-12-07','6467',16,4.1,180.40,' East ',NULL);
+INSERT INTO `tickets` VALUES (16,20,18,'2017-01-12','1234',17,2.5,137.50,'None',NULL),(17,20,18,'2017-01-12','9876',16,3,132.00,NULL,55),(18,20,2,'2017-01-01','6543',17,2.3,126.50,NULL,NULL),(19,20,2,'2017-01-01','75',17,5,275.00,NULL,NULL);
 /*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +289,7 @@ CREATE TABLE `transactions` (
   `transaction_type_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`transaction_id`),
   UNIQUE KEY `transaction_id_UNIQUE` (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -298,7 +298,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',0),(24,18,4,'2016-11-14','2016-11-20','JMU-POL-90','This is a test of account codes','96.3',1),(27,22,7,'2016-11-06','2016-11-27','SFSAFS','Testing Unassigned City Accounts.','63.21',1),(28,19,11,'2016-11-06','2016-11-26','ASFSAF6','Testing Multiple Accounts','971.2',2),(42,44,4,'2016-11-14','2016-11-20','HNH-123-LO','Testing City Accounts... Again','63.21',1),(43,44,4,'2016-11-08','2016-11-16','13-PO-LO','This is testing city account adjustments','63.2',2),(44,23,7,'2016-11-16','2016-11-05','63-854','What a beautiful transaction.','90.09',0),(45,18,4,'2016-11-08','2016-11-24','324','Testing new conversions','63.25',0),(46,20,4,'2016-11-08','2016-11-29','LOK-98','This is a test. I bet this gets deleted. So far it has not','63.2',3),(47,20,6,'2016-11-14','2016-12-07','VNSH-876-SA','When in doubt, make an account... transaction','63',1),(48,19,4,'2016-11-23','2016-11-17','656565','I refactored stuff','96.32',1),(49,11,4,'2016-11-12','2016-12-22','90-876','Regression test.','78.25',2),(50,17,11,'2016-11-07','2016-11-25','JDHE-32','This is a test for the pending functionality. It\'s been a while.','63.2',2),(52,15,20,'2016-12-16','2016-12-11','123421','123','44',2),(54,14,20,'2016-12-22','2016-12-02','PEND21','1234','44',3);
+INSERT INTO `transactions` VALUES (1,2,3,'2016-11-08','2016-11-15','LP09K87HY','This is the first entry.','69.36',1),(2,6,4,'2016-11-22','2016-11-16','ALB892JSA','There is no way to clear the \"date paid\" on the transaction adjustment screen. This would be necessary if a user would want to change a transaction to pending.','950.52',2),(4,7,6,'2017-01-09','2016-11-23','AHK13GDS','This is an updated transaction','23',2),(5,4,6,'2016-11-16','2016-11-15','KJHSAK','This is a pending transaction.At least, it was','12.43',1),(6,16,3,'2016-11-15','2016-11-17','JS-12-SJ','There needs to a character counter on the description field since te database has a character limit.','12.42',1),(7,4,4,'2016-11-15',NULL,'78-098','Pending!!','89.09',2),(9,20,3,'2016-11-09','2016-11-25','LP09K87HY','This is to test invoice coversheets.','63.2',0),(24,18,4,'2016-11-14','2016-11-20','JMU-POL-90','This is a test of account codes','96.3',1),(27,22,7,'2016-11-06','2016-11-27','SFSAFS','Testing Unassigned City Accounts.','63.21',1),(28,19,11,'2016-11-06','2016-11-26','ASFSAF6','Testing Multiple Accounts','971.2',2),(42,44,4,'2016-11-14','2016-11-20','HNH-123-LO','Testing City Accounts... Again','63.21',1),(43,44,4,'2016-11-08','2016-11-16','13-PO-LO','This is testing city account adjustments','63.2',2),(44,23,7,'2016-11-16','2016-11-05','63-854','What a beautiful transaction.','90.09',0),(45,18,4,'2016-11-08','2016-11-24','324','Testing new conversions','63.25',0),(46,20,4,'2016-11-08','2016-11-29','LOK-98','This is a test. I bet this gets deleted. So far it has not','63.2',3),(47,20,6,'2016-11-14','2016-12-07','VNSH-876-SA','When in doubt, make an account... transaction','63',1),(48,19,4,'2016-11-23','2016-11-17','656565','I refactored stuff','96.32',1),(49,11,4,'2016-11-12','2016-12-22','90-876','Regression test.','78.25',2),(50,17,11,'2016-11-07','2016-11-25','JDHE-32','This is a test for the pending functionality. It\'s been a while.','63.2',2),(52,15,20,'2016-12-16','2016-12-11','123421','123','44',2),(54,14,20,'2016-12-22','2016-12-02','PEND21','1234','44',3),(55,18,20,'2017-01-12','2017-01-30','TEsT','12','132',1);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,7 +332,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','S3B85WCPHXMB2KFQQGLZG7UP2VN1XAAV','2017-01-01 16:25:44',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','DTDOXPMB85FQ3KL2ZD4DXLWDS0K3NBVS','2016-12-24 23:58:45',0,'0000-00-00 00:00:00',1);
+INSERT INTO `user` VALUES (15,'user@user.com','Jack','Ladley','pbkdf2:sha1:1000$ncJHphe3$823a65f490143d7190f6860f41eb0f69d5d80df4','ZFAZRC3E18VPY91X3C3FNH8TMDKONTH5','2016-12-01 23:05:10',0,'2016-12-01 14:10:45',1),(17,'RLadley@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$aNpE99wj$e00550c15d01acd9412c8de5d96875bea734ebf9','0H5DQ6OT5575FC9ZTL5BHQG43YU9DCII','2016-12-01 08:24:36',0,'2016-11-30 14:28:06',1),(18,'user@email.com','User','McUserson','pbkdf2:sha1:1000$4qcSgYLu$f4645c343afd0f21a29951594f3fc888ca2f514d','S3B85WCPHXMB2KFQQGLZG7UP2VN1XAAV','2017-01-01 16:25:44',1,'0000-00-00 00:00:00',1),(19,'ladley.ryan@gmail.com','Ryan','Ladley','pbkdf2:sha1:1000$tcdScMJk$0b0e44ff653b1926a83451f39c8812664953637a','A4G7UNDLABZA4DEEXSNUCC0SKXNDSA9F','2017-01-03 13:55:16',0,'0000-00-00 00:00:00',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -429,9 +429,10 @@ SET character_set_client = utf8;
   `ticket_id` tinyint NOT NULL,
   `vendor_id` tinyint NOT NULL,
   `vendor_name` tinyint NOT NULL,
-  `pprta_id` tinyint NOT NULL,
-  `project_no` tinyint NOT NULL,
-  `project_description` tinyint NOT NULL,
+  `account_id` tinyint NOT NULL,
+  `account_no` tinyint NOT NULL,
+  `sub_no` tinyint NOT NULL,
+  `shred_no` tinyint NOT NULL,
   `date` tinyint NOT NULL,
   `ticket_no` tinyint NOT NULL,
   `material_id` tinyint NOT NULL,
@@ -699,7 +700,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_tickets` AS select `tickets`.`ticket_id` AS `ticket_id`,`tickets`.`vendor_id` AS `vendor_id`,`vendors`.`name` AS `vendor_name`,`tickets`.`pprta_id` AS `pprta_id`,`pprta`.`project_no` AS `project_no`,`pprta`.`project_description` AS `project_description`,`tickets`.`date` AS `date`,`tickets`.`ticket_no` AS `ticket_no`,`tickets`.`material_id` AS `material_id`,`materials`.`name` AS `material_name`,`tickets`.`quantity` AS `quantity`,`tickets`.`cost` AS `cost`,`tickets`.`district` AS `district`,`tickets`.`transaction_id` AS `transaction_id`,`transactions`.`invoice_no` AS `invoice_no` from ((((`tickets` join `vendors` on((`tickets`.`vendor_id` = `vendors`.`vendor_id`))) join `pprta_account_codes` `pprta` on((`tickets`.`pprta_id` = `pprta`.`pprta_account_code_id`))) join `materials` on((`tickets`.`material_id` = `materials`.`material_id`))) left join `transactions` on((`tickets`.`transaction_id` = `transactions`.`transaction_id`))) */;
+/*!50001 VIEW `v_tickets` AS select `tickets`.`ticket_id` AS `ticket_id`,`tickets`.`vendor_id` AS `vendor_id`,`vendors`.`name` AS `vendor_name`,`tickets`.`account_id` AS `account_id`,`accounts`.`account_no` AS `account_no`,`accounts`.`sub_no` AS `sub_no`,`accounts`.`shred_no` AS `shred_no`,`tickets`.`date` AS `date`,`tickets`.`ticket_no` AS `ticket_no`,`tickets`.`material_id` AS `material_id`,`materials`.`name` AS `material_name`,`tickets`.`quantity` AS `quantity`,`tickets`.`cost` AS `cost`,`tickets`.`district` AS `district`,`tickets`.`transaction_id` AS `transaction_id`,`transactions`.`invoice_no` AS `invoice_no` from ((((`tickets` join `vendors` on((`tickets`.`vendor_id` = `vendors`.`vendor_id`))) join `v_accounts` `accounts` on((`tickets`.`account_id` = `accounts`.`account_id`))) join `materials` on((`tickets`.`material_id` = `materials`.`material_id`))) left join `transactions` on((`tickets`.`transaction_id` = `transactions`.`transaction_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -770,4 +771,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-01 15:26:27
+-- Dump completed on 2017-01-03 13:04:30

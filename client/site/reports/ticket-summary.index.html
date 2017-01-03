@@ -45,7 +45,7 @@
         <table class = "table alternate-table">
             <tr>
                 <th></th>
-                <th ng-repeat = "set in data[0].values">{{[set.project_no, set.project_description].join(" - ")}}</th>
+                <th ng-repeat = "set in data[0].values">{{getName(set)}}</th>
             </tr>
             <tr ng-repeat = "set in data">
                 <td> {{set.key}}</td>

@@ -4,8 +4,6 @@ app.controller('vendorDetailsController', function($scope, $rootScope, $location
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
         $scope.vendor = success.data.response;
 
-        $scope.pprtaCodes = getTicketsProjects($scope.vendor.tickets)
-
         $scope.total_expense = 0
         for(var i = 0; i < $scope.vendor.transactions.length; i++){
             $scope.total_expense += Number($scope.vendor.transactions[i].expense)
@@ -26,9 +24,7 @@ app.controller('vendorDetailsController', function($scope, $rootScope, $location
 
         if($scope.displayTickets){
             $scope.buttonMessage = "View Transactions"
-            if($scope.pprtaCodes.length > 0){
-                $scope.selected.project = $scope.pprtaCodes[0]
-            }
+            $scope.selected.project = 1
         }
         else{
             $scope.buttonMessage = "View Tickets"
@@ -36,19 +32,19 @@ app.controller('vendorDetailsController', function($scope, $rootScope, $location
     }
 
     $scope.selected = {}
-    $scope.$watch('selected.project', function(){
-        if($scope.selected.project){
-            selectTicketsForDisplay($scope.selected.project.pprtaId)
+    $scope.$watch('selected.accountId', function(){
+        if($scope.selected.accountId){
+            selectTicketsForDisplay($scope.selected.accountId)
         }
     })
 
-    var selectTicketsForDisplay = function(pprtaId){
+    var selectTicketsForDisplay = function(accountId){
 
         $scope.tickets = []
         $scope.showDistricts = false
         for(var i = 0; i < $scope.vendor.tickets.length; i++){
 
-            if($scope.vendor.tickets[i].pprta_id == pprtaId){
+            if($scope.vendor.tickets[i].account_id == accountId){
                 if($scope.vendor.tickets[i].district == "None" || $scope.vendor.tickets[i].district == ""){
                     $scope.vendor.tickets[i].district = ""
                 }
@@ -64,20 +60,5 @@ app.controller('vendorDetailsController', function($scope, $rootScope, $location
                 $scope.tickets.push($scope.vendor.tickets[i])
             }
         }
-    }
-
-    var getTicketsProjects = function(tickets){
-        var uniqueCheck = {}
-        var array = []
-
-        for(var i = 0; i < tickets.length; i++){
-            if(uniqueCheck.hasOwnProperty(tickets[i].pprta_id)) {
-                continue;
-            }
-
-            array.push({pprtaId: tickets[i].pprta_id, pprtaNo: tickets[i].pprta_no, pprtaDescription: tickets[i].pprta_description});
-            uniqueCheck[tickets[i].pprta_id] = 1;
-        }
-        return array
     }
 });

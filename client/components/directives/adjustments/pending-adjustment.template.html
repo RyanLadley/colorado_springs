@@ -11,14 +11,10 @@
             <option value="" disabled selected hidden>Select a Vendor</option>
         </select>
     </div>
-    <div class = "label-input">
-        <label>Project</label>
-        <select ng-model = "projectId" ng-options = "project.pprta_account_code_id as [project.project_no, project.project_description].join(' - ') for project in pprtaProjects"  required>
-            <option value="" disabled selected hidden>Select a Project</option>
-        </select>
-    </div>
+    
+    <account-select account-id = "accountId" accounts = "accounts"></account-select>
 
-    <button class = "search-button" ng-click = "retrieveTickets()" ng-disabled = "!projectId || !vendorId">Retrieve Tickets</button>
+    <button class = "search-button" ng-click = "retrieveTickets()" ng-disabled = "!accountId || !vendorId">Retrieve Tickets</button>
 
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">

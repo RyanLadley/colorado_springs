@@ -187,7 +187,7 @@ app.directive('ticketEntry', function() {
         controller: 'ticketEntryController',
         scope: {
             vendors: '<',
-            pprtaProjects: '<'
+            accounts: '<'
         },
        templateUrl: '/res/components/directives/ticket-entry/ticket-entry.template.html'
     };

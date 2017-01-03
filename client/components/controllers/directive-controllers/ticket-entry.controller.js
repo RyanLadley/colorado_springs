@@ -21,7 +21,7 @@ app.controller('ticketEntryController', function($scope, $location, postRequestS
                 delete $scope.tickets[i].district
             }
 
-            $scope.tickets[i].pprta_id = $scope.projectId,
+            $scope.tickets[i].account_id = $scope.accountId,
             $scope.tickets[i].material_id = $scope.tickets[i].material.material_id
             delete $scope.tickets[i].material
         }

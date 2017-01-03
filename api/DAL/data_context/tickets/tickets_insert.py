@@ -12,7 +12,7 @@ def new_ticket_batch(tickets, cursor = None):
         cursor.execute('''
             INSERT tickets( 
                     vendor_id,
-                    pprta_id,
+                    account_id,
                     date,
                     ticket_no,
                     material_id,
@@ -28,7 +28,7 @@ def new_ticket_batch(tickets, cursor = None):
                     %(quantity)s,
                     %(cost)s,
                     %(district)s);''',
-            {'vendor_id': ticket.vendor_id,  'pprta_id': ticket.pprta_id, 'date': ticket.date, 'ticket_no': ticket.ticket_no, 
+            {'vendor_id': ticket.vendor_id,  'pprta_id': ticket.account_id, 'date': ticket.date, 'ticket_no': ticket.ticket_no, 
             'material_id': ticket.material_id, 'quantity': ticket.quantity, 'cost': ticket.cost, 'district': ticket.district })
 
     return response.success()

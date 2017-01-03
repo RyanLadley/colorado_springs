@@ -1024,6 +1024,17 @@
 #vendor-table .row:hover {
   background: #FFFDE8; }
 
+.vendor-account-selection label {
+  color: white;
+  text-align: center; }
+.vendor-account-selection select {
+  text-align: center;
+  margin: 5px auto; }
+.vendor-account-selection .label-input {
+  float: none;
+  display: block;
+  text-align: center; }
+
 .overview-table-header {
   width: 1300px;
   background-color: #4E539F;

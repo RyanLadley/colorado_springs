@@ -48,7 +48,7 @@ def pending_report():
         {'key': 'Expensed', 'values' : []}]
 
     for row in result:
-        report[0]['values'].append({'project_no': row["project_no"], 'project_description': row["project_description"], 'amount': float(row["pending"])})
-        report[1]['values'].append({'project_no': row["project_no"], 'project_description': row["project_description"], 'amount': float(row["expensed"])})
+        report[0]['values'].append({'account_no': row["account_no"], 'sub_no': row["sub_no"], 'shred_no': row["shred_no"], 'amount': float(row["pending"])})
+        report[1]['values'].append({'account_no': row["account_no"], 'sub_no': row["sub_no"], 'shred_no': row["shred_no"], 'amount': float(row["expensed"])})
 
     return response.success(report)

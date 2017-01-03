@@ -95,8 +95,9 @@ def expense(start_date, end_date, account_id, cursor = None):
 def tickets(start_date, end_date, vendor_id, cursor = None):
 
     cursor.execute("""
-                SELECT  project_no,
-                        project_description,
+                SELECT  account_no,
+                        sub_no,
+                        shred_no,
                         SUM(CASE WHEN transaction_id IS NULL THEN cost ELSE 0 END) as pending,
                         SUM(CASE WHEN transaction_id IS NOT NULL THEN cost ELSE 0 END) as expensed
 
@@ -104,8 +105,8 @@ def tickets(start_date, end_date, vendor_id, cursor = None):
                 WHERE vendor_id LIKE %(vendor_id)s
                     AND date >= %(start_date)s
                     AND date <= %(end_date)s
-                GROUP BY pprta_id
-                ORDER BY project_no;""",
+                GROUP BY account_id
+                ORDER BY account_no;""",
                 {'vendor_id': vendor_id or '%', 'start_date' : start_date, 'end_date' : end_date})
 
     result = cursor.fetchall() or {}

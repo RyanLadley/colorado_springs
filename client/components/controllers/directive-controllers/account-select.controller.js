@@ -1,5 +1,11 @@
-app.controller('accountSelectController', function($scope, $location, monthsService){
+app.controller('accountSelectController', function($scope, $location, monthsService, postRequestService){
     
+    if($scope.accounts == undefined){
+        postRequestService.request('/api/dropdown/accounts').then(function(success){
+            $scope.accounts = success.data.response;
+        })
+    }
+
     $scope.displaySubaccounts = function(account){
         $scope.subaccounts = []
         $scope.shredouts = []

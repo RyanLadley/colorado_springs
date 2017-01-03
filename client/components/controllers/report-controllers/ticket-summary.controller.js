@@ -1,4 +1,4 @@
-app.controller('ticketSummaryController', function($scope, $rootScope, dateFromString, postRequestService){
+app.controller('ticketSummaryController', function($scope, $rootScope, dateFromString, postRequestService, accountNameService){
     $scope.options = {
             chart: {
             type: 'multiBarChart',
@@ -10,7 +10,7 @@ app.controller('ticketSummaryController', function($scope, $rootScope, dateFromS
                 bottom: 60,
                 left: 65
             },
-            x: function(d){ return [d.project_no, d.project_description].join(" - "); },
+            x: function(d){ return $scope.getName(d); },
             y: function(d){ return d.amount; },
             useInteractiveGuideline: true,
 
@@ -52,6 +52,9 @@ app.controller('ticketSummaryController', function($scope, $rootScope, dateFromS
         }
     }
 
+    $scope.getName = function(account){
+        return accountNameService.getName(account);
+    }
 
     postRequestService.request('/api/vendor/with-materials/listing').then(function(success){
         $scope.vendors = success.data.response;

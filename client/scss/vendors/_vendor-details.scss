@@ -54,3 +54,20 @@ $vendor-area-width: 400px;
 		}
 	}
 }
+
+.vendor-account-selection{
+    label{
+        color: white;
+        text-align: center;
+    }
+
+    select{
+        text-align: center;
+        margin: 5px auto;
+    }
+    .label-input{
+        float:none;
+        display: block;
+        text-align: center;
+    }
+}

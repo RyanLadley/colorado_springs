@@ -50,9 +50,8 @@
         </div>
 
         <div ng-if = "vendor.tickets.length>0">
-            <div class = "vendor-pprta-selection" ng-if = "displayTickets">
-                <h3 class = "section-title"> Project Selection </h3>
-                <select class = "vendor-pprta-dropdown" ng-options = "project as [project.pprtaNo, project.pprtaDescription].join(' - ') for project in pprtaCodes track by project.pprtaId"  ng-model="selected.project"></select>
+            <div class = "vendor-account-selection" ng-if = "displayTickets">
+                <account-select account-id = "selected.accountId"></account-select>
             </div>
             <button class="budget-button" ng-click = "toggleTable()">{{buttonMessage}}</button>
         </div>

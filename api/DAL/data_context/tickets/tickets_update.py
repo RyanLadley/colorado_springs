@@ -22,7 +22,7 @@ def ticket(ticket, cursor = None):
     cursor.execute('''
         UPDATE tickets
         SET vendor_id = %(vendor_id)s,
-            pprta_id = %(pprta_id)s,
+            account_id = %(account_id)s,
             date = %(date)s,
             ticket_no = %(ticket_no)s,
             material_id = %(material_id)s,
@@ -32,7 +32,7 @@ def ticket(ticket, cursor = None):
             transaction_id = %(transaction_id)s
         WHERE ticket_id = %(ticket_id)s;''',  
 
-            {'ticket_id' : ticket.ticket_id, 'vendor_id': ticket.vendor_id,  'pprta_id': ticket.pprta_id, 'date': ticket.date, 'ticket_no': ticket.ticket_no, 
+            {'ticket_id' : ticket.ticket_id, 'vendor_id': ticket.vendor_id,  'account_id': ticket.account_id, 'date': ticket.date, 'ticket_no': ticket.ticket_no, 
             'material_id': ticket.material_id, 'quantity': ticket.quantity, 'cost': ticket.cost, 'district': ticket.district , 'transaction_id': ticket.transaction_id})
 
 

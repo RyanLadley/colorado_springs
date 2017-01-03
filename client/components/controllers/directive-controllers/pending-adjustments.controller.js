@@ -25,13 +25,10 @@ app.controller('pendingAdjustmentController', function($scope, $location, postRe
 
     //When the user selects a new vendor, call the backend and grab all pending transactions for this vendor
     $scope.retrieveTickets = function(){
-        if($scope.vendorId && $scope.projectId){
-            postRequestService.request('/api/tickets/pending/vendor/' +$scope.vendorId +'/project/' +$scope.projectId).then(function(success){
+        if($scope.vendorId && $scope.accountId){
+            postRequestService.request('/api/tickets/pending/vendor/' +$scope.vendorId +'/account/' +$scope.accountId).then(function(success){
                 $scope.pending = success.data.response;
             }) 
-        }
-        else{
-
         }
     }
 
@@ -61,6 +58,7 @@ app.controller('pendingAdjustmentController', function($scope, $location, postRe
         }
 
         $scope.transaction.vendor_id = $scope.vendorId
+        $scope.transaction.account_id = $scope.accountId
     }
 
     //Remove Element from ticket array

@@ -57,13 +57,13 @@ def delete_ticket(ticket_id):
     return tickets_update.delete_ticket(ticket_id)
 
 
-@workflow.route('/tickets/pending/vendor/<vendor_id>/project/<project_id>', methods = ['POST'])
+@workflow.route('/tickets/pending/vendor/<vendor_id>/account/<account_id>', methods = ['POST'])
 @authorize()
-def get_pending_tickets(vendor_id, project_id):
+def get_pending_tickets(vendor_id, account_id):
     """This function retrieves all pending tickets for the provided vendor and pprta project
     """
     
-    tickets = tickets_select.pending_tickets(vendor_id, project_id)
+    tickets = tickets_select.pending_tickets(vendor_id, account_id)
 
     return response.success(utilities.serialize_array(tickets))
 
@@ -75,7 +75,7 @@ def get_ticket_search():
 
     search_form = json.loads(request.form['payload'])
     
-    tickets = tickets_select.ticket_search(search_form.get('vendor_id'), search_form.get('project_id'), search_form.get('ticket_no'))
+    tickets = tickets_select.ticket_search(search_form.get('vendor_id'), search_form.get('account_id'), search_form.get('ticket_no'))
 
     for ticket in tickets:
         if(ticket.invoice_no is None):

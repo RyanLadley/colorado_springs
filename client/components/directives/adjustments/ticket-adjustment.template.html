@@ -1,7 +1,7 @@
 <div ng-class = "navLoc(1)" class ="nav-content">
     <div class = "tab-title">
         <div class = "title-info">
-            <h2>Ticket Adjustment</h2>
+            <h2>Ticket Adjustment1</h2>
             <info-tip message = "This allows you to make modifications to existing tickets. To search, you must enter a ticket number, or a Vendor AND a Project."></info-tip>
         </div>
     </div>
@@ -11,19 +11,15 @@
             <option value="" disabled selected hidden>Select a Vendor</option>
         </select>
     </div>
-    <div class = "label-input">
-        <label>Project</label>
-        <select ng-model = "search.project_id" ng-options = "project.pprta_account_code_id as [project.project_no, project.project_description].join(' - ') for project in pprtaProjects" >
-            <option value="" disabled selected hidden>Select a Project</option>
-        </select>
-    </div>
+
+    <account-select account-id = "search.account_id" accounts = "accounts"></account-select>
 
     <div class = "label-input">
         <label>Ticket Number</label>
         <input type = 'text' ng-model = "search.ticket_no">
     </div>
 
-    <button class = "search-button" ng-click = "searchTickets()" ng-disabled = "(!search.project_id || !search.vendor_id) && !search.ticket_no"> <i class="fa fa-search" aria-hidden="true"></i>  Search Tickets</button>
+    <button class = "search-button" ng-click = "searchTickets()" ng-disabled = "(!search.account_id || !search.vendor_id) && !search.ticket_no"> <i class="fa fa-search" aria-hidden="true"></i>  Search Tickets</button>
 
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">
@@ -70,12 +66,8 @@
                 <option value="" disabled selected hidden>Select a Vendor</option>
             </select>
         </div>
-        <div class = "label-input">
-            <label>Project</label>
-            <select ng-model = "selected.pprta_id" ng-options = "project.pprta_account_code_id as [project.project_no, project.project_description].join(' - ') for project in pprtaProjects" >
-                <option value="" disabled selected hidden>Select a Project</option>
-            </select>
-        </div>
+        
+        <account-select account-id = "selected.account_id" accounts = "accounts"></account-select>
 
         <div class = "label-input">
             <label>Districts?</label>

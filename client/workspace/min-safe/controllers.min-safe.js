@@ -1,5 +1,11 @@
-app.controller('accountSelectController', ['$scope', '$location', 'monthsService', function($scope, $location, monthsService){
+app.controller('accountSelectController', ['$scope', '$location', 'monthsService', 'postRequestService', function($scope, $location, monthsService, postRequestService){
     
+    if($scope.accounts == undefined){
+        postRequestService.request('/api/dropdown/accounts').then(function(success){
+            $scope.accounts = success.data.response;
+        })
+    }
+
     $scope.displaySubaccounts = function(account){
         $scope.subaccounts = []
         $scope.shredouts = []
@@ -125,13 +131,10 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
 
     //When the user selects a new vendor, call the backend and grab all pending transactions for this vendor
     $scope.retrieveTickets = function(){
-        if($scope.vendorId && $scope.projectId){
-            postRequestService.request('/api/tickets/pending/vendor/' +$scope.vendorId +'/project/' +$scope.projectId).then(function(success){
+        if($scope.vendorId && $scope.accountId){
+            postRequestService.request('/api/tickets/pending/vendor/' +$scope.vendorId +'/account/' +$scope.accountId).then(function(success){
                 $scope.pending = success.data.response;
             }) 
-        }
-        else{
-
         }
     }
 
@@ -161,6 +164,7 @@ app.controller('pendingAdjustmentController', ['$scope', '$location', 'postReque
         }
 
         $scope.transaction.vendor_id = $scope.vendorId
+        $scope.transaction.account_id = $scope.accountId
     }
 
     //Remove Element from ticket array
@@ -532,7 +536,7 @@ app.controller('ticketEntryController', ['$scope', '$location', 'postRequestServ
                 delete $scope.tickets[i].district
             }
 
-            $scope.tickets[i].pprta_id = $scope.projectId,
+            $scope.tickets[i].account_id = $scope.accountId,
             $scope.tickets[i].material_id = $scope.tickets[i].material.material_id
             delete $scope.tickets[i].material
         }
@@ -1304,7 +1308,7 @@ app.controller('reportsController', ['$scope', '$location', function($scope, $lo
         },
     ]
 }]);
-app.controller('ticketSummaryController', ['$scope', '$rootScope', 'dateFromString', 'postRequestService', function($scope, $rootScope, dateFromString, postRequestService){
+app.controller('ticketSummaryController', ['$scope', '$rootScope', 'dateFromString', 'postRequestService', 'accountNameService', function($scope, $rootScope, dateFromString, postRequestService, accountNameService){
     $scope.options = {
             chart: {
             type: 'multiBarChart',
@@ -1316,7 +1320,7 @@ app.controller('ticketSummaryController', ['$scope', '$rootScope', 'dateFromStri
                 bottom: 60,
                 left: 65
             },
-            x: function(d){ return [d.project_no, d.project_description].join(" - "); },
+            x: function(d){ return $scope.getName(d); },
             y: function(d){ return d.amount; },
             useInteractiveGuideline: true,
 
@@ -1358,6 +1362,9 @@ app.controller('ticketSummaryController', ['$scope', '$rootScope', 'dateFromStri
         }
     }
 
+    $scope.getName = function(account){
+        return accountNameService.getName(account);
+    }
 
     postRequestService.request('/api/vendor/with-materials/listing').then(function(success){
         $scope.vendors = success.data.response;
@@ -1830,8 +1837,6 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
         $scope.vendor = success.data.response;
 
-        $scope.pprtaCodes = getTicketsProjects($scope.vendor.tickets)
-
         $scope.total_expense = 0
         for(var i = 0; i < $scope.vendor.transactions.length; i++){
             $scope.total_expense += Number($scope.vendor.transactions[i].expense)
@@ -1852,9 +1857,7 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
 
         if($scope.displayTickets){
             $scope.buttonMessage = "View Transactions"
-            if($scope.pprtaCodes.length > 0){
-                $scope.selected.project = $scope.pprtaCodes[0]
-            }
+            $scope.selected.project = 1
         }
         else{
             $scope.buttonMessage = "View Tickets"
@@ -1862,19 +1865,19 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
     }
 
     $scope.selected = {}
-    $scope.$watch('selected.project', function(){
-        if($scope.selected.project){
-            selectTicketsForDisplay($scope.selected.project.pprtaId)
+    $scope.$watch('selected.accountId', function(){
+        if($scope.selected.accountId){
+            selectTicketsForDisplay($scope.selected.accountId)
         }
     })
 
-    var selectTicketsForDisplay = function(pprtaId){
+    var selectTicketsForDisplay = function(accountId){
 
         $scope.tickets = []
         $scope.showDistricts = false
         for(var i = 0; i < $scope.vendor.tickets.length; i++){
 
-            if($scope.vendor.tickets[i].pprta_id == pprtaId){
+            if($scope.vendor.tickets[i].account_id == accountId){
                 if($scope.vendor.tickets[i].district == "None" || $scope.vendor.tickets[i].district == ""){
                     $scope.vendor.tickets[i].district = ""
                 }
@@ -1890,21 +1893,6 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
                 $scope.tickets.push($scope.vendor.tickets[i])
             }
         }
-    }
-
-    var getTicketsProjects = function(tickets){
-        var uniqueCheck = {}
-        var array = []
-
-        for(var i = 0; i < tickets.length; i++){
-            if(uniqueCheck.hasOwnProperty(tickets[i].pprta_id)) {
-                continue;
-            }
-
-            array.push({pprtaId: tickets[i].pprta_id, pprtaNo: tickets[i].pprta_no, pprtaDescription: tickets[i].pprta_description});
-            uniqueCheck[tickets[i].pprta_id] = 1;
-        }
-        return array
     }
 }]);
 app.controller('vendorsController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){

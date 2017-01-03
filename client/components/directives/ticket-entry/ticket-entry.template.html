@@ -14,12 +14,7 @@
             </select>
         </div>
 
-        <div class = "label-input">
-            <label>Projects</label>
-            <select ng-model = "projectId" ng-options = "project.pprta_account_code_id as [project.project_no, project.project_description].join(' - ') for project in pprtaProjects"  required>
-                <option value="" disabled selected hidden>Select a Project</option>
-            </select>
-        </div>
+         <account-select account-id = "accountId" accounts = "accounts"></account-select>
 
         <div class = "label-input">
             <label>Districts?</label>
@@ -69,7 +64,7 @@
     	</div>
         <div  ng-if = "showButtons" >
             <button ng-click = "newTicket()" class = "add-button" formnovalidate> New Ticket </button>
-            <button class = "entry-submit" ng-click = "submitTickets()"  ng-disabled = "ticketForm.$invalid || tickets.length <= 0 || !projectId"><i class="fa fa-check-square-o" aria-hidden="true"></i> Submit</button>
+            <button class = "entry-submit" ng-click = "submitTickets()"  ng-disabled = "ticketForm.$invalid || tickets.length <= 0 || !accountId"><i class="fa fa-check-square-o" aria-hidden="true"></i> Submit</button>
         </div>
 
     </form>
