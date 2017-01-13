@@ -34,14 +34,14 @@ def new_transaction():
     transaction = Transaction.map_from_form(transaction_form)
 
     assignments = []
-    for assignment in transaction_form.get('city_accounts'):
+    for assignment in transaction_form.get('city_accounts') or []:
         if(assignment.get("city_account_id") == '' or not assignment.get("city_account_id")): #ignore unassigned city accounts
             continue
         assignments.append(CityAccountAssignment.map_from_form(assignment))
     transaction.attatch_city_account_assignments(assignments)
 
     tickets = []
-    for ticket in transaction_form.get('tickets'):
+    for ticket in transaction_form.get('tickets') or []:
         tickets.append(Ticket.map_from_form(ticket))
     transaction.attatch_tickets(tickets)
 

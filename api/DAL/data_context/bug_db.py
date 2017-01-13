@@ -5,7 +5,6 @@ import api.core.response as response
 
 @DatabaseConnection
 def new_bug(bug_form, user_id, cursor = None):
-    print(bug_form)
     
     cursor.execute('''
         INSERT bugs (
@@ -18,7 +17,7 @@ def new_bug(bug_form, user_id, cursor = None):
                 %(severity)s, 
                 %(description)s, 
                 "Open");''',
-            {'user_id' : user_id, 'severity': bug_form.get('severity'), 'description' : bug_form.get('description')})
+            {'user_id' : user_id, 'severity': bug_form.get('severity'), 'description' : bug_form.get('description').encode('utf-8')})
 
     return response.success()
 
