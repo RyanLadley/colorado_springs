@@ -105,7 +105,7 @@ def _add_account_worksheet(workbook, account, formats):
 
     row = 3
     monthly_total_rows = []
-    for i in range(0,13):
+    for i in range(0,12):
         row =_add_transactions_for_month(worksheet, row, account.monthly_summary[str(i)], i, formats)
         monthly_total_rows.append(row)
         row += 1
@@ -198,9 +198,6 @@ def _add_monthly_expenses(worksheet, monthly_total_rows, formats):
         worksheet.write(row, start_column, months(i, abrv = True), formats['border'])
         worksheet.write(row, start_column + 1, '=$G${}'.format(monthly_total_rows[i] + 1), formats['currency'])
         row += 1
-
-    worksheet.write(row, start_column, "Pend", formats['border'])
-    worksheet.write(row, start_column + 1, '=$G${}'.format(monthly_total_rows[12] + 1), formats['currency'])
 
     row += 1
 
