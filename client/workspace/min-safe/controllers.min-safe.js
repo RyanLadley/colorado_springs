@@ -1879,7 +1879,7 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
     $rootScope.loading = true;
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
         $scope.vendor = success.data.response;
-
+        $scope.tickets = $scope.vendor.tickets
         $scope.total_expense = 0
         for(var i = 0; i < $scope.vendor.transactions.length; i++){
             $scope.total_expense += Number($scope.vendor.transactions[i].expense)
@@ -1900,13 +1900,15 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
 
         if($scope.displayTickets){
             $scope.buttonMessage = "View Transactions"
-            $scope.selected.project = 1
         }
         else{
             $scope.buttonMessage = "View Tickets"
         }
     }
 
+    //The Following Commented out blocks control selecting tickets by account. This was silly. But not silly enough to get rid of.
+
+    /*
     $scope.selected = {}
     $scope.$watch('selected.accountId', function(){
         if($scope.selected.accountId){
@@ -1936,7 +1938,7 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
                 $scope.tickets.push($scope.vendor.tickets[i])
             }
         }
-    }
+    }*/
 }]);
 app.controller('vendorsController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){
   
