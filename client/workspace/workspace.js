@@ -36204,7 +36204,6 @@ app.controller('ticketTableController', ['$scope', 'postRequestService', 'sortSe
         return column == $scope.sortColumn
     }
 
-    console.log($scope.displayTotal)
     if($scope.displayTotal){
         total = 0
         for( var i = 0 ; i < $scope.tickets.length; i++){
@@ -36535,19 +36534,16 @@ app.controller('transactionTableController', ['$scope', 'postRequestService', 's
         return column == $scope.sortColumn
     }
 
-    //This block calulates the expense totals for every month retrieved.
-    //Called after transations are retrieved from back end
-    $scope.monthlyTotals = []
-    var calculateTotals = function(){
 
-        for (var i = 0; i < $scope.months.length ; i++){
-            total = 0
-            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
-                total += Number($scope.account.monthly_summary[i][j].expense)
+    $scope.$watch('transactions', function(){
+        var total = 0
+        if($scope.transactions){
+            for(var i = 0; i < $scope.transactions.length; i++){
+                total += Number($scope.transactions[i].expense)
             }
-            $scope.monthlyTotals.push(total)
         }
-    }
+        $scope.total = total
+    })
 
     //This toggles whether or not the "Transactions Details" dialog will
     //take over the screen. Triggered when a transaction row is clicked .
@@ -37483,9 +37479,6 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
         $scope.vendor = success.data.response;
         $scope.tickets = $scope.vendor.tickets
         $scope.total_expense = 0
-        for(var i = 0; i < $scope.vendor.transactions.length; i++){
-            $scope.total_expense += Number($scope.vendor.transactions[i].expense)
-        }
         $rootScope.loading = false;
     })
 
@@ -37805,7 +37798,6 @@ app.directive('transactionTable', function() {
         scope: {
             transactions: '<',
             totalLabel: '@?',
-            total: '<?',
             emptyMessage: '@'
         },
         templateUrl: '/res/components/directives/transaction-table/transaction-table.template.html'
