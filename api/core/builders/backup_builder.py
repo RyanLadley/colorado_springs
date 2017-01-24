@@ -106,7 +106,7 @@ def _add_account_worksheet(workbook, account, formats):
     row = 3
     monthly_total_rows = []
     for i in range(0,12):
-        row =_add_transactions_for_month(worksheet, row, account.monthly_summary[str(i)], i, formats)
+        row =_add_transactions_for_month(worksheet, row, account.monthly_summary['transactions'][str(i)], i, formats)
         monthly_total_rows.append(row)
         row += 1
 

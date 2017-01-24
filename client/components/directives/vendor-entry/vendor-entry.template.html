@@ -63,8 +63,8 @@
                 <input type="text" ng-model="vendor.contract_no" placeholder="Contract Number" required>
             </div>
 
-            <date-select label ="Contract Start Date"  date = "vendor.contract_start" input-disabled = "true"></date-select>
-            <date-select label ="Contract End Date"  date = "vendor.contract_end" input-disabled = "true"></date-select>
+            <date-select label ="Contract Start Date"  date = "vendor.contract_start" input-disabled = "true" required = "true"></date-select>
+            <date-select label ="Contract End Date"  date = "vendor.contract_end" input-disabled = "true" required = "true"></date-select>
         </div>
 
         <button class="to-button transition-button" ng-click = "incrementPage();"  ng-disabled = "vendorEntryForm.$invalid"> Attatch Materials<i class="fa fa-chevron-right" aria-hidden="true"></i></button>

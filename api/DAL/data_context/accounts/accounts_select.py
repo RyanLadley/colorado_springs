@@ -7,6 +7,7 @@ from api.core.buisness_objects.transaction import Transaction
 from api.core.buisness_objects.pprta_codes import PPRTACodes
 
 import api.DAL.data_context.transactions.transaction_select as transaction_select
+import api.DAL.data_context.tickets.tickets_select as tickets_select
 
 import MySQLdb
 import json
@@ -32,7 +33,13 @@ def accounts_overview(cursor = None):
 
                         CAST((SELECT COALESCE(SUM(expense),0)
                             FROM v_transactions
-                            WHERE account_no = v_accounts.account_no) AS Decimal(10,2))  AS expendetures
+                            WHERE account_no = v_accounts.account_no)
+                            +
+                            (SELECT COALESCE(SUM(cost),0)
+                            FROM v_tickets
+                            WHERE account_no = v_accounts.account_no
+                               AND transaction_id is NULL) AS Decimal(10,2))  AS expendetures
+
                 FROM v_accounts
                 WHERE sub_no IS NULL
                     AND shred_no IS NULL;""")
@@ -66,7 +73,13 @@ def accounts_overview(cursor = None):
                             CAST((SELECT COALESCE(SUM(expense),0)
                                 FROM v_transactions
                                 WHERE account_no = v_accounts.account_no
-                                   AND sub_no = v_accounts.sub_no) AS Decimal(10,2)) AS expendetures
+                                   AND sub_no = v_accounts.sub_no)
+                                +
+                                (SELECT COALESCE(SUM(cost),0)
+                                FROM v_tickets
+                                WHERE account_no = v_accounts.account_no
+                                    AND sub_no = v_accounts.sub_no
+                                   AND transaction_id is NULL) AS Decimal(10,2)) AS expendetures
 
                     FROM v_accounts
                     WHERE account_no = %(account_number)s
@@ -106,7 +119,14 @@ def accounts_overview(cursor = None):
                                     FROM v_transactions
                                     WHERE account_no = v_accounts.account_no
                                         AND sub_no = v_accounts.sub_no
-                                        AND shred_no = v_accounts.shred_no) AS Decimal(10,2)) as expendetures
+                                        AND shred_no = v_accounts.shred_no) 
+                                    +
+                                    (SELECT COALESCE(SUM(cost),0)
+                                    FROM v_tickets
+                                    WHERE account_no = v_accounts.account_no
+                                        AND sub_no = v_accounts.sub_no
+                                        AND shred_no = v_accounts.shred_no
+                                        AND transaction_id is NULL) AS Decimal(10,2)) as expendetures
 
                             FROM v_accounts
                             WHERE account_no = %(account_number)s
@@ -232,7 +252,21 @@ def account_details(account_id, cursor = None):
                                           ELSE TRUE
                                      END
                                  ELSE True
-                            END)  as expendetures
+                            END)
+                             +
+                            (SELECT COALESCE(SUM(cost),0)
+                            FROM v_tickets
+                            WHERE account_no = v_accounts.account_no AND
+                                CASE WHEN v_accounts.sub_no IS NOT NULL
+                                     THEN sub_no = v_accounts.sub_no AND
+                                         CASE WHEN v_accounts.shred_no IS NOT NULL
+                                              THEN shred_no = v_accounts.shred_no
+                                              ELSE TRUE
+                                         END
+                                     ELSE True
+                                END
+                                AND transaction_id is NULL) as expendetures
+
                 FROM v_accounts
                 WHERE account_id = %(account_id)s;""",
             {'account_id' : account_id})
@@ -240,11 +274,13 @@ def account_details(account_id, cursor = None):
     result = cursor.fetchone()
     account = Account.map_from_form(result)
     
-    
+    monthly_summary = {}
     #Execute sotred procedure to get all transactions assigned to this account and its sub/shred accounts
-    monthly_summary = transaction_select.from_account_by_month(account)
+    monthly_summary['transactions'] = transaction_select.from_account_by_month(account, cursor = cursor)
+    monthly_summary['tickets'] = tickets_select.from_account_by_month(account, cursor = cursor)
 
     account.attach_monthly_summary(monthly_summary)
+
 
     return account
 

@@ -476,12 +476,13 @@
       text-decoration: none;
       text-align: center;
       padding: 10px;
-      vertical-align: middle; }
+      vertical-align: middle;
+      padding-bottom: 5px; }
     .content-link .link-description .description-title {
+      font-size: 20px;
       font-weight: bold;
-      margin-bottom: 0;
-      padding-bottom: 0;
-      text-decoration: underline; }
+      margin-top: 10px;
+      padding-bottom: 0; }
   .content-link:hover .link-description {
     top: 0;
     -webkit-transition-duration: 0.75s;

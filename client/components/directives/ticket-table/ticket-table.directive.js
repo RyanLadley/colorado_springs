@@ -5,7 +5,9 @@ app.directive('ticketTable', function() {
         scope: {
             tickets: '<',
             showDistricts: '<?',
-            emptyMessage: '@'
+            emptyMessage: '@',
+            displayTotal: '<?',
+            displayPendingTotal: '<?'
         },
         templateUrl: '/res/components/directives/ticket-table/ticket-table.template.html'
     };

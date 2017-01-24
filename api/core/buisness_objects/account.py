@@ -36,6 +36,10 @@ class Account:
 
         self.monthly_summary = summary
 
+    def attach_tickets(self, tickets):
+
+        self.tickets = tickets
+
     def attach_transfers(self, transfers):
 
          #This changes the amount fields to relect how it effects the account.
@@ -67,6 +71,7 @@ class Account:
         if 'monthly_summary' in serial:
             serial['monthly_summary'] = self._serialize_monthly_summary()
 
+
         return serial
 
     def _serialize_sub_accounts(self):
@@ -80,12 +85,13 @@ class Account:
 
     def _serialize_monthly_summary(self):
         
-        serialized_summary = {}
+        serialized_summary = {'tickets': {}, "transactions": {}}
 
-        for month, transactions in self.monthly_summary.items():
-            serialized_transactions = []
-            for transaction in transactions:
-                serialized_transactions.append(transaction.serialize())
-            serialized_summary[month] = serialized_transactions
+        for summary, months in self.monthly_summary.items():
+            for month, items in months.items():
+                serialized_items = []
+                for item in items or []:
+                    serialized_items.append(item.serialize())
+                serialized_summary[summary][month] = serialized_items           
 
         return serialized_summary

@@ -10,7 +10,8 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
 
          //Default to Current Month
         $scope.selectedMonth = d.getMonth()
-        $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+        $scope.transactions = $scope.account.monthly_summary.transactions[$scope.selectedMonth]
+        $scope.tickets = $scope.account.monthly_summary.tickets[$scope.selectedMonth]
 
         //This was being fired more than once
         //TODO: Figure out why, and find a more elegant solution to the problem
@@ -36,11 +37,25 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
          $scope.displayTransfers = !$scope.displayTransfers
 
          if($scope.displayTransfers){
-            $scope.buttonMessage = "View Transactions"
+            $scope.buttonMessage = "View Expenses"
          }
          else{
             $scope.buttonMessage = "View Transfers"
          }
+    }
+
+    $scope.displayTickets = false
+    $scope.expenseButtonMessage = "View Tickets"
+    $scope.showTickets = function(){
+        $scope.displayTickets = !$scope.displayTickets
+
+        if($scope.displayTickets){
+            $scope.expenseButtonMessage = "View Transactions"
+         }
+         else{
+            $scope.expenseButtonMessage = "View Tickets"
+         }
+
     }
 
 
@@ -51,12 +66,15 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
             if($scope.selectedMonth < 12){
-                $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+                $scope.transactions = $scope.account.monthly_summary.transactions[$scope.selectedMonth]
+                $scope.tickets = $scope.account.monthly_summary.tickets[$scope.selectedMonth]
             }
             else{ //View All has been selected
                 $scope.transactions = []
+                $scope.tickets = []
                 for(var i = 0; i < 12; i++){
-                    $scope.transactions = $scope.transactions.concat($scope.account.monthly_summary[i])
+                    $scope.transactions = $scope.transactions.concat($scope.account.monthly_summary.transactions[i])
+                    $scope.tickets = $scope.tickets.concat($scope.account.monthly_summary.tickets[i])
                 }
             }
         }
@@ -70,8 +88,14 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
         all_total = 0 //Should be the same as account expense. 
         for (var i = 0; i < 12 ; i++){
             total = 0
-            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
-                total += Number($scope.account.monthly_summary[i][j].expense)
+            //Add total from transactions
+            for(var j = 0; j < $scope.account.monthly_summary.transactions[i].length;j++ ){
+                total += Number($scope.account.monthly_summary.transactions[i][j].expense)
+            }
+
+            //Add the totals from pending tickes
+            for(var j = 0; j < $scope.account.monthly_summary.tickets[i].length;j++ ){
+                total += Number($scope.account.monthly_summary.tickets[i][j].cost)
             }
             all_total +=total
             $scope.monthlyTotals.push(total)

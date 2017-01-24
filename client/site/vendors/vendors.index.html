@@ -10,10 +10,10 @@
 	    <div class= "content-link" >
 	        <div class = "image-container" id = "overview" style="background-image: url('/image/vendors/{{vendor.image}}')"></div>
 	        <div class = "link-title vendor-title">
-	            <h3>{{vendor.name}}</h3>
+	            <h3>{{vendor.name | limitTo : 20}}</h3>
 	        </div>
 	        <div class = "link-description">
-	            <p class = "description-title">Contract Number</p>
+	            <p class = "description-title">{{vendor.name}}</p>
                 <p>{{vendor.contract_no}}</p>
 	        </div>
 	    </div>

@@ -21,9 +21,12 @@
                 </table>
 
             </div>
-            <div class = "month-selection">
-                <h3 class = "section-title"> Month Selection </h3>
-                <select class = "month-dropdown" ng-model = "selectedMonth" ng-options = "months.indexOf(month) as month for month in months">S</select>
+            <div ng-show = "!displayTransfers">
+                <div class = "month-selection">
+                    <h3 class = "section-title"> Month Selection </h3>
+                    <select class = "month-dropdown" ng-model = "selectedMonth" ng-options = "months.indexOf(month) as month for month in months">S</select>
+                </div>
+                <button class="budget-button" ng-click = "showTickets()">{{expenseButtonMessage}}</button>
             </div>
         </div>
     </div>
@@ -51,12 +54,22 @@
     </div>
 </div>
 
-<div class = "table-header month-table-header" ng-if = "!displayTransfers">
+<div class = "table-header month-table-header" ng-if = "!displayTransfers && !displayTickets">
     <h2>{{months[selectedMonth]}} Transactions</h2>
     <transaction-table id = "account-table" transactions = 'transactions' 
                     total-label = '{{months[selectedMonth]}} Total' total = 'monthlyTotals[selectedMonth]'
                     empty-message = "There are currently no transactions for {{months[selectedMonth]}}">
     </transaction-table>
+</div>
+
+<div class = "table-header month-table-header" ng-if = "!displayTransfers && displayTickets">
+    <h2>{{months[selectedMonth]}} Tickets</h2>
+    <ticket-table tickets = "tickets" 
+                  emty-message = "There are currently no tickets to display."
+                  show-districts = "showDistricts" 
+                  display-total = "false" 
+                  display-pending-total = "true">
+    </ticket-table>
 </div>
 
 <div class = "table-header month-table-header" ng-if = "displayTransfers">
