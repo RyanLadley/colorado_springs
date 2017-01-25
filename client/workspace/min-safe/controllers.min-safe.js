@@ -987,7 +987,6 @@ app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'm
                 for(var i = 0; i < $scope.vendor.materials.length; i++){
                     $scope.vendor.materials[i].cost = Number($scope.vendor.materials[i].cost)
                 }
-                console.log($scope.vendor)
 
             }) 
         } 

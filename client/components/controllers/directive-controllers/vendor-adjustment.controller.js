@@ -33,7 +33,6 @@ app.controller('vendorAdjustmentController', function($scope, postRequestService
                 for(var i = 0; i < $scope.vendor.materials.length; i++){
                     $scope.vendor.materials[i].cost = Number($scope.vendor.materials[i].cost)
                 }
-                console.log($scope.vendor)
 
             }) 
         } 
