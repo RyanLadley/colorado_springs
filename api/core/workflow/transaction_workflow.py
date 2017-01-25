@@ -93,9 +93,10 @@ def get_account_transaction_by_month(account_id):
 
     account = accounts_select.account_name(account_id)
     
-    transactions = transaction_select.from_account_by_month(account)
+    summary = {}
+    summary["transactions"] = transaction_select.from_account_by_month(account)
 
-    account.attach_monthly_summary(transactions)
+    account.attach_monthly_summary(summary)
 
     return response.success(account.serialize())
 
