@@ -57,7 +57,7 @@
 <div class = "table-header month-table-header" ng-if = "!displayTransfers && !displayTickets">
     <h2>{{months[selectedMonth]}} Transactions</h2>
     <transaction-table id = "account-table" transactions = 'transactions' 
-                    total-label = '{{months[selectedMonth]}} Total' total = 'monthlyTotals[selectedMonth]'
+                    total-label = '{{months[selectedMonth]}} Total'
                     empty-message = "There are currently no transactions for {{months[selectedMonth]}}">
     </transaction-table>
 </div>

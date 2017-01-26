@@ -16,10 +16,6 @@
 
          <account-select account-id = "accountId" accounts = "accounts"></account-select>
 
-        <div class = "label-input">
-            <label>Districts?</label>
-            <input type="checkbox" ng-model = "showDistricts">
-        </div>
     </div>
 
     <form name = ticketForm>
@@ -48,17 +44,6 @@
             <div class = "label-display">
                 <label>Cost</label>
                 <p title = "{{ticket.material.cost| currency}} per {{ticket.material.unit}}">{{ticket.cost |currency}}</p>
-            </div>
-
-            <div class = "label-input" ng-if = "showDistricts">
-                <label>District</label>
-                <select ng-model = "ticket.district" required>
-                    <option value="" disabled selected hidden>Select a Materials</option>
-                    <option> North </option>
-                    <option> South </option>
-                    <option> East </option>
-                    <option> West </option>
-                </select>
             </div>
 
     	</div>

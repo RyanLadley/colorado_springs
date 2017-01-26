@@ -253,7 +253,6 @@ app.directive('transactionTable', function() {
         scope: {
             transactions: '<',
             totalLabel: '@?',
-            total: '<?',
             emptyMessage: '@'
         },
         templateUrl: '/res/components/directives/transaction-table/transaction-table.template.html'

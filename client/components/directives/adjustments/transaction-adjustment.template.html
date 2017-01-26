@@ -13,7 +13,7 @@
 
     <div class = "adjustment-table-scroll" >
         <table id = "adjustment-table" class = "table alternate-table">
-            <tr ng-show = "account.monthly_summary[selectedMonth].length > 0">
+            <tr ng-show = "transactions.length > 0">
                 <th></th>
                 <th>Account</th>
                 <th>Vendor</th>
@@ -23,7 +23,7 @@
                 <th>Descrpition</th>
                 <th>Total Expense</th>
             </tr>
-            <tr ng-repeat = "transaction in account.monthly_summary[selectedMonth]" class = "row" ng-show = "account.monthly_summary[selectedMonth].length > 0">
+            <tr ng-repeat = "transaction in transactions" class = "row" ng-show = "transactions.length > 0">
                 <td><input type="radio" name = "transaction" ng-model ="$parent.selectedIndex" ng-value="{{$index}}"></td>
                 <td>
                     <account-name  account-id = "transaction.account_id" account-no = "transaction.account_no" sub-no = "transaction.sub_no" shred-no = "transaction.shred_no"></account-name>
@@ -35,10 +35,10 @@
                 <td class = "description account-desription">{{transaction.description}}</td>
                 <td class = "currency">{{transaction.expense | currency}}</td>
             </tr>
-            <tr ng-if = "!account.monthly_summary[selectedMonth].length > 0">
+            <tr ng-if = "!transactions.length > 0">
                 <th colspan="8"></th>
             </tr>
-            <tr ng-if = "!account.monthly_summary[selectedMonth].length > 0">
+            <tr ng-if = "!transactions.length > 0">
                 <td colspan="8" class = "center">There are no transactions to display.</td>
             </tr>
         </table>
@@ -49,12 +49,12 @@
 <div ng-class = "navLocation(2,3)" class ="nav-content">
     <table id = "adjustment-table" class = "selected-preview table alternate-table hidableelement" ng-class = "{'hideelementleft': page == 3}">
         <tr>
-            <td>{{account.monthly_summary[selectedMonth][selectedIndex].vendor_name}}</td>
-            <td>{{account.monthly_summary[selectedMonth][selectedIndex].invoice_date}}</td>
-            <td>{{account.monthly_summary[selectedMonth][selectedIndex].date_paid}}</td>
-            <td class = "center">{{account.monthly_summary[selectedMonth][selectedIndex].invoice_no}}</td>
-            <td class = "description account-desription">{{account.monthly_summary[selectedMonth][selectedIndex].description}}</td>
-            <td class = "currency">{{account.monthly_summary[selectedMonth][selectedIndex].expense | currency}}</td>
+            <td>{{transactions[selectedIndex].vendor_name}}</td>
+            <td>{{transactions[selectedIndex].invoice_date}}</td>
+            <td>{{transactions[selectedIndex].date_paid}}</td>
+            <td class = "center">{{transactions[selectedIndex].invoice_no}}</td>
+            <td class = "description account-desription">{{transactions[selectedIndex].description}}</td>
+            <td class = "currency">{{transactions[selectedIndex].expense | currency}}</td>
         </tr>
     </table>
     <transaction-entry transaction = "selectedTransaction" account-options = "accounts"  vendor-options = "vendors" transaction-type-options = "transactionTypes"  city-account-options = "cityAccounts" firstpage = "2" page = "page"></transaction-entry>

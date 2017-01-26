@@ -21,7 +21,6 @@ app.controller('ticketTableController', function($scope, postRequestService, sor
         return column == $scope.sortColumn
     }
 
-    console.log($scope.displayTotal)
     if($scope.displayTotal){
         total = 0
         for( var i = 0 ; i < $scope.tickets.length; i++){

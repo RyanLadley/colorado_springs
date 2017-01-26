@@ -1,5 +1,7 @@
 <table id = "account-table" class = "table alternate-table">
     <tr ng-if = "tickets.length > 0">
+        <th>Account <i class="fa fa-sort sort-icon clickable" 
+                   ng-class = "{sortSelected : isSelectedColumn('account')}" ng-click = "sortTickets('account')" aria-hidden="true"></i></th>
         <th>Date <i class="fa fa-sort sort-icon clickable" 
                    ng-class = "{sortSelected : isSelectedColumn('date')}" ng-click = "sortTickets('date')" aria-hidden="true"></i></th>
         <th>Vendor <i class="fa fa-sort sort-icon clickable" 
@@ -19,8 +21,9 @@
 
 
     <tr ng-repeat = "ticket in tickets" class = "row" ng-if = "tickets.length > 0">
-       <td>{{ticket.date}}</td>
-       <td>{{ticket.vendor_name}}</td>
+        <td><account-name  account-id = "ticket.account_id" account-no = "ticket.account_no" sub-no = "ticket.sub_no" shred-no = "ticket.shred_no"></account-name></td>
+        <td>{{ticket.date}}</td>
+        <td>{{ticket.vendor_name}}</td>
         <td>{{ticket.ticket_no}}</td>
         <td>{{ticket.material_name}}</td>
         <td class = "center">{{ticket.quantity}}</td>
@@ -30,12 +33,12 @@
 
 
     <tr class = "total" ng-if = "tickets.length > 0 && pendingTotal">
-        <td colspan="6">Pending Total</td>
+        <td colspan="7">Pending Total</td>
         <td> {{pendingTotal | currency }}</td>
     </tr>
 
     <tr class = "total" ng-if = "tickets.length > 0 && total">
-        <td colspan="6">Total</td>
+        <td colspan="7">Total</td>
         <td> {{total | currency }}</td>
     </tr>
 

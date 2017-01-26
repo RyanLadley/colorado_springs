@@ -602,7 +602,6 @@ app.controller('ticketTableController', ['$scope', 'postRequestService', 'sortSe
         return column == $scope.sortColumn
     }
 
-    console.log($scope.displayTotal)
     if($scope.displayTotal){
         total = 0
         for( var i = 0 ; i < $scope.tickets.length; i++){
@@ -652,15 +651,15 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
     $scope.selectedIndex = -1;
     $scope.setSelectedTransaction = function(){
 	    $scope.selectedTransaction = {
-                transaction_id:$scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_id,
-                account_id: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].account_id,
-	    		vendor_id: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].vendor_id,
-	            invoice_date: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_date,
-	            date_paid: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].date_paid,
-	            invoice_no: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].invoice_no,
-                transaction_type_id: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].transaction_type_id), 
-	            description: $scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].description,
-	            expense: Number($scope.account.monthly_summary[$scope.selectedMonth][$scope.selectedIndex].expense)
+                transaction_id: $scope.transactions[$scope.selectedIndex].transaction_id,
+                account_id: $scope.transactions[$scope.selectedIndex].account_id,
+	    		vendor_id: $scope.transactions[$scope.selectedIndex].vendor_id,
+	            invoice_date: $scope.transactions[$scope.selectedIndex].invoice_date,
+	            date_paid: $scope.transactions[$scope.selectedIndex].date_paid,
+	            invoice_no: $scope.transactions[$scope.selectedIndex].invoice_no,
+                transaction_type_id: Number($scope.transactions[$scope.selectedIndex].transaction_type_id), 
+	            description: $scope.transactions[$scope.selectedIndex].description,
+	            expense: Number($scope.transactions[$scope.selectedIndex].expense)
 	    }
 
         postRequestService.request('/api/transaction/city-account-assignments/' +$scope.selectedTransaction.transaction_id ).then(function(success){
@@ -679,6 +678,7 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
         if($scope.accountId){
             postRequestService.request('/api/transaction/account/' +$scope.accountId).then(function(success){
                 $scope.account = success.data.response;
+                $scope.transactions = $scope.account.monthly_summary.transactions[$scope.selectedMonth]
             }) 
         } 
     })
@@ -689,7 +689,7 @@ app.controller('transactionAdjustmentController', ['$scope', '$location', 'postR
 
     $scope.$watch('selectedMonth', function(){
         if ($scope.transactions){
-            $scope.transactions = $scope.account.monthly_summary[$scope.selectedMonth]
+            $scope.transactions = $scope.account.monthly_summary.transactions[$scope.selectedMonth]
         }
     })
 
@@ -933,19 +933,16 @@ app.controller('transactionTableController', ['$scope', 'postRequestService', 's
         return column == $scope.sortColumn
     }
 
-    //This block calulates the expense totals for every month retrieved.
-    //Called after transations are retrieved from back end
-    $scope.monthlyTotals = []
-    var calculateTotals = function(){
 
-        for (var i = 0; i < $scope.months.length ; i++){
-            total = 0
-            for(var j = 0; j < $scope.account.monthly_summary[i].length;j++ ){
-                total += Number($scope.account.monthly_summary[i][j].expense)
+    $scope.$watch('transactions', function(){
+        var total = 0
+        if($scope.transactions){
+            for(var i = 0; i < $scope.transactions.length; i++){
+                total += Number($scope.transactions[i].expense)
             }
-            $scope.monthlyTotals.push(total)
         }
-    }
+        $scope.total = total
+    })
 
     //This toggles whether or not the "Transactions Details" dialog will
     //take over the screen. Triggered when a transaction row is clicked .
@@ -990,7 +987,6 @@ app.controller('vendorAdjustmentController', ['$scope', 'postRequestService', 'm
                 for(var i = 0; i < $scope.vendor.materials.length; i++){
                     $scope.vendor.materials[i].cost = Number($scope.vendor.materials[i].cost)
                 }
-                console.log($scope.vendor)
 
             }) 
         } 
@@ -1879,11 +1875,8 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
     $rootScope.loading = true;
     postRequestService.request('/api/vendor/details/' +$routeParams.vendorId ).then(function(success){
         $scope.vendor = success.data.response;
-
+        $scope.tickets = $scope.vendor.tickets
         $scope.total_expense = 0
-        for(var i = 0; i < $scope.vendor.transactions.length; i++){
-            $scope.total_expense += Number($scope.vendor.transactions[i].expense)
-        }
         $rootScope.loading = false;
     })
 
@@ -1900,13 +1893,15 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
 
         if($scope.displayTickets){
             $scope.buttonMessage = "View Transactions"
-            $scope.selected.project = 1
         }
         else{
             $scope.buttonMessage = "View Tickets"
         }
     }
 
+    //The Following Commented out blocks control selecting tickets by account. This was silly. But not silly enough to get rid of.
+
+    /*
     $scope.selected = {}
     $scope.$watch('selected.accountId', function(){
         if($scope.selected.accountId){
@@ -1936,7 +1931,7 @@ app.controller('vendorDetailsController', ['$scope', '$rootScope', '$location', 
                 $scope.tickets.push($scope.vendor.tickets[i])
             }
         }
-    }
+    }*/
 }]);
 app.controller('vendorsController', ['$scope', '$rootScope', '$location', 'postRequestService', function($scope, $rootScope, $location, postRequestService){
   

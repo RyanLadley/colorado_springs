@@ -8,7 +8,7 @@
 <div class = "table-header vendor-table-header" ng-if = "!displayTickets">
     <h2>{{vendor.name}} Transactions</h2>
     <transaction-table id = "account-table" transactions = 'vendor.transactions' 
-                    total-label = 'Total Expense' total = 'total_expense'
+                    total-label = 'Total Expense'
                     empty-message = "There are currently no transactions for {{vendor.name}}">
     </transaction-table>
 </div>
@@ -18,7 +18,8 @@
 
     <ticket-table tickets = "tickets" 
                   emty-message = "There are currently no tickets to display."
-                  show-districts = "showDistricts">
+                  show-districts = "showDistricts"
+                  display-pending-total = "true">
     </ticket-table>
 </div>
 
@@ -50,9 +51,9 @@
         </div>
 
         <div ng-if = "vendor.tickets.length>0">
-            <div class = "vendor-account-selection" ng-if = "displayTickets">
+            <!--<div class = "vendor-account-selection" ng-if = "displayTickets">
                 <account-select account-id = "selected.accountId"></account-select>
-            </div>
+            </div>-->
             <button class="budget-button" ng-click = "toggleTable()">{{buttonMessage}}</button>
         </div>
 
