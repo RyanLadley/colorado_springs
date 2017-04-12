@@ -152,7 +152,8 @@ def account_numbers(cursor = None):
 
     cursor.execute("""
                 SELECT  account_id, 
-                        account_no
+                        account_no,
+                        description
                 FROM v_accounts
                 WHERE sub_no IS NULL
                     AND shred_no IS NULL;""")
@@ -168,7 +169,8 @@ def account_numbers(cursor = None):
         cursor.execute("""
                     SELECT  account_id, 
                             account_no, 
-                            sub_no
+                            sub_no,
+                            description
                     FROM v_accounts
                     WHERE account_no = %(account_number)s
                         AND sub_no IS NOT NULL
@@ -187,7 +189,8 @@ def account_numbers(cursor = None):
                         SELECT  account_id, 
                                 account_no, 
                                 sub_no, 
-                                shred_no
+                                shred_no,
+                                description
                         FROM v_accounts
                         WHERE account_no = %(account_number)s
                             AND sub_no = %(sub_account_number)s
