@@ -95,7 +95,9 @@ app.controller('accountController', function($scope, $rootScope, $location, $rou
 
             //Add the totals from pending tickes
             for(var j = 0; j < $scope.account.monthly_summary.tickets[i].length;j++ ){
-                total += Number($scope.account.monthly_summary.tickets[i][j].cost)
+                if($scope.account.monthly_summary.tickets[i][j].transaction_id == "None"){
+                    total += Number($scope.account.monthly_summary.tickets[i][j].cost)
+                }
             }
             all_total +=total
             $scope.monthlyTotals.push(total)

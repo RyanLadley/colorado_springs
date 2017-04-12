@@ -21,21 +21,23 @@ app.controller('ticketTableController', function($scope, postRequestService, sor
         return column == $scope.sortColumn
     }
 
-    if($scope.displayTotal){
-        total = 0
-        for( var i = 0 ; i < $scope.tickets.length; i++){
-            total += Number($scope.tickets[i].cost)
-        }
-        $scope.total = total
-    }
-
-    if($scope.displayPendingTotal){
-        total = 0
-        for( var i = 0 ; i < $scope.tickets.length; i++){
-            if($scope.tickets.transaction_id = "None"){
+    $scope.$watch('tickets', function(){
+        if($scope.displayTotal){
+            total = 0
+            for( var i = 0 ; i < $scope.tickets.length; i++){
                 total += Number($scope.tickets[i].cost)
             }
+            $scope.total = total
         }
-        $scope.pendingTotal = total
-    }
+
+        if($scope.displayPendingTotal){
+            total = 0
+            for( var i = 0 ; i < $scope.tickets.length; i++){
+                if($scope.tickets[i].transaction_id == "None"){
+                    total += Number($scope.tickets[i].cost)
+                }
+            }
+            $scope.pendingTotal = total
+        }
+    })
 });

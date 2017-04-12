@@ -128,7 +128,8 @@ def from_account_by_month(account, cursor = None):
                             quantity,
                             cost,
                             district,
-                            transaction_id
+                            transaction_id,
+                            invoice_no
                     FROM v_tickets
                     WHERE account_no = %(account_no)s
                         AND CASE WHEN %(sub_no)s IS NOT NULL

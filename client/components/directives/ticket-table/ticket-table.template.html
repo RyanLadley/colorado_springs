@@ -32,12 +32,12 @@
     </tr>
 
 
-    <tr class = "total" ng-if = "tickets.length > 0 && pendingTotal">
+    <tr class = "total" ng-if = "tickets.length > 0 && pendingTotal != undefined">
         <td colspan="7">Pending Total</td>
         <td> {{pendingTotal | currency }}</td>
     </tr>
 
-    <tr class = "total" ng-if = "tickets.length > 0 && total">
+    <tr class = "total" ng-if = "tickets.length > 0 && total != undefined">
         <td colspan="7">Total</td>
         <td> {{total | currency }}</td>
     </tr>

@@ -36204,23 +36204,25 @@ app.controller('ticketTableController', ['$scope', 'postRequestService', 'sortSe
         return column == $scope.sortColumn
     }
 
-    if($scope.displayTotal){
-        total = 0
-        for( var i = 0 ; i < $scope.tickets.length; i++){
-            total += Number($scope.tickets[i].cost)
-        }
-        $scope.total = total
-    }
-
-    if($scope.displayPendingTotal){
-        total = 0
-        for( var i = 0 ; i < $scope.tickets.length; i++){
-            if($scope.tickets.transaction_id = "None"){
+    $scope.$watch('tickets', function(){
+        if($scope.displayTotal){
+            total = 0
+            for( var i = 0 ; i < $scope.tickets.length; i++){
                 total += Number($scope.tickets[i].cost)
             }
+            $scope.total = total
         }
-        $scope.pendingTotal = total
-    }
+
+        if($scope.displayPendingTotal){
+            total = 0
+            for( var i = 0 ; i < $scope.tickets.length; i++){
+                if($scope.tickets[i].transaction_id == "None"){
+                    total += Number($scope.tickets[i].cost)
+                }
+            }
+            $scope.pendingTotal = total
+        }
+    })
 }]);
 app.controller('transactionAdjustmentController', ['$scope', '$location', 'postRequestService', 'monthsService', function($scope, $location, postRequestService, monthsService){
 	
@@ -37125,7 +37127,9 @@ app.controller('accountController', ['$scope', '$rootScope', '$location', '$rout
 
             //Add the totals from pending tickes
             for(var j = 0; j < $scope.account.monthly_summary.tickets[i].length;j++ ){
-                total += Number($scope.account.monthly_summary.tickets[i][j].cost)
+                if($scope.account.monthly_summary.tickets[i][j].transaction_id == "None"){
+                    total += Number($scope.account.monthly_summary.tickets[i][j].cost)
+                }
             }
             all_total +=total
             $scope.monthlyTotals.push(total)
